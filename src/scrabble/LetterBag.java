@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class LetterBag {
 	
+	private static LetterBag instance = null;
+	
 	private static final int maxLetters = 100;
 	
 	private static final HashMap<String, Integer[]> letters = new HashMap<>();
@@ -24,14 +26,17 @@ public class LetterBag {
 	private Stack<String> letterStack = new Stack<>();
 	
 	/**
-	 * 
+	 * Singleton design pattern
+	 * @return The instance of LetterBag
 	 */
-	public void LetterBag() {
-		this.LetterBag(this.maxLetters);
+	public static LetterBag getInstance() {
+		if (instance == null) {
+			instance = new LetterBag();
+		}
+		return instance;
 	}
 	
-	
-	public void LetterBag(int maxLetters) {
+	private void LetterBag(int maxLetters) {
 		//put ( <letter>, (new Integer[]( <quantity in bag>, <score>))
 		letters.put("a", (new Integer[]{9, 1}));
 		letters.put("b", (new Integer[]{2, 3}));
@@ -60,6 +65,10 @@ public class LetterBag {
 		letters.put("y", (new Integer[]{2, 4}));
 		letters.put("z", (new Integer[]{1, 10}));
 		
+		shake();
+	}
+	
+	public void shake() {
 		for (Map.Entry<String, Integer[]> entry : this.letters.entrySet()) {
 			String letter = entry.getKey();
 			Integer quantity = entry.getValue()[0];
@@ -78,14 +87,14 @@ public class LetterBag {
 		}
 	}
 	
-	public String getNextLetter() {
+	public String pick() {
 		return letterStack.pop();
 	}
 	
 	public static void main(String args[]) {
 		LetterBag bag = new LetterBag();
 		for (int i = 0; i < 100; i++) {
-			bag.getNextLetter();
+			System.out.println(bag.pick());
 		}
 	}
 }
