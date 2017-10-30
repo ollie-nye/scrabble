@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Contains all methods related to the player component
  * @author Ollie Nye
- * @version 1.0
+ * @version 1.1
  */
 
 public class Player {
