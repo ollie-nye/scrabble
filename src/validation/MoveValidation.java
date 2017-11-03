@@ -15,6 +15,6 @@ public class MoveValidation {
 	public MoveValidation() {}
 	
 	public Result validateMove(int x, int y) {
-		
+		return new Result(false, false);
 	}
 }
