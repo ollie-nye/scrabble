@@ -1,4 +1,4 @@
-package validation;
+package data;
 
 /**
  * Return object for MoveValidation

@@ -1,21 +1,26 @@
 package scrabble;
 
-import player.Player;
-
+import data.BoardScorer;
+import data.Result;
+import validation.Validator;
 /**
  * Main class that holds the board and organises the game
  * @author Ollie Nye
- * @verion 1.0
+ * @verion 1.1
  */
 
 public class Board {
-	private Player player;
-	//private LetterScore letterScore; //TODO implement LetterScore
 	
-	// new BoardScorer(false, 2)
-	// new BoardScorer(False, 3)
-	// new BoardScorer(true, 2)
-	// new BoardScorer(true, 3)
+	private static Board instance = null;
+	
+	private Validator validator = new Validator();
+	
+	public static Board getInstance() {
+		if (instance == null) {
+			instance = new Board();
+		}
+		return instance;
+	}
 	
 	private char[][] types = new char[][]{
 		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
@@ -55,9 +60,9 @@ public class Board {
 	
 	
 	private BoardScorer[][] scoreBoard = new BoardScorer[][]{};
+	private Tile[][] letters = new Tile[][]{};
 	
-	
-	public Board() {
+	private Board() {
 		
 		//Initialise board scoring
 		for (int i = 0; i < 15; i++) {
@@ -75,7 +80,30 @@ public class Board {
 				}
 			}
 		}
+		
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				letters[i][j] = null;
+			}
+		}
 	}
 	
+	public Tile getTile(int x, int y) {
+		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
+			return letters[x][y];
+		}
+		return null;
+	}
+	
+	public BoardScorer getScore(int x, int y) {
+		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
+			return scoreBoard[x][y];
+		}
+		return null;
+	}
+	
+	public void place(Tile tile, int x, int y) {
+		validator.validateMove(tile, x, y);
+	}
 	
 }

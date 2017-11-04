@@ -1,4 +1,4 @@
-package scrabble;
+package data;
 
 public class BoardScorer {
 	private boolean type; //true for letter score, false for word score
