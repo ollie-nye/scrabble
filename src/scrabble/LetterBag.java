@@ -17,13 +17,13 @@ public class LetterBag {
 	
 	private static LetterBag instance = null;
 	
-	private static final int maxLetters = 100;
+	private static final int maxTiles = 100;
 	
-	private static final HashMap<String, Integer[]> letters = new HashMap<>();
+	private HashMap<Tile, Integer> tiles = new HashMap<>();
 	
-	private ArrayList<String> letterList = new ArrayList<>();
+	private ArrayList<Tile> tileList = new ArrayList<>();
 	
-	private Stack<String> letterStack = new Stack<>();
+	private Stack<Tile> tileStack = new Stack<>();
 	
 	/**
 	 * Singleton design pattern
@@ -36,65 +36,71 @@ public class LetterBag {
 		return instance;
 	}
 	
-	private void LetterBag(int maxLetters) {
+	private LetterBag() {
 		//put ( <letter>, (new Integer[]( <quantity in bag>, <score>))
-		letters.put("a", (new Integer[]{9, 1}));
-		letters.put("b", (new Integer[]{2, 3}));
-		letters.put("c", (new Integer[]{2, 3}));
-		letters.put("d", (new Integer[]{4, 2}));
-		letters.put("e", (new Integer[]{12, 1}));
-		letters.put("f", (new Integer[]{2, 4}));
-		letters.put("g", (new Integer[]{3, 2}));
-		letters.put("h", (new Integer[]{2, 4}));
-		letters.put("i", (new Integer[]{9, 1}));
-		letters.put("j", (new Integer[]{1, 8}));
-		letters.put("k", (new Integer[]{1, 5}));
-		letters.put("l", (new Integer[]{4, 1}));
-		letters.put("m", (new Integer[]{2, 3}));
-		letters.put("n", (new Integer[]{6, 1}));
-		letters.put("o", (new Integer[]{8, 1}));
-		letters.put("p", (new Integer[]{2, 3}));
-		letters.put("q", (new Integer[]{1, 10}));
-		letters.put("r", (new Integer[]{6, 1}));
-		letters.put("s", (new Integer[]{4, 1}));
-		letters.put("t", (new Integer[]{6, 1}));
-		letters.put("u", (new Integer[]{4, 1}));
-		letters.put("v", (new Integer[]{2, 4}));
-		letters.put("w", (new Integer[]{2, 4}));
-		letters.put("x", (new Integer[]{1, 8}));
-		letters.put("y", (new Integer[]{2, 4}));
-		letters.put("z", (new Integer[]{1, 10}));
+		tiles.put(new Tile("a", 1), 9);
+		tiles.put(new Tile("b", 3), 2);
+		tiles.put(new Tile("c", 3), 2);
+		tiles.put(new Tile("d", 2), 4);
+		tiles.put(new Tile("e", 1), 12);
+		tiles.put(new Tile("f", 4), 2);
+		tiles.put(new Tile("g", 2), 3);
+		tiles.put(new Tile("h", 4), 2);
+		tiles.put(new Tile("i", 1), 9);
+		tiles.put(new Tile("j", 8), 1);
+		tiles.put(new Tile("k", 5), 1);
+		tiles.put(new Tile("l", 1), 4);
+		tiles.put(new Tile("m", 3), 2);
+		tiles.put(new Tile("n", 1), 6);
+		tiles.put(new Tile("o", 1), 8);
+		tiles.put(new Tile("p", 3), 2);
+		tiles.put(new Tile("q", 10), 1);
+		tiles.put(new Tile("r", 1), 6);
+		tiles.put(new Tile("s", 1), 4);
+		tiles.put(new Tile("t", 1), 6);
+		tiles.put(new Tile("u", 1), 4);
+		tiles.put(new Tile("v", 4), 2);
+		tiles.put(new Tile("w", 4), 2);
+		tiles.put(new Tile("x", 8), 1);
+		tiles.put(new Tile("y", 4), 2);
+		tiles.put(new Tile("z", 10), 1);
 		
 		shake();
 	}
 	
-	public void shake() {
-		for (Map.Entry<String, Integer[]> entry : this.letters.entrySet()) {
-			String letter = entry.getKey();
-			Integer quantity = entry.getValue()[0];
-			Integer value = entry.getValue()[1];
+	private void shake() {
+		for (Map.Entry<Tile, Integer> entry : this.tiles.entrySet()) {
+			Tile tile = entry.getKey();
+			Integer quantity = entry.getValue();
 			
-			letterList.add(letter);
+			for (int i = 0; i < quantity; i++) {
+				tileList.add(tile);
+			}
+			
 		}
 		
-		Iterator<String> letter = letterList.iterator();
 		Random random = new Random();
-		while (letter.hasNext()) {
-			Integer nextLetter = random.nextInt(letterList.size() - 1);
-			String letterToPush = letterList.get(nextLetter);
-			letterList.remove(nextLetter);
-			letterStack.push(letterToPush);
+		while (tileList.size() > 0) {
+			Integer nextTile;
+			if (tileList.size() == 1) {
+				nextTile = 0;
+			} else {
+				nextTile = random.nextInt(tileList.size() - 1);
+			}
+			Tile tileToPush = tileList.get(nextTile);
+			tileList.remove(tileToPush);
+			tileStack.push(tileToPush);
 		}
 	}
 	
-	public String pick() {
-		return letterStack.pop();
+	public Tile pick() {
+		return tileStack.pop();
 	}
 	
 	public static void main(String args[]) {
-		LetterBag bag = new LetterBag();
-		for (int i = 0; i < 100; i++) {
-			System.out.println(bag.pick());
+		for (int i = 0; i < 98; i++) {
+			System.out.print(i + " ");
+			System.out.println(LetterBag.getInstance().pick().getContent());
 		}
 	}
 }

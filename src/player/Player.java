@@ -1,14 +1,16 @@
-package scrabble;
+package player;
 import java.util.Random;
+import scrabble.Tile;
+import scrabble.LetterBag;
 
 /**
  * Superclass containing shared methods related to player component of game.
  * @author Thomas Geraghty
  * @version 1.1
  */
-abstract class  Player {
+public abstract class  Player {
 
-	private String[] letterList = new String[7];
+	private Tile[] letterList = new Tile[7];
     private Random rnd = new Random();
     private String playerName;
     private int score = 0;
