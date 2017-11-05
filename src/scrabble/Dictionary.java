@@ -2,6 +2,9 @@ package scrabble;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.*;
 
 public class Dictionary {
@@ -17,8 +20,7 @@ public class Dictionary {
 	 * @version 1.2
 	 */
 	public Dictionary() {
-
-		try (Scanner wordScanner = new Scanner(new File(getClass().getResource("ScrabbleDictionary.txt").getFile()))) {
+		try (Scanner wordScanner = new Scanner(new File("ScrabbleDictionary.txt"))) {
 			ListofWords = new ArrayList<>();
 			while (wordScanner.hasNext()) {
 				ListofWords.add(wordScanner.next());
