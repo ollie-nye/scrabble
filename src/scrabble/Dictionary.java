@@ -13,8 +13,8 @@ public class Dictionary {
 	 * https://github.com/dwyl/english-words/blob/master/words_alpha.txt and
 	 * modified by Lorenzo to fill the project requirements. constructor fills
 	 * arraylist with words from the text file provided.
-	 * @author Asid Khan
-	 * @version 1.0.1
+	 * @author Asid Khan, Ollie Nye
+	 * @version 1.2
 	 */
 	public Dictionary() {
 
