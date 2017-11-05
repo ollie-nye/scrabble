@@ -18,7 +18,7 @@ public class Dictionary {
 	 */
 	public Dictionary() throws FileNotFoundException {
 
-		try (Scanner wordScanner = new Scanner(new File(getClass().getResource("ScrabbleDicionary.txt").getFile()))) {
+		try (Scanner wordScanner = new Scanner(new File(getClass().getResource("ScrabbleDictionary.txt").getFile()))) {
 			ListofWords = new ArrayList<>();
 			while (wordScanner.hasNext()) {
 				ListofWords.add(wordScanner.next());
