@@ -8,18 +8,18 @@ package data;
 
 public class Result {
 	private boolean legalMove;
-	private int completeWords;
+	private int possibleWords;
 	
-	public Result(boolean legalMove, int completeWords) {
+	public Result(boolean legalMove, int possibleWords) {
 		this.legalMove = legalMove;
-		this.completeWords = completeWords;
+		this.possibleWords = possibleWords;
 	}
 	
 	public boolean isLegal() {
 		return this.legalMove;
 	}
 	
-	public int words() {
-		return this.completeWords;
+	public int possibleWords() {
+		return this.possibleWords;
 	}
 }
