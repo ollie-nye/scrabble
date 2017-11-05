@@ -2,6 +2,7 @@ package player;
 import java.util.Random;
 import scrabble.Tile;
 import scrabble.LetterBag;
+import scrabble.Board;
 
 /**
  * Superclass containing shared methods related to player component of game.
@@ -23,7 +24,7 @@ public abstract class  Player {
     public void setPlayerName(String name) {
         playerName = name;
     }
-
+    
     /**
      * Returns player username upon call
      * @return  name    Player username String
@@ -67,15 +68,42 @@ public abstract class  Player {
         }
     }
 
-	public void removeLetter() {
+    /**
+     * Sorts through array to find parameter tile then removes it from user array of tiles.
+     * @param tile      Tile to remove
+     */
+    public void removeLetter(Tile tile) {
+        for(int i = 0; i < letterList.length; i++) {
+            if(letterList[i] == tile) {
+                letterList[i] = null;
+                break;
+            }
+        }
     }
 
-
-    private void getLetter() {}
-
-
-    private void playLetter(String letter, int x, int y) {
-       // BoardArray[x][y] = letter;     - NOT YET IMPLEMENTED
+    /**
+     * Returns array of tiles that Player has.
+     * @return
+     */
+    public Tile[] getLetterList() {
+        return letterList;
     }
-    private void selectedLetter(String letter, int x, int y) {}
+
+    public void getLetter() {
+    }
+
+    /**
+     * Plays chosen tile to board.
+     * Removes tile from players selection of tiles.
+     * @param tile  Tile to play
+     * @param x     Horizontal position
+     * @param y     Vertical position
+     */
+    public void playLetter(Tile tile, int x, int y) {
+        Board.getInstance().place(tile, x, y);
+        removeLetter(tile);
+    }
+
+    public void selectedLetter(Tile tile, int x, int y) {
+    }
 }
