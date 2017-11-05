@@ -52,7 +52,7 @@ public class BoardUI {
 	public void create(int numPlayers) {
 
 		JFrame jf = new JFrame();
-		jf.setVisible(true);
+		
 		jf.setSize(1000, 1000);
 		jf.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -142,6 +142,7 @@ public class BoardUI {
 			c.gridy = 1;
 			jf.add(rightPanel, c);
 		}
+		jf.setVisible(true);
 
 	}
 
