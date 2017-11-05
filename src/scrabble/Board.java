@@ -41,26 +41,26 @@ public class Board {
 	};
 	
 	private int[][] scores = new int[][]{
-		{'3', 'n', 'n', '2', 'n', 'n', 'n', '3', 'n', 'n', 'n', '2', 'n', 'n', '3'},
-		{'n', '2', 'n', 'n', 'n', '3', 'n', 'n', 'n', '3', 'n', 'n', 'n', '2', 'n'},
-		{'n', 'n', '2', 'n', 'n', 'n', '2', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n'},
-		{'2', 'n', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n', '2'},
-		{'n', 'n', 'n', 'n', '2', 'n', 'n', 'n', 'n', 'n', '2', 'n', 'n', 'n', 'n'},
-		{'n', '3', 'n', 'n', 'n', '3', 'n', 'n', 'n', '3', 'n', 'n', 'n', '3', 'n'},
-		{'n', 'n', '2', 'n', 'n', 'n', '2', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n'},
-		{'3', 'n', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n', '3'},
-		{'n', 'n', '2', 'n', 'n', 'n', '2', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n'},
-		{'n', '3', 'n', 'n', 'n', '3', 'n', 'n', 'n', '3', 'n', 'n', 'n', '3', 'n'},
-		{'n', 'n', 'n', 'n', '2', 'n', 'n', 'n', 'n', 'n', '2', 'n', 'n', 'n', 'n'},
-		{'2', 'n', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n', '2'},
-		{'n', 'n', '2', 'n', 'n', 'n', '2', 'n', '2', 'n', 'n', 'n', '2', 'n', 'n'},
-		{'n', '2', 'n', 'n', 'n', '3', 'n', 'n', 'n', '3', 'n', 'n', 'n', '2', 'n'},
-		{'3', 'n', 'n', '2', 'n', 'n', 'n', '3', 'n', 'n', 'n', '2', 'n', 'n', '3'}
+		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3},
+		{0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
+		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
+		{2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 2},
+		{0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
+		{0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0},
+		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
+		{3, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 3},
+		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
+		{0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0},
+		{0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
+		{2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 2},
+		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
+		{0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
+		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3}
 	};
 	
 	
-	private BoardScorer[][] scoreBoard = new BoardScorer[][]{};
-	private Tile[][] letters = new Tile[][]{};
+	private BoardScorer[][] scoreBoard = new BoardScorer[15][15];
+	private Tile[][] letters = new Tile[15][15];
 	
 	private Board() {
 		
@@ -73,10 +73,13 @@ public class Board {
 				switch (types[i][j]) {
 				case 'l':
 					scoreBoard[i][j] = new BoardScorer(true, scores[i][j]);
+					break;
 				case 'w':
 					scoreBoard[i][j] = new BoardScorer(false, scores[i][j]);
+					break;
 				default:
 					scoreBoard[i][j] = null;
+					break;
 				}
 			}
 		}
@@ -102,8 +105,22 @@ public class Board {
 		return null;
 	}
 	
-	public void place(Tile tile, int x, int y) {
-		validator.validateMove(tile, x, y);
+	public Result place(Tile tile, int x, int y) {
+		Result res = validator.validateMove(tile, x, y);
+		if (res.isLegal()) {
+			this.letters[x][y] = tile;
+		}
+		return res;
+	}
+	
+	public static void main(String[] args) {
+		Board brd = Board.getInstance();
+		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
+		System.out.println(res.isLegal() + " - " + res.possibleWords());
+		res = brd.place(LetterBag.getInstance().pick(), 5, 9);
+		System.out.println(res.isLegal() + " - " + res.possibleWords());
+		res = brd.place(LetterBag.getInstance().pick(), 5, 9);
+		System.out.println(res.isLegal() + " - " + res.possibleWords());
 	}
 	
 }
