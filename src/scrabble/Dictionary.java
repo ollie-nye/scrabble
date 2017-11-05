@@ -16,13 +16,17 @@ public class Dictionary {
 	 * @author Asid Khan
 	 * @version 1.0.1
 	 */
-	public Dictionary() throws FileNotFoundException {
+	public Dictionary() {
 
 		try (Scanner wordScanner = new Scanner(new File(getClass().getResource("ScrabbleDictionary.txt").getFile()))) {
 			ListofWords = new ArrayList<>();
 			while (wordScanner.hasNext()) {
 				ListofWords.add(wordScanner.next());
 			}
+		}
+		catch (FileNotFoundException fnfex) {
+			System.out.println("Error with dictionary setup. Please remedy this issue before continuing.");
+			System.exit(1);
 		}
 
 	}
