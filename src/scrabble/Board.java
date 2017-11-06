@@ -113,6 +113,14 @@ public class Board {
 		return res;
 	}
 	
+	public void partialPlace(Tile tile) {
+		
+	}
+	
+	public void partialPlace(int x, int y) {
+		
+	}
+	
 	public static void main(String[] args) {
 		Board brd = Board.getInstance();
 		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
