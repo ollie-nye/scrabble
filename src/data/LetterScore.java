@@ -1,4 +1,4 @@
-package scrabble;
+package data;
 
 import java.util.ArrayList;
 
