@@ -1,6 +1,7 @@
 package scrabble;
 
 import data.BoardScorer;
+import data.Coordinate;
 import data.Result;
 import validation.Validator;
 /**
@@ -14,6 +15,9 @@ public class Board {
 	private static Board instance = null;
 	
 	private Validator validator = new Validator();
+	
+	private Coordinate partialPlace;
+	private Tile partialTile;
 	
 	public static Board getInstance() {
 		if (instance == null) {
@@ -114,11 +118,11 @@ public class Board {
 	}
 	
 	public void partialPlace(Tile tile) {
-		
+		this.partialTile = tile;
 	}
 	
 	public void partialPlace(int x, int y) {
-		
+		this.partialPlace = new Coordinate(x, y);
 	}
 	
 	public static void main(String[] args) {
