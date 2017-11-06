@@ -36,17 +36,18 @@ public class BoardUI {
 		 * only completed for 2 player play atm;
 		 */
 		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 15; i++) {
+			for (int j = 0; j < 15; j++) {
 				Tile tile = Board.getInstance().getTile(i, j);
+				System.out.println((new Integer(i)).toString() + " " + (new Integer(j)).toString() + " " + ((tile != null) ? tile.getContent() : "empty"));
 				boardTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
 			}
 		}
 		for (int i = 0; i < p1Tiles.length; i++) {
-			p1Tiles[i].setText(checkAgainstPlayer1());
+			//p1Tiles[i].setText(checkAgainstPlayer1());
 
 		}
 		for (int i = 0; i < p2Tiles.length; i++) {
-			p1Tiles[i].setText(checkAgainstPlayer2());
+			//p1Tiles[i].setText(checkAgainstPlayer2());
 
 		}
 
