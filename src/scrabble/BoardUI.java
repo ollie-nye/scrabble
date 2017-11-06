@@ -1,11 +1,8 @@
-package UI;
+package scrabble;
 
 import java.awt.*;
 
 import javax.swing.*;
-
-import scrabble.Board;
-import scrabble.Tile;
 
 import java.util.Stack;
 
