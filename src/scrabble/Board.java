@@ -7,7 +7,7 @@ import validation.Validator;
 /**
  * Main class that holds the board and organises the game
  * @author Ollie Nye
- * @verion 1.1
+ * @verion 1.2
  */
 
 public class Board {
@@ -16,8 +16,8 @@ public class Board {
 	
 	private Validator validator = new Validator();
 	
-	private Coordinate partialPlace;
-	private Tile partialTile;
+	private Coordinate partialPlace = null;
+	private Tile partialTile = null;
 	
 	public static Board getInstance() {
 		if (instance == null) {
@@ -119,10 +119,16 @@ public class Board {
 	
 	public void partialPlace(Tile tile) {
 		this.partialTile = tile;
+		if (this.partialPlace != null) { //both required elements are provided
+			Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
+		}
 	}
 	
 	public void partialPlace(int x, int y) {
 		this.partialPlace = new Coordinate(x, y);
+		if (this.partialTile != null) { //both required elements are provided
+			Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
+		}
 	}
 	
 	public static void main(String[] args) {
