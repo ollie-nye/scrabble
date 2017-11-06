@@ -3,6 +3,10 @@ package UI;
 import java.awt.*;
 
 import javax.swing.*;
+
+import scrabble.Board;
+import scrabble.Tile;
+
 import java.util.Stack;
 
 /*
@@ -36,7 +40,8 @@ public class BoardUI {
 		 */
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; i++) {
-				boardTiles[i][j].setText(checkAgainstBoard());
+				Tile tile = Board.getInstance().getTile(i, j);
+				boardTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
 			}
 		}
 		for (int i = 0; i < p1Tiles.length; i++) {
