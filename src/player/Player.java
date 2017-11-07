@@ -15,6 +15,13 @@ public abstract class  Player {
     private Random rnd = new Random();
     private String playerName;
     private int score = 0;
+    
+    
+    public Player() {
+    	for (int i = 0; i < letterList.length; i++) {
+    		letterList[i] = LetterBag.getInstance().pick();
+    	}
+    }
 
 
     /**
@@ -60,10 +67,9 @@ public abstract class  Player {
      *  @see    LetterBag#pick()
      */
     public void addLetter() {
-        for(int i = 0; i < letterList.length; i++) {
-            if(letterList[i]  == null) {
+        for(int i = letterList.length - 1; i < 7; i++) {
+            if(letterList[i] == null) {
                 letterList[i] = LetterBag.getInstance().pick();
-                break;
             }
         }
     }
@@ -74,8 +80,9 @@ public abstract class  Player {
      */
     public void removeLetter(Tile tile) {
         for(int i = 0; i < letterList.length; i++) {
-            if(letterList[i] == tile) {
+            if(letterList[i].getContent().equals(tile.getContent())) {
                 letterList[i] = null;
+                
                 break;
             }
         }

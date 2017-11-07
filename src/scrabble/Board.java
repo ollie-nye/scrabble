@@ -3,6 +3,7 @@ package scrabble;
 import data.BoardScorer;
 import data.Coordinate;
 import data.Result;
+import player.PlayersContainer;
 import validation.Validator;
 /**
  * Main class that holds the board and organises the game
@@ -18,6 +19,8 @@ public class Board {
 	
 	private Coordinate partialPlace = null;
 	private Tile partialTile = null;
+	
+	private BoardUI ui;
 	
 	public static Board getInstance() {
 		if (instance == null) {
@@ -95,6 +98,10 @@ public class Board {
 		}
 	}
 	
+	public void setUI(BoardUI ui) {
+		this.ui = ui;
+	}
+	
 	public Tile getTile(int x, int y) {
 		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
 			return letters[x][y];
@@ -114,6 +121,8 @@ public class Board {
 		if (res.isLegal()) {
 			this.letters[x][y] = tile;
 		}
+		partialTile = null;
+		partialPlace = null;
 		return res;
 	}
 	

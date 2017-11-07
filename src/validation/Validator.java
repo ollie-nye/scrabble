@@ -104,8 +104,10 @@ public class Validator {
 							playedTiles.put(tile, new Coordinate(x, y));
 							currentPlay[x] = tile.getContent();
 						}
+					} else {
+						allowedMove = false;
 					}
-				} else {
+				} else  if (direction == VERTICAL) {
 					if (x == location) { //along the same row
 						String[] nextMove = currentPlay;
 						nextMove[y] = tile.getContent();
@@ -117,7 +119,11 @@ public class Validator {
 							playedTiles.put(tile, new Coordinate(x, y));
 							currentPlay[y] = tile.getContent();
 						}
+					} else {
+						allowedMove = false;
 					}
+				} else {
+					allowedMove = false;
 				}
 			}
 		} else {

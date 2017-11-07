@@ -153,6 +153,11 @@ public class ScrabbleTile extends JButton implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		if (boardOrPlayer == 0) {
+			Board.getInstance().partialPlace(coordinates[0], coordinates[1]);
+		} else {
+			Board.getInstance().partialPlace(new Tile(this.getText(), 0));
+		}
 		System.out.println(coordinates[0] + ", " + coordinates[1]);
 		
 	}
