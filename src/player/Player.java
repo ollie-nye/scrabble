@@ -1,4 +1,5 @@
 package player;
+
 import java.util.Random;
 import scrabble.Tile;
 import scrabble.LetterBag;
@@ -82,7 +83,6 @@ public abstract class  Player {
         for(int i = 0; i < letterList.length; i++) {
             if(letterList[i].getContent().equals(tile.getContent())) {
                 letterList[i] = null;
-                
                 break;
             }
         }

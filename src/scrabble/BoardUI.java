@@ -48,7 +48,8 @@ public class BoardUI {
 		for (int i = 0; i < Scrabble.maxPlayers; i++) {
 			playerLetters[i] = PlayersContainer.getInstance().getPlayer(i).getLetterList();
 			for (int j = 0; j < playerTiles[i].length; j++) {
-				playerTiles[i][j].setText(playerLetters[i][j].getContent());
+				Tile tile = playerLetters[i][j];
+				playerTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
 			}
 		}
 		//Tile[] p1Letters = PlayersContainer.getInstance().getPlayer(0).getLetterList();

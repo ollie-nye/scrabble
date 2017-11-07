@@ -5,6 +5,7 @@ import data.Coordinate;
 import data.Result;
 import player.PlayersContainer;
 import validation.Validator;
+
 /**
  * Main class that holds the board and organises the game
  * @author Ollie Nye
@@ -120,6 +121,8 @@ public class Board {
 		Result res = validator.validateMove(tile, x, y);
 		if (res.isLegal()) {
 			this.letters[x][y] = tile;
+			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(tile);
+			this.ui.update();
 		}
 		partialTile = null;
 		partialPlace = null;
