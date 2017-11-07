@@ -12,7 +12,7 @@ import java.util.Stack;
 /*
  * sets up board UI
  * from coordinate (0,0)-(14,14) are the board positions
- * player 1 hand is 
+ * players hands stored in separate arrays
  */
 public class BoardUI {
 	private ScrabbleTile[][] boardTiles;
