@@ -81,9 +81,11 @@ public abstract class  Player {
      */
     public void removeLetter(Tile tile) {
         for(int i = 0; i < letterList.length; i++) {
-            if(letterList[i].getContent().equals(tile.getContent())) {
-                letterList[i] = null;
-                break;
+	    if (letterList[i] != null) {
+            	if(letterList[i].getContent().equals(tile.getContent())) {
+                	letterList[i] = null;
+                	break;
+	    	}
             }
         }
     }
