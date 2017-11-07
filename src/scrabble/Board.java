@@ -30,6 +30,10 @@ public class Board {
 		return instance;
 	}
 	
+	public void validatorReset(){
+		validator = new Validator();
+	}
+	
 	private char[][] types = new char[][]{
 		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
 		{'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},

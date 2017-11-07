@@ -155,11 +155,18 @@ public class ScrabbleTile extends JButton implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (boardOrPlayer == 0) {
 			Board.getInstance().partialPlace(coordinates[0], coordinates[1]);
-		} else {
+		}
+		if (boardOrPlayer > 0){
 			if (boardOrPlayer == Scrabble.currentPlayer +1){
 			Board.getInstance().partialPlace(new Tile(this.getText(), 0));
 			}
 		}
+		//this part should not be used in final game, created for hack to avoid making new button
+		if (boardOrPlayer == -2){
+			Scrabble.incrementTurn();
+		}
+		
+		
 		System.out.println(coordinates[0] + ", " + coordinates[1]);
 		
 	}
@@ -169,12 +176,9 @@ public class ScrabbleTile extends JButton implements MouseListener {
 		repaint();
 	}
 
-	/*****
-	 * needs writing
-	 * 
-	 * method to create which calls the space on the board class the required
-	 * letter is stored
-	 */
+	
+	//this method should not be used in final game, created for hack to avoid making new button
+
 	
 
 	public String getText() {

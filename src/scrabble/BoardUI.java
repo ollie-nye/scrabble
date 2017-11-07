@@ -158,6 +158,20 @@ public class BoardUI {
 			jf.add(rightPanel, c);
 		}
 		jf.setVisible(true);
+		
+		JPanel nextTurnPanel = new JPanel();		
+		ScrabbleTile scrabbleTile = new ScrabbleTile(-2, -2, -2);
+		scrabbleTile.setBackgroundColor(Color.cyan);
+		scrabbleTile.setText("End Turn");	
+				
+				nextTurnPanel.add(scrabbleTile);
+			
+
+		
+		c.gridx = 2;
+		c.gridy = 0;
+		
+		jf.add(nextTurnPanel, c);
 
 	}
 

@@ -36,11 +36,14 @@ public class Scrabble {
 		
 	}
 	
-	public void incrementTurn() {
+
+	
+	public static void incrementTurn() {
 		currentPlayer += 1;
 		if (currentPlayer > 3) {
 			currentPlayer = 0;
 		}
+		Board.getInstance().validatorReset();
 	}
 	
 	public static void main(String[] args) {
