@@ -3,7 +3,7 @@ CS2010 Group Project - Scrabble Game
 
 Group Members
 
-  Matt Cantell - 
+  Matt Cantell - 160156146
   
   Lorenzo Fillette - 159044382
   
