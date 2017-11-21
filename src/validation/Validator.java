@@ -57,30 +57,41 @@ public class Validator {
 	 * Reference to the dictionary for spellchecking
 	 */
 	private Dictionary dictionary = new Dictionary();
-	
+
+	/**
+	 * Holds the number of possible words given the current turn
+	 */
+	private int possibleWords = 0;
+
+	/**
+	 * Constructor for class
+	 */
 	public Validator() {}
-	
+
+	/**
+	 * Main validation method for testing new words
+	 * @param tile 		New tile to be tested against the rest of the board
+	 * @param x 		X coordinate of the tile
+	 * @param y 		Y coordinate of the tile
+	 * @return			Result showing if the move is legal and the number of possible words given the set of letters
+	 */
 	public Result validateMove(Tile tile, int x, int y) {
 		boolean allowedMove = true;
-		int possibleWords = 0;
-		boolean spaceEmpty;
-		Tile prospectiveTile = Board.getInstance().getTile(x, y);
-		spaceEmpty = (prospectiveTile == null) ? true : false;
+		boolean spaceEmpty = (Board.getInstance().getTile(x, y) == null) ? true : false; // If the space on the board is empty
 		
-		if (spaceEmpty) {
-			//possibly allowed move
-			if (playedTiles.size() == 0) { //first move of the turn
-				playedTiles.put(tile, new Coordinate(x, y));
-			} else if (playedTiles.size() == 1) { //second move of the turn
+		if (spaceEmpty) { // Possibly allowed move, as the space is empty
+			if (playedTiles.size() == 0) { // The played tiles this turn list is empty, so this is the first move of the turn
+				playedTiles.put(tile, new Coordinate(x, y)); // Accept by default
+			} else if (playedTiles.size() == 1) { // Second move of the turn, need to determine direction
 				Tile firstTile = null;
 				Coordinate firstCoordinate = null;
-				//This will only fire once, the size has to be 1 to get here.
-				for (Entry<Tile, Coordinate> entry : playedTiles.entrySet()) {
+
+				for (Entry<Tile, Coordinate> entry : playedTiles.entrySet()) { // This loop will only fire once, the size has to be 1 to get here
 					firstTile = entry.getKey();
 					firstCoordinate = entry.getValue();
 				}
-				if (firstCoordinate.getX() == x) { //vertical direction			
-					String[] nextMove = new String[15];
+				if (firstCoordinate.getX() == x) { // Vertical direction
+					String[] nextMove = new String[15]; //
 					nextMove[firstCoordinate.getY()] = firstTile.getContent();
 					nextMove[y] = tile.getContent();
 					String searchString = generateSearchString(nextMove);
@@ -94,7 +105,7 @@ public class Validator {
 						currentPlay[firstCoordinate.getY()] = firstTile.getContent();
 						currentPlay[y] = tile.getContent();
 					}
-				} else if (firstCoordinate.getY() == y) { //horizontal direction
+				} else if (firstCoordinate.getY() == y) { // Horizontal direction
 					String[] nextMove = new String[15];
 					nextMove[firstCoordinate.getX()] = firstTile.getContent();
 					nextMove[x] = tile.getContent();
@@ -112,39 +123,16 @@ public class Validator {
 				} else {
 					allowedMove = false;
 				}
-				
-				
-				//get item's coordinate
-				//test against given x or y
-				//if one is similar, word is possibly allowed. Do dictionary check to confirm
 			} else {
 				if (direction == HORIZONTAL) {
 					if (y == location) { //along the same row
-						String[] nextMove = currentPlay;
-						nextMove[x] = tile.getContent();
-						String searchString = generateSearchString(nextMove);
-						possibleWords = dictionary.searchList(searchString);
-						if (possibleWords == 0) {
-							allowedMove = false;
-						} else {
-							playedTiles.put(tile, new Coordinate(x, y));
-							currentPlay[x] = tile.getContent();
-						}
+						allowedMove = testWord(x, tile, x, y);
 					} else {
 						allowedMove = false;
 					}
 				} else  if (direction == VERTICAL) {
 					if (x == location) { //along the same row
-						String[] nextMove = currentPlay;
-						nextMove[y] = tile.getContent();
-						String searchString = generateSearchString(nextMove);
-						possibleWords = dictionary.searchList(searchString);
-						if (possibleWords == 0) {
-							allowedMove = false;
-						} else {
-							playedTiles.put(tile, new Coordinate(x, y));
-							currentPlay[y] = tile.getContent();
-						}
+						allowedMove = testWord(y, tile, x, y);
 					} else {
 						allowedMove = false;
 					}
@@ -157,6 +145,29 @@ public class Validator {
 		}
 		
 		return new Result(allowedMove, possibleWords);
+	}
+
+	/**
+	 * Method to remove duplicated code. Tests a selection of characters, testing the regez string against the dictionary
+	 * @param location		Row/column to test against
+	 * @param tile			Tile in question for testing
+	 * @param x				X coordinate of Tile
+	 * @param y				Y coordinate of Tile
+	 * @return				Boolean allowedMove
+	 */
+	private boolean testWord(int location, Tile tile, int x, int y) {
+		boolean allowedMove = true;
+		String[] nextMove = currentPlay;
+		nextMove[location] = tile.getContent();
+		String searchString = generateSearchString(nextMove);
+		possibleWords = dictionary.searchList(searchString);
+		if (possibleWords == 0) {
+			allowedMove = false;
+		} else {
+			playedTiles.put(tile, new Coordinate(x, y));
+			currentPlay[location] = tile.getContent();
+		}
+		return allowedMove;
 	}
 	
 	private String generateSearchString(String[] nextMove) {
