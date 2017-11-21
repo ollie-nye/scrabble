@@ -7,29 +7,55 @@ import data.Coordinate;
 import data.Result;
 import scrabble.Board;
 import scrabble.Tile;
-import scrabble.Dictionary;
 
 
 /**
  * Validator for each move made by a player, AI and human alike
  * @author Ollie Nye
- * @version 1.1
+ * @version 1.3
+ * 
+ * REVISIONS
+ * 1.0 - Created class and constructor, added method stubs to allow interfacing with rest of project
+ * 1.1 - Filled out method stubs for basic functionality, only working with the current turn of letters
+ * 1.2 - Extended validation functionality to incorporate the rest of the board in the search
+ * 1.3 - Added extended Javadoc
  */
 
 public class Validator {
-	//initial tile
-	//find direction
-	//test all tiles for 'possible' move & complete word
-	//return a MoveResult object to caller
+
+	/**
+	 * Holds the whole row/column of the currently played tiles. Also contains letters from the board inside played tile limits.
+	 */
+	private String[] currentPlay = new String[15];
 	
-	private String[] currentPlay = new String[15]; //15 characters, maximum word length
+	/**
+	 * Holds the list of played tiles and their coordinates
+	 */
 	private HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
 	
+	/**
+	 * Defines the static constant VERTICAL for use in this class
+	 */
 	private static final int VERTICAL = 1;
+	
+	/**
+	 * Defines the static constant HORIZONTAL for use in this class
+	 */
 	private static final int HORIZONTAL = 2;
 	
+	/**
+	 * Definition for this class for the direction of the word. 0 is not set, 1 is vertical, 2 is horizontal, as given in the two previous definitions
+	 */
 	private int direction = 0;
+	
+	/**
+	 * Holds the common row/column that should be shared between all letters played to allow the move
+	 */
 	private int location = 0;
+	
+	/**
+	 * Reference to the dictionary for spellchecking
+	 */
 	private Dictionary dictionary = new Dictionary();
 	
 	public Validator() {}
