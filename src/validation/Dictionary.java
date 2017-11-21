@@ -1,4 +1,4 @@
-package scrabble;
+package validation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
