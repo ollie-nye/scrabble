@@ -9,10 +9,12 @@ package data;
 public class Result {
 	private boolean legalMove;
 	private int possibleWords;
+	private boolean isCompleteWord;
 	
-	public Result(boolean legalMove, int possibleWords) {
+	public Result(boolean legalMove, int possibleWords, boolean isCompleteWord) {
 		this.legalMove = legalMove;
 		this.possibleWords = possibleWords;
+		this.isCompleteWord = isCompleteWord;
 	}
 	
 	public boolean isLegal() {
@@ -21,5 +23,9 @@ public class Result {
 	
 	public int possibleWords() {
 		return this.possibleWords;
+	}
+
+	public boolean isCompleteWord() {
+		return this.isCompleteWord;
 	}
 }
