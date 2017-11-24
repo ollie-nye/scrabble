@@ -28,6 +28,12 @@ public class ScrabbleTile extends JButton implements MouseListener {
 		boardOrPlayer = z;
 		
 	}
+
+	public ScrabbleTile(int x, int y, int z, int width, int height) {
+		this(x, y, z);
+		this.setSize(width, height);
+		this.setPreferredSize(new Dimension(width, height));
+	}
 	
 	
 

@@ -74,7 +74,15 @@ public class BoardUI {
 		buttonPanel.setLayout(new GridLayout(15, 15, 5, 5));
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
-				ScrabbleTile scrabbleTile = new ScrabbleTile(i, j, 0);
+				int wid = jf.getWidth();
+				int hei = jf.getHeight();
+				int dim = 0;
+				if (wid >= hei) {
+					dim = hei / 20;
+				} else {
+					dim = wid / 20;
+				}
+				ScrabbleTile scrabbleTile = new ScrabbleTile(i, j, 0, dim, dim);
 				scrabbleTile.setBackgroundColor(Color.green);
 				
 				boardTiles[i][j] = scrabbleTile;

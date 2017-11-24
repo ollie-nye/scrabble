@@ -6,6 +6,7 @@ import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 import player.PlayersContainer;
+import javax.swing.JOptionPane;
 
 /**
  * Main class for controlling the game.
@@ -39,11 +40,17 @@ public class Scrabble {
 
 	
 	public static void incrementTurn() {
-		currentPlayer += 1;
-		if (currentPlayer > 3) {
-			currentPlayer = 0;
+		Result lastResult = Board.getInstance().getLastResult();
+
+		if (lastResult.isCompleteWord()) {
+			currentPlayer += 1;
+			if (currentPlayer > 3) {
+				currentPlayer = 0;
+			}
+			Board.getInstance().validatorReset();
+		} else {
+			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
-		Board.getInstance().validatorReset();
 	}
 	
 	public static void main(String[] args) {

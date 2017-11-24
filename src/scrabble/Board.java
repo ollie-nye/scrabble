@@ -146,7 +146,11 @@ public class Board {
 			Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
 		}
 	}
-	
+
+	public Result getLastResult() {
+		return this.validator.getLastResult();
+	}
+
 	public static void main(String[] args) {
 		Board brd = Board.getInstance();
 		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);

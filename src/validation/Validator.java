@@ -32,6 +32,11 @@ public class Validator {
 	 * Holds the list of played tiles and their coordinates
 	 */
 	private HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
+
+	/**
+	 * Holds last validator Result for use in end turn
+	 */
+	private Result result;
 	
 	/**
 	 * Defines the static constant VERTICAL for use in this class
@@ -77,7 +82,8 @@ public class Validator {
 	 */
 	public Result validateMove(Tile tile, int x, int y) {
 		boolean allowedMove = true;
-		boolean spaceEmpty = (Board.getInstance().getTile(x, y) == null) ? true : false; // If the space on the board is empty
+		boolean spaceEmpty = (Board.getInstance().getTile(x, y) == null); // If the space on the board is empty
+		String searchString = "";
 		
 		if (spaceEmpty) { // Possibly allowed move, as the space is empty
 			if (playedTiles.size() == 0) { // The played tiles this turn list is empty, so this is the first move of the turn
@@ -94,7 +100,7 @@ public class Validator {
 					String[] nextMove = new String[15]; //
 					nextMove[firstCoordinate.getY()] = firstTile.getContent();
 					nextMove[y] = tile.getContent();
-					String searchString = generateSearchString(nextMove);
+					searchString = generateSearchString(nextMove, VERTICAL, x);
 					possibleWords = dictionary.searchList(searchString);
 					if (possibleWords == 0) {
 						allowedMove = false;
@@ -109,7 +115,7 @@ public class Validator {
 					String[] nextMove = new String[15];
 					nextMove[firstCoordinate.getX()] = firstTile.getContent();
 					nextMove[x] = tile.getContent();
-					String searchString = generateSearchString(nextMove);
+					searchString = generateSearchString(nextMove, HORIZONTAL, y);
 					possibleWords = dictionary.searchList(searchString);
 					if (possibleWords == 0) {
 						allowedMove = false;
@@ -125,14 +131,32 @@ public class Validator {
 				}
 			} else {
 				if (direction == HORIZONTAL) {
-					if (y == location) { //along the same row
-						allowedMove = testWord(x, tile, x, y);
+					if (y == location) { // Along the same row
+						String[] nextMove = currentPlay;
+						nextMove[x] = tile.getContent();
+						searchString = generateSearchString(nextMove, direction, location);
+						possibleWords = dictionary.searchList(searchString);
+						if (possibleWords == 0) {
+							allowedMove = false;
+						} else {
+							playedTiles.put(tile, new Coordinate(x, y));
+							currentPlay[x] = tile.getContent();
+						}
 					} else {
 						allowedMove = false;
 					}
 				} else  if (direction == VERTICAL) {
-					if (x == location) { //along the same row
-						allowedMove = testWord(y, tile, x, y);
+					if (x == location) { // Along the same column
+						String[] nextMove = currentPlay;
+						nextMove[y] = tile.getContent();
+						searchString = generateSearchString(nextMove, direction, location);
+						possibleWords = dictionary.searchList(searchString);
+						if (possibleWords == 0) {
+							allowedMove = false;
+						} else {
+							playedTiles.put(tile, new Coordinate(x, y));
+							currentPlay[y] = tile.getContent();
+						}
 					} else {
 						allowedMove = false;
 					}
@@ -143,42 +167,36 @@ public class Validator {
 		} else {
 			allowedMove = false;
 		}
-		
-		return new Result(allowedMove, possibleWords);
+		this.result = new Result(allowedMove, possibleWords, isCompleteWord());
+		return this.result;
 	}
 
 	/**
-	 * Method to remove duplicated code. Tests a selection of characters, testing the regez string against the dictionary
-	 * @param location		Row/column to test against
-	 * @param tile			Tile in question for testing
-	 * @param x				X coordinate of Tile
-	 * @param y				Y coordinate of Tile
-	 * @return				Boolean allowedMove
+	 * Generates the regex string that searches the dictionary for possible matching words. Does not actually search the dictionary with this string
+	 * @param nextMove		Current positions of all played letters this turn
+	 * @return				String containing
 	 */
-	private boolean testWord(int location, Tile tile, int x, int y) {
-		boolean allowedMove = true;
-		String[] nextMove = currentPlay;
-		nextMove[location] = tile.getContent();
-		String searchString = generateSearchString(nextMove);
-		possibleWords = dictionary.searchList(searchString);
-		if (possibleWords == 0) {
-			allowedMove = false;
-		} else {
-			playedTiles.put(tile, new Coordinate(x, y));
-			currentPlay[location] = tile.getContent();
-		}
-		return allowedMove;
-	}
-	
-	private String generateSearchString(String[] nextMove) {
+	private String generateSearchString(String[] nextMove, int direction, int location) {
 		String searchString = "";
 		int lastLetter = 0;
 		boolean hasBeenEmpty = false;
 		boolean firstLetterPrinted = false;
+		boolean completeWord = true;
+		int y = (direction == HORIZONTAL)?location:0;
+		int x = (direction == VERTICAL)?location:0;
 		for (int i = 0; i < 15; i++) {
-			String currentLetter = nextMove[i];
+			if (direction == HORIZONTAL) {
+				x = i;
+			} else if (direction == VERTICAL) {
+				y = i;
+			}
+			Tile tile = Board.getInstance().getTile(x, y);
+			String currentLetter = (nextMove[i] != null)?nextMove[i]:(tile != null)?tile.getContent():null;
 			if (currentLetter == null) {
 				searchString += "." + (!firstLetterPrinted ? "?" : "");
+				if (firstLetterPrinted) {
+					completeWord = false;
+				}
 			} else {
 				searchString += currentLetter;
 				firstLetterPrinted = true;
@@ -195,11 +213,37 @@ public class Validator {
 		}
 		return searchString;
 	}
-	
+
+	public Result getLastResult() {
+		return this.result;
+	}
+
+	public boolean isCompleteWord() {
+		String searchString = "(\b";
+		for (String character : currentPlay) {
+			/*
+			if (character != null) {
+				if (character.matches("[a-z]")) {
+					searchString += character;
+				}
+			}
+			*/
+			searchString += (character != null)?((character.matches("[a-z]"))?character:""):"";
+		}
+		searchString += "\b)";
+		return (dictionary.searchList(searchString) == 1);
+	}
+
+	/**
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
+		/*
 		Validator val = new Validator();
 		String searchString = val.generateSearchString(new String[] {null,null,null,null,null,null,null,null,"h",null,"l",null,"o",null,null});
 		System.out.println(searchString);
 		System.out.println((new Dictionary()).searchList(searchString));
+		*/
 	}
 }
