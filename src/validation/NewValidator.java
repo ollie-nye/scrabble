@@ -84,7 +84,7 @@ public class NewValidator {
 	}
 
 	private int testMove(Tile tile, int move) {
-		testMove(tile, move, -1, -1);
+		return testMove(tile, move, -1, -1);
 	}
 
 	private int testMove(Tile tile, int fMove, int sMove, int location) {
