@@ -219,19 +219,13 @@ public class Validator {
 	}
 
 	public boolean isCompleteWord() {
-		String searchString = "(\b";
+		String searchString = "(\\b";
 		for (String character : currentPlay) {
-			/*
-			if (character != null) {
-				if (character.matches("[a-z]")) {
-					searchString += character;
-				}
-			}
-			*/
 			searchString += (character != null)?((character.matches("[a-z]"))?character:""):"";
 		}
-		searchString += "\b)";
-		return (dictionary.searchList(searchString) == 1);
+		searchString += "\\b)";
+		boolean returnVal = (dictionary.searchList(searchString) == 1);
+		return returnVal;
 	}
 
 	/**
