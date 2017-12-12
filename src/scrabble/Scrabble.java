@@ -7,6 +7,7 @@ import player.HumanPlayer;
 import player.Player;
 import player.PlayersContainer;
 import javax.swing.JOptionPane;
+import java.util.Random;
 
 /**
  * Main class for controlling the game.
@@ -77,7 +78,9 @@ public class Scrabble {
 		Result lastResult = Board.getInstance().getLastResult();
 
 		if (lastResult.isCompleteWord()) {
+            Random random = new Random();
 			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetter();
+			PlayersContainer.getInstance().getPlayer(currentPlayer).setScore((random.nextInt(13) + 7));
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
 				currentPlayer = 0;
