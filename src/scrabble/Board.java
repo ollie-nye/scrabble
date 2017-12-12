@@ -9,20 +9,52 @@ import validation.Validator;
 /**
  * Main class that holds the board and organises the game
  * @author Ollie Nye
- * @verion 1.2
+ * @verion 1.3
+ */
+/*
+ * REVISIONS
+ * 1.0 - Create class and constructor
+ * 1.1 - Add Board constructs such as types and scores
+ * 1.2 - Add class fields for Validator, instance, placed tiles and coordinates and ui
+ * 1.3 - Add firstWordPlayed class variable
  */
 
 public class Board {
 	
+	/**
+	 * Singleton pattern instance variable
+	 */
 	private static Board instance = null;
 	
+	/**
+	 * If the first word has been played, this is true. Used in validation
+	 */
+	public static boolean firstWordPlayed = false;
+	
+	/**
+	 * Validator for testing words. New validator is a new word
+	 */
 	private Validator validator = new Validator();
 	
+	/**
+	 * One half of the variable pair that makes up a move
+	 */
 	private Coordinate partialPlace = null;
-	private Tile partialTile = null;
 	
+	/**
+	 * Other half of the variable pair that makes up a move
+	 */
+	private Tile partialTile = null;
+
+	/**
+	 * Instance of the BoardUI
+	 */
 	private BoardUI ui;
 	
+	/**
+	 * Singleton pattern getter method
+	 * @return		Instance of the Board, creating a new one if required
+	 */
 	public static Board getInstance() {
 		if (instance == null) {
 			instance = new Board();
@@ -30,10 +62,16 @@ public class Board {
 		return instance;
 	}
 	
+	/**
+	 * Recreates the validator for a new word
+	 */
 	public void validatorReset(){
 		validator = new Validator();
 	}
 	
+	/**
+	 * Types of multiplier tiles on the board
+	 */
 	private char[][] types = new char[][]{
 		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
 		{'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},
@@ -52,6 +90,9 @@ public class Board {
 		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'}
 	};
 	
+	/**
+	 * Scores of multiplier tiles on the board
+	 */
 	private int[][] scores = new int[][]{
 		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3},
 		{0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
@@ -70,13 +111,20 @@ public class Board {
 		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3}
 	};
 	
-	
+	/**
+	 * Holds the spaces that determine move scores
+	 */
 	private BoardScorer[][] scoreBoard = new BoardScorer[15][15];
+	
+	/**
+	 * Letters played by the players
+	 */
 	private Tile[][] letters = new Tile[15][15];
 	
+	/**
+	 * Populates the BoardScorer with data from the arrays for use in the rest of the game
+	 */
 	private Board() {
-		
-		//Initialise board scoring
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 				boolean isLetter;
@@ -103,10 +151,20 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Sets the UI for the system to use
+	 * @param ui
+	 */
 	public void setUI(BoardUI ui) {
 		this.ui = ui;
 	}
 	
+	/**
+	 * Gets the tile at the given coordinate
+	 * @param x		X to get from
+	 * @param y		Y to get from
+	 * @return		Returns the tile at the given position
+	 */
 	public Tile getTile(int x, int y) {
 		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
 			return letters[x][y];
@@ -114,6 +172,12 @@ public class Board {
 		return null;
 	}
 	
+	/**
+	 * Gets a score from a given coordinate
+	 * @param x		X to get from
+	 * @param y		Y to get from
+	 * @return		BoardScorer object containing multiplier type and score multiplier
+	 */
 	public BoardScorer getScore(int x, int y) {
 		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
 			return scoreBoard[x][y];
@@ -121,6 +185,13 @@ public class Board {
 		return null;
 	}
 	
+	/**
+	 * Places the tile at the given coordinates if both partialPlace variables are set
+	 * @param tile	Tile to play
+	 * @param x		X of coordinate to play
+	 * @param y		Y of coordinate to play
+	 * @return		Result of the play
+	 */
 	public Result place(Tile tile, int x, int y) {
 		Result res = validator.validateMove(tile, x, y);
 		if (res.isLegal()) {
@@ -133,6 +204,10 @@ public class Board {
 		return res;
 	}
 	
+	/**
+	 * Specifies the tile that has been clicked for the next space placement
+	 * @param tile	Tile clicked by the user
+	 */
 	public void partialPlace(Tile tile) {
 		this.partialTile = tile;
 		if (this.partialPlace != null) { //both required elements are provided
@@ -140,6 +215,11 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Specifies the coordinate that has been clicked for the next tile placement
+	 * @param x		X of tile clicked
+	 * @param y		Y of tile clicked
+	 */
 	public void partialPlace(int x, int y) {
 		this.partialPlace = new Coordinate(x, y);
 		if (this.partialTile != null) { //both required elements are provided
@@ -147,10 +227,15 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Returns the last result for validation checks
+	 * @return		Result containing the last validation check
+	 */
 	public Result getLastResult() {
 		return this.validator.getLastResult();
 	}
 
+	
 	public static void main(String[] args) {
 		Board brd = Board.getInstance();
 		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
