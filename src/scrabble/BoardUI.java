@@ -1,6 +1,8 @@
 package scrabble;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,10 +19,12 @@ import java.util.Stack;
  * from coordinate (0,0)-(14,14) are the board positions
  * players hands stored in separate arrays
  */
-public class BoardUI {
+public class BoardUI implements ActionListener {
 	private ScrabbleTile[][] boardTiles;
 	private ScrabbleTile[][] playerTiles;
 	private Tile[][] playerLetters;
+	private JFrame jf;
+	private JFrame menu;
 
 	public static void main(String[] args) {
 		BoardUI ui = new BoardUI(Scrabble.maxPlayers);
@@ -75,7 +79,37 @@ public class BoardUI {
 
 	public void create(int numPlayers) {
 
-		JFrame jf = new JFrame();
+		jf = new JFrame();
+		menu = new JFrame();
+		
+		menu.setSize(1000, 1000);
+		 try {
+	            menu.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("MainGameMenu.png")))));
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        menu.pack();
+	        menu.setVisible(true);
+		menu.setLayout(new GridBagLayout());
+		GridBagConstraints d = new GridBagConstraints();
+               Dimension dimms = Toolkit.getDefaultToolkit().getScreenSize();
+		menu.setLocation(dimms.width/2-menu.getSize().width/2, dimms.height/2-menu.getSize().height/2);
+		
+		
+		JButton b = new JButton();
+		b.setBorderPainted(false);
+		b.setPreferredSize(new Dimension(300, 300));
+		
+		
+	    b.setIcon(new ImageIcon(("play.png")));
+	 
+		
+        b.addActionListener(this);
+		
+        b.validate();
+		menu.add(b, d);
+		menu.setVisible(true);
+		
 
 		jf.setSize(1000, 1000);
 		 try {
@@ -199,9 +233,15 @@ public class BoardUI {
 		c.gridy = 0;
 
 		jf.add(nextTurnPanel, c);
-		jf.setVisible(true);
+		jf.setVisible(false);
 	
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		jf.setVisible(true);
+		menu.dispose();
 	}
 
 }
