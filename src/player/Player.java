@@ -68,7 +68,7 @@ public abstract class  Player {
      *  @see    LetterBag#pick()
      */
     public void addLetter() {
-        for(int i = letterList.length - 1; i < 7; i++) {
+        for(int i = 0; i < letterList.length - 1; i++) {
             if(letterList[i] == null) {
                 letterList[i] = LetterBag.getInstance().pick();
             }
