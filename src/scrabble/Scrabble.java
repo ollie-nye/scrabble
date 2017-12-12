@@ -42,7 +42,7 @@ public class Scrabble {
 	/**
 	 * Holds the current UI in use
 	 */
-	private BoardUI ui;
+	private static BoardUI ui;
 	
 	/**
 	 * Holds a reference to the instance of the PlayersContainer
@@ -70,6 +70,7 @@ public class Scrabble {
 		ui = new BoardUI(4);
 	}
 	
+	
 	/**
 	 * Method to increment the turn within the game, recreating validation and letters when required
 	 */
@@ -83,6 +84,8 @@ public class Scrabble {
 				currentPlayer = 0;
 			}
 			Board.getInstance().validatorReset();
+			ui.update();
+			
 			
 		} else {
 			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -110,7 +113,7 @@ public class Scrabble {
 		System.out.println(res.isLegal() + " - " + res.possibleWords());
 		res = brd.place(LetterBag.getInstance().pick(), 9, 2);
 		System.out.println(res.isLegal() + " - " + res.possibleWords());*/
-		game.ui.update();
+		ui.update();
 	}
 	
 	/**
@@ -143,7 +146,7 @@ public class Scrabble {
 		Result res = Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
 		if (res.isLegal()) {
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(partialTile);
-			this.ui.update();
+			ui.update();
 		}
 	}
 
