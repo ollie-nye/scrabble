@@ -1,7 +1,10 @@
 package scrabble;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import player.Player;
@@ -75,6 +78,13 @@ public class BoardUI {
 		JFrame jf = new JFrame();
 
 		jf.setSize(1000, 1000);
+		 try {
+	            jf.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("ScorePanel.jpg")))));
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        jf.pack();
+	        jf.setVisible(true);
 		jf.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 

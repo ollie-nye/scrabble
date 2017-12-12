@@ -94,6 +94,7 @@ public class ScrabbleTile extends JButton implements MouseListener {
 	@Override
 	public void paintComponent(Graphics graphics) {
 		if (splitBackground) {
+			
 			graphics.setColor(backgroundColor);
 			graphics.fillRect(0, 0, this.getWidth() / 2, this.getHeight());
 			graphics.setColor(backgroundColor2);
