@@ -94,6 +94,7 @@ public class Scrabble {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		splashScreen splash = new splashScreen();
 		Scrabble game = new Scrabble();
 		
 		/**Board brd = Board.getInstance();
