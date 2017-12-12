@@ -12,13 +12,15 @@ import scrabble.Tile;
 /**
  * Validator for each move made by a player, AI and human alike
  * @author Ollie Nye
- * @version 1.3
- * 
+ * @version 1.4
+ */
+/*
  * REVISIONS
  * 1.0 - Created class and constructor, added method stubs to allow interfacing with rest of project
  * 1.1 - Filled out method stubs for basic functionality, only working with the current turn of letters
  * 1.2 - Extended validation functionality to incorporate the rest of the board in the search
  * 1.3 - Added extended Javadoc
+ * 1.4 - Fix bug with escaping backslash on isCompleteWord() method
  */
 
 public class Validator {
@@ -214,10 +216,18 @@ public class Validator {
 		return searchString;
 	}
 
+	/**
+	 * Gets the last result for use in other parts of the program
+	 * @return			Result of the last validator call
+	 */
 	public Result getLastResult() {
 		return this.result;
 	}
 
+	/**
+	 * If the current play word is a complete word, and therefore a legal move
+	 * @return			Boolean true if current play is a complete word
+	 */
 	public boolean isCompleteWord() {
 		String searchString = "(\\b";
 		for (String character : currentPlay) {
