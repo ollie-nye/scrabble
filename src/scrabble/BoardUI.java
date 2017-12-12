@@ -87,7 +87,8 @@ public class BoardUI {
 	        jf.setVisible(true);
 		jf.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-
+                Dimension dims = Toolkit.getDefaultToolkit().getScreenSize();
+		jf.setLocation(dims.width/2-jf.getSize().width/2, dims.height/2-jf.getSize().height/2);
 		// sets up centre board
 
 		JPanel buttonPanel = new JPanel();
