@@ -10,49 +10,89 @@ import javax.swing.JOptionPane;
 
 /**
  * Main class for controlling the game.
+ * 
  * @author Ollie Nye
  * @version 1.3
- *
+ */
+/*
+ * REVISIONS
+ * 1.0 - Create class and constructor
+ * 1.1 - 
+ * 1.2 - 
+ * 1.3 - 
  */
 
 public class Scrabble {
 	
+	/**
+	 * Global current player variable
+	 */
 	public static int currentPlayer = 0;
+	
+	/**
+	 * Used in creating the player arrays
+	 */
 	public static int maxPlayers = 4;
 	
+	/**
+	 * Holds a reference to the instance of the Board
+	 */
 	private Board board = Board.getInstance();
+	
+	/**
+	 * Holds the current UI in use
+	 */
 	private BoardUI ui;
+	
+	/**
+	 * Holds a reference to the instance of the PlayersContainer
+	 */
 	private PlayersContainer players = PlayersContainer.getInstance();
 	
+	/**
+	 * One half of a move is stored here
+	 */
 	Tile partialTile = null;
+	
+	/**
+	 * The other half of a move is stored here
+	 */
 	Coordinate partialPlace = null;
 	
+	/**
+	 * Creates players and the UI
+	 */
 	public Scrabble() {
 		players.addPlayer(new HumanPlayer("Jam"));
 		players.addPlayer(new HumanPlayer("PB"));
 		players.addPlayer(new HumanPlayer("Toast"));
 		players.addPlayer(new HumanPlayer("Butter"));
 		ui = new BoardUI(4);
-		
-		
 	}
 	
-
-	
+	/**
+	 * Method to increment the turn within the game, recreating validation and letters when required
+	 */
 	public static void incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
 
 		if (lastResult.isCompleteWord()) {
+			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetter();
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
 				currentPlayer = 0;
 			}
 			Board.getInstance().validatorReset();
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
+	/**
+	 * Creates game and updates the UI for initial state
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Scrabble game = new Scrabble();
 		
@@ -72,6 +112,10 @@ public class Scrabble {
 		game.ui.update();
 	}
 	
+	/**
+	 * Passes the picked Tile to the game for saving
+	 * @param tile		Tile to be placed
+	 */
 	public void partialPlace(Tile tile) {
 		this.partialTile = tile;
 		if (this.partialPlace != null) { //both required elements are provided
@@ -79,6 +123,11 @@ public class Scrabble {
 		}
 	}
 	
+	/**
+	 * Passes the picked coordinates to the game for saving
+	 * @param x			X to save
+	 * @param y			Y to save
+	 */
 	public void partialPlace(int x, int y) {
 		this.partialPlace = new Coordinate(x, y);
 		if (this.partialTile != null) { //both required elements are provided
@@ -86,6 +135,9 @@ public class Scrabble {
 		}
 	}
 	
+	/**
+	 * Places if move is legal
+	 */
 	public void place() {
 		Result res = Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
 		if (res.isLegal()) {
