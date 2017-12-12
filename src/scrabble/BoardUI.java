@@ -185,7 +185,7 @@ public class BoardUI {
 			c.gridy = 1;
 			jf.add(rightPanel, c);
 		}
-		jf.setVisible(true);
+		
 
 		JPanel nextTurnPanel = new JPanel();
 		ScrabbleTile scrabbleTile = new ScrabbleTile(-2, -2, -2);
@@ -198,6 +198,8 @@ public class BoardUI {
 		c.gridy = 0;
 
 		jf.add(nextTurnPanel, c);
+		jf.setVisible(true);
+	
 
 	}
 
