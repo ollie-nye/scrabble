@@ -1,7 +1,10 @@
 package scrabble;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import player.Player;
@@ -40,34 +43,52 @@ public class BoardUI {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 				Tile tile = Board.getInstance().getTile(i, j);
-				//System.out.println((new Integer(i)).toString() + " " + (new Integer(j)).toString() + " " + ((tile != null) ? tile.getContent() : "empty"));
+				// System.out.println((new Integer(i)).toString() + " " + (new
+				// Integer(j)).toString() + " " + ((tile != null) ?
+				// tile.getContent() : "empty"));
 				boardTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
 			}
 		}
-		
+
 		for (int i = 0; i < Scrabble.maxPlayers; i++) {
-			playerLetters[i] = PlayersContainer.getInstance().getPlayer(i).getLetterList();
-			for (int j = 0; j < playerTiles[i].length; j++) {
-				Tile tile = playerLetters[i][j];
-				playerTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
+			if (i == Scrabble.currentPlayer) {
+				playerLetters[i] = PlayersContainer.getInstance().getPlayer(i).getLetterList();
+				for (int j = 0; j < playerTiles[i].length; j++) {
+					Tile tile = playerLetters[i][j];
+					playerTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
+				}
+			} else {
+				for (int j = 0; j < playerTiles[i].length; j++) {
+					
+					playerTiles[i][j].setText(" ");
 			}
 		}
-		//Tile[] p1Letters = PlayersContainer.getInstance().getPlayer(0).getLetterList();
-		//for (int i = 0; i < p1Tiles.length; i++) {
-		//	p1Tiles[i].setText(p1Letters[i].getContent());
-//
-		//}
+	}
+	// Tile[] p1Letters =
+	// PlayersContainer.getInstance().getPlayer(0).getLetterList();
+	// for (int i = 0; i < p1Tiles.length; i++) {
+	// p1Tiles[i].setText(p1Letters[i].getContent());
+	//
+	// }
 
 	}
 
 	public void create(int numPlayers) {
 
 		JFrame jf = new JFrame();
-		
+
 		jf.setSize(1000, 1000);
+		 try {
+	            jf.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("ScorePanel.jpg")))));
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        jf.pack();
+	        jf.setVisible(true);
 		jf.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-
+                Dimension dims = Toolkit.getDefaultToolkit().getScreenSize();
+		jf.setLocation(dims.width/2-jf.getSize().width/2, dims.height/2-jf.getSize().height/2);
 		// sets up centre board
 
 		JPanel buttonPanel = new JPanel();
@@ -84,7 +105,7 @@ public class BoardUI {
 				}
 				ScrabbleTile scrabbleTile = new ScrabbleTile(i, j, 0, dim, dim);
 				scrabbleTile.setBackgroundColor(Color.green);
-				
+
 				boardTiles[i][j] = scrabbleTile;
 				buttonPanel.add(boardTiles[i][j]);
 			}
@@ -106,7 +127,7 @@ public class BoardUI {
 			ScrabbleTile scrabbleTile = new ScrabbleTile(i, -1, 1);
 			scrabbleTile.setBackgroundColor(Color.blue);
 			scrabbleTile.setText(tiles[i].getContent());
-			//scrabbleTile.setText(LetterBag.getInstance().pick().getContent());
+			// scrabbleTile.setText(LetterBag.getInstance().pick().getContent());
 			playerTiles[0][i] = scrabbleTile;
 			topPanel.add(playerTiles[0][i]);
 
@@ -165,21 +186,21 @@ public class BoardUI {
 			c.gridy = 1;
 			jf.add(rightPanel, c);
 		}
-		jf.setVisible(true);
 		
-		JPanel nextTurnPanel = new JPanel();		
+
+		JPanel nextTurnPanel = new JPanel();
 		ScrabbleTile scrabbleTile = new ScrabbleTile(-2, -2, -2);
 		scrabbleTile.setBackgroundColor(Color.cyan);
-		scrabbleTile.setText("End Turn");	
-				
-				nextTurnPanel.add(scrabbleTile);
-			
+		scrabbleTile.setText("End Turn");
 
-		
+		nextTurnPanel.add(scrabbleTile);
+
 		c.gridx = 2;
 		c.gridy = 0;
-		
+
 		jf.add(nextTurnPanel, c);
+		jf.setVisible(true);
+	
 
 	}
 
