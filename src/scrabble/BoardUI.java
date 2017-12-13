@@ -221,7 +221,7 @@ public class BoardUI implements ActionListener {
 			leftPanel.setLayout(new GridLayout(7, 1, 5, 5));
 			for (int i = 0; i < 7; i++) {
 				ScrabbleTile scrabbleTile = new ScrabbleTile(i, -1, 3);
-				scrabbleTile.setBackgroundColor(Color.red);
+				scrabbleTile.setBackgroundColor(Color.magenta);
 				playerTiles[2][i] = scrabbleTile;
 				leftPanel.add(playerTiles[2][i]);
 
@@ -239,7 +239,7 @@ public class BoardUI implements ActionListener {
 			rightPanel.setLayout(new GridLayout(7, 1, 5, 5));
 			for (int i = 0; i < 7; i++) {
 				ScrabbleTile scrabbleTile = new ScrabbleTile(i, -1, 4);
-				scrabbleTile.setBackgroundColor(Color.MAGENTA);
+				scrabbleTile.setBackgroundColor(Color.red);
 				playerTiles[3][i] = scrabbleTile;
 				rightPanel.add(playerTiles[3][i]);
 
@@ -273,18 +273,17 @@ public class BoardUI implements ActionListener {
 
 		scorer1 = new JButton("asidhaisodhaisod");
 		scorer1.setFont(font);
-		scorer1.setBackground(Color.red);
-
+		scorer1.setBackground(Color.blue);
+		scorer1.setForeground(Color.white);
 		scorePanel.add(scorer1);
-
 		scorer2 = new ScrabbleTile(-2, -1, -3);
-		scorer2.setBackgroundColor(Color.blue);
+		scorer2.setBackgroundColor(Color.yellow);
 		scorePanel.add(scorer2);
 		scorer3 = new ScrabbleTile(-2, -1, -3);
-		scorer3.setBackgroundColor(Color.yellow);
+		scorer3.setBackgroundColor(Color.magenta);
 		scorePanel.add(scorer3);
 		scorer4 = new ScrabbleTile(-2, -1, -3);
-		scorer4.setBackgroundColor(Color.MAGENTA);
+		scorer4.setBackgroundColor(Color.red);
 		scorePanel.add(scorer4);
 
 		c.gridx = 0;
@@ -297,23 +296,24 @@ public class BoardUI implements ActionListener {
 
 		abc = new JButton("asd");
 		abc.setText("P1 Last Word:    ");
-		abc.setBackground(Color.red);
+		abc.setBackground(Color.blue);
+		abc.setForeground(Color.white);
 		abc.setFont(font);
 		scorePanel2.add(abc);
 
 		abcd = new ScrabbleTile(1, 1, -3);
 		abcd.setText("P2 Last Word:    ");
-		abcd.setBackgroundColor(Color.blue);
+		abcd.setBackgroundColor(Color.yellow);
 		scorePanel2.add(abcd);
 
 		abcde = new ScrabbleTile(1, 1, -3);
 		abcde.setText("P3 Last Word:    ");
-		abcde.setBackgroundColor(Color.yellow);
+		abcde.setBackgroundColor(Color.magenta);
 		scorePanel2.add(abcde);
 
 		abcdef = new ScrabbleTile(1, 1, -3);
 		abcdef.setText("P4 Last Word:    ");
-		abcdef.setBackgroundColor(Color.MAGENTA);
+		abcdef.setBackgroundColor(Color.red);
 		scorePanel2.add(abcdef);
 
 		c.gridx = 2;
