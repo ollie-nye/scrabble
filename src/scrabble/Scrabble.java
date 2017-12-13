@@ -77,16 +77,18 @@ public class Scrabble {
 	 */
 	public static void incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
-
+		String lastWord = Board.getInstance().getWord();
 		if (lastResult.isCompleteWord()) {
             Random random = new Random();
 			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetter();
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setScore((random.nextInt(13) + 7));
+			PlayersContainer.getInstance().getPlayer(currentPlayer).setLastWord(lastWord);
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
 				currentPlayer = 0;
 			}
 			Board.getInstance().validatorReset();
+			
 			ui.update();
 			
 			

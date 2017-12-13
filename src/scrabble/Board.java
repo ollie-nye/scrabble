@@ -234,6 +234,11 @@ public class Board {
 	public Result getLastResult() {
 		return this.validator.getLastResult();
 	}
+	
+	//ignore for mvp
+	public String getWord(){
+		return this.validator.getWord();
+	}
 
 	
 	public static void main(String[] args) {

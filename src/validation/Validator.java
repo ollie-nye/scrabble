@@ -238,6 +238,16 @@ public class Validator {
 		return returnVal;
 	}
 
+	//trying something for mvp: delete after
+	public String getWord() {
+		String searchString = "(\\b";
+		for (String character : currentPlay) {
+			searchString += (character != null)?((character.matches("[a-z]"))?character:""):"";
+		}
+		searchString += "\\b)";
+		return searchString;
+	}
+	
 	/**
 	 *
 	 * @param args

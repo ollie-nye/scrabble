@@ -16,6 +16,7 @@ public abstract class  Player {
     private Random rnd = new Random();
     private String playerName;
     private int score = 0;
+    private String lastPlayedWord;
     
     
     public Player() {
@@ -57,7 +58,15 @@ public abstract class  Player {
      * @see         #setScore(int)
      */
     public int getScore() {
-        return score;
+       return score;
+    }
+    
+    public void setLastWord(String last){
+    	 lastPlayedWord =  last;
+    }
+    
+    public String getLastWord(){
+    	return lastPlayedWord;
     }
 
     /**
