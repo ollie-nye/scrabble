@@ -32,12 +32,11 @@ public class BoardUI implements ActionListener {
 	private ScrabbleTile abcd;
 	private ScrabbleTile abcde;
 	private ScrabbleTile abcdef;
-	
+
 	private Font font = new Font("Helvetica", Font.BOLD, 14);
 
 	private JFrame jf;
 	private JFrame menu;
-
 
 	public static void main(String[] args) {
 		BoardUI ui = new BoardUI(Scrabble.maxPlayers);
@@ -66,25 +65,23 @@ public class BoardUI implements ActionListener {
 				boardTiles[i][j].setText((tile != null) ? tile.getContent() : " ");
 			}
 		}
-			scorer1.setText("Player 1 Score: "+ Integer.toString(PlayersContainer.getInstance().getPlayer(0).getScore()));
-		scorer2.setText("Player 2 Score: "+ Integer.toString(PlayersContainer.getInstance().getPlayer(1).getScore()));
-		scorer3.setText("Player 3 Score: "+ Integer.toString(PlayersContainer.getInstance().getPlayer(2).getScore()));
-		scorer4.setText("Player 4 Score: "+ Integer.toString(PlayersContainer.getInstance().getPlayer(3).getScore()));
+		scorer1.setText("Player 1 Score: " + Integer.toString(PlayersContainer.getInstance().getPlayer(0).getScore()));
+		scorer2.setText("Player 2 Score: " + Integer.toString(PlayersContainer.getInstance().getPlayer(1).getScore()));
+		scorer3.setText("Player 3 Score: " + Integer.toString(PlayersContainer.getInstance().getPlayer(2).getScore()));
+		scorer4.setText("Player 4 Score: " + Integer.toString(PlayersContainer.getInstance().getPlayer(3).getScore()));
 
-		abc.setText("P1 Last Word: "+ PlayersContainer.getInstance().getPlayer(0).getLastWord());
-	
-		
-			abcd.setText("P2 Last Word: "+ PlayersContainer.getInstance().getPlayer(1).getLastWord());
-			
-			
-	
-	
-			abcde.setText("P3 Last Word: "+ PlayersContainer.getInstance().getPlayer(2).getLastWord());
-		
-	
-			abcdef.setText("P1 Last Word: "+ PlayersContainer.getInstance().getPlayer(3).getLastWord());
-		
-	
+		if (PlayersContainer.getInstance().getPlayer(0).getLastWord() != null){
+		abc.setText("P1 Last Word: " + PlayersContainer.getInstance().getPlayer(0).getLastWord());
+		}
+		if (PlayersContainer.getInstance().getPlayer(1).getLastWord() != null){
+		abcd.setText("P2 Last Word: " + PlayersContainer.getInstance().getPlayer(1).getLastWord());
+		}
+		if (PlayersContainer.getInstance().getPlayer(2).getLastWord() != null){
+		abcde.setText("P3 Last Word: " + PlayersContainer.getInstance().getPlayer(2).getLastWord());
+		}
+		if (PlayersContainer.getInstance().getPlayer(3).getLastWord() != null){
+		abcdef.setText("P4 Last Word: " + PlayersContainer.getInstance().getPlayer(3).getLastWord());
+		}
 		
 		for (int i = 0; i < Scrabble.maxPlayers; i++) {
 			if (i == Scrabble.currentPlayer) {
@@ -95,17 +92,17 @@ public class BoardUI implements ActionListener {
 				}
 			} else {
 				for (int j = 0; j < playerTiles[i].length; j++) {
-					
+
 					playerTiles[i][j].setText(" ");
+				}
 			}
 		}
-	}
-	// Tile[] p1Letters =
-	// PlayersContainer.getInstance().getPlayer(0).getLetterList();
-	// for (int i = 0; i < p1Tiles.length; i++) {
-	// p1Tiles[i].setText(p1Letters[i].getContent());
-	//
-	// }
+		// Tile[] p1Letters =
+		// PlayersContainer.getInstance().getPlayer(0).getLetterList();
+		// for (int i = 0; i < p1Tiles.length; i++) {
+		// p1Tiles[i].setText(p1Letters[i].getContent());
+		//
+		// }
 
 	}
 
@@ -113,54 +110,49 @@ public class BoardUI implements ActionListener {
 
 		jf = new JFrame();
 		menu = new JFrame();
-		
+
 		menu.setSize(1000, 1000);
-		 try {
-	            menu.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("MainGameMenu.png")))));
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        menu.pack();
-	        menu.setVisible(true);
+		try {
+			menu.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("MainGameMenu.png")))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		menu.pack();
+		menu.setVisible(true);
 		menu.setLayout(new GridBagLayout());
 		GridBagConstraints d = new GridBagConstraints();
-               Dimension dimms = Toolkit.getDefaultToolkit().getScreenSize();
-		menu.setLocation(dimms.width/2-menu.getSize().width/2, dimms.height/2-menu.getSize().height/2);
-		
-		
+		Dimension dimms = Toolkit.getDefaultToolkit().getScreenSize();
+		menu.setLocation(dimms.width / 2 - menu.getSize().width / 2, dimms.height / 2 - menu.getSize().height / 2);
+
 		JButton b = new JButton();
 		b.setBorderPainted(false);
 		b.setPreferredSize(new Dimension(300, 300));
-		
-		
-	    b.setIcon(new ImageIcon(("play.png")));
-	 
-		
-        b.addActionListener(this);
-		
-        b.validate();
+
+		b.setIcon(new ImageIcon(("play.png")));
+
+		b.addActionListener(this);
+
+		b.validate();
 		menu.add(b, d);
 		menu.setVisible(true);
-		
 
 		jf.setSize(1000, 1000);
-		 try {
-	            jf.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("ScorePanel.jpg")))));
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        jf.pack();
-	        jf.setVisible(true);
+		try {
+			jf.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("ScorePanel.jpg")))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		jf.pack();
+		jf.setVisible(true);
 		jf.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-                Dimension dims = Toolkit.getDefaultToolkit().getScreenSize();
-		jf.setLocation(dims.width/2-jf.getSize().width/2, dims.height/2-jf.getSize().height/2);
+		Dimension dims = Toolkit.getDefaultToolkit().getScreenSize();
+		jf.setLocation(dims.width / 2 - jf.getSize().width / 2, dims.height / 2 - jf.getSize().height / 2);
 		// sets up centre board
 		JPanel menuPanel = new JPanel();
 		CardLayout cardLayout = new CardLayout();
 		menuPanel.setLayout(cardLayout);
-		
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(15, 15, 5, 5));
 		for (int i = 0; i < 15; i++) {
@@ -256,7 +248,6 @@ public class BoardUI implements ActionListener {
 			c.gridy = 1;
 			jf.add(rightPanel, c);
 		}
-		
 
 		JPanel nextTurnPanel = new JPanel();
 		ScrabbleTile scrabbleTile = new ScrabbleTile(-2, -2, -2);
@@ -270,87 +261,69 @@ public class BoardUI implements ActionListener {
 
 		jf.add(nextTurnPanel, c);
 
-		
-			JPanel dasdasaakjsdhbfaklsdbfak = new JPanel();
-			dasdasaakjsdhbfaklsdbfak.setLayout(new GridBagLayout());
-			GridBagConstraints aslkdfasdasdfasdfgasdklj = new GridBagConstraints();
-			aslkdfasdasdfasdfgasdklj.gridx = 0;
-			aslkdfasdasdfasdfgasdklj.gridy = 0;
-		
-		
-			JPanel scorePanel = new JPanel();
-			
-			scorePanel.setLayout(new GridLayout(4,1, 0, 0));
-		
-				scorer1 = new JButton("asidhaisodhaisod");
-				scorer1.setFont(font);
-				scorer1.setBackground(Color.red);
-			
-			
-				scorePanel.add(scorer1);
-				
-				 scorer2 = new ScrabbleTile(-2, -1,-3);
-				scorer2.setBackgroundColor(Color.blue);
-				scorePanel.add(scorer2);
-				scorer3 = new ScrabbleTile(-2, -1,-3);
-				scorer3.setBackgroundColor(Color.yellow);
-				scorePanel.add(scorer3);
-				 scorer4 = new ScrabbleTile(-2, -1,-3);
-				scorer4.setBackgroundColor(Color.MAGENTA);
-				scorePanel.add(scorer4);
-				
+		JPanel dasdasaakjsdhbfaklsdbfak = new JPanel();
+		dasdasaakjsdhbfaklsdbfak.setLayout(new GridBagLayout());
+		GridBagConstraints aslkdfasdasdfasdfgasdklj = new GridBagConstraints();
+		aslkdfasdasdfasdfgasdklj.gridx = 0;
+		aslkdfasdasdfasdfgasdklj.gridy = 0;
 
-		
-			c.gridx = 0;
-			c.gridy = 0;
-			jf.add(scorePanel, c);
-			
+		JPanel scorePanel = new JPanel();
 
-			JPanel scorePanel2 = new JPanel();
-			
-			scorePanel2.setLayout(new GridLayout(4,1, 0, 0));
-		
-			
-				
-			
-			
-				scorePanel2.add(new JButton("asdasdasd"));
-				abc = new ScrabbleTile(1,1,-3);
-				abc.setText("Last Played Word: ");
-				scorer1.setBackground(Color.red);
-				scorePanel2.add(abc);
-				
-				abcd = new ScrabbleTile(1,1,-3);
-				abcd.setText("Last Played Word: ");
-				scorer2.setBackgroundColor(Color.blue);
-				scorePanel2.add(abcd);
-				
-				abcde = new ScrabbleTile(1,1,-3);
-				abcde.setText("Last Played Word ");
-				scorer3.setBackgroundColor(Color.yellow);
-				scorePanel2.add(abcde);
-				
-				 abcdef = new ScrabbleTile(1,1,-3);
-				abcde.setText("Last Played Word ");
-				scorer4.setBackgroundColor(Color.MAGENTA);
-				scorePanel2.add(abcde);
-				
-				
+		scorePanel.setLayout(new GridLayout(4, 1, 0, 0));
 
-		
-			c.gridx = 2;
-			c.gridy = 2;
-			
-			jf.add(scorePanel2, c);
-			
-		
-		
+		scorer1 = new JButton("asidhaisodhaisod");
+		scorer1.setFont(font);
+		scorer1.setBackground(Color.red);
+
+		scorePanel.add(scorer1);
+
+		scorer2 = new ScrabbleTile(-2, -1, -3);
+		scorer2.setBackgroundColor(Color.blue);
+		scorePanel.add(scorer2);
+		scorer3 = new ScrabbleTile(-2, -1, -3);
+		scorer3.setBackgroundColor(Color.yellow);
+		scorePanel.add(scorer3);
+		scorer4 = new ScrabbleTile(-2, -1, -3);
+		scorer4.setBackgroundColor(Color.MAGENTA);
+		scorePanel.add(scorer4);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		jf.add(scorePanel, c);
+
+		JPanel scorePanel2 = new JPanel();
+
+		scorePanel2.setLayout(new GridLayout(4, 1, 0, 0));
+
+		abc = new JButton("asd");
+		abc.setText("P1 Last Word:    ");
+		abc.setBackground(Color.red);
+		abc.setFont(font);
+		scorePanel2.add(abc);
+
+		abcd = new ScrabbleTile(1, 1, -3);
+		abcd.setText("P2 Last Word:    ");
+		abcd.setBackgroundColor(Color.blue);
+		scorePanel2.add(abcd);
+
+		abcde = new ScrabbleTile(1, 1, -3);
+		abcde.setText("P3 Last Word:    ");
+		abcde.setBackgroundColor(Color.yellow);
+		scorePanel2.add(abcde);
+
+		abcdef = new ScrabbleTile(1, 1, -3);
+		abcdef.setText("P4 Last Word:    ");
+		abcdef.setBackgroundColor(Color.MAGENTA);
+		scorePanel2.add(abcdef);
+
+		c.gridx = 2;
+		c.gridy = 2;
+
+		jf.add(scorePanel2, c);
+
 		jf.setVisible(true);
-		
 
 		jf.setVisible(false);
-
-	
 
 	}
 

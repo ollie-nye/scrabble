@@ -240,12 +240,12 @@ public class Validator {
 
 	//trying something for mvp: delete after
 	public String getWord() {
-		String searchString = "(\\b";
+		String searchString = "";
 		for (String character : currentPlay) {
 			searchString += (character != null)?((character.matches("[a-z]"))?character:""):"";
 		}
-		searchString += "\\b)";
-		return searchString;
+		
+		return searchString.toUpperCase();
 	}
 	
 	/**
