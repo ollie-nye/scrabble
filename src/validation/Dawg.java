@@ -85,15 +85,8 @@ public class Dawg { // Directed Acrylic Word Graph
 		Dawg dawg = new Dawg();
 		System.out.println("All words added");
 		
-		System.out.println(dawg.search("h*llo"));
+		System.out.println(dawg.search("intelligent"));
 	}
-	
-	/*
-	public Result searchDictionary(String regex) {
-		//traverse graph along directed edges. If a wildcard is encountered, add all vertices to search path
-		
-	} 
-	*/
 	
 	public int search(String searchString) {
 		return search(this.parent, searchString);
@@ -131,12 +124,14 @@ public class Dawg { // Directed Acrylic Word Graph
 			}
 		} else {
 			nextChar = searchString.substring(0, 1);
-			
 			if (nextChar.equals("*")) {
 				for (Entry<String, Vertex> node : parent.getNodes().entrySet()) {
 					nextChar = node.getKey();
-					String nextSearch = node.getKey() + ((searchString.length() > 1)?searchString.substring(1):"");
-					wordCount += search(node.getValue(), nextSearch, word);
+					word += nextChar;
+					String nextSearch = (searchString.length() > 1)?searchString.substring(1):"";
+					int words = search(node.getValue(), nextSearch, word);
+					word = word.substring(0, word.length() - 1);
+					wordCount += words;
 				}			
 			} else {
 				if (parent.getNodes().get(searchString.substring(0, 1)) == null) {
