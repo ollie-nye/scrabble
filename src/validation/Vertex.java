@@ -15,24 +15,28 @@ import java.util.HashMap;
  */
 public class Vertex {
 	
-	private HashMap<String, Vertex> nodes;
+	private HashMap<String, Vertex> children;
 	
 	private String content;
 	
 	private boolean isWord;
 	
 	public Vertex(String content, boolean isWord) {
-		this.nodes = new HashMap<>();
+		this.children = new HashMap<>();
 		this.content = content;
 		this.isWord = isWord;
 	}
 	
-	public void addNode(Vertex vertex) {
-		nodes.put(vertex.getContent(), vertex);
+	public void addChild(Vertex vertex) {
+		children.put(vertex.getContent(), vertex);
 	}
 	
-	public HashMap<String, Vertex> getNodes() {
-		return this.nodes;
+	public HashMap<String, Vertex> getChildren() {
+		return this.children;
+	}
+	
+	public Vertex getChild(String key) {
+		return this.children.get(key);
 	}
 	
 	public String getContent() {
