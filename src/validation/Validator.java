@@ -215,6 +215,25 @@ public class Validator {
 		}
 		return searchString;
 	}
+	
+	public String generateSearch(String[] nextMove, int direction, int location) {
+		String partialWord = "";
+		boolean firstLetterPrinted = false;
+		for (int i = 0; i < nextMove.length; i++) {
+			if (!nextMove[i].equals(" ")) {
+				partialWord += nextMove[i];
+			} else {
+				if (firstLetterPrinted) {
+					partialWord += " ";
+				}
+			}
+		}
+		String[] partialWordArray = new String[partialWord.length()];
+		for (int i = partialWord.length(); i > 0; i--) {
+			
+		}
+		return "";
+	}
 
 	/**
 	 * Gets the last result for use in other parts of the program
