@@ -113,8 +113,7 @@ private int yCoor;
 		return label.getText();
 	}
 
-	/** The style for a text button, see {@link ScrabbleButton}.
-	 * @author Nathan Sweet */
+	//definitely not copy and pasted
 	static public class ScrabbleButtonStyle extends ButtonStyle {
 		public BitmapFont font;
 		/** Optional. */
