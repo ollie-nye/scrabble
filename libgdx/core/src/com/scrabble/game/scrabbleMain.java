@@ -21,10 +21,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.mygdx.game.ScrabbleButton;
-import com.mygdx.game.ScrabbleButton.ScrabbleButtonStyle;
+import com.scrabble.game.ScrabbleButton;
+import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 
-public class MyGdxGame extends Game {
+public class scrabbleMain extends Game {
 	Stage stage;
 	TextButtonStyle textButtonStyle;
 	TextButtonStyle textButtonStyle2;
