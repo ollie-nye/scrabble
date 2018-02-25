@@ -22,6 +22,8 @@ public class ScrabbleButton extends Button {
 	private int[] tilePos;
     private int xCoor;
     private int yCoor;
+    //testing it has worked
+    private int testpushthing;
 	
 
 	public ScrabbleButton (String text, ScrabbleButtonStyle style, int x, int y) {
