@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Align;
 
 import player.PlayersContainer;
 import scrabble.Board;
-public class ScrabbleButton extends Button {
+public class ScrabbleButton extends ButtonBase {
 	private final Label label;
 	private ScrabbleButtonStyle style;
 	private int boardOrPlayer;
@@ -36,7 +36,7 @@ public class ScrabbleButton extends Button {
 		this.boardOrPlayer = boardOrPlayer;
 	}
 
-	public void setStyle (ButtonStyle style) {
+	public void setStyle (ButtonBaseStyle style) {
 		if (style == null) throw new NullPointerException("style cannot be null");
 		if (!(style instanceof ScrabbleButtonStyle)) throw new IllegalArgumentException("style must be a ScrabbleButtonStyle.");
 		super.setStyle(style);
@@ -59,8 +59,7 @@ public class ScrabbleButton extends Button {
 		//Setting the text for the tiles on the board
 		if (boardOrPlayer == 0){
 			if (Board.getInstance().getTile(xCoor, yCoor) == null){
-				setText(" ");
-				
+				setText(" ");				
 			}else{
 				setText(Board.getInstance().getTile(xCoor, yCoor).getContent());
 			}
@@ -138,7 +137,7 @@ public class ScrabbleButton extends Button {
 
 	/** The style for a text button, see {@link ScrabbleButton}.
 	 * @author Nathan Sweet */
-	static public class ScrabbleButtonStyle extends ButtonStyle {
+	static public class ScrabbleButtonStyle extends ButtonBaseStyle {
 		public BitmapFont font;
 		/** Optional. */
 		public Color fontColor, downFontColor, overFontColor, checkedFontColor, checkedOverFontColor, disabledFontColor;

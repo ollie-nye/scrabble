@@ -177,6 +177,7 @@ public class scrabbleMain implements Screen {
 		scrabbleButtonStyle.up = skin.getDrawable("green");
 		scrabbleButtonStyle.checked = skin.getDrawable("orange");
 		scrabbleButtonStyle.down = skin.getDrawable("blue");
+		scrabbleButtonStyle.over = skin.getDrawable("purple");
 		scrabbleButtonStyle.font = font;
 		
 		
