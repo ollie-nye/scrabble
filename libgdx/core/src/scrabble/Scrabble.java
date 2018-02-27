@@ -40,10 +40,7 @@ public class Scrabble {
 	 */
 	private Board board = Board.getInstance();
 	
-	/**
-	 * Holds the current UI in use
-	 */
-	private static BoardUI ui;
+	
 	
 	/**
 	 * Holds a reference to the instance of the PlayersContainer
@@ -67,8 +64,7 @@ public class Scrabble {
 		players.addPlayer(new HumanPlayer("Jam"));
 		players.addPlayer(new HumanPlayer("PB"));
 		players.addPlayer(new HumanPlayer("Toast"));
-		players.addPlayer(new HumanPlayer("Butter"));
-		ui = new BoardUI(4);
+		players.addPlayer(new HumanPlayer("Butter"));		
 	}
 	
 	
@@ -89,7 +85,7 @@ public class Scrabble {
 			}
 			Board.getInstance().validatorReset();
 			
-			ui.update();
+			
 			
 			
 		} else {
@@ -101,11 +97,13 @@ public class Scrabble {
 	 * Creates game and updates the UI for initial state
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	/*
+	 * public static void main(String[] args) {
+	 
 		splashScreen splash = new splashScreen();
 		Scrabble game = new Scrabble();
 		
-		/**Board brd = Board.getInstance();
+		Board brd = Board.getInstance();
 		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
 		System.out.println(res.isLegal() + " - " + res.possibleWords());
 		res = brd.place(LetterBag.getInstance().pick(), 5, 9);
@@ -117,9 +115,10 @@ public class Scrabble {
 		res = brd.place(LetterBag.getInstance().pick(), 5, 6);
 		System.out.println(res.isLegal() + " - " + res.possibleWords());
 		res = brd.place(LetterBag.getInstance().pick(), 9, 2);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());*/
+		System.out.println(res.isLegal() + " - " + res.possibleWords());
 		ui.update();
 	}
+	*/
 	
 	/**
 	 * Passes the picked Tile to the game for saving
@@ -151,7 +150,7 @@ public class Scrabble {
 		Result res = Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
 		if (res.isLegal()) {
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(partialTile);
-			ui.update();
+			
 		}
 	}
 

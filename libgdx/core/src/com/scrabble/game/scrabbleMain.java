@@ -24,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 
+import scrabble.Scrabble;
+
 public class scrabbleMain extends Game {
 	Stage stage;
 	TextButtonStyle textButtonStyle;
@@ -43,7 +45,7 @@ public class scrabbleMain extends Game {
 	TextButton button7;
 	TextButton button8;
 	TextButton testTextButton;
-	tempBoard board = new tempBoard();
+	Scrabble scrabble = new Scrabble();
 
 	private Table table;
 	private Table table2;
@@ -52,13 +54,13 @@ public class scrabbleMain extends Game {
 	private Table table5;
 	private int[] ignore = new int[2];
 	
-	private tempBoard temp = tempBoard.getInstance();
+	
 	private ScrabbleButton[][] ahh = new ScrabbleButton[100][100];
 	
 	char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 	public static char[] textHolder = new char[7];
 	int buttonCount = 0;
-
+	
 	@Override
 	public void create() {
 		stage = new Stage();
@@ -95,7 +97,7 @@ public class scrabbleMain extends Game {
 				
 
 			
-				ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, j);	
+				ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, j, 0);	
 				libgdxsucks.setSize(36.4f, 36.4f);				
 				stage.addActor(libgdxsucks);
 				table.add(libgdxsucks).size(36.4f, 36.4f).pad(2.0f);
@@ -115,10 +117,10 @@ public class scrabbleMain extends Game {
 		ignore[0] = 30;
 		ignore[1] = 30;
 
-		table2.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - 650);
+		table2.setSize(table.getWidth(), table.getHeight() - 650);
 		for (int i = 0; i < 7; i++) {
 
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1);	
+			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 1);	
 			libgdxsucks.setSize(36.4f, 36.4f);				
 			stage.addActor(libgdxsucks);			
 			table2.add(libgdxsucks).size(36.4f, 36.4f);
@@ -126,27 +128,27 @@ public class scrabbleMain extends Game {
 		}
 		stage.addActor(table2);
 
-		table3.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() + 650);
+		table3.setSize(table.getWidth(), table.getHeight() + 650);
 		for (int i = 0; i < 7; i++) {
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1);	
+			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 2);	
 			libgdxsucks.setSize(36.4f, 36.4f);				
 			stage.addActor(libgdxsucks);			
 			table3.add(libgdxsucks).size(36.4f, 36.4f);
 		}
 		stage.addActor(table3);
 
-		table4.setSize(Gdx.graphics.getWidth() + 800 , Gdx.graphics.getHeight());
+		table4.setSize(table.getWidth() + 800, table.getHeight());
 		for (int i = 0; i < 7; i++) {
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1);	
+			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 3);	
 			libgdxsucks.setSize(36.4f, 36.4f);				
 			stage.addActor(libgdxsucks);			
 			table4.add(libgdxsucks).size(36.4f, 36.4f).row();
 		}
 		stage.addActor(table4);
 
-		table5.setSize(Gdx.graphics.getWidth() - 800, Gdx.graphics.getHeight());
+		table5.setSize(table.getWidth() - 800, table.getHeight());
 		for (int i = 0; i < 7; i++) {
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1);	
+			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 4);	
 			libgdxsucks.setSize(36.4f, 36.4f);				
 			stage.addActor(libgdxsucks);			
 			table5.add(libgdxsucks).size(36.4f, 36.4f).row();;

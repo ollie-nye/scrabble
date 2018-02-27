@@ -65,6 +65,13 @@ public abstract class  Player {
     	 lastPlayedWord =  last;
     }
     
+    /*
+     * needed for the UI
+     */ 
+    public Tile getLetter(int x){
+    	return letterList[x];
+    }
+    
     public String getLastWord(){
     	return lastPlayedWord;
     }

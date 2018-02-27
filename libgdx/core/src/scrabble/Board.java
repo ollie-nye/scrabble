@@ -46,12 +46,7 @@ public class Board {
 	 */
 	private Tile partialTile = null;
 
-	/**
-	 * Instance of the BoardUI
-	 */
-	private BoardUI ui;
-	
-	/**
+		/**
 	 * Singleton pattern getter method
 	 * @return		Instance of the Board, creating a new one if required
 	 */
@@ -111,6 +106,19 @@ public class Board {
 		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3}
 	};
 	
+	
+	/*
+	 * needed for the libgdx UI
+	 */
+	public Tile getLetter(int x, int y){
+		if (x < 15 && y< 15){
+		return letters [x][y];
+		}
+		else{
+			return new Tile("0", 0);
+		}
+	}
+	
 	/**
 	 * Holds the spaces that determine move scores
 	 */
@@ -151,13 +159,6 @@ public class Board {
 		}
 	}
 	
-	/**
-	 * Sets the UI for the system to use
-	 * @param ui
-	 */
-	public void setUI(BoardUI ui) {
-		this.ui = ui;
-	}
 	
 	/**
 	 * Gets the tile at the given coordinate
@@ -197,7 +198,6 @@ public class Board {
 		if (res.isLegal()) {
 			this.letters[x][y] = tile;
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(tile);
-			this.ui.update();
 		}
 		partialTile = null;
 		partialPlace = null;

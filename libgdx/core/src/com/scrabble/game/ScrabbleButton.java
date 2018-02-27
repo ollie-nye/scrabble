@@ -11,36 +11,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
-/** i should really get round to annotating this shit*/
+import player.PlayersContainer;
+import scrabble.Board;
 public class ScrabbleButton extends Button {
 	private final Label label;
 	private ScrabbleButtonStyle style;
-	private static int iterator; 
-	private static String letterToPlace;
-	private int id;
-	private int type;//0 for main board tile... other to be decided
-	private int[] tilePos;
-    private int xCoor;
-    private int yCoor;
-    //testing it has worked
-    private int testpushthing;
+	private int boardOrPlayer;
+	private int xCoor;
+	private int yCoor;
+	private boolean isPressed = false;	
+
 	
 
-	public ScrabbleButton (String text, ScrabbleButtonStyle style, int x, int y) {
+	public ScrabbleButton (String text, ScrabbleButtonStyle style, int xCoor, int yCoor, int boardOrPlayer) {
 		super();
 		setStyle(style);
 		this.style = style;
-		label = new Label(tempBoard.getInstance().getLetter(x, y), new LabelStyle(style.font, style.fontColor));
+		label = new Label(" ", new LabelStyle(style.font, style.fontColor));
 		label.setAlignment(Align.center);
 		add(label).expand().fill();
-		setSize(getPrefWidth(), getPrefHeight());
-		iterator += 1;
-		xCoor = x;
-		yCoor = y;
-
-		
-		
-		
+		setSize(getPrefWidth(), getPrefHeight());		
+		this.xCoor = xCoor;
+		this.yCoor = yCoor;
+		this.boardOrPlayer = boardOrPlayer;
 	}
 
 	public void setStyle (ButtonStyle style) {
@@ -57,21 +50,50 @@ public class ScrabbleButton extends Button {
 		}
 	}
 
-	public void toPlace(String letter){
-		letterToPlace = letter;
-	}	
-	
 	public ScrabbleButtonStyle getStyle () {
 		return style;
 	}
 
 	public void draw (Batch batch, float parentAlpha) {
-		
-		setText(tempBoard.getInstance().getLetter(xCoor,yCoor));
-		
-		if (isPressed()){
-			tempBoard.getInstance().changeLetter(xCoor, yCoor);
+	
+		//Setting the text for the tiles on the board
+		if (boardOrPlayer == 0){
+			if (Board.getInstance().getTile(xCoor, yCoor) == null){
+				setText(" ");
+				
+			}else{
+				setText(Board.getInstance().getTile(xCoor, yCoor).getContent());
+			}
 		}
+		//Setting the text for tiles in a players hand
+		else if (boardOrPlayer >= 1){
+			if (PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor) == null){
+				setText(" ");				
+			}else{
+				setText(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor).getContent());
+			}			
+		} else {
+		System.out.println("Error in getting letter for player tiles");
+		}
+		
+		//placing the tiles
+		if (isPressed() && isPressed == false){
+			//for board
+			if (boardOrPlayer > 0){
+				Board.getInstance().partialPlace(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor));
+			
+			}
+			//for player
+			else{				
+				Board.getInstance().partialPlace(xCoor, yCoor);
+			}
+			isPressed = true;
+		}
+		if (isPressed() == false){
+			isPressed = false;
+			
+		}
+		
 		Color fontColor = null;
 		if (isDisabled() && style.disabledFontColor != null){
 			fontColor = style.disabledFontColor;
@@ -95,8 +117,7 @@ public class ScrabbleButton extends Button {
 			fontColor = style.fontColor;
 		}
 		if (fontColor != null) label.getStyle().fontColor = fontColor;
-		
-		
+			
 		super.draw(batch, parentAlpha);
 		
 		
@@ -115,7 +136,8 @@ public class ScrabbleButton extends Button {
 		return label.getText();
 	}
 
-	//definitely not copy and pasted
+	/** The style for a text button, see {@link ScrabbleButton}.
+	 * @author Nathan Sweet */
 	static public class ScrabbleButtonStyle extends ButtonStyle {
 		public BitmapFont font;
 		/** Optional. */
