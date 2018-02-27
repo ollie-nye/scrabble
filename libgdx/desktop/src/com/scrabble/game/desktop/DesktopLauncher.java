@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		config.title = "Stone Age Scrabble!";
 		config.width = 1280;
 		config.height = 720;
-		config.addIcon("icon.png", FileType.Internal);
+		config.addIcon("graphics/icon.png", FileType.Internal);
 		new LwjglApplication(new ScrabbleLauncher(), config);
 	}
 }

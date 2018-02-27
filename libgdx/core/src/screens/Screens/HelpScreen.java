@@ -29,9 +29,9 @@ public class HelpScreen implements Screen {
 	public HelpScreen(ScrabbleLauncher game) {
 		
 		this.game= game;
-		background = new Texture("helpbackground.png");
-		backButtonActive = new Texture("backOn.png");
-		backButtonInactive = new Texture("back.png");
+		background = new Texture("graphics/HelpMenu/helpbackground.png");
+		backButtonActive = new Texture("graphics/HelpMenu/backOn.png");
+		backButtonInactive = new Texture("graphics/HelpMenu/back.png");
 		
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);

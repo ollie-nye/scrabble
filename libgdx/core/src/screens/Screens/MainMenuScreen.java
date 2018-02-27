@@ -48,18 +48,18 @@ public class MainMenuScreen implements Screen {
 		
 		this.game= game;
 		
-		background = new Texture("mainBackground.png");
+		background = new Texture("graphics/MainMenu/mainBackground.png");
 
-		playButtonActive = new Texture("playPressed.png");
-		playButtonInactive = new Texture("play.png");
+		playButtonActive = new Texture("graphics/MainMenu/playPressed.png");
+		playButtonInactive = new Texture("graphics/MainMenu/play.png");
 		
-		helpButtonActive = new Texture("helpPressed.png");
-		helpButtonInactive = new Texture("help.png");
+		helpButtonActive = new Texture("graphics/MainMenu/helpPressed.png");
+		helpButtonInactive = new Texture("graphics/MainMenu/help.png");
 		
-		exitButtonActive = new Texture("settingsPressed.png");
-		exitButtonInactive = new Texture("settings.png");
+		exitButtonActive = new Texture("graphics/MainMenu/settingsPressed.png");
+		exitButtonInactive = new Texture("graphics/MainMenu/settings.png");
 		
-		hover = Gdx.audio.newSound(Gdx.files.internal("click02.wav"));
+		hover = Gdx.audio.newSound(Gdx.files.internal("sounds/click02.wav"));
 		
 		
 	}

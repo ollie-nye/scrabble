@@ -67,7 +67,7 @@ public class scrabbleMain implements Screen {
 	int buttonCount = 0;
 	
 	public scrabbleMain(ScrabbleLauncher game) {
-		BoardBackground = new Texture("BoardBackground.png");
+		BoardBackground = new Texture("graphics/BoardScreen/BoardBackground.png");
 		BoardBatch = new SpriteBatch();
 		
 		this.create();
@@ -177,7 +177,7 @@ public class scrabbleMain implements Screen {
 		// sets up graphics of tiles
 		font = new BitmapFont();
 		skin = new Skin();
-		buttonAtlas = new TextureAtlas(Gdx.files.internal("TexturesTemp.pack"));
+		buttonAtlas = new TextureAtlas(Gdx.files.internal("graphics/BoardScreen/TexturesTemp.pack"));
 		skin.addRegions(buttonAtlas);
 		scrabbleButtonStyle = new ScrabbleButtonStyle();		
 		scrabbleButtonStyle.up = skin.getDrawable("green");
