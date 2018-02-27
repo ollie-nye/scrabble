@@ -23,7 +23,7 @@ public class ScrabbleLauncher extends Game {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 		
-		Music theme = Gdx.audio.newMusic(Gdx.files.internal("Flintstones.mp3"));
+		Music theme = Gdx.audio.newMusic(Gdx.files.internal("sounds/Flintstones.mp3"));
 		theme.setVolume(0.2f);
 		theme.play();
 		theme.setLooping(true);
