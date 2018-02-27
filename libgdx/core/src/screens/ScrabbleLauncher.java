@@ -25,8 +25,8 @@ public class ScrabbleLauncher extends Game {
 		
 		Music theme = Gdx.audio.newMusic(Gdx.files.internal("Flintstones.mp3"));
 		theme.setVolume(0.2f);
-		theme.isLooping();
 		theme.play();
+		theme.setLooping(true);
 			
 	
 	}
