@@ -50,13 +50,13 @@ public class MainMenuScreen implements Screen {
 		
 		background = new Texture("mainBackground.png");
 
-		playButtonActive = new Texture("play.png");
+		playButtonActive = new Texture("playPressed.png");
 		playButtonInactive = new Texture("play.png");
 		
-		helpButtonActive = new Texture("help.png");
+		helpButtonActive = new Texture("helpPressed.png");
 		helpButtonInactive = new Texture("help.png");
 		
-		exitButtonActive = new Texture("settings.png");
+		exitButtonActive = new Texture("settingsPressed.png");
 		exitButtonInactive = new Texture("settings.png");
 		
 		
@@ -85,19 +85,19 @@ public class MainMenuScreen implements Screen {
 		// creates the play button with user input to start the game and hover-over effects
 		
 		if (Gdx.input.getX() < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH  && Gdx.input.getX() > PLAY_BUTTON_X && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < PLAY_BUTTON_Y + PLAY_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > PLAY_BUTTON_Y ) {
-		game.batch.draw(playButtonActive, PLAY_BUTTON_X , PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH,PLAY_BUTTON_HEIGHT);
+		game.batch.draw(playButtonActive, PLAY_BUTTON_X - 8, PLAY_BUTTON_Y - 10, PLAY_BUTTON_WIDTH + 20 ,PLAY_BUTTON_HEIGHT + 20);
 		if (Gdx.input.isTouched()) {
 			game.setScreen(new scrabbleMain(game));
 		
 		}
 		} else { 
-		game.batch.draw(playButtonInactive, PLAY_BUTTON_X ,PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH,PLAY_BUTTON_HEIGHT);		
+		game.batch.draw(playButtonInactive, PLAY_BUTTON_X , PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH,PLAY_BUTTON_HEIGHT);		
 		}
 		
 		// creates the help button with user input to open the help screen and hover-over effects
 		
 		if (Gdx.input.getX() < HELP_BUTTON_X + HELP_BUTTON_WIDTH  && Gdx.input.getX() > HELP_BUTTON_X && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < HELP_BUTTON_Y + HELP_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > HELP_BUTTON_Y ) {
-		game.batch.draw(helpButtonActive, HELP_BUTTON_X , HELP_BUTTON_Y, HELP_BUTTON_WIDTH,HELP_BUTTON_HEIGHT);
+		game.batch.draw(helpButtonActive, HELP_BUTTON_X - 15, HELP_BUTTON_Y - 7, HELP_BUTTON_WIDTH + 20,HELP_BUTTON_HEIGHT + 16);
 		if (Gdx.input.isTouched()) {
 			game.setScreen(new HelpScreen(game));
 		}
@@ -108,7 +108,7 @@ public class MainMenuScreen implements Screen {
 		// creates the exit button with user input to close the game and hover-over effects
 		
 		if (Gdx.input.getX() < EXIT_BUTTON_X + EXIT_BUTTON_WIDTH  && Gdx.input.getX() > EXIT_BUTTON_X && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < EXIT_BUTTON_Y + EXIT_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > EXIT_BUTTON_Y ) {
-		game.batch.draw(exitButtonActive, EXIT_BUTTON_X , EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH,EXIT_BUTTON_HEIGHT);
+		game.batch.draw(exitButtonActive, EXIT_BUTTON_X - 5, EXIT_BUTTON_Y - 8, EXIT_BUTTON_WIDTH + 11,EXIT_BUTTON_HEIGHT + 11);
 			if (Gdx.input.isTouched()) {
 				Gdx.app.exit();			
 			}
