@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -25,8 +27,9 @@ import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 
 import scrabble.Scrabble;
+import screens.ScrabbleLauncher;
 
-public class scrabbleMain extends Game {
+public class scrabbleMain implements Screen {
 	Stage stage;
 	TextButtonStyle textButtonStyle;
 	TextButtonStyle textButtonStyle2;
@@ -61,7 +64,11 @@ public class scrabbleMain extends Game {
 	public static char[] textHolder = new char[7];
 	int buttonCount = 0;
 	
-	@Override
+	public scrabbleMain(ScrabbleLauncher game) {
+		this.create();
+		
+	}
+	
 	public void create() {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
@@ -181,11 +188,56 @@ public class scrabbleMain extends Game {
 	}
 	
 	
-	public void render() {      
-        super.render();
-        stage.draw();
-        stage.act();
+	@Override
+	public void show() {
+		stage.getRoot().getColor().a = 0;
+		stage.getRoot().addAction(Actions.fadeIn(0.5f));
+		
 	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		
+	
+		stage.draw();
+        stage.act();
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 	
 	
