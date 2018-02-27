@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 
 import player.PlayersContainer;
 import scrabble.Board;
+import scrabble.Scrabble;
 public class ScrabbleButton extends ButtonBase {
 	private final Label label;
 	private ScrabbleButtonStyle style;
@@ -56,63 +57,81 @@ public class ScrabbleButton extends ButtonBase {
 
 	public void draw (Batch batch, float parentAlpha) {
 	
-		//Setting the text for the tiles on the board
+		/*
+		 * BOARD
+		 * Setting the text for the tiles on the board
+		 */
 		if (boardOrPlayer == 0){
+			
 			if (Board.getInstance().getTile(xCoor, yCoor) == null){
 				setText(" ");				
 			}else{
 				setText(Board.getInstance().getTile(xCoor, yCoor).getContent());
 			}
+			
 		}
-		//Setting the text for tiles in a players hand
+		
+		/*
+		 * PLAYER
+		 * Setting the text for tiles in a players hand
+		 */
 		else if (boardOrPlayer >= 1){
+			
 			if (PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor) == null){
 				setText(" ");				
 			}else{
 				setText(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor).getContent());
 			}			
-		} else {
+			
+		} 
+		
+		/*
+		 * ERROR CATCH
+		 */
+		else {
+			
 		System.out.println("Error in getting letter for player tiles");
+		
 		}
 		
 		//placing the tiles
 		if (isPressed() && isPressed == false){
-			//for board
-			if (boardOrPlayer > 0){
-				Board.getInstance().partialPlace(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor));
 			
+			/*
+			 * PLAYER
+			 */
+			if (boardOrPlayer > 0 && boardOrPlayer - 1 == Scrabble.currentPlayer){
+				Board.getInstance().partialPlace(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor));
 			}
-			//for player
+			
+			/*
+			 * BOARD
+			 */
 			else{				
 				Board.getInstance().partialPlace(xCoor, yCoor);
 			}
 			isPressed = true;
-		}
-		if (isPressed() == false){
-			isPressed = false;
 			
+		}
+		
+		if (isPressed() == false){			
+			isPressed = false;			
 		}
 		
 		Color fontColor = null;
 		if (isDisabled() && style.disabledFontColor != null){
 			fontColor = style.disabledFontColor;
 		}
-		else if (isPressed() && style.downFontColor != null){	
-			
+		else if (isPressed() && style.downFontColor != null){				
 			fontColor = style.downFontColor;			
 		}
-		else if (isChecked() && style.checkedFontColor != null){
-			
-			
-			
+		else if (isChecked() && style.checkedFontColor != null){				
 			fontColor = (isOver() && style.checkedOverFontColor != null) ? style.checkedOverFontColor : style.checkedFontColor;
-		
-		}
+				}
 		else if (isOver() && style.overFontColor != null){
 			fontColor = style.overFontColor;
 		}
-		else{
-			
+		else{			
 			fontColor = style.fontColor;
 		}
 		if (fontColor != null) label.getStyle().fontColor = fontColor;
