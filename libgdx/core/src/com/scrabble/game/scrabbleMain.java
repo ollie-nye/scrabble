@@ -31,6 +31,8 @@ import screens.ScrabbleLauncher;
 
 public class scrabbleMain implements Screen {
 	Stage stage;
+	Texture BoardBackground;
+	SpriteBatch BoardBatch;
 	TextButtonStyle textButtonStyle;
 	TextButtonStyle textButtonStyle2;
 	BitmapFont font;
@@ -53,6 +55,9 @@ public class scrabbleMain implements Screen {
 	int buttonCount = 0;
 
 	public scrabbleMain(ScrabbleLauncher game) {
+		BoardBackground = new Texture("BoardBackground.png");
+		BoardBatch = new SpriteBatch();
+		
 		this.create();
 
 	}
@@ -115,7 +120,7 @@ public class scrabbleMain implements Screen {
 		}
 		stage.addActor(table3);
 
-		table4.setSize(table.getWidth() + 800, table.getHeight());
+		table4.setSize(table.getWidth() + 700, table.getHeight());
 		for (int i = 0; i < 7; i++) {
 			
 			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 2);
@@ -126,7 +131,7 @@ public class scrabbleMain implements Screen {
 		}
 		stage.addActor(table4);
 
-		table5.setSize(table.getWidth() - 800, table.getHeight());
+		table5.setSize(table.getWidth() - 700, table.getHeight());
 		for (int i = 0; i < 7; i++) {
 			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 4);
 			libgdxsucks.setSize(36.4f, 36.4f);
@@ -200,7 +205,10 @@ public class scrabbleMain implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		BoardBatch.begin();
+		BoardBatch.draw(BoardBackground, 0, 0);
+		BoardBatch.end();
+	
 		stage.draw();
 		stage.act();
 
