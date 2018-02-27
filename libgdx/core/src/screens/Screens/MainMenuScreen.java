@@ -33,7 +33,7 @@ public class MainMenuScreen implements Screen {
 	Texture background;
 	Texture logo;
 
-	Sound theme;
+	Sound hover;
 	
 	Texture playButtonActive;
 	Texture playButtonInactive;
@@ -59,7 +59,7 @@ public class MainMenuScreen implements Screen {
 		exitButtonActive = new Texture("settingsPressed.png");
 		exitButtonInactive = new Texture("settings.png");
 		
-		
+		hover = Gdx.audio.newSound(Gdx.files.internal("click02.wav"));
 		
 		
 	}
@@ -87,7 +87,10 @@ public class MainMenuScreen implements Screen {
 		if (Gdx.input.getX() < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH  && Gdx.input.getX() > PLAY_BUTTON_X && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < PLAY_BUTTON_Y + PLAY_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > PLAY_BUTTON_Y ) {
 		game.batch.draw(playButtonActive, PLAY_BUTTON_X - 8, PLAY_BUTTON_Y - 10, PLAY_BUTTON_WIDTH + 20 ,PLAY_BUTTON_HEIGHT + 20);
 		if (Gdx.input.isTouched()) {
+			hover.setVolume(1, 0.5f);
+			hover.play();
 			game.setScreen(new scrabbleMain(game));
+			
 		
 		}
 		} else { 
@@ -99,6 +102,8 @@ public class MainMenuScreen implements Screen {
 		if (Gdx.input.getX() < HELP_BUTTON_X + HELP_BUTTON_WIDTH  && Gdx.input.getX() > HELP_BUTTON_X && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < HELP_BUTTON_Y + HELP_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > HELP_BUTTON_Y ) {
 		game.batch.draw(helpButtonActive, HELP_BUTTON_X - 15, HELP_BUTTON_Y - 7, HELP_BUTTON_WIDTH + 20,HELP_BUTTON_HEIGHT + 16);
 		if (Gdx.input.isTouched()) {
+			hover.setVolume(1, 0.5f);
+			hover.play();
 			game.setScreen(new HelpScreen(game));
 		}
 		} else { 
@@ -110,6 +115,8 @@ public class MainMenuScreen implements Screen {
 		if (Gdx.input.getX() < EXIT_BUTTON_X + EXIT_BUTTON_WIDTH  && Gdx.input.getX() > EXIT_BUTTON_X && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < EXIT_BUTTON_Y + EXIT_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > EXIT_BUTTON_Y ) {
 		game.batch.draw(exitButtonActive, EXIT_BUTTON_X - 5, EXIT_BUTTON_Y - 8, EXIT_BUTTON_WIDTH + 11,EXIT_BUTTON_HEIGHT + 11);
 			if (Gdx.input.isTouched()) {
+				hover.setVolume(1, 0.5f);
+				hover.play();
 				Gdx.app.exit();			
 			}
 		} else { 
