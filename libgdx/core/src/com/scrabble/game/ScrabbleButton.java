@@ -79,9 +79,12 @@ public class ScrabbleButton extends ButtonBase {
 			
 			if (PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor) == null){
 				setText(" ");				
-			}else{
+			} else if (boardOrPlayer-1 == Scrabble.currentPlayer){
 				setText(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor).getContent());
-			}			
+			} else{
+				setText(" ");
+			}
+			
 			
 		} 
 		
