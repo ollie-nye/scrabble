@@ -41,7 +41,6 @@ public class scrabbleMain implements Screen {
 	BitmapFont font;
 	Skin skin;
 	TextureAtlas buttonAtlas;
-	TextButtonStyle TextButtonStyle;
 	ScrabbleButtonStyle scrabbleButtonStyle;
 	boolean startTurn = true;
 	
@@ -209,9 +208,9 @@ public class scrabbleMain implements Screen {
 	
 		
 		//end turn button creation
-		TextButton endTurn = new TextButton("End Turn", textButtonStyle);
-		endTurn.setPosition(0.0f,0f);
-		endTurn.setSize(80.0f, 36.4f);
+		TextButton endTurn = new TextButton("", textButtonStyle2);
+		endTurn.setPosition(1070.0f, 660.0f);
+		endTurn.setSize(206.0f, 61.0f);
 		
 		endTurn.addListener( new ClickListener(){
 			@Override
@@ -237,9 +236,9 @@ public class scrabbleMain implements Screen {
 		});
 		stage.addActor(endTurn);
 		
-		TextButton menu = new TextButton("Menu", textButtonStyle);
-		menu.setPosition(1180.0f, 663.6f);
-		menu.setSize(80.0f, 36.4f);
+		TextButton menu = new TextButton("", textButtonStyle);
+		menu.setPosition(0f,0f);
+		menu.setSize(206.0f, 61.0f);
 		
 		menu.addListener( new ClickListener(){
 			@Override
@@ -258,22 +257,28 @@ public class scrabbleMain implements Screen {
 		// sets up graphics of tiles
 		font = new BitmapFont();
 		skin = new Skin();
-		buttonAtlas = new TextureAtlas(Gdx.files.internal("graphics/BoardScreen/TexturesTemp.pack"));
+		buttonAtlas = new TextureAtlas(Gdx.files.internal("graphics/BoardScreen/gameButtons.pack"));
 		skin.addRegions(buttonAtlas);
 		
 		// skins for the buttons
 		scrabbleButtonStyle = new ScrabbleButtonStyle();
-		scrabbleButtonStyle.up = skin.getDrawable("green");
-		scrabbleButtonStyle.checked = skin.getDrawable("orange");
-		scrabbleButtonStyle.down = skin.getDrawable("blue");
-		scrabbleButtonStyle.over = skin.getDrawable("purple");
+		scrabbleButtonStyle.up = skin.getDrawable("boardButton");
+		scrabbleButtonStyle.checked = skin.getDrawable("boardButtonPressed");
+		scrabbleButtonStyle.down = skin.getDrawable("boardButtonHover");
+		scrabbleButtonStyle.over = skin.getDrawable("boardButtonHover");
 		scrabbleButtonStyle.font = font;
 		
-		// for the end turn + menu buttons
+		// for the menu button
 		textButtonStyle = new TextButtonStyle();	
-		textButtonStyle.up = skin.getDrawable("lightblue");
-		textButtonStyle.over = skin.getDrawable("yellow");
+		textButtonStyle.up = skin.getDrawable("homeButton");
+		textButtonStyle.over = skin.getDrawable("homeButtonPressed");
 		textButtonStyle.font = font;
+		
+		// for the end turn button
+		textButtonStyle2 = new TextButtonStyle();	
+		textButtonStyle2.up = skin.getDrawable("endButton");
+		textButtonStyle2.over = skin.getDrawable("endButtonPressed");
+		textButtonStyle2.font = font;
 	}
 
 	@Override
