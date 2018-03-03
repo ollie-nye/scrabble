@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,6 +45,8 @@ public class scrabbleMain implements Screen {
 	ScrabbleButtonStyle scrabbleButtonStyle;
 	boolean startTurn = true;
 	
+	OrthographicCamera camera;
+	
 	private Sound[] tilePress1;
 	private Sound[] tilePress2;
 	private Random random;
@@ -66,7 +69,7 @@ public class scrabbleMain implements Screen {
 		BoardBackground = new Texture("graphics/BoardScreen/BoardBackground.png");
 		BoardBatch = new SpriteBatch();
 		random = new Random();
-		this.create();
+		this.create();		
 
 	}
 
@@ -136,7 +139,7 @@ public class scrabbleMain implements Screen {
 		table2.setSize(table.getWidth(), table.getHeight() - 650);
 		for (int i = 0; i < 7; i++) {
 
-			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 1);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 3);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table2.add(libgdxsucks).size(36.4f, 36.4f);
@@ -153,7 +156,7 @@ public class scrabbleMain implements Screen {
 		table3.setSize(table.getWidth(), table.getHeight() + 650);
 		for (int i = 0; i < 7; i++) {
 
-			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 2);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 1);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table3.add(libgdxsucks).size(36.4f, 36.4f);
@@ -170,7 +173,7 @@ public class scrabbleMain implements Screen {
 		table4.setSize(table.getWidth() + 700, table.getHeight());
 		for (int i = 0; i < 7; i++) {
 			
-			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 3);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 2);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table4.add(libgdxsucks).size(36.4f, 36.4f).row();
