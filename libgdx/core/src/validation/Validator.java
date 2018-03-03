@@ -240,6 +240,7 @@ public class Validator {
 	 * @return			Result of the last validator call
 	 */
 	public Result getLastResult() {
+		System.out.print(this.result.toString());
 		return this.result;
 	}
 

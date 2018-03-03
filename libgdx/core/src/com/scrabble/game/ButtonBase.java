@@ -30,27 +30,12 @@ public class ButtonBase extends Table implements Disableable {
 	private boolean programmaticChangeEvents = true;
 	private static boolean anyButtonSelected = false;
 	private boolean firstPress = false;
-	private final Random random = new Random();
+
 	
 	/*
 	 * setting up the sounds
 	 */
-	private final Sound[] tilePress1 = new Sound[]{
-			Gdx.audio.newSound(Gdx.files.internal("Spells1_a_2edit.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells1_b.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells1_d.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells1_e.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells1_f.mp3"))
-			
-	};
-	private final Sound[] tilePress2 = new Sound[]{
-			Gdx.audio.newSound(Gdx.files.internal("Spells2_a.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells2_b.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells2_c.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells2_f.mp3")),
-			Gdx.audio.newSound(Gdx.files.internal("Spells2_g.mp3")),
-			
-	};
+	
 	
 	
 	
@@ -223,7 +208,7 @@ public class ButtonBase extends Table implements Disableable {
 			firstPress = true;
 			selectButtons();
 			System.out.println("asd");	
-			tilePress1[random.nextInt(tilePress1.length)].play();
+			
 		}
 		else if(isPressed == false && firstPress == true){
 			firstPress = false;
@@ -232,7 +217,8 @@ public class ButtonBase extends Table implements Disableable {
 		else if(isPressed && firstPress == false && anyButtonSelected == true){
 			firstPress = true;
 			deselectButtons();			
-			tilePress2[random.nextInt(tilePress2.length)].play();
+
+
 			
 		}
 		

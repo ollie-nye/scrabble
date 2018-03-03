@@ -1,10 +1,12 @@
 package com.scrabble.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,6 +42,12 @@ public class scrabbleMain implements Screen {
 	TextureAtlas buttonAtlas;
 	TextButtonStyle TextButtonStyle;
 	ScrabbleButtonStyle scrabbleButtonStyle;
+	boolean startTurn = true;
+	
+	private Sound[] tilePress1;
+	private Sound[] tilePress2;
+	private Random random;
+	
 
 	Scrabble scrabble = new Scrabble();
 	private final int players = Scrabble.maxPlayers;
@@ -57,13 +65,30 @@ public class scrabbleMain implements Screen {
 	public scrabbleMain(ScrabbleLauncher game) {
 		BoardBackground = new Texture("graphics/BoardScreen/BoardBackground.png");
 		BoardBatch = new SpriteBatch();
-		
+		random = new Random();
 		this.create();
 
 	}
 
 	public void create() {
 
+		tilePress1 = new Sound[]{
+				Gdx.audio.newSound(Gdx.files.internal("Spells1_a_2edit.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells1_b.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells1_d.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells1_e.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells1_f.mp3"))
+				
+		};
+		tilePress2 = new Sound[]{
+				Gdx.audio.newSound(Gdx.files.internal("Spells2_a.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells2_b.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells2_c.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells2_f.mp3")),
+				Gdx.audio.newSound(Gdx.files.internal("Spells2_g.mp3")),
+				
+		};
+		
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		setupButtonConfig();
@@ -78,6 +103,9 @@ public class scrabbleMain implements Screen {
 		table5 = new Table();
 
 		table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		ScrabbleButton libgdxsucks;
+		
+		
 
 		// sets up buttons for board
 		int k = 0;
@@ -85,10 +113,16 @@ public class scrabbleMain implements Screen {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 
-				ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, j, 0);
+				libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, j, 0);
 				libgdxsucks.setSize(36.4f, 36.4f);
 				stage.addActor(libgdxsucks);
 				table.add(libgdxsucks).size(36.4f, 36.4f).pad(2.0f);
+				libgdxsucks.addListener( new ClickListener(){
+					@Override
+					public void clicked(InputEvent event, float x, float y){
+						tilePress1[random.nextInt(tilePress1.length)].play(0.2f);
+					};
+				});
 
 				k += 1;
 				if (k % 15 == 0) {
@@ -102,10 +136,16 @@ public class scrabbleMain implements Screen {
 		table2.setSize(table.getWidth(), table.getHeight() - 650);
 		for (int i = 0; i < 7; i++) {
 
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 3);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 1);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table2.add(libgdxsucks).size(36.4f, 36.4f);
+			libgdxsucks.addListener( new ClickListener(){
+				@Override
+				public void clicked(InputEvent event, float x, float y){
+					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+				};
+			});
 
 		}
 		stage.addActor(table2);
@@ -113,41 +153,80 @@ public class scrabbleMain implements Screen {
 		table3.setSize(table.getWidth(), table.getHeight() + 650);
 		for (int i = 0; i < 7; i++) {
 
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 1);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 2);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table3.add(libgdxsucks).size(36.4f, 36.4f);
+			libgdxsucks.addListener( new ClickListener(){
+				@Override
+				public void clicked(InputEvent event, float x, float y){
+					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+				};
+			});
+
 		}
 		stage.addActor(table3);
 
 		table4.setSize(table.getWidth() + 700, table.getHeight());
 		for (int i = 0; i < 7; i++) {
 			
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 2);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 3);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table4.add(libgdxsucks).size(36.4f, 36.4f).row();
+			libgdxsucks.addListener( new ClickListener(){
+				@Override
+				public void clicked(InputEvent event, float x, float y){
+					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+				};
+			});
+
 			
 		}
 		stage.addActor(table4);
 
 		table5.setSize(table.getWidth() - 700, table.getHeight());
 		for (int i = 0; i < 7; i++) {
-			ScrabbleButton libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 4);
+			libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, 4);
 			libgdxsucks.setSize(36.4f, 36.4f);
 			stage.addActor(libgdxsucks);
 			table5.add(libgdxsucks).size(36.4f, 36.4f).row();
-			;
+			libgdxsucks.addListener( new ClickListener(){
+				@Override
+				public void clicked(InputEvent event, float x, float y){
+					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+				};
+			});
+
 
 		}
+		
 		stage.addActor(table5);
+	
+	
 		
 		//end turn button creation
 		TextButton endTurn = new TextButton("End Turn", textButtonStyle);
-		endTurn.setPosition(20.0f, 663.6f);
+		endTurn.setPosition(0.0f,0f);
 		endTurn.setSize(80.0f, 36.4f);
 		
 		endTurn.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				int currentPlayer = Scrabble.currentPlayer;
+				Scrabble.incrementTurn();
+				if(currentPlayer == Scrabble.currentPlayer){
+					startTurn = true;
+				};
+			};
+		});
+		stage.addActor(endTurn);
+		//start turn, selected to pass turns over
+		TextButton startTurn = new TextButton("Start Turn", textButtonStyle);
+		startTurn.setPosition(0.0f,0f);
+		startTurn.setSize(80.0f, 36.4f);
+		
+		startTurn.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Scrabble.incrementTurn();
@@ -159,10 +238,10 @@ public class scrabbleMain implements Screen {
 		menu.setPosition(1180.0f, 663.6f);
 		menu.setSize(80.0f, 36.4f);
 		
-		endTurn.addListener( new ClickListener(){
+		menu.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Scrabble.incrementTurn();
+				//add a menu here
 			};
 		});	
 		stage.addActor(menu);

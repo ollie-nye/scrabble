@@ -73,6 +73,7 @@ public class Scrabble {
 	 */
 	public static void incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
+		
 		String lastWord = Board.getInstance().getWord();
 		if (lastResult.isCompleteWord()) {
             Random random = new Random();
