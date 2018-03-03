@@ -31,6 +31,7 @@ import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 
 import scrabble.Scrabble;
 import screens.ScrabbleLauncher;
+import screens.Screens.MainMenuScreen;
 
 public class scrabbleMain implements Screen {
 	Stage stage;
@@ -48,6 +49,7 @@ public class scrabbleMain implements Screen {
 	
 	private Sound[] tilePress1;
 	private Sound[] tilePress2;
+	private Sound hover;
 	private Random random;
 	
 
@@ -63,8 +65,11 @@ public class scrabbleMain implements Screen {
 	private Table table5;
 
 	int buttonCount = 0;
+	ScrabbleLauncher game;
 
 	public scrabbleMain(ScrabbleLauncher game) {
+		this.game = game;
+		hover = Gdx.audio.newSound(Gdx.files.internal("sounds/click02.wav"));
 		BoardBackground = new Texture("graphics/BoardScreen/BoardBackground.png");
 		BoardBatch = new SpriteBatch();
 		random = new Random();
@@ -243,7 +248,9 @@ public class scrabbleMain implements Screen {
 		menu.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//add a menu here
+				hover.setVolume(1, 0.5f);
+				hover.play();
+				game.setScreen(new MainMenuScreen(game));
 			};
 		});	
 		stage.addActor(menu);
