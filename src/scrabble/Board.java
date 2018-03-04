@@ -4,6 +4,7 @@ import data.BoardScorer;
 import data.Coordinate;
 import data.Result;
 import player.PlayersContainer;
+import validation.NewValidator;
 import validation.Validator;
 
 /**
@@ -34,7 +35,7 @@ public class Board {
 	/**
 	 * Validator for testing words. New validator is a new word
 	 */
-	private Validator validator = new Validator();
+	private NewValidator validator = new NewValidator(this);
 	
 	/**
 	 * One half of the variable pair that makes up a move
@@ -66,7 +67,7 @@ public class Board {
 	 * Recreates the validator for a new word
 	 */
 	public void validatorReset(){
-		validator = new Validator();
+		validator = new NewValidator(this);
 	}
 	
 	/**
@@ -124,7 +125,7 @@ public class Board {
 	/**
 	 * Populates the BoardScorer with data from the arrays for use in the rest of the game
 	 */
-	private Board() {
+	public Board() {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 				boolean isLetter;
@@ -185,6 +186,12 @@ public class Board {
 		return null;
 	}
 	
+	public Tile removeTile(int x, int y) {
+		Tile tile = getTile(x, y);
+		this.letters[x][y] = null;
+		return tile;
+	}
+	
 	/**
 	 * Places the tile at the given coordinates if both partialPlace variables are set
 	 * @param tile	Tile to play
@@ -194,14 +201,19 @@ public class Board {
 	 */
 	public Result place(Tile tile, int x, int y) {
 		Result res = validator.validateMove(tile, x, y);
-		if (res.isLegal()) {
-			this.letters[x][y] = tile;
+		//if (res.isLegal()) {
+		//	this.letters[x][y] = tile;
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(tile);
 			this.ui.update();
-		}
+		//}
 		partialTile = null;
 		partialPlace = null;
-		return res;
+		//return res;
+		return new Result(true, 5, true);
+	}
+	
+	public void testPlace(Tile tile, int x, int y) {
+		this.letters[x][y] = tile;
 	}
 	
 	/**
@@ -232,12 +244,14 @@ public class Board {
 	 * @return		Result containing the last validation check
 	 */
 	public Result getLastResult() {
-		return this.validator.getLastResult();
+		//return this.validator.getLastResult();
+		return null;
 	}
 	
 	//ignore for mvp
 	public String getWord(){
-		return this.validator.getWord();
+		//return this.validator.getWord();
+		return null;
 	}
 
 	
