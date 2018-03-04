@@ -40,8 +40,6 @@ public class Scrabble {
 	 */
 	private Board board = Board.getInstance();
 	
-	
-	
 	/**
 	 * Holds a reference to the instance of the PlayersContainer
 	 */
@@ -78,7 +76,9 @@ public class Scrabble {
 		if (lastResult.isCompleteWord()) {
             Random random = new Random();
 			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetter();
+			//TODO: Change to scoring system
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setScore((random.nextInt(13) + 7));
+			
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setLastWord(lastWord);
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
