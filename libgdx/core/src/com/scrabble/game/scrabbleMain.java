@@ -217,7 +217,6 @@ public class scrabbleMain implements Screen {
 	
 		
 		//end turn button creation
-		
 		endTurn = new TextButton("", textButtonStyle2);
 		endTurn.setPosition(1070.0f, 660.0f);
 		endTurn.setSize(206.0f, 61.0f);
@@ -246,7 +245,7 @@ public class scrabbleMain implements Screen {
 		});
 		stage.addActor(startTurn);
 		
-		
+		// main menu button
 		TextButton menu = new TextButton("", textButtonStyle);
 		menu.setPosition(0f,0f);
 		menu.setSize(206.0f, 61.0f);
@@ -256,6 +255,7 @@ public class scrabbleMain implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				hover.setVolume(1, 0.5f);
 				hover.play();
+				stage.dispose();
 				game.setScreen(new MainMenuScreen(game));
 			};
 		});	
@@ -355,6 +355,8 @@ public class scrabbleMain implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		
+		
 
 	}
 
