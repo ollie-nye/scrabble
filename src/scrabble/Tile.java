@@ -22,4 +22,8 @@ public class Tile {
 	public int getScore() {
 		return this.score;
 	}
+	
+	public String toString() {
+		return this.content;
+	}
 }
