@@ -20,8 +20,10 @@ import java.util.Scanner;
  * 1.5 - Add percentage progress functionality
  * 1.6 - Add Javadoc
  */
-public class Dawg { // Directed Acrylic Word Graph
+public class Dawg { // Directed Acyclic Word Graph
 	
+	private enum SearchType {PARTIAL, COMPLETE};
+		
 	/**
 	 * Path to the dictionary file, possibly set in settings?
 	 */
@@ -55,7 +57,7 @@ public class Dawg { // Directed Acrylic Word Graph
 	/**
 	 * Creates a new dictionary from the given file path
 	 */
-	public Dawg( ) {
+	public Dawg() {
 		try {
 			File file = new File(filePath); 			// Create a reference to the dictionary file
 			Scanner wordScanner = new Scanner(file); 	// Scanner to iterate over the file
@@ -131,8 +133,14 @@ public class Dawg { // Directed Acrylic Word Graph
 		Scanner in = new Scanner(System.in);
 		
 		while (true) {
-			String nextSearch = in.nextLine().trim();
-			System.out.println("Words matching your string : " + dawg.search(nextSearch));
+			String input = in.nextLine().trim();
+			long startTime = System.currentTimeMillis();
+			if (input.substring(0, 1).equals("c")) {
+				System.out.println("Complete words matching your string : " + dawg.getCompleteWords(input.substring(2)));
+			} else if (input.substring(0, 1).equals("p")) {
+				System.out.println("Possible words matching your string : " + dawg.getPossibleWords(input.substring(2)));
+			}
+			System.out.println("Operation took " + (System.currentTimeMillis() - startTime) + " milliseconds");
 		}
 	}
 	
@@ -141,32 +149,65 @@ public class Dawg { // Directed Acrylic Word Graph
 	 * @param searchString			String to search the tree with
 	 * @return						Number of words matching the given string found
 	 */
-	public int search(String searchString) {
-		return search(this.parent, searchString);
+	public int getCompleteWords(String searchString) {
+		return search(this.parent, searchString, SearchType.COMPLETE);
+	}
+	
+	public int getPossibleWords(String searchString) {
+		int words = 0;
+		int wildcardSpaces = 15 - searchString.length();
+		if (wildcardSpaces <= 14) {
+			for (int front = 0; front <= wildcardSpaces; front++) {
+				for (int back = 0; back <= wildcardSpaces - front; back++) {
+					String newSearchString = "";
+					int wildcards = front;
+					while (wildcards > 0) {
+						newSearchString += "*";
+						wildcards--;
+					}
+					newSearchString += searchString;
+					wildcards = back;
+					while (wildcards > 0) {
+						newSearchString += "*";
+						wildcards--;
+					}
+					int newWords = search(this.parent, newSearchString, SearchType.COMPLETE);
+					if (newWords > 0) {
+						System.out.println(newSearchString + " found " + newWords + " possible words");
+					}
+					words += newWords;
+				}
+			}
+		}
+		return words;
 	}
 	
 	/**
 	 * Recursive function to search the graph
 	 * @param currentNode			Node found from previous iteration that could contain the next letter in this string
 	 * @param searchString			String containing remaining searches, shortened by 1 each iteration
+	 * @param searchType			Type of search to carry out
 	 * @return						Number of words found at this level
 	 */
-	public int search(Vertex currentNode, String searchString) {
+	private int search(Vertex currentNode, String searchString, SearchType searchType) {
 		int words = 0;
 		String nextChar = getNextCharacter(searchString);
 		if (nextChar.equals("")) { // End of the string
-			if (currentNode.isWord()) {
+			if (currentNode.isWord()) { // This is a complete word
 				words++;
 			}
+			if (searchType == SearchType.PARTIAL) { // If we're looking for possible words and at the end of the search string, these will be added
+				words += currentNode.getChildren().size();
+			}	
 		} else { // Continue depth first search
 			if (nextChar.equals("*")) { // Wildcard search
 				for (Entry<String, Vertex> child : currentNode.getChildren().entrySet()) {
-					words += search(child.getValue(), reduceString(searchString)); // Recurse on each child node
+					words += search(child.getValue(), reduceString(searchString), searchType); // Recurse on each child node
 				}
 			} else {
 				Vertex nextChild = currentNode.getChild(nextChar);
 				if (nextChild != null) {
-					words += search(nextChild, reduceString(searchString));	// Recurse on existing child node that matches the search string
+					words += search(nextChild, reduceString(searchString), searchType);	// Recurse on existing child node that matches the search string
 				}
 			}
 		}
