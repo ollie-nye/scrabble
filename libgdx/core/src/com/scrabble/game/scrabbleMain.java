@@ -39,11 +39,16 @@ public class scrabbleMain implements Screen {
 	SpriteBatch BoardBatch;
 	TextButtonStyle textButtonStyle;
 	TextButtonStyle textButtonStyle2;
+	TextButtonStyle textButtonStyle3;
 	BitmapFont font;
 	Skin skin;
 	TextureAtlas buttonAtlas;
 	ScrabbleButtonStyle scrabbleButtonStyle;
-	boolean startTurn = true;
+	public static boolean passingOverTurn = false;
+	boolean oneClickOnlyBoolean = true;
+	Button startTurnButton;
+	TextButton endTurn;
+	TextButton startTurn;
 	
 	OrthographicCamera camera;
 	
@@ -111,8 +116,7 @@ public class scrabbleMain implements Screen {
 
 		table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		ScrabbleButton libgdxsucks;
-		
-		
+				
 
 		// sets up buttons for board
 		int k = 0;
@@ -213,33 +217,35 @@ public class scrabbleMain implements Screen {
 	
 		
 		//end turn button creation
-		TextButton endTurn = new TextButton("", textButtonStyle2);
+		
+		endTurn = new TextButton("", textButtonStyle2);
 		endTurn.setPosition(1070.0f, 660.0f);
 		endTurn.setSize(206.0f, 61.0f);
 		
 		endTurn.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				int currentPlayer = Scrabble.currentPlayer;
-				Scrabble.incrementTurn();
-				if(currentPlayer == Scrabble.currentPlayer){
-					startTurn = true;
+				if (Scrabble.incrementTurn() == true){			
+					passingOverTurn = true;
 				};
 			};
 		});
 		stage.addActor(endTurn);
+		
+	
 		//start turn, selected to pass turns over
-		TextButton startTurn = new TextButton("Start Turn", textButtonStyle);
-		startTurn.setPosition(0.0f,0f);
-		startTurn.setSize(80.0f, 36.4f);
+		startTurn = new TextButton("", textButtonStyle3);
+		startTurn.setPosition(1070.0f, 660.0f);
+		startTurn.setSize(206.0f, 61.0f);
 		
 		startTurn.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Scrabble.incrementTurn();
+				passingOverTurn = false;
 			};
 		});
-		stage.addActor(endTurn);
+		stage.addActor(startTurn);
+		
 		
 		TextButton menu = new TextButton("", textButtonStyle);
 		menu.setPosition(0f,0f);
@@ -277,8 +283,8 @@ public class scrabbleMain implements Screen {
 		
 		// for the menu button
 		textButtonStyle = new TextButtonStyle();	
-		textButtonStyle.up = skin.getDrawable("homeButton");
-		textButtonStyle.over = skin.getDrawable("homeButtonPressed");
+		textButtonStyle.up = skin.getDrawable("homeButton");		
+		textButtonStyle.over = skin.getDrawable("homeButtonPressed");	
 		textButtonStyle.font = font;
 		
 		// for the end turn button
@@ -286,6 +292,11 @@ public class scrabbleMain implements Screen {
 		textButtonStyle2.up = skin.getDrawable("endButton");
 		textButtonStyle2.over = skin.getDrawable("endButtonPressed");
 		textButtonStyle2.font = font;
+		
+		textButtonStyle3 = new TextButtonStyle();	
+		textButtonStyle3.up = skin.getDrawable("startButton");
+		textButtonStyle3.over = skin.getDrawable("startButtonPressed");
+		textButtonStyle3.font = font;
 	}
 
 	@Override
@@ -302,6 +313,15 @@ public class scrabbleMain implements Screen {
 		BoardBatch.begin();
 		BoardBatch.draw(BoardBackground, 0, 0);
 		BoardBatch.end();
+		if (passingOverTurn == true){
+			endTurn.setVisible(false);
+			startTurn.setVisible(true);
+		}
+		if (passingOverTurn == false){
+			startTurn.setVisible(false);
+			endTurn.setVisible(true);
+		}
+		
 	
 		stage.draw();
 		stage.act();
@@ -328,7 +348,7 @@ public class scrabbleMain implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
