@@ -1,0 +1,82 @@
+
+gameButtons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+endButton
+  rotate: false
+  xy: 1, 64
+  size: 206, 61
+  orig: 206, 61
+  offset: 0, 0
+  index: -1
+endButtonPressed
+  rotate: false
+  xy: 1, 1
+  size: 206, 61
+  orig: 206, 61
+  offset: 0, 0
+  index: -1
+homeButton
+  rotate: false
+  xy: 209, 64
+  size: 206, 61
+  orig: 206, 61
+  offset: 0, 0
+  index: -1
+homeButtonPressed
+  rotate: false
+  xy: 209, 1
+  size: 206, 61
+  orig: 206, 61
+  offset: 0, 0
+  index: -1
+startButton
+  rotate: false
+  xy: 417, 64
+  size: 206, 61
+  orig: 206, 61
+  offset: 0, 0
+  index: -1
+startButtonPressed
+  rotate: false
+  xy: 417, 1
+  size: 206, 61
+  orig: 206, 61
+  offset: 0, 0
+  index: -1
+boardButtonPressed
+  rotate: false
+  xy: 625, 85
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+boardButton
+  rotate: false
+  xy: 625, 46
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+boardButtonHover
+  rotate: false
+  xy: 667, 88
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+handButton
+  rotate: false
+  xy: 625, 7
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+handButtonPressed
+  rotate: false
+  xy: 706, 88
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
