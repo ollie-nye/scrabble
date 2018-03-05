@@ -70,6 +70,7 @@ public class Scrabble {
 	
 	/**
 	 * Method to increment the turn within the game, recreating validation and letters when required
+	 * @return 
 	 */
 	public static boolean incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
@@ -90,7 +91,6 @@ public class Scrabble {
 			
 			
 		} else {
-			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
 	}
