@@ -2,6 +2,8 @@ package scrabble;
 
 import java.util.ArrayList;
 
+import data.Letter;
+
 public class Score {
 
     /**
@@ -58,25 +60,9 @@ public class Score {
         letterSets.add(3, "bcmp");
         letterSets.add(4, "fhvwy");
         letterSets.add(5, "k");
-        letterSets.add(6, "jx");
-        letterSets.add(7, "qz");
+        letterSets.add(8, "jx");
+        letterSets.add(10, "qz");
     }
-
-    /**
-     * Takes a letter and returns its score, if letter not found
-     * in collection, return 0.
-     * @param letter
-     * @return
-     */
-    private int getScoreOfLetter(String letter) {
-        for (String characterSet : letterSets) {
-            if (characterSet.contains(letter)) {
-                return letterSets.indexOf(characterSet);
-            }
-        }
-        return 0;
-    }
-
 
     /**
      * Takes a letter and position, and returns its
@@ -86,11 +72,17 @@ public class Score {
      * @param letter
      * @return
      */
-    public int calculateScore(int x, int y, String letter) {
-        if(types[x][y] == 'l') {
-            return getScoreOfLetter(letter) * scores[x][y];
-        } else {
-            return getScoreOfLetter(letter);
-        }
+    public int calculateScore(Letter letter) {
+    	switch (types[letter.getLocation().getX()][letter.getLocation().getY()]) {
+    	case 'l': // letter multiplier
+    		return letter.getLetter().getScore() * scores[letter.getLocation().getX()][letter.getLocation().getY()];
+    	case 'n':
+    		return letter.getLetter().getScore();
+    	//TODO
+    	case 'w': // word multipler - needs to be handled
+    		return -1;
+    	default:
+    		return -1;
+    	}
     }
 }
