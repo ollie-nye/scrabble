@@ -54,6 +54,7 @@ public class Score {
     private ArrayList<String> letterSets  = new ArrayList<>();
 
     public Score() {
+    	/*
         letterSets.add(0, "*");
         letterSets.add(1, "aeioulnrst");
         letterSets.add(2, "dg");
@@ -62,6 +63,7 @@ public class Score {
         letterSets.add(5, "k");
         letterSets.add(8, "jx");
         letterSets.add(10, "qz");
+		*/
     }
 
     /**
