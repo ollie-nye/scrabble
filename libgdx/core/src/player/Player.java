@@ -1,6 +1,8 @@
 package player;
 
 import java.util.Random;
+
+import data.Letter;
 import scrabble.Tile;
 import scrabble.LetterBag;
 import scrabble.Board;
@@ -124,9 +126,9 @@ public abstract class  Player {
      * @param x     Horizontal position
      * @param y     Vertical position
      */
-    public void playLetter(Tile tile, int x, int y) {
-        Board.getInstance().place(tile, x, y);
-        removeLetter(tile);
+    public void playLetter(Letter letter) {
+        Board.getInstance().place(letter);
+        removeLetter(letter.getLetter());
     }
 
     public void selectedLetter(Tile tile, int x, int y) {

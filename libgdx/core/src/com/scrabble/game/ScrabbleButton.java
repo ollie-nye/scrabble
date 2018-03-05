@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
+import data.Coordinate;
 import player.PlayersContainer;
 import scrabble.Board;
 import scrabble.Scrabble;
@@ -62,11 +63,11 @@ public class ScrabbleButton extends ButtonBase {
 		 * Setting the text for the tiles on the board
 		 */
 		if (boardOrPlayer == 0){
-			
-			if (Board.getInstance().getTile(xCoor, yCoor) == null){
+			Coordinate loc = new Coordinate(xCoor, yCoor);
+			if (Board.getInstance().getTile(loc) == null){
 				setText(" ");				
 			}else{
-				setText(Board.getInstance().getTile(xCoor, yCoor).getContent());
+				setText(Board.getInstance().getTile(loc).getContent());
 			}
 			
 		}
