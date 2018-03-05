@@ -52,6 +52,9 @@ public class Board {
 	 */
 	private Tile partialTile = null;
 
+    private static int boardSizeX = 15;
+    private static int boardSizeY = 15;
+
 		/**
 	 * Singleton pattern getter method
 	 * @return		Instance of the Board, creating a new one if required
@@ -70,17 +73,16 @@ public class Board {
 		validator = new NewValidator(this);
 	}
 
-	private static int boardSizeX = 15;
-	private static int boardSizeY = 15;
+
 	
 
 
 	/*
 	 * needed for the libgdx UI
 	 */
-	public Tile getLetter(Coordinate loc){
-		if (loc.getX() < boardSizeX && loc.getY() < boardSizeY){
-		return letters [loc.getX()][loc.getY()];
+	public Tile getLetter(Coordinate location){
+		if (location.getX() < boardSizeX && location.getY() < boardSizeY){
+		return letters [location.getX()][location.getY()];
 		}
 		else{
 			return new Tile("0", 0);
@@ -132,49 +134,45 @@ public class Board {
 	
 	/**
 	 * Gets the tile at the given coordinate
-	 * @param x		X to get from
-	 * @param y		Y to get from
+	 * @param location
 	 * @return		Returns the tile at the given position
 	 */
-	public Tile getTile(Coordinate loc) {
-		if (loc.getX() >= 0 && loc.getX() < boardSizeX && loc.getY() >= 0 && loc.getY() < boardSizeY) {
-			return letters[loc.getX()][loc.getY()];
+	public Tile getTile(Coordinate location) {
+		if (location.getX() >= 0 && location.getX() < boardSizeX && location.getY() >= 0 && location.getY() < boardSizeY) {
+			return letters[location.getX()][location.getY()];
 		}
 		return null;
 	}
 	
 	/**
 	 * Gets a score from a given coordinate
-	 * @param x		X to get from
-	 * @param y		Y to get from
+	 * @param location		X to get from
 	 * @return		BoardScorer object containing multiplier type and score multiplier
 	 */
-	public BoardScorer getScore(Coordinate loc) {
-		if (loc.getX() >= 0 && loc.getX() < boardSizeX && loc.getY() >= 0 && loc.getY() < boardSizeY) {
-			return scoreBoard[loc.getX()][loc.getY()];
+	public BoardScorer getScore(Coordinate location) {
+		if (location.getX() >= 0 && location.getX() < boardSizeX && location.getY() >= 0 && location.getY() < boardSizeY) {
+			return scoreBoard[location.getX()][location.getY()];
 		}
 		return null;
 	}
 	
-	public Tile removeTile(Coordinate loc) {
-		Tile tile = getTile(loc);
-		this.letters[loc.getX()][loc.getY()] = null;
+	public Tile removeTile(Coordinate location) {
+		Tile tile = getTile(location);
+		this.letters[location.getX()][location.getY()] = null;
 		return tile;
 	}
 	
 	/**
 	 * Places the tile at the given coordinates if both partialPlace variables are set
-	 * @param tile	Tile to play
-	 * @param x		X of coordinate to play
-	 * @param y		Y of coordinate to play
+	 * @param letter	Tile to play
 	 * @return		Result of the play
 	 */
 	public Result place(Letter letter) {
 		Result res = validator.validateMove(letter);
 		if (res.isLegal()) {
-			this.letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getLetter();
-			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(letter.getLetter());
-			score.calculateScore(letter);
+			letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getTile();
+			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(letter.getTile());
+			letter.getScore(); // do something with this?
 		}
 		partialTile = null;
 		partialPlace = null;
@@ -182,7 +180,7 @@ public class Board {
 	}
 	
 	public void testPlace(Letter letter) {
-		this.letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getLetter();
+		letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getTile();
 	}
 	
 	/**
@@ -190,8 +188,8 @@ public class Board {
 	 * @param tile	Tile clicked by the user
 	 */
 	public void partialPlace(Tile tile) {
-		this.partialTile = tile;
-		if (this.partialPlace != null) { //both required elements are provided
+		partialTile = tile;
+		if (partialPlace != null) { //both required elements are provided
 			place(new Letter(partialTile, partialPlace));
 		}
 	}
@@ -202,8 +200,8 @@ public class Board {
 	 * @param y		Y of tile clicked
 	 */
 	public void partialPlace(int x, int y) {
-		this.partialPlace = new Coordinate(x, y);
-		if (this.partialTile != null) { //both required elements are provided
+		partialPlace = new Coordinate(x, y);
+		if (partialTile != null) { //both required elements are provided
 			place(new Letter(partialTile, partialPlace));
 
 		}
@@ -234,5 +232,4 @@ public class Board {
 		//res = brd.place(LetterBag.getInstance().pick(), 5, 9);
 		//System.out.println(res.isLegal() + " - " + res.possibleWords());
 	}
-	
 }

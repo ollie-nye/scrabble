@@ -1,5 +1,6 @@
 package data;
 
+import scrabble.Score;
 import scrabble.Tile;
 
 /**
@@ -13,18 +14,27 @@ import scrabble.Tile;
  */
 public class Letter {
 	private Coordinate location;
-	private Tile letter;
+	private Tile tile;
+    private final static Score scoring = new Score();
 	
-	public Letter(Tile letter, Coordinate location) {
-		this.letter = letter;
+	public Letter(Tile tile, Coordinate location) {
+		this.tile = tile;
 		this.location = location;
 	}
 	
-	public Tile getLetter() {return this.letter;}
+	public Tile getTile() {
+	    return tile;
+	}
+
+	public int getScore() {
+        return scoring.calculateScore(this);
+    }
 	
-	public Coordinate getLocation() {return this.location;}
+	public Coordinate getLocation() {
+		return location;
+	}
 	
 	public String toString() {
-		return this.letter.toString() + " at " + this.location.toString();
+		return tile.toString() + " at " + location.toString();
 	}
 }
