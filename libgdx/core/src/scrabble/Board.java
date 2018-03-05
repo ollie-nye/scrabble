@@ -25,6 +25,11 @@ public class Board {
 	 * Singleton pattern instance variable
 	 */
 	private static Board instance = null;
+
+    /**
+     * Scoring system
+     */
+	private static Score score = new Score();
 	
 	/**
 	 * If the first word has been played, this is true. Used in validation
@@ -63,55 +68,17 @@ public class Board {
 	public void validatorReset(){
 		validator = new Validator();
 	}
+
+	private static int boardSizeX = 15;
+	private static int boardSizeY = 15;
 	
-	/**
-	 * Types of multiplier tiles on the board
-	 */
-	private char[][] types = new char[][]{
-		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
-		{'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},
-		{'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n'},
-		{'l', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'l'},
-		{'n', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'n'},
-		{'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n'},
-		{'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n'},
-		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
-		{'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n'},
-		{'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n'},
-		{'n', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'n'},
-		{'l', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'l'},
-		{'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n'},
-		{'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},
-		{'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'}
-	};
-	
-	/**
-	 * Scores of multiplier tiles on the board
-	 */
-	private int[][] scores = new int[][]{
-		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3},
-		{0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
-		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
-		{2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 2},
-		{0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
-		{0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0},
-		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
-		{3, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 3},
-		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
-		{0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0},
-		{0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
-		{2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 2},
-		{0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
-		{0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
-		{3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3}
-	};
-	
-	
+
+
 	/*
 	 * needed for the libgdx UI
 	 */
 	public Tile getLetter(int x, int y){
-		if (x < 15 && y< 15){
+		if (x < boardSizeX && y < boardSizeY){
 		return letters [x][y];
 		}
 		else{
@@ -127,34 +94,36 @@ public class Board {
 	/**
 	 * Letters played by the players
 	 */
-	private Tile[][] letters = new Tile[15][15];
+	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
 	
 	/**
 	 * Populates the BoardScorer with data from the arrays for use in the rest of the game
 	 */
 	private Board() {
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 15; j++) {
+		for (int x = 0; x < boardSizeY; x++) {
+			for (int y = 0; y < boardSizeY; y++) {
 				boolean isLetter;
 				boolean isWord;
 				int score;
-				switch (types[i][j]) {
+				/**
+				switch (types[x][y]) {
 				case 'l':
-					scoreBoard[i][j] = new BoardScorer(true, scores[i][j]);
+					scoreBoard[x][y] = new BoardScorer(true, scores[x][y]);
 					break;
 				case 'w':
-					scoreBoard[i][j] = new BoardScorer(false, scores[i][j]);
+					scoreBoard[x][y] = new BoardScorer(false, scores[x][y]);
 					break;
 				default:
-					scoreBoard[i][j] = null;
+					scoreBoard[x][y] = null;
 					break;
 				}
+                 **/
 			}
 		}
 		
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 15; j++) {
-				letters[i][j] = null;
+		for (int x = 0; x < boardSizeX; x++) {
+			for (int y = 0; y < boardSizeY; y++) {
+				letters[x][y] = null;
 			}
 		}
 	}
@@ -167,7 +136,7 @@ public class Board {
 	 * @return		Returns the tile at the given position
 	 */
 	public Tile getTile(int x, int y) {
-		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
+		if (x >= 0 && x < boardSizeX && y >= 0 && y < boardSizeY) {
 			return letters[x][y];
 		}
 		return null;
@@ -180,7 +149,7 @@ public class Board {
 	 * @return		BoardScorer object containing multiplier type and score multiplier
 	 */
 	public BoardScorer getScore(int x, int y) {
-		if (x >= 0 && x < 15 && y >= 0 && y < 15) {
+		if (x >= 0 && x < boardSizeX && y >= 0 && y < boardSizeY) {
 			return scoreBoard[x][y];
 		}
 		return null;
@@ -198,6 +167,7 @@ public class Board {
 		if (res.isLegal()) {
 			this.letters[x][y] = tile;
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(tile);
+			score.calculateScore(x, y, tile.getContent());
 		}
 		partialTile = null;
 		partialPlace = null;
@@ -224,6 +194,7 @@ public class Board {
 		this.partialPlace = new Coordinate(x, y);
 		if (this.partialTile != null) { //both required elements are provided
 			Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
+
 		}
 	}
 
