@@ -122,13 +122,11 @@ public abstract class  Player {
     /**
      * Plays chosen tile to board.
      * Removes tile from players selection of tiles.
-     * @param tile  Tile to play
-     * @param x     Horizontal position
-     * @param y     Vertical position
+     * @param letter  letter to play
      */
     public void playLetter(Letter letter) {
         Board.getInstance().place(letter);
-        removeLetter(letter.getLetter());
+        removeLetter(letter.getTile());
     }
 
     public void selectedLetter(Tile tile, int x, int y) {

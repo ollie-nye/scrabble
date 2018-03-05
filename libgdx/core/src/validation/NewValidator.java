@@ -1,7 +1,6 @@
 package validation;
 
 import data.Result;
-import scrabble.Tile;
 import scrabble.Board;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class NewValidator {
 			this.board.testPlace(letter); //Happens every turn
 			if (playedTiles == 0) {
 				firstMove = letter.getLocation();
-				firstMoveContent = letter.getLetter().getContent();
+				firstMoveContent = letter.getTile().getContent();
 			} else if (playedTiles == 1) { // Second move
 				// Check that at least one of the coordinates is common between this and the last move, therefore determining direction
 				if (letter.getLocation().getX() == firstMove.getX()) { // X is common, therefore vertical word direction
@@ -111,7 +110,7 @@ public class NewValidator {
 		for (ArrayList<Letter> word : turnProgress) {
 			String wrd = "";
 			for (Letter ltr : word) {
-				wrd += ltr.getLetter().getContent();
+				wrd += ltr.getTile().getContent();
 			}
 			words.add(wrd);
 		}

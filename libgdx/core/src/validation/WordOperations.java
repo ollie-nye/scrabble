@@ -85,7 +85,7 @@ public class WordOperations {
 		for (ArrayList<Letter> word : words) {
 			String wrd = "";
 			for (Letter ltr : word) {
-				wrd += ltr.getLetter().getContent();
+				wrd += ltr.getTile().getContent();
 			}
 			System.out.println(wrd);
 		}
