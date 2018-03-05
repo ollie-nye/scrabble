@@ -3,6 +3,9 @@ package validation;
 import data.Result;
 import scrabble.Tile;
 import scrabble.Board;
+
+import java.util.ArrayList;
+
 import data.Coordinate;
 
 public class NewValidator {
@@ -13,7 +16,7 @@ public class NewValidator {
 
 	private int location = 0;
 
-	private Dictionary dictionary = new Dictionary();
+	private Dawg dictionary = new Dawg();
 
 	private Board board = null;
 
@@ -22,6 +25,8 @@ public class NewValidator {
 	private Coordinate firstMove = null;
 
 	private String firstMoveContent = "";
+	
+	private WordOperations ops;
 
 
 
@@ -29,43 +34,52 @@ public class NewValidator {
 
 	public NewValidator(Board board) {
 		this.board = board;
+		ops = new WordOperations(this.board);
 		playedTiles = 0;
 	}
 
-	public Result validateWord(Tile tile, int x, int y) {
+	public Result validateMove(Tile tile, int x, int y) {
 		boolean allowedMove = true;
 		boolean emptySpace = (this.board.getTile(x, y) == null);
 		int possibleWords = 0;
+		Letter letter = new Letter(tile, new Coordinate(x, y));
+		
 
 		if (emptySpace) {
-			if (playedTiles == 0) { // First move
+			
+			this.board.testPlace(tile, x, y); //Happens every turn
+			if (playedTiles == 0) {
 				firstMove = new Coordinate(x, y);
-				// No other tests for the first move of the turn
+				firstMoveContent = tile.getContent();
 			} else if (playedTiles == 1) { // Second move
 				// Check that at least one of the coordinates is common between this and the last move, therefore determining direction
-				if (firstMove.getX() == x) { // X is common, therefore vertical word direction
-					possibleWords = testMove(tile, y, firstMove.getY(), x);
+				if (x == firstMove.getX()) { // X is common, therefore vertical word direction
+					possibleWords = testMove(letter);
 					if (possibleWords > 0) {
 						this.direction = Direction.VERTICAL;
+					} else {
+						allowedMove = false;
 					}
-				} else if (firstMove.getY() == y) { // Y is common, therefore horizontal word direction
-					possibleWords = testMove(tile, x, firstMove.getX(), y);
+				} else if (y == firstMove.getY()) { // Y is common, therefore horizontal word direction
+					possibleWords = testMove(letter);
 					if (possibleWords > 0) {
 						this.direction = Direction.HORIZONTAL;
+					} else {
+						allowedMove = false;
 					}
 				} else {
 					allowedMove = false;
 				}
 			} else { // Any other move
 				if (this.direction == Direction.VERTICAL) {
-					if (x == location) {
-						possibleWords = testMove(tile, y);
+					if (x == firstMove.getX()) {
+						possibleWords = testMove(letter);
 					} else {
 						allowedMove = false;
 					}
 				} else if (this.direction == Direction.HORIZONTAL) {
-					if (y == location) {
-						possibleWords = testMove(tile, x);
+					if (y == firstMove.getY()) {
+						possibleWords = testMove(letter);
 					} else {
 						allowedMove = false;
 					}
@@ -79,54 +93,37 @@ public class NewValidator {
 
 		if (allowedMove) {
 			playedTiles++;
+			possibleWords = 0;
+		} else {
+			this.board.removeTile(x, y);
 		}
 		return new Result(allowedMove, possibleWords, false);
 	}
 
-	private int testMove(Tile tile, int move) {
-		return testMove(tile, move, -1, -1);
-	}
-
-	private int testMove(Tile tile, int fMove, int sMove, int location) {
+	private int testMove(Letter letter) {
 		int possibleWords = 0;
-		if (firstMove != null) { // 2nd move only, reset to null at the end of this method.
-			String[] possibleTurn = new String[15]; // This turn is not sure to be legal, so cannot add both moves to turn array yet
-			possibleTurn[fMove] = firstMoveContent;
-			possibleTurn[sMove] = tile.getContent();
-			possibleWords = testRegex(generateMoveRegex(possibleTurn)); // Test two given letters against the dictionary
-			if (possibleWords > 0) {
-				this.location = location;
-				this.turn[sMove] = tile.getContent();
-				this.turn[fMove] = firstMoveContent;
+		ArrayList<ArrayList<Letter>> turnProgress = ops.identifyWords(letter);
+		ArrayList<String> words = new ArrayList<>();
+		
+		for (ArrayList<Letter> word : turnProgress) {
+			String wrd = "";
+			for (Letter ltr : word) {
+				wrd += ltr.getLetter().getContent();
 			}
-		} else if (sMove == -1) { // Passed into this function from overflow method, guarantees this block to be called
-			String[] possibleTurn = turn;
-			possibleTurn[fMove] = tile.getContent();
-			possibleWords = testRegex(generateMoveRegex(possibleTurn));
-			if (possibleWords > 0) {
-				this.turn[fMove] = possibleTurn[fMove];
-			}
+			words.add(wrd);
+		}
+		for (String word : words) {
+			possibleWords += this.dictionary.getPossibleWords(word);
 		}
 		return possibleWords;
 	}
 
-	private int testRegex(String regex) {
-		int possibleWords = this.dictionary.searchList(regex);
-		return possibleWords;
-	}
-
-	private String generateMoveRegex(String[] possibleTurn) {
-		String regex = "";
-		return regex;
-	}
-
-	private String generateEndTurnRegex(String[] possibleTurn) {
-		String regex = "";
-		return regex;
-	}
-
 	private String getSpaceContent(int x, int y) {
 		String result = null;
+		Tile tile = this.board.getTile(x, y);
+		if (tile != null) {
+			result = tile.getContent();
+		}
 		return result;
 	}
 }

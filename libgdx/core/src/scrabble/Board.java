@@ -4,6 +4,7 @@ import data.BoardScorer;
 import data.Coordinate;
 import data.Result;
 import player.PlayersContainer;
+import validation.NewValidator;
 import validation.Validator;
 
 /**
@@ -39,7 +40,7 @@ public class Board {
 	/**
 	 * Validator for testing words. New validator is a new word
 	 */
-	private Validator validator = new Validator();
+	private NewValidator validator = new NewValidator(this);
 	
 	/**
 	 * One half of the variable pair that makes up a move
@@ -66,7 +67,7 @@ public class Board {
 	 * Recreates the validator for a new word
 	 */
 	public void validatorReset(){
-		validator = new Validator();
+		validator = new NewValidator(this);
 	}
 
 	private static int boardSizeX = 15;
@@ -155,6 +156,12 @@ public class Board {
 		return null;
 	}
 	
+	public Tile removeTile(int x, int y) {
+		Tile tile = getTile(x, y);
+		this.letters[x][y] = null;
+		return tile;
+	}
+	
 	/**
 	 * Places the tile at the given coordinates if both partialPlace variables are set
 	 * @param tile	Tile to play
@@ -172,6 +179,10 @@ public class Board {
 		partialTile = null;
 		partialPlace = null;
 		return res;
+	}
+	
+	public void testPlace(Tile tile, int x, int y) {
+		this.letters[x][y] = tile;
 	}
 	
 	/**
@@ -203,12 +214,14 @@ public class Board {
 	 * @return		Result containing the last validation check
 	 */
 	public Result getLastResult() {
-		return this.validator.getLastResult();
+		//return this.validator.getLastResult();
+		return null;
 	}
 	
 	//ignore for mvp
 	public String getWord(){
-		return this.validator.getWord();
+		//return this.validator.getWord();
+		return null;
 	}
 
 	
