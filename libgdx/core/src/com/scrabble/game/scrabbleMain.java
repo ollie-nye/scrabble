@@ -356,8 +356,5 @@ public class scrabbleMain implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-	public Sound[] getSounds(){
-		return tilePress1;
-	}
 
 }

@@ -92,7 +92,7 @@ public class SettingsMenu implements Screen{
 		});
 		stage.addActor(soundSlider);
 		
-		
+		// Main menu button
 		textButtonStyle = new TextButtonStyle();	
 		textButtonStyle.up = skin.getDrawable("homeButton");		
 		textButtonStyle.over = skin.getDrawable("homeButtonPressed");	
