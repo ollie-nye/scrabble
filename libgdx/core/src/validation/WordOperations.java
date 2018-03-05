@@ -32,44 +32,48 @@ public class WordOperations {
 		this.board = board;
 	}
 	
-	/*
+	
 	public static void main(String args[]) {
 		WordOperations ops = new WordOperations(new Board());
-		ops.board.testPlace(new Tile("i", 0), 2, 5);
-		ops.board.testPlace(new Tile("n", 0), 3, 5);
-		ops.board.testPlace(new Tile("t", 0), 4, 5);
-		ops.board.testPlace(new Tile("e", 0), 5, 5);
-		ops.board.testPlace(new Tile("l", 0), 6, 5);
-		ops.board.testPlace(new Tile("l", 0), 7, 5);
-		ops.board.testPlace(new Tile("i", 0), 8, 5);
-		ops.board.testPlace(new Tile("g", 0), 9, 5);
-		ops.board.testPlace(new Tile("e", 0), 10, 5);
-		ops.board.testPlace(new Tile("n", 0), 11, 5);
-		ops.board.testPlace(new Tile("t", 0), 12, 5);
-		ops.board.testPlace(new Tile("s", 0), 2, 3);
-		ops.board.testPlace(new Tile("w", 0), 2, 4);
-		ops.board.testPlace(new Tile("s", 0), 2, 6);
-		ops.board.testPlace(new Tile("h", 0), 2, 7);
-		ops.board.testPlace(new Tile("i", 0), 6, 6);
-		ops.board.testPlace(new Tile("g", 0), 6, 7);
-		ops.board.testPlace(new Tile("h", 0), 6, 8);
-		ops.board.testPlace(new Tile("t", 0), 6, 9);
-		ops.board.testPlace(new Tile("r", 0), 10, 4);
-		ops.board.testPlace(new Tile("a", 0), 10, 6);
-		ops.board.testPlace(new Tile("d", 0), 10, 7);
+		ops.board.testPlace(new Letter(new Tile("i", 0), new Coordinate(2, 5)));
+		ops.board.testPlace(new Letter(new Tile("n", 0), new Coordinate(3, 5)));
+		ops.board.testPlace(new Letter(new Tile("t", 0), new Coordinate(4, 5)));
+		ops.board.testPlace(new Letter(new Tile("e", 0), new Coordinate(5, 5)));
+		ops.board.testPlace(new Letter(new Tile("l", 0), new Coordinate(6, 5)));
+		ops.board.testPlace(new Letter(new Tile("l", 0), new Coordinate(7, 5)));
+		ops.board.testPlace(new Letter(new Tile("i", 0), new Coordinate(8, 5)));
+		ops.board.testPlace(new Letter(new Tile("g", 0), new Coordinate(9, 5)));
+		ops.board.testPlace(new Letter(new Tile("e", 0), new Coordinate(10, 5)));
+		ops.board.testPlace(new Letter(new Tile("n", 0), new Coordinate(11, 5)));
+		ops.board.testPlace(new Letter(new Tile("t", 0), new Coordinate(12, 5)));
+		ops.board.testPlace(new Letter(new Tile("s", 0), new Coordinate(2, 3)));
+		ops.board.testPlace(new Letter(new Tile("w", 0), new Coordinate(2, 4)));
+		ops.board.testPlace(new Letter(new Tile("s", 0), new Coordinate(2, 6)));
+		ops.board.testPlace(new Letter(new Tile("h", 0), new Coordinate(2, 7)));
+		ops.board.testPlace(new Letter(new Tile("i", 0), new Coordinate(6, 6)));
+		ops.board.testPlace(new Letter(new Tile("g", 0), new Coordinate(6, 7)));
+		ops.board.testPlace(new Letter(new Tile("h", 0), new Coordinate(6, 8)));
+		ops.board.testPlace(new Letter(new Tile("t", 0), new Coordinate(6, 9)));
+		ops.board.testPlace(new Letter(new Tile("r", 0), new Coordinate(10, 4)));
+		ops.board.testPlace(new Letter(new Tile("a", 0), new Coordinate(10, 6)));
+		ops.board.testPlace(new Letter(new Tile("d", 0), new Coordinate(10, 7)));
 		
-		int x = 2;
-		int y = 5;
+		ops.board.testPlace(new Letter(new Tile("h", 0), new Coordinate(2, 12)));
+		ops.board.testPlace(new Letter(new Tile("e", 0), new Coordinate(3, 12)));
+		//ops.board.testPlace(new Letter(new Tile("n", 0), new Coordinate(4, 12)));
+		
+		
+		Coordinate loc = new Coordinate(2, 12);
 		
 		Letter testLetter = null;
 		
-		if (ops.board.getTile(x, y) != null) {
-			testLetter = new Letter(ops.board.getTile(x, y), new Coordinate(x, y));
+		if (ops.board.getTile(loc) != null) {
+			testLetter = new Letter(ops.board.getTile(loc), loc);
 		}
 		
 		ops.identifyWords(testLetter);
 	}
-	*/
+	
 	
 	public ArrayList<ArrayList<Letter>> identifyWords(Letter letter) {
 		ArrayList<ArrayList<Letter>> words = new ArrayList<>();

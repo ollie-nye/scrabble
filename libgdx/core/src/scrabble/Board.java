@@ -212,8 +212,7 @@ public class Board {
 	 * @return		Result containing the last validation check
 	 */
 	public Result getLastResult() {
-		//return this.validator.getLastResult();
-		return null;
+		return this.validator.getLastResult();
 	}
 	
 	//ignore for mvp

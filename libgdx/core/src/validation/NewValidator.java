@@ -28,10 +28,12 @@ public class NewValidator {
 	private String firstMoveContent = "";
 	
 	private WordOperations ops;
-
-
+	
+	private ArrayList<String> words = null;
 
 	private String[] turn = new String[15];
+	
+	private Result result = null;
 
 	public NewValidator(Board board) {
 		this.board = board;
@@ -97,13 +99,14 @@ public class NewValidator {
 		} else {
 			this.board.removeTile(letter.getLocation());
 		}
-		return new Result(allowedMove, possibleWords, false);
+		this.result = new Result(allowedMove, possibleWords, testEndTurnMove(letter));
+		this.words = null;
+		return this.result;
 	}
-
-	private int testMove(Letter letter) {
-		int possibleWords = 0;
+	
+	private void getWords(Letter letter) {
+		this.words = new ArrayList<>();
 		ArrayList<ArrayList<Letter>> turnProgress = ops.identifyWords(letter);
-		ArrayList<String> words = new ArrayList<>();
 		
 		for (ArrayList<Letter> word : turnProgress) {
 			String wrd = "";
@@ -112,9 +115,27 @@ public class NewValidator {
 			}
 			words.add(wrd);
 		}
+	} 
+
+	public Result getLastResult() {
+		return this.result;
+	}
+	
+	private int testMove(Letter letter) {
+		if (words == null) { getWords(letter); }
+		int possibleWords = 0;
 		for (String word : words) {
 			possibleWords += this.dictionary.getPossibleWords(word);
 		}
 		return possibleWords;
+	}
+	
+	private boolean testEndTurnMove(Letter letter) {
+		if (words == null) { getWords(letter); }
+		int completeWords = 0;
+		for (String word : words) {
+			completeWords += this.dictionary.getCompleteWords(word);
+		}
+		return (completeWords > 0);
 	}
 }
