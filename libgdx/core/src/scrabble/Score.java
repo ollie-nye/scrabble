@@ -58,8 +58,8 @@ public class Score {
         letterSets.add(3, "bcmp");
         letterSets.add(4, "fhvwy");
         letterSets.add(5, "k");
-        letterSets.add(8, "jx");
-        letterSets.add(10, "qz");
+        letterSets.add(6, "jx");
+        letterSets.add(7, "qz");
     }
 
     /**
