@@ -78,7 +78,8 @@ public class Scrabble {
 			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetter();
 			//TODO: Change to scoring system
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setScore((random.nextInt(13) + 7));
-			
+            //PlayersContainer.getInstance().getPlayer(currentPlayer).
+
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setLastWord(lastWord);
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
@@ -122,37 +123,12 @@ public class Scrabble {
 	*/
 	
 	/**
-	 * Passes the picked Tile to the game for saving
-	 * @param tile		Tile to be placed
-	 */
-	public void partialPlace(Tile tile) {
-		this.partialTile = tile;
-		if (this.partialPlace != null) { //both required elements are provided
-			place();
-		}
-	}
-	
-	/**
-	 * Passes the picked coordinates to the game for saving
-	 * @param x			X to save
-	 * @param y			Y to save
-	 */
-	public void partialPlace(int x, int y) {
-		this.partialPlace = new Coordinate(x, y);
-		if (this.partialTile != null) { //both required elements are provided
-			place();
-		}
-	}
-	
-	/**
 	 * Places if move is legal
 	 */
 	public void place() {
 		Result res = Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
 		if (res.isLegal()) {
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(partialTile);
-			
 		}
 	}
-
 }
