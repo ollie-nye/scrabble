@@ -1,6 +1,7 @@
 package scrabble;
 
 import data.Coordinate;
+import data.Letter;
 import data.Result;
 import player.AIPlayer;
 import player.HumanPlayer;
@@ -127,7 +128,7 @@ public class Scrabble {
 	 * Places if move is legal
 	 */
 	public void place() {
-		Result res = Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
+		Result res = Board.getInstance().place(new Letter(partialTile, partialPlace));
 		if (res.isLegal()) {
 			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(partialTile);
 		}
