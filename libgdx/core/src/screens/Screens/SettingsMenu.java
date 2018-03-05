@@ -2,101 +2,222 @@ package screens.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import screens.ScrabbleLauncher;
 
+public class SettingsMenu implements Screen {
 
-
-public class SettingsMenu implements Screen{
-	
-
-	private static final int BACK_BUTTON_WIDTH = 67;
-	private static final int BACK_BUTTON_HEIGHT = 48;
-	
-	private static final int BACK_BUTTON_Y = 50;
-	
+	private ScrabbleLauncher game;
+	private Stage stage;
+	private Texture sliderBackgroundTexture;
+	private Texture sliderKnobTexture;
+	private Texture settingsBackground;
+	private Slider musicSlider;
+	private Slider soundSlider;
+	private TextButtonStyle textButtonStyle;
+	private TextButtonStyle textButtonStyle2;
+	private TextButtonStyle textButtonStyle3;
 	private BitmapFont font;
-	
-	ScrabbleLauncher game;
-	
-	Texture background;
-	Texture backButtonActive;
-	Texture backButtonInactive;
+	private Skin skin;
+	private TextureAtlas buttonAtlas;
+	private TextButton soundButton;
+	private Sound hover;
+	private TextButton musicButton;
 
 	public SettingsMenu(ScrabbleLauncher game) {
-		this.game= game;
-		background = new Texture("graphics/HelpMenu/helpbackground.png");
-		backButtonActive = new Texture("graphics/HelpMenu/backOn.png");
-		backButtonInactive = new Texture("graphics/HelpMenu/back.png");
-		
+		this.game = game;
 		font = new BitmapFont();
-		font.setColor(Color.BLACK);
-		font.getData().scale(0.3f);
-		
+		hover = Gdx.audio.newSound(Gdx.files.internal("sounds/click02.wav"));
+		settingsBackground = new Texture("graphics/SettingsMenu/SettingsMenuBackground.png");
+		/// create stage and set it as input processor
+		stage = new Stage(new ScreenViewport());
+
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
+		stage.clear();
+		Gdx.input.setInputProcessor(stage);
+		skin = new Skin();
+		buttonAtlas = new TextureAtlas(Gdx.files.internal("graphics/BoardScreen/gameButtons.pack"));
+		skin.addRegions(buttonAtlas);
+
+		// Music Slider volume control
+		sliderBackgroundTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/bar.png"));
+		sliderKnobTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/knob.png"));
+		SliderStyle ss = new SliderStyle();
+		ss.background = new TextureRegionDrawable(new TextureRegion(sliderBackgroundTexture));
+		ss.knob = new TextureRegionDrawable(new TextureRegion(sliderKnobTexture));
+		musicSlider = new Slider(0f, 1f, 0.1f, false, ss);
+		musicSlider.setValue(game.getTheme().getVolume());
+		musicSlider.setPosition(522, 440);
+		musicSlider.setSize(340f, 48f);
+		musicSlider.addListener(new EventListener() {
+			@Override
+			public boolean handle(Event event) {
+				game.getTheme().setVolume(musicSlider.getValue());
+
+				return false;
+			}
+		});
+		stage.addActor(musicSlider);
+
+		// Sound Slider volume control
+		sliderBackgroundTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/bar.png"));
+		sliderKnobTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/knob.png"));
+		soundSlider = new Slider(0f, 1f, 0.1f, false, ss);
+		soundSlider.setValue(game.getSoundVol());
+		soundSlider.setPosition(522, 350);
+		soundSlider.setSize(340f, 48f);
+		soundSlider.addListener(new EventListener() {
+			@Override
+			public boolean handle(Event event) {
+				game.setSoundVol(soundSlider.getValue());
+				return false;
+			}
+		});
+		stage.addActor(soundSlider);
+
+		// Music Toggle button
+		textButtonStyle2 = new TextButtonStyle();
+		textButtonStyle2.up = skin.getDrawable("musicButton");
+		textButtonStyle2.checked = skin.getDrawable("musicButtonPressed");
+		textButtonStyle2.over = skin.getDrawable("musicButtonHover");
+		textButtonStyle2.font = font;
+		musicButton = new TextButton("", textButtonStyle2);
+		musicButton.setPosition(411f, 425f);
+		musicButton.setSize(85.0f, 85.0f);
+		musicButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.getTheme().setVolume(0f);
+				musicSlider.setValue(0f);
+				if (musicButton.isChecked() == false) {
+					musicSlider.setValue(0.5f);
+				}
+
+			};
+		});
+
+		stage.addActor(musicButton);
+
+		// Sound Toggle button
+		textButtonStyle3 = new TextButtonStyle();
+		textButtonStyle3.up = skin.getDrawable("soundButton");
+		textButtonStyle3.checked = skin.getDrawable("soundButtonPressed");
+		textButtonStyle3.over = skin.getDrawable("soundButtonHover");
+		textButtonStyle3.font = font;
+
+		soundButton = new TextButton("", textButtonStyle3);
+		soundButton.setPosition(411.0f, 334.0f);
+		soundButton.setSize(85.0f, 85.0f);
+
+		soundButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				soundSlider.setValue(0f);
+				if (soundButton.isChecked() == false) {
+					soundSlider.setValue(1f);
+				}
+
+			};
+		});
+
+		stage.addActor(soundButton);
+
+		// Main menu button
+		textButtonStyle = new TextButtonStyle();
+		textButtonStyle.up = skin.getDrawable("homeButton");
+		textButtonStyle.over = skin.getDrawable("homeButtonPressed");
+		textButtonStyle.font = font;
+
+		TextButton menu = new TextButton("", textButtonStyle);
+		menu.setPosition(550f, 250f);
+		menu.setSize(206.0f, 61.0f);
+
+		menu.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new MainMenuScreen(game));
+				hover.play(game.getSoundVol());
+			};
+		});
+		stage.addActor(menu);
+
 	}
 
 	@Override
 	public void render(float delta) {
-		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		// clear the screen ready for next set of images to be drawn
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		game.batch.begin();
+		// So the Sound button is checked when returning to settings menu
+		if (soundSlider.getValue() == 0) {
+			soundButton.setChecked(true);
+		} else 
+			soundButton.setChecked(false);
 		
+		// So the Music button is checked when returning to settings menu
+		if (game.getTheme().getVolume() == 0) {
+			musicButton.setChecked(true);
+		} else 
+			musicButton.setChecked(false);
 		
-		
-		game.batch.draw(background,0,0,ScrabbleLauncher.WIDTH,ScrabbleLauncher.HEIGHT);
-		
-		font.draw(game.batch,"PLACEHOLDER",100,350);
-		font.draw(game.batch,"PLACEHOLDER",100,370);
-		
-		int x = 20;
-		
-		// creates the BACK button with user input to return to main menu screen and hover-over effects
-		
-		if (Gdx.input.getX() < x + BACK_BUTTON_WIDTH  && Gdx.input.getX() > x && ScrabbleLauncher.HEIGHT - Gdx.input.getY() < BACK_BUTTON_Y + BACK_BUTTON_HEIGHT && ScrabbleLauncher.HEIGHT - Gdx.input.getY() > BACK_BUTTON_Y ) {
-		game.batch.draw(backButtonActive, x , BACK_BUTTON_Y, BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT);
-		if (Gdx.input.isTouched()) 
-			{
-			game.setScreen(new MainMenuScreen(game));		
-			}
-		} else { 
-		game.batch.draw(backButtonInactive, x ,BACK_BUTTON_Y, BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT);		
-		}
-		
-		
-		game.batch.end();
-		
+		stage.getBatch().begin();
+		stage.getBatch().draw(settingsBackground, 0, 0);
+		stage.getBatch().end();
+		stage.draw();
+		stage.act();
+
 	}
 
 	@Override
-	public void resize(int width, int height) {	
-		
-		
-		
-		
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void pause() {}
+	public void pause() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-	public void resume() {}
+	public void resume() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-	public void hide() {}
+	public void hide() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-	public void dispose() {	}
+	public void dispose() {
+		// TODO Auto-generated method stub
+
+	}
 
 }

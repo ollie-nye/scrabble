@@ -5,77 +5,119 @@ filter: Nearest,Nearest
 repeat: none
 endButton
   rotate: false
-  xy: 1, 64
+  xy: 1, 169
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 endButtonPressed
   rotate: false
-  xy: 1, 1
+  xy: 1, 106
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 homeButton
   rotate: false
-  xy: 209, 64
+  xy: 209, 169
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 homeButtonPressed
   rotate: false
-  xy: 209, 1
+  xy: 1, 43
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 startButton
   rotate: false
-  xy: 417, 64
+  xy: 209, 106
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 startButtonPressed
   rotate: false
-  xy: 417, 1
+  xy: 417, 169
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
+musicButton
+  rotate: false
+  xy: 209, 19
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+musicButtonHover
+  rotate: false
+  xy: 296, 19
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+musicButtonPressed
+  rotate: false
+  xy: 417, 82
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+soundButton
+  rotate: false
+  xy: 504, 82
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+soundButtonHover
+  rotate: false
+  xy: 625, 145
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+soundButtonPressed
+  rotate: false
+  xy: 712, 145
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
 boardButtonPressed
   rotate: false
-  xy: 625, 85
+  xy: 1, 1
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 boardButton
   rotate: false
-  xy: 625, 46
+  xy: 799, 193
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 boardButtonHover
   rotate: false
-  xy: 667, 88
+  xy: 43, 4
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 handButton
   rotate: false
-  xy: 625, 7
+  xy: 799, 154
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 handButtonPressed
   rotate: false
-  xy: 706, 88
+  xy: 838, 193
   size: 37, 37
   orig: 37, 37
   offset: 0, 0

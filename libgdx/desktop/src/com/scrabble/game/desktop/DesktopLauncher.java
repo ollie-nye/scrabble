@@ -8,7 +8,7 @@ import com.scrabble.game.scrabbleMain;
 import screens.ScrabbleLauncher;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.resizable = false;
 		config.title = "Stone Age Scrabble!";
