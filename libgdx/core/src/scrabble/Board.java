@@ -2,10 +2,10 @@ package scrabble;
 
 import data.BoardScorer;
 import data.Coordinate;
+import data.Letter;
 import data.Result;
 import player.PlayersContainer;
 import validation.NewValidator;
-import validation.Validator;
 
 /**
  * Main class that holds the board and organises the game
@@ -78,9 +78,9 @@ public class Board {
 	/*
 	 * needed for the libgdx UI
 	 */
-	public Tile getLetter(int x, int y){
-		if (x < boardSizeX && y < boardSizeY){
-		return letters [x][y];
+	public Tile getLetter(Coordinate loc){
+		if (loc.getX() < boardSizeX && loc.getY() < boardSizeY){
+		return letters [loc.getX()][loc.getY()];
 		}
 		else{
 			return new Tile("0", 0);
@@ -90,7 +90,7 @@ public class Board {
 	/**
 	 * Holds the spaces that determine move scores
 	 */
-	private BoardScorer[][] scoreBoard = new BoardScorer[15][15];
+	private BoardScorer[][] scoreBoard = new BoardScorer[boardSizeX][boardSizeY];
 	
 	/**
 	 * Letters played by the players
@@ -136,9 +136,9 @@ public class Board {
 	 * @param y		Y to get from
 	 * @return		Returns the tile at the given position
 	 */
-	public Tile getTile(int x, int y) {
-		if (x >= 0 && x < boardSizeX && y >= 0 && y < boardSizeY) {
-			return letters[x][y];
+	public Tile getTile(Coordinate loc) {
+		if (loc.getX() >= 0 && loc.getX() < boardSizeX && loc.getY() >= 0 && loc.getY() < boardSizeY) {
+			return letters[loc.getX()][loc.getY()];
 		}
 		return null;
 	}
@@ -149,16 +149,16 @@ public class Board {
 	 * @param y		Y to get from
 	 * @return		BoardScorer object containing multiplier type and score multiplier
 	 */
-	public BoardScorer getScore(int x, int y) {
-		if (x >= 0 && x < boardSizeX && y >= 0 && y < boardSizeY) {
-			return scoreBoard[x][y];
+	public BoardScorer getScore(Coordinate loc) {
+		if (loc.getX() >= 0 && loc.getX() < boardSizeX && loc.getY() >= 0 && loc.getY() < boardSizeY) {
+			return scoreBoard[loc.getX()][loc.getY()];
 		}
 		return null;
 	}
 	
-	public Tile removeTile(int x, int y) {
-		Tile tile = getTile(x, y);
-		this.letters[x][y] = null;
+	public Tile removeTile(Coordinate loc) {
+		Tile tile = getTile(loc);
+		this.letters[loc.getX()][loc.getY()] = null;
 		return tile;
 	}
 	
@@ -169,20 +169,20 @@ public class Board {
 	 * @param y		Y of coordinate to play
 	 * @return		Result of the play
 	 */
-	public Result place(Tile tile, int x, int y) {
-		Result res = validator.validateMove(tile, x, y);
+	public Result place(Letter letter) {
+		Result res = validator.validateMove(letter);
 		if (res.isLegal()) {
-			this.letters[x][y] = tile;
-			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(tile);
-			score.calculateScore(x, y, tile.getContent());
+			this.letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getLetter();
+			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(letter.getLetter());
+			score.calculateScore(letter);
 		}
 		partialTile = null;
 		partialPlace = null;
 		return res;
 	}
 	
-	public void testPlace(Tile tile, int x, int y) {
-		this.letters[x][y] = tile;
+	public void testPlace(Letter letter) {
+		this.letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getLetter();
 	}
 	
 	/**
@@ -192,7 +192,7 @@ public class Board {
 	public void partialPlace(Tile tile) {
 		this.partialTile = tile;
 		if (this.partialPlace != null) { //both required elements are provided
-			Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
+			place(new Letter(partialTile, partialPlace));
 		}
 	}
 	
@@ -204,7 +204,7 @@ public class Board {
 	public void partialPlace(int x, int y) {
 		this.partialPlace = new Coordinate(x, y);
 		if (this.partialTile != null) { //both required elements are provided
-			Board.getInstance().place(partialTile, partialPlace.getX(), partialPlace.getY());
+			place(new Letter(partialTile, partialPlace));
 
 		}
 	}
@@ -226,13 +226,13 @@ public class Board {
 
 	
 	public static void main(String[] args) {
-		Board brd = Board.getInstance();
-		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 5, 9);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 5, 9);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
+		//Board brd = Board.getInstance();
+		//Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
+		//System.out.println(res.isLegal() + " - " + res.possibleWords());
+		//res = brd.place(LetterBag.getInstance().pick(), 5, 9);
+		//System.out.println(res.isLegal() + " - " + res.possibleWords());
+		//res = brd.place(LetterBag.getInstance().pick(), 5, 9);
+		//System.out.println(res.isLegal() + " - " + res.possibleWords());
 	}
 	
 }

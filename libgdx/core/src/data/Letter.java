@@ -1,6 +1,5 @@
-package validation;
+package data;
 
-import data.Coordinate;
 import scrabble.Tile;
 
 /**
