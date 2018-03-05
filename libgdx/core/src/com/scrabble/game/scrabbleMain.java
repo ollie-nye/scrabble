@@ -131,7 +131,7 @@ public class scrabbleMain implements Screen {
 				libgdxsucks.addListener( new ClickListener(){
 					@Override
 					public void clicked(InputEvent event, float x, float y){
-						tilePress1[random.nextInt(tilePress1.length)].play(0.2f);
+						tilePress1[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 					};
 				});
 
@@ -154,7 +154,7 @@ public class scrabbleMain implements Screen {
 			libgdxsucks.addListener( new ClickListener(){
 				@Override
 				public void clicked(InputEvent event, float x, float y){
-					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+					tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 				};
 			});
 
@@ -171,7 +171,7 @@ public class scrabbleMain implements Screen {
 			libgdxsucks.addListener( new ClickListener(){
 				@Override
 				public void clicked(InputEvent event, float x, float y){
-					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+					tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 				};
 			});
 
@@ -188,7 +188,7 @@ public class scrabbleMain implements Screen {
 			libgdxsucks.addListener( new ClickListener(){
 				@Override
 				public void clicked(InputEvent event, float x, float y){
-					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+					tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 				};
 			});
 
@@ -205,7 +205,7 @@ public class scrabbleMain implements Screen {
 			libgdxsucks.addListener( new ClickListener(){
 				@Override
 				public void clicked(InputEvent event, float x, float y){
-					tilePress2[random.nextInt(tilePress1.length)].play(0.2f);
+					tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 				};
 			});
 
@@ -253,8 +253,7 @@ public class scrabbleMain implements Screen {
 		menu.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				hover.setVolume(1, 0.5f);
-				hover.play();
+				hover.play(game.getSoundVol());
 				stage.dispose();
 				game.setScreen(new MainMenuScreen(game));
 			};
@@ -356,8 +355,9 @@ public class scrabbleMain implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
-		
-
+	}
+	public Sound[] getSounds(){
+		return tilePress1;
 	}
 
 }
