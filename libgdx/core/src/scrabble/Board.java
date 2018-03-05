@@ -100,7 +100,7 @@ public class Board {
 	/**
 	 * Populates the BoardScorer with data from the arrays for use in the rest of the game
 	 */
-	private Board() {
+	public Board() {
 		for (int x = 0; x < boardSizeY; x++) {
 			for (int y = 0; y < boardSizeY; y++) {
 				boolean isLetter;
