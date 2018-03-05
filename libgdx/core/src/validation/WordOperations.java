@@ -3,6 +3,7 @@ package validation;
 import java.util.ArrayList;
 
 import data.Coordinate;
+import data.Letter;
 import scrabble.Board;
 import scrabble.Tile;
 
@@ -31,6 +32,7 @@ public class WordOperations {
 		this.board = board;
 	}
 	
+	/*
 	public static void main(String args[]) {
 		WordOperations ops = new WordOperations(new Board());
 		ops.board.testPlace(new Tile("i", 0), 2, 5);
@@ -67,6 +69,7 @@ public class WordOperations {
 		
 		ops.identifyWords(testLetter);
 	}
+	*/
 	
 	public ArrayList<ArrayList<Letter>> identifyWords(Letter letter) {
 		ArrayList<ArrayList<Letter>> words = new ArrayList<>();
@@ -129,33 +132,38 @@ public class WordOperations {
 		int x = letter.getLocation().getX();
 		int y = letter.getLocation().getY();
 		Letter returnLetter = null;
+		Coordinate nextLoc = null;
 		switch (direction) {
 		case UP:
 			if (!(letter.getLocation().getY() < 0)) {
-				Tile tile = board.getTile(x, y - 1);
+				nextLoc = new Coordinate(x, y - 1);
+				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
-				returnLetter = new Letter(tile, new Coordinate (x, y - 1)) ;
+				returnLetter = new Letter(tile, nextLoc) ;
 			}
 			break;
 		case DOWN:
 			if (!(letter.getLocation().getY() > 15)) {
-				Tile tile = board.getTile(x, y + 1);
+				nextLoc = new Coordinate (x, y + 1);
+				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
-				returnLetter = new Letter(tile, new Coordinate (x, y + 1)) ;
+				returnLetter = new Letter(tile, nextLoc) ;
 			}
 			break;
 		case LEFT:
 			if (!(letter.getLocation().getX() < 0)) {
-				Tile tile = board.getTile(x - 1, y);
+				nextLoc = new Coordinate (x - 1, y);
+				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
-				returnLetter = new Letter(tile, new Coordinate (x - 1, y)) ;
+				returnLetter = new Letter(tile, nextLoc) ;
 			}
 			break;
 		case RIGHT:
 			if (!(letter.getLocation().getX() > 15)) {
-				Tile tile = board.getTile(x + 1, y);
+				nextLoc = new Coordinate (x + 1, y);
+				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
-				returnLetter = new Letter(tile, new Coordinate (x + 1, y)) ;
+				returnLetter = new Letter(tile, nextLoc) ;
 			}
 			break;
 		}
