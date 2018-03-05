@@ -164,8 +164,8 @@ public class Board {
 	
 	/**
 	 * Places the tile at the given coordinates if both partialPlace variables are set
-	 * @param letter	Tile to play
-	 * @return		Result of the play
+	 * @param letter    Tile to play
+	 * @return          Result of the play
 	 */
 	public Result place(Letter letter) {
 		Result res = validator.validateMove(letter);
