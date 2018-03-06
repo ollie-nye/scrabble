@@ -1,8 +1,5 @@
 package player;
 
-import java.util.Random;
-
-import data.Letter;
 import scrabble.Tile;
 import scrabble.LetterBag;
 import scrabble.Board;
@@ -12,10 +9,9 @@ import scrabble.Board;
  * @author Thomas Geraghty
  * @version 1.1
  */
-public abstract class  Player {
+public abstract class Player {
 
 	private Tile[] letterList = new Tile[7];
-    private Random rnd = new Random();
     private String playerName;
     private int score = 0;
     private String lastPlayedWord;
@@ -85,10 +81,20 @@ public abstract class  Player {
      *
      *  @see    LetterBag#pick()
      */
-    public void addLetter() {
+    public void addLetters() {
         for(int i = 0; i < letterList.length - 1; i++) {
             if(letterList[i] == null) {
                 letterList[i] = LetterBag.getInstance().pick();
+                letterList[i].setPlayer(this);
+            }
+        }
+    }
+
+    public void returnletter(Tile tile) {
+        for(int i = 0; i < letterList.length - 1; i++) {
+            if (letterList[i] == null) {
+                letterList[i] = tile;
+                break;
             }
         }
     }
@@ -114,19 +120,6 @@ public abstract class  Player {
      */
     public Tile[] getLetterList() {
         return letterList;
-    }
-
-    public void getLetter() {
-    }
-
-    /**
-     * Plays chosen tile to board.
-     * Removes tile from players selection of tiles.
-     * @param letter  letter to play
-     */
-    public void playLetter(Letter letter) {
-        Board.getInstance().place(letter);
-        removeLetter(letter.getTile());
     }
 
     public void selectedLetter(Tile tile, int x, int y) {

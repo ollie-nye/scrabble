@@ -5,7 +5,6 @@ import data.Letter;
 import data.Result;
 import player.AIPlayer;
 import player.HumanPlayer;
-import player.Player;
 import player.PlayersContainer;
 import javax.swing.JOptionPane;
 import java.util.Random;
@@ -65,7 +64,8 @@ public class Scrabble {
 		players.addPlayer(new HumanPlayer("Toast"));
 		players.addPlayer(new HumanPlayer("Butter"));		
 	}
-	
+
+
 	
 	/**
 	 * Method to increment the turn within the game, recreating validation and letters when required
@@ -76,53 +76,25 @@ public class Scrabble {
 		String lastWord = Board.getInstance().getWord();
 		if (lastResult.isCompleteWord()) {
             Random random = new Random();
-			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetter();
+			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetters();
 			//TODO: Change to scoring system
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setScore((random.nextInt(13) + 7));
-            //PlayersContainer.getInstance().getPlayer(currentPlayer).
-
 			PlayersContainer.getInstance().getPlayer(currentPlayer).setLastWord(lastWord);
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
 				currentPlayer = 0;
 			}
 			Board.getInstance().validatorReset();
-			return true;
-			
-			
-			
+			if(PlayersContainer.getInstance().getPlayer(currentPlayer) instanceof AIPlayer) {
+
+            }
+
+            return true;
 		} else {
 			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
 	}
-	
-	/**
-	 * Creates game and updates the UI for initial state
-	 * @param args
-	 */
-	/*
-	 * public static void main(String[] args) {
-	 
-		splashScreen splash = new splashScreen();
-		Scrabble game = new Scrabble();
-		
-		Board brd = Board.getInstance();
-		Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 5, 9);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 5, 8);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 5, 10);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 5, 6);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		res = brd.place(LetterBag.getInstance().pick(), 9, 2);
-		System.out.println(res.isLegal() + " - " + res.possibleWords());
-		ui.update();
-	}
-	*/
 	
 	/**
 	 * Places if move is legal

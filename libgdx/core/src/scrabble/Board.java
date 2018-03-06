@@ -73,10 +73,6 @@ public class Board {
 		validator = new NewValidator(this);
 	}
 
-
-	
-
-
 	/*
 	 * needed for the libgdx UI
 	 */
@@ -131,7 +127,6 @@ public class Board {
 		}
 	}
 	
-	
 	/**
 	 * Gets the tile at the given coordinate
 	 * @param location
@@ -155,10 +150,16 @@ public class Board {
 		}
 		return null;
 	}
-	
+
+    /**
+     * Removes tile at passed coordinate.
+     * @param location  location of tile to remove
+     * @return tile     removed tile
+     */
 	public Tile removeTile(Coordinate location) {
 		Tile tile = getTile(location);
-		this.letters[location.getX()][location.getY()] = null;
+		letters[location.getX()][location.getY()] = null;
+		tile.getPlayer().returnletter(tile);
 		return tile;
 	}
 	
@@ -189,9 +190,15 @@ public class Board {
 	 */
 	public void partialPlace(Tile tile) {
 		partialTile = tile;
-		if (partialPlace != null) { //both required elements are provided
-			place(new Letter(partialTile, partialPlace));
-		}
+		try {
+            if (partialPlace != null) { //both required elements are provided
+                place(new Letter(partialTile, partialPlace));
+            } else {
+                throw new Exception("Place is null");
+            }
+        } catch (Exception e) {
+		    System.out.println(e);
+        }
 	}
 	
 	/**
@@ -201,10 +208,16 @@ public class Board {
 	 */
 	public void partialPlace(int x, int y) {
 		partialPlace = new Coordinate(x, y);
-		if (partialTile != null) { //both required elements are provided
-			place(new Letter(partialTile, partialPlace));
-
-		}
+		try {
+            if (partialTile != null) { //both required elements are provided
+                place(new Letter(partialTile, partialPlace));
+            } else {
+                throw new Exception("Tile is null");
+            }
+        }
+        catch (Exception e) {
+		    System.out.println(e);
+        }
 	}
 
 	/**
@@ -219,16 +232,5 @@ public class Board {
 	public String getWord(){
 		//return this.validator.getWord();
 		return null;
-	}
-
-	
-	public static void main(String[] args) {
-		//Board brd = Board.getInstance();
-		//Result res = brd.place(LetterBag.getInstance().pick(), 5, 7);
-		//System.out.println(res.isLegal() + " - " + res.possibleWords());
-		//res = brd.place(LetterBag.getInstance().pick(), 5, 9);
-		//System.out.println(res.isLegal() + " - " + res.possibleWords());
-		//res = brd.place(LetterBag.getInstance().pick(), 5, 9);
-		//System.out.println(res.isLegal() + " - " + res.possibleWords());
 	}
 }

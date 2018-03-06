@@ -19,7 +19,7 @@ public class AIPlayer extends Player {
 		setPlayerName(name);
 
 		for(int i = 0;  i <7; i++) {
-			addLetter();
+			addLetters();
 		}
 	}
 }

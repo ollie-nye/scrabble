@@ -1,7 +1,6 @@
 package validation;
 
 import java.util.ArrayList;
-
 import data.Coordinate;
 import data.Letter;
 import scrabble.Board;
@@ -70,7 +69,6 @@ public class WordOperations {
 		if (ops.board.getTile(loc) != null) {
 			testLetter = new Letter(ops.board.getTile(loc), loc);
 		}
-		
 		ops.identifyWords(testLetter);
 	}
 	
