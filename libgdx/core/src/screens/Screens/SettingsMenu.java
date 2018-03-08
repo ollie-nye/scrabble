@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
@@ -22,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import assetmanager.assetManager;
 import screens.ScrabbleLauncher;
 
 public class SettingsMenu implements Screen {
@@ -46,8 +46,9 @@ public class SettingsMenu implements Screen {
 	public SettingsMenu(ScrabbleLauncher game) {
 		this.game = game;
 		font = new BitmapFont();
-		hover = Gdx.audio.newSound(Gdx.files.internal("sounds/click02.wav"));
-		settingsBackground = new Texture("graphics/SettingsMenu/SettingsMenuBackground.png");
+		hover = game.getAssetManager().manager.get(assetManager.mainClick);
+		settingsBackground = game.getAssetManager().manager.get(assetManager.settingsBackground);
+		
 		/// create stage and set it as input processor
 		stage = new Stage(new ScreenViewport());
 
@@ -58,12 +59,12 @@ public class SettingsMenu implements Screen {
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin();
-		buttonAtlas = new TextureAtlas(Gdx.files.internal("graphics/BoardScreen/gameButtons.pack"));
+		buttonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
 		skin.addRegions(buttonAtlas);
 
 		// Music Slider volume control
-		sliderBackgroundTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/bar.png"));
-		sliderKnobTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/knob.png"));
+		sliderBackgroundTexture = game.getAssetManager().manager.get(assetManager.sliderBar);
+		sliderKnobTexture = game.getAssetManager().manager.get(assetManager.sliderKnob);
 		SliderStyle ss = new SliderStyle();
 		ss.background = new TextureRegionDrawable(new TextureRegion(sliderBackgroundTexture));
 		ss.knob = new TextureRegionDrawable(new TextureRegion(sliderKnobTexture));
@@ -82,8 +83,8 @@ public class SettingsMenu implements Screen {
 		stage.addActor(musicSlider);
 
 		// Sound Slider volume control
-		sliderBackgroundTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/bar.png"));
-		sliderKnobTexture = new Texture(Gdx.files.internal("graphics/SettingsMenu/knob.png"));
+		sliderBackgroundTexture = game.getAssetManager().manager.get(assetManager.sliderBar);
+		sliderKnobTexture = game.getAssetManager().manager.get(assetManager.sliderKnob);
 		soundSlider = new Slider(0f, 1f, 0.1f, false, ss);
 		soundSlider.setValue(game.getSoundVol());
 		soundSlider.setPosition(522, 350);
@@ -136,7 +137,7 @@ public class SettingsMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				soundSlider.setValue(0f);
 				if (soundButton.isChecked() == false) {
-					soundSlider.setValue(1f);
+					soundSlider.setValue(0.5f);
 				}
 
 			};

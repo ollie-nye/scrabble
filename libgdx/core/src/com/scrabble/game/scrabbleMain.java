@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 
+import assetmanager.assetManager;
 import player.PlayersContainer;
 import scrabble.Board;
 import scrabble.Scrabble;
@@ -36,6 +37,7 @@ import screens.ScrabbleLauncher;
 import screens.Screens.MainMenuScreen;
 
 public class scrabbleMain implements Screen {
+	
 	Stage stage;
 	Texture BoardBackground;
 	SpriteBatch BoardBatch;
@@ -81,8 +83,8 @@ public class scrabbleMain implements Screen {
 
 	public scrabbleMain(ScrabbleLauncher game) {
 		this.game = game;
-		hover = Gdx.audio.newSound(Gdx.files.internal("sounds/click02.wav"));
-		BoardBackground = new Texture("graphics/BoardScreen/BoardBackground.png");
+		hover = game.getAssetManager().manager.get(assetManager.mainClick);
+		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
 		this.create();		
@@ -93,19 +95,19 @@ public class scrabbleMain implements Screen {
 	public void create() {
 
 		tilePress1 = new Sound[]{
-				Gdx.audio.newSound(Gdx.files.internal("Spells1_a_2edit.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells1_b.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells1_d.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells1_e.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells1_f.mp3"))
+				game.getAssetManager().manager.get(assetManager.click1),
+				game.getAssetManager().manager.get(assetManager.click2),
+				game.getAssetManager().manager.get(assetManager.click3),
+				game.getAssetManager().manager.get(assetManager.click4),
+				game.getAssetManager().manager.get(assetManager.click5)
 				
 		};
 		tilePress2 = new Sound[]{
-				Gdx.audio.newSound(Gdx.files.internal("Spells2_a.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells2_b.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells2_c.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells2_f.mp3")),
-				Gdx.audio.newSound(Gdx.files.internal("Spells2_g.mp3")),
+				game.getAssetManager().manager.get(assetManager.click6),
+				game.getAssetManager().manager.get(assetManager.click7),
+				game.getAssetManager().manager.get(assetManager.click8),
+				game.getAssetManager().manager.get(assetManager.click9),
+				game.getAssetManager().manager.get(assetManager.click10),
 				
 		};
 		
@@ -340,7 +342,7 @@ public class scrabbleMain implements Screen {
 		// sets up graphics of tiles
 		font = new BitmapFont();
 		skin = new Skin();
-		buttonAtlas = new TextureAtlas(Gdx.files.internal("graphics/BoardScreen/gameButtons.pack"));
+		buttonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);;
 		skin.addRegions(buttonAtlas);
 		
 		// skins for the buttons

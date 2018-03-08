@@ -1,12 +1,13 @@
 package screens.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.scrabble.game.scrabbleMain;
+
+import assetmanager.assetManager;
 import screens.ScrabbleLauncher;
 
 public class MainMenuScreen implements Screen {
@@ -56,21 +57,21 @@ public class MainMenuScreen implements Screen {
 		
 		this.game= game;
 		
-		background = new Texture("graphics/MainMenu/mainBackground.png");
+		background = game.getAssetManager().manager.get(assetManager.mainBackground);
 
-		playButtonActive = new Texture("graphics/MainMenu/playPressed.png");
-		playButtonInactive = new Texture("graphics/MainMenu/play.png");
+		playButtonActive = game.getAssetManager().manager.get(assetManager.playButtonPressed);
+		playButtonInactive = game.getAssetManager().manager.get(assetManager.playButton);
 		
-		helpButtonActive = new Texture("graphics/MainMenu/helpPressed.png");
-		helpButtonInactive = new Texture("graphics/MainMenu/help.png");
+		helpButtonActive = game.getAssetManager().manager.get(assetManager.helpButtonPressed);
+		helpButtonInactive = game.getAssetManager().manager.get(assetManager.helpButton);
 		
-		settingButtonActive = new Texture("graphics/MainMenu/settingsPressed.png");
-		settingButtonInactive = new Texture("graphics/MainMenu/settings.png");
+		settingButtonActive = game.getAssetManager().manager.get(assetManager.settingsButtonPressed);
+		settingButtonInactive = game.getAssetManager().manager.get(assetManager.settingsButton);
 		
-		exitButtonActive = new Texture("graphics/MainMenu/exitPressed.png");
-		exitButtonInactive = new Texture("graphics/MainMenu/exitButton.png");
+		exitButtonActive = game.getAssetManager().manager.get(assetManager.exitButtonPressed);
+		exitButtonInactive = game.getAssetManager().manager.get(assetManager.exitButton);
 		
-		hover = Gdx.audio.newSound(Gdx.files.internal("sounds/click02.wav"));
+		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		
 		
 	}
@@ -85,10 +86,6 @@ public class MainMenuScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		game.batch.begin();
-		
-		
-		
-		
 		game.batch.draw(background,0,0,ScrabbleLauncher.WIDTH,ScrabbleLauncher.HEIGHT);
 		
 		
@@ -100,8 +97,6 @@ public class MainMenuScreen implements Screen {
 		if (Gdx.input.isTouched()) {
 			hover.play(game.getSoundVol());
 			game.setScreen(new scrabbleMain(game));
-			
-		
 		}
 		} else { 
 		game.batch.draw(playButtonInactive, PLAY_BUTTON_X , PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH,PLAY_BUTTON_HEIGHT);		
