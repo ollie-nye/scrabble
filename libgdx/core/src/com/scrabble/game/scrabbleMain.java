@@ -132,7 +132,7 @@ public class scrabbleMain implements Screen {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 
-				libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, j, 0);
+				libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, j, i, 0);
 				libgdxsucks.setSize(36.4f, 36.4f);
 				stage.addActor(libgdxsucks);
 				table.add(libgdxsucks).size(36.4f, 36.4f).pad(2.0f);
