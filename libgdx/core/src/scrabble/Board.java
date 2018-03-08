@@ -212,11 +212,11 @@ public class Board {
             if (partialTile != null) { //both required elements are provided
                 place(new Letter(partialTile, partialPlace));
             } else {
-                throw new Exception("Tile is null");
+                //throw new Exception("Tile is null");
             }
         }
         catch (Exception e) {
-		    System.out.println(e);
+		    e.printStackTrace();
         }
 	}
 

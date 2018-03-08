@@ -29,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 
+import player.PlayersContainer;
+import scrabble.Board;
 import scrabble.Scrabble;
 import screens.ScrabbleLauncher;
 import screens.Screens.MainMenuScreen;
@@ -49,6 +51,11 @@ public class scrabbleMain implements Screen {
 	Button startTurnButton;
 	TextButton endTurn;
 	TextButton startTurn;
+	TextButton scores1;
+	TextButton scores2;
+	TextButton scores3;
+	TextButton scores4;
+	TextButton scoreThisTurn;
 	
 	OrthographicCamera camera;
 	
@@ -79,6 +86,7 @@ public class scrabbleMain implements Screen {
 		BoardBatch = new SpriteBatch();
 		random = new Random();
 		this.create();		
+		
 
 	}
 
@@ -124,7 +132,7 @@ public class scrabbleMain implements Screen {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 
-				libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, i, j, 0);
+				libgdxsucks = new ScrabbleButton(" ", scrabbleButtonStyle, j, i, 0);
 				libgdxsucks.setSize(36.4f, 36.4f);
 				stage.addActor(libgdxsucks);
 				table.add(libgdxsucks).size(36.4f, 36.4f).pad(2.0f);
@@ -260,6 +268,69 @@ public class scrabbleMain implements Screen {
 		});	
 		stage.addActor(menu);
 		
+		scores1 = new TextButton("P1 score" + Integer.toString(PlayersContainer.getInstance().getPlayer(0).getScore()), textButtonStyle2);
+		scores1.setPosition(1070.0f,110.0f);
+		scores1.setSize(206.0f, 40.0f);
+		
+		scores1.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				hover.play(game.getSoundVol());
+			};
+		});	
+		stage.addActor(scores1);
+		
+		scores2 = new TextButton("P2 score" + Integer.toString(PlayersContainer.getInstance().getPlayer(1).getScore()), textButtonStyle);
+		scores2.setPosition(1070.0f,80.0f);
+		scores2.setSize(206.0f, 40.0f);
+		
+		scores2.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				hover.play(game.getSoundVol());
+				
+			};
+		});	
+		stage.addActor(scores2);
+		
+		scores3 = new TextButton("P3 score" + Integer.toString(PlayersContainer.getInstance().getPlayer(2).getScore()), textButtonStyle);
+		scores3.setPosition(1070.0f,50.0f);
+		scores3.setSize(206.0f, 40.0f);
+		
+		scores3.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				hover.play(game.getSoundVol());
+				
+			};
+		});	
+		stage.addActor(scores3);
+		
+		scores4 = new TextButton("P4 score" + Integer.toString(PlayersContainer.getInstance().getPlayer(3).getScore()), textButtonStyle);
+		scores4.setPosition(1070.0f,20.0f);
+		scores4.setSize(206.0f, 40.0f);
+		
+		scores4.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				hover.play(game.getSoundVol());
+				
+			};
+		});	
+		stage.addActor(scores4);
+		
+		TextButton 	scoreThisTurn = new TextButton("score this turn not implemented", textButtonStyle);
+		scoreThisTurn.setPosition(0.0f,330.0f);
+		scoreThisTurn.setSize(206.0f, 60.0f);
+		
+		scoreThisTurn.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				hover.play(game.getSoundVol());
+				
+			};
+		});	
+		stage.addActor(scoreThisTurn);
 		
 		
 		Gdx.input.setInputProcessor(stage);
@@ -320,6 +391,8 @@ public class scrabbleMain implements Screen {
 			startTurn.setVisible(false);
 			endTurn.setVisible(true);
 		}
+		
+		
 		
 	
 		stage.draw();

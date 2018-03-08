@@ -73,19 +73,32 @@ public class WordOperations {
 	}
 	
 	
-	public ArrayList<ArrayList<Letter>> identifyWords(Letter letter) {
-		ArrayList<ArrayList<Letter>> words = new ArrayList<>();
+	public ArrayList<String> identifyWords(Letter letter) {
+		ArrayList<String> words = new ArrayList<>();
+		ArrayList<ArrayList<Letter>> wordsH = new ArrayList<>();
+		ArrayList<ArrayList<Letter>> wordsV = new ArrayList<>();
 		
 		this.originLetter = letter;
 
-		words = traceWords(letter, Orient.H, words, false);
+		wordsH = traceWords(letter, Orient.H, wordsH, false);
+		wordsV = traceWords(letter, Orient.H, wordsV, false);
 		
-		for (ArrayList<Letter> word : words) {
-			String wrd = "";
-			for (Letter ltr : word) {
-				wrd += ltr.getTile().getContent();
+		for (ArrayList<Letter> newWordList : wordsH) {
+			String newWord = "";
+			for (Letter newWordLetter : newWordList) {
+				newWord += newWordLetter.getTile().toString();
 			}
-			System.out.println(wrd);
+			words.add(newWord);
+		}
+		
+		for (ArrayList<Letter> newWordList : wordsV) {
+			String newWord = "";
+			for (Letter newWordLetter : newWordList) {
+				newWord += newWordLetter.getTile().toString();
+			}
+			if (!words.contains(newWord)) {
+				words.add(newWord);
+			}
 		}
 		
 		return words;
