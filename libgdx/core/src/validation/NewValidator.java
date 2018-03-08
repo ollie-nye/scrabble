@@ -16,7 +16,7 @@ public class NewValidator {
 
 	private int location = 0;
 
-	private Dawg dictionary = new Dawg();
+	private static Dawg dictionary = new Dawg();
 
 	private Board board = null;
 
@@ -104,16 +104,7 @@ public class NewValidator {
 	}
 	
 	private void getWords(Letter letter) {
-		this.words = new ArrayList<>();
-		ArrayList<ArrayList<Letter>> turnProgress = ops.identifyWords(letter);
-		
-		for (ArrayList<Letter> word : turnProgress) {
-			String wrd = "";
-			for (Letter ltr : word) {
-				wrd += ltr.getTile().getContent();
-			}
-			words.add(wrd);
-		}
+		this.words = ops.identifyWords(letter);
 	} 
 
 	public Result getLastResult() {
@@ -124,7 +115,7 @@ public class NewValidator {
 		if (words == null) { getWords(letter); }
 		int possibleWords = 0;
 		for (String word : words) {
-			possibleWords += this.dictionary.getPossibleWords(word);
+			possibleWords += 1;//this.dictionary.getPossibleWords(word);
 		}
 		return possibleWords;
 	}
