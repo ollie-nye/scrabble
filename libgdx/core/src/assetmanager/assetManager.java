@@ -27,32 +27,13 @@ public class assetManager {
     
     
     // graphics needed for the main menu
-    public static final AssetDescriptor<Texture> exitButton = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/exitButton.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> exitButtonPressed = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/exitPressed.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> helpButton = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/help.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> helpButtonPressed = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/helpPressed.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> playButton = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/play.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> playButtonPressed = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/playPressed.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> settingsButton = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/settings.png", Texture.class);
-    
-    public static final AssetDescriptor<Texture> settingsButtonPressed = 
-            new AssetDescriptor<Texture>("graphics/MainMenu/settingsPressed.png", Texture.class);
-    
+   
     public static final AssetDescriptor<Texture> mainBackground = 
             new AssetDescriptor<Texture>("graphics/MainMenu/mainBackground.png", Texture.class);
+    
+    public static final AssetDescriptor<TextureAtlas> mainMenuButtonPack = 
+            new AssetDescriptor<TextureAtlas>("graphics/MainMenu/MainMenu.pack", TextureAtlas.class);
+    
     
     
     // graphics for settings menu
@@ -121,14 +102,6 @@ private void loadTextures() {
 	
 	manager.load(boardBackground);
 	manager.load(gameButtons);
-	manager.load(playButton);
-	manager.load(playButtonPressed);
-	manager.load(settingsButton);
-	manager.load(settingsButtonPressed);
-	manager.load(helpButton);
-	manager.load(helpButtonPressed);
-	manager.load(exitButton);
-	manager.load(exitButtonPressed);
 	manager.load(mainBackground);
 	manager.load(sliderBar);
 	manager.load(sliderKnob);
@@ -138,6 +111,7 @@ private void loadTextures() {
 
 private void loadTextureAtlas(){
 	manager.load(gameButtonPack);
+	manager.load(mainMenuButtonPack);
 }
 
 private void loadSounds(){

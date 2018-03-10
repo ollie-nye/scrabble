@@ -68,7 +68,7 @@ public class HelpScreen implements Screen {
 		game.batch.draw(backButtonActive, x , BACK_BUTTON_Y, BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT);
 		if (Gdx.input.isTouched()) 
 			{
-			game.setScreen(new MainMenuScreen(game));		
+			game.setScreen(new MainMenu(game));		
 			}
 		} else { 
 		game.batch.draw(backButtonInactive, x ,BACK_BUTTON_Y, BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT);		

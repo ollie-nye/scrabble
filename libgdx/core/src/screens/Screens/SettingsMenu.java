@@ -158,7 +158,7 @@ public class SettingsMenu implements Screen {
 		menu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new MainMenuScreen(game));
+				game.setScreen(new MainMenu(game));
 				hover.play(game.getSoundVol());
 			};
 		});
@@ -190,6 +190,10 @@ public class SettingsMenu implements Screen {
 		stage.draw();
 		stage.act();
 
+	}
+	
+	public Slider getSoundSlider(){
+		return soundSlider;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import assetmanager.assetManager;
-import screens.Screens.MainMenuScreen;
+import screens.Screens.MainMenu;
 
 public class ScrabbleLauncher extends Game {
 	
@@ -31,7 +31,7 @@ public class ScrabbleLauncher extends Game {
 		assets.manager.finishLoading();
 		
 		batch = new SpriteBatch();
-		this.setScreen(new MainMenuScreen(this));
+		this.setScreen(new MainMenu(this));
 		theme = assets.manager.get(assetManager.mainMusic);
 		theme.setVolume(0.5f);
 		theme.play();

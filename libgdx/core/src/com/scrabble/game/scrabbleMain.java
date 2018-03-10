@@ -34,7 +34,8 @@ import player.PlayersContainer;
 import scrabble.Board;
 import scrabble.Scrabble;
 import screens.ScrabbleLauncher;
-import screens.Screens.MainMenuScreen;
+import screens.Screens.MainMenu;
+
 
 public class scrabbleMain implements Screen {
 	
@@ -265,7 +266,7 @@ public class scrabbleMain implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				hover.play(game.getSoundVol());
 				stage.dispose();
-				game.setScreen(new MainMenuScreen(game));
+				game.setScreen(new MainMenu(game));
 			};
 		});	
 		stage.addActor(menu);
@@ -428,8 +429,10 @@ public class scrabbleMain implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		stage.dispose();
+		BoardBackground.dispose();
+		BoardBatch.dispose();
+		hover.dispose();	
 	}
 
 }
