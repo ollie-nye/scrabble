@@ -81,7 +81,7 @@ public class WordOperations {
 		this.originLetter = letter;
 
 		wordsH = traceWords(letter, Orient.H, wordsH, false);
-		wordsV = traceWords(letter, Orient.H, wordsV, false);
+		wordsV = traceWords(letter, Orient.V, wordsV, false);
 		
 		for (ArrayList<Letter> newWordList : wordsH) {
 			String newWord = "";
