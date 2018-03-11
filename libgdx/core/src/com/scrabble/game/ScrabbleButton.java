@@ -111,7 +111,11 @@ public class ScrabbleButton extends ButtonBase {
 			/*
 			 * BOARD
 			 */
-			else{				
+			else if (Board.getInstance().isEmpty()) {
+				if (xCoor == 7 && yCoor == 7) {
+					Board.getInstance().partialPlace(xCoor, yCoor);
+				}
+			} else {
 				Board.getInstance().partialPlace(xCoor, yCoor);
 			}
 			isPressed = true;

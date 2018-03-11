@@ -235,4 +235,15 @@ public class Board {
 		//return this.validator.getWord();
 		return null;
 	}
+	public boolean isEmpty(){		
+		for (int x = 0; x < boardSizeX; x++) {
+			for (int y = 0; y < boardSizeY; y++) {
+				if (letters[x][y] != null){
+					return false;
+				};
+			}
+		}
+		return true;
+		
+	}
 }
