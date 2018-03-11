@@ -69,8 +69,6 @@ public class Scrabble {
 		players.addPlayer(new HumanPlayer("Butter"));		
 	}
 
-
-	
 	/**
 	 * Method to increment the turn within the game, recreating validation and letters when required
 	 */
@@ -98,16 +96,6 @@ public class Scrabble {
 		} else {
 			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
 			return false;
-		}
-	}
-	
-	/**
-	 * Places if move is legal
-	 */
-	public void place() {
-		Result res = Board.getInstance().place(new Letter(partialTile, partialPlace));
-		if (res.isLegal()) {
-			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(partialTile);
 		}
 	}
 }

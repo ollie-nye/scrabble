@@ -21,9 +21,7 @@ public class ScrabbleButton extends ButtonBase {
 	private int boardOrPlayer;
 	private int xCoor;
 	private int yCoor;
-	private boolean isPressed = false;	
-
-	
+	private boolean isPressed = false;
 
 	public ScrabbleButton (String text, ScrabbleButtonStyle style, int xCoor, int yCoor, int boardOrPlayer) {
 		super();
@@ -69,7 +67,6 @@ public class ScrabbleButton extends ButtonBase {
 			}else{
 				setText(Board.getInstance().getTile(loc).getContent());
 			}
-			
 		}
 		
 		/*
@@ -139,10 +136,7 @@ public class ScrabbleButton extends ButtonBase {
 			fontColor = style.fontColor;
 		}
 		if (fontColor != null) label.getStyle().fontColor = fontColor;
-			
 		super.draw(batch, parentAlpha);
-		
-		
 	}
 
 	public Label getLabel () {

@@ -23,7 +23,8 @@ public class LetterBag {
 	/**
 	 * Singleton design pattern
 	 * @return The instance of LetterBag
-	 */
+     */
+
 	public static LetterBag getInstance() {
 		if (instance == null) {
 			instance = new LetterBag();
@@ -31,7 +32,7 @@ public class LetterBag {
 		return instance;
 	}
 	
-	private LetterBag() {
+	public LetterBag() {
 		//put ( <letter>, (new Integer[]( <quantity in bag>, <score>))
 		tiles.put(new Tile("a", 1), 9);
 		tiles.put(new Tile("b", 3), 2);

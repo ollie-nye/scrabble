@@ -1,6 +1,5 @@
 package scrabble;
 
-import data.BoardScorer;
 import data.Coordinate;
 import data.Letter;
 import data.Result;
@@ -85,42 +84,13 @@ public class Board {
 			return new Tile("0", 0);
 		}
 	}
-	
-	/**
-	 * Holds the spaces that determine move scores
-	 */
-	private BoardScorer[][] scoreBoard = new BoardScorer[boardSizeX][boardSizeY];
-	
+
 	/**
 	 * Letters played by the players
 	 */
 	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
-	
-	/**
-	 * Populates the BoardScorer with data from the arrays for use in the rest of the game
-	 */
+
 	public Board() {
-		for (int x = 0; x < boardSizeY; x++) {
-			for (int y = 0; y < boardSizeY; y++) {
-				boolean isLetter;
-				boolean isWord;
-				int score;
-				/**
-				switch (types[x][y]) {
-				case 'l':
-					scoreBoard[x][y] = new BoardScorer(true, scores[x][y]);
-					break;
-				case 'w':
-					scoreBoard[x][y] = new BoardScorer(false, scores[x][y]);
-					break;
-				default:
-					scoreBoard[x][y] = null;
-					break;
-				}
-                 **/
-			}
-		}
-		
 		for (int x = 0; x < boardSizeX; x++) {
 			for (int y = 0; y < boardSizeY; y++) {
 				letters[x][y] = null;
@@ -136,18 +106,6 @@ public class Board {
 	public Tile getTile(Coordinate location) {
 		if (location.getX() >= 0 && location.getX() < boardSizeX && location.getY() >= 0 && location.getY() < boardSizeY) {
 			return letters[location.getX()][location.getY()];
-		}
-		return null;
-	}
-	
-	/**
-	 * Gets a score from a given coordinate
-	 * @param location		X to get from
-	 * @return		BoardScorer object containing multiplier type and score multiplier
-	 */
-	public BoardScorer getScore(Coordinate location) {
-		if (location.getX() >= 0 && location.getX() < boardSizeX && location.getY() >= 0 && location.getY() < boardSizeY) {
-			return scoreBoard[location.getX()][location.getY()];
 		}
 		return null;
 	}
