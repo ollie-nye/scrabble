@@ -17,9 +17,5 @@ public class AIPlayer extends Player {
 	public AIPlayer(String name) {
 		super();
 		setPlayerName(name);
-
-		for(int i = 0;  i <7; i++) {
-			addLetters();
-		}
 	}
 }
