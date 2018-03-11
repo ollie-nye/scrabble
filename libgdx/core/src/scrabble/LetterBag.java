@@ -16,13 +16,8 @@ import java.util.ArrayList;
 public class LetterBag {
 	
 	private static LetterBag instance = null;
-	
-	private static final int maxTiles = 100;
-	
 	private HashMap<Tile, Integer> tiles = new HashMap<>();
-	
 	private ArrayList<Tile> tileList = new ArrayList<>();
-	
 	private Stack<Tile> tileStack = new Stack<>();
 	
 	/**
@@ -76,7 +71,6 @@ public class LetterBag {
 			for (int i = 0; i < quantity; i++) {
 				tileList.add(tile);
 			}
-			
 		}
 		
 		Random random = new Random();
@@ -96,11 +90,9 @@ public class LetterBag {
 	public Tile pick() {
 		return tileStack.pop();
 	}
-	
-	public static void main(String args[]) {
-		for (int i = 0; i < 98; i++) {
-			System.out.print(i + " ");
-			System.out.println(LetterBag.getInstance().pick().getContent());
-		}
+
+	public void returnToBag(ArrayList<Tile> tiles) {
+		this.tileStack.addAll(tiles);
+		shake();
 	}
 }
