@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.scrabble.game.scrabbleMain;
 
 import assetmanager.assetManager;
+import scrabble.Game;
 import screens.ScrabbleLauncher;
 
 public class MainMenu implements Screen {
@@ -65,7 +66,8 @@ public class MainMenu implements Screen {
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				
+				//TODO: Implement another screen that allows you to select player amounts
+				Game gameSession = new Game(4); // temporary till above to do is implemented.
 				hover.play(game.getSoundVol());
 				game.setScreen(new scrabbleMain(game));
 				
@@ -230,7 +232,5 @@ public class MainMenu implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		
 	}
-
 }

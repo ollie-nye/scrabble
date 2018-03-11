@@ -1,21 +1,23 @@
 package scrabble;
 
-import player.AIPlayer;
-import player.HumanPlayer;
-import player.Player;
+import player.*;
 
 public class Game {
 
-    private int numberOfPlayers;
+    private final LetterBag letterBag = new LetterBag();
+    private final int maxPlayers = 4;
     private Player[] players;
     private Player currentPlayer;
+    private int numberOfPlayers;
 
     public Game(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
+        if(numberOfPlayers <= maxPlayers) {
+            this.numberOfPlayers = numberOfPlayers;
+        }
         players = new Player[numberOfPlayers];
     }
 
-    public void addPlayer (String playerName, int playerType) {
+    public void addPlayer(String playerName, int playerType) {
         for(int i = 0; i < players.length; i++) {
             if(players[i] == null) {
                 switch(playerType) {
@@ -30,18 +32,18 @@ public class Game {
             }
         }
     }
-
     public Player[] getPlayers() {
         return players;
     }
-
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public void play() {
-        while(true) {
+    public LetterBag getLetterBag() {
+        return letterBag;
+    }
 
-        }
+    public void play() {
+
     }
 }
