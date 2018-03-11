@@ -1,14 +1,13 @@
 package scrabble;
 
 import data.Coordinate;
-import data.Letter;
 import data.Result;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 import player.PlayersContainer;
-import javax.swing.JOptionPane;
-import java.util.Random;
+
+import javax.swing.*;
 
 /**
  * Main class for controlling the game.
@@ -75,12 +74,9 @@ public class Scrabble {
 	public static boolean incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
 		String lastWord = Board.getInstance().getWord();
-		Player player = PlayersContainer.getInstance().getPlayer(currentPlayer);
+		Player player = Game.getCurrentPlayer();
 
 		if (lastResult.isCompleteWord()) {
-            Random random = new Random();
-			player.addLetters();
-			player.setScore((random.nextInt(13) + 7));
 			player.setScore(player.getScore() + player.getMoveScore());
 			player.setMoveScore(0);
 			player.setLastWord(lastWord);

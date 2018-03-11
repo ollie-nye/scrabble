@@ -1,5 +1,6 @@
 package screens.Screens;
 
+import assetmanager.assetManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -10,14 +11,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.scrabble.game.scrabbleMain;
-
-import assetmanager.assetManager;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
 
@@ -66,11 +64,18 @@ public class MainMenu implements Screen {
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//TODO: Implement another screen that allows you to select player amounts
-				Game gameSession = new Game(4); // temporary till above to do is implemented.
+				//TODO: Implement another screen that allows you to select player amount
+
+				Game gameSession = new Game(4);
+                gameSession.addPlayer("Ollie", 1);
+                gameSession.addPlayer("Ben", 1);
+                gameSession.addPlayer("Asid", 1);
+                gameSession.addPlayer("Tom", 1);
+                gameSession.start();
+                // all above code needs its own screen
 				hover.play(game.getSoundVol());
 				game.setScreen(new scrabbleMain(game));
-				
+
 				}		
 		});
 		stage.addActor(play);

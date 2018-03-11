@@ -1,23 +1,29 @@
 package scrabble;
 
-import player.*;
+import player.AIPlayer;
+import player.HumanPlayer;
+import player.Player;
+
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class Game {
 
-    private final LetterBag letterBag = new LetterBag();
-    private final int maxPlayers = 4;
-    private Player[] players;
-    private Player currentPlayer;
-    private int numberOfPlayers;
+    public static final LetterBag LETTER_BAG = new LetterBag();
+    private static final int MAX_PLAYERS = 4;
+    private static final Queue<Player> PLAYER_ORDER = new ArrayBlockingQueue<>(MAX_PLAYERS);
+    private static Player[] players;
+    private static Player currentPlayer;
+    private static int numberOfPlayers;
 
     public Game(int numberOfPlayers) {
-        if(numberOfPlayers <= maxPlayers) {
+        if(numberOfPlayers <= MAX_PLAYERS) {
             this.numberOfPlayers = numberOfPlayers;
         }
         players = new Player[numberOfPlayers];
     }
 
-    public void addPlayer(String playerName, int playerType) {
+    public static void addPlayer(String playerName, int playerType) {
         for(int i = 0; i < players.length; i++) {
             if(players[i] == null) {
                 switch(playerType) {
@@ -28,22 +34,33 @@ public class Game {
                         players[i] = new AIPlayer(playerName);
                         break;
                 }
+                PLAYER_ORDER.add(players[i]);
                 break;
             }
         }
     }
-    public Player[] getPlayers() {
+    public static void removePlayer(Player player) {
+        for(int i = 0; i < players.length; i++) {
+            if(players[i] == player) {
+                players[i] = null;
+            }
+        }
+    }
+    public static Player[] getPlayers() {
         return players;
     }
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public LetterBag getLetterBag() {
-        return letterBag;
+    public static void start() {
+        for(Player player : players) {
+            player.addLetters();
+        }
+        nextTurn();
     }
-
-    public void play() {
-
+    public static void nextTurn() {
+        currentPlayer = PLAYER_ORDER.poll();
+        PLAYER_ORDER.add(currentPlayer);
     }
 }
