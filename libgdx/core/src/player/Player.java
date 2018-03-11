@@ -52,25 +52,18 @@ public abstract class Player {
     public int getScore() {
        return totalScore;
     }
-
     public int getMoveScore() {
         return currentMoveScore;
     }
     public void setMoveScore(int score) {
         currentMoveScore = score;
     }
-    
     public void setLastWord(String last){
     	 lastPlayedWord =  last;
     }
-    
-    /*
-     * needed for the UI
-     */ 
     public Tile getLetter(int x){
     	return letterList[x];
     }
-    
     public String getLastWord(){
     	return lastPlayedWord;
     }
