@@ -5,147 +5,238 @@ filter: Nearest,Nearest
 repeat: none
 mainMenuButton
   rotate: false
-  xy: 1, 172
+  xy: 1, 177
   size: 208, 64
   orig: 208, 64
   offset: 0, 0
   index: -1
 mainMenuButtonPressed
   rotate: false
-  xy: 1, 106
+  xy: 1, 111
   size: 208, 64
   orig: 208, 64
   offset: 0, 0
   index: -1
 endButton
   rotate: false
-  xy: 211, 175
+  xy: 211, 180
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 endButtonPressed
   rotate: false
-  xy: 1, 43
+  xy: 1, 48
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 startButton
   rotate: false
-  xy: 211, 112
+  xy: 211, 117
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 startButtonPressed
   rotate: false
-  xy: 419, 175
+  xy: 419, 180
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 plainButton
   rotate: false
-  xy: 419, 108
+  xy: 419, 113
   size: 155, 65
   orig: 155, 65
   offset: 0, 0
   index: -1
 plainButtonPressed
   rotate: false
-  xy: 627, 171
+  xy: 627, 176
   size: 155, 65
   orig: 155, 65
   offset: 0, 0
   index: -1
 musicButton
   rotate: false
-  xy: 784, 151
+  xy: 784, 156
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 musicButtonHover
   rotate: false
-  xy: 871, 151
+  xy: 871, 156
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 homeButton
   rotate: false
-  xy: 958, 171
+  xy: 958, 176
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
   index: -1
 homeButtonPressed
   rotate: false
-  xy: 958, 104
+  xy: 958, 109
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
   index: -1
 musicButtonPressed
   rotate: false
-  xy: 576, 84
+  xy: 576, 89
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 soundButton
   rotate: false
-  xy: 663, 84
+  xy: 663, 89
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 soundButtonHover
   rotate: false
-  xy: 750, 64
+  xy: 750, 69
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 soundButtonPressed
   rotate: false
-  xy: 837, 64
+  xy: 837, 69
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
-boardButtonPressed
+brownButton
   rotate: false
   xy: 1, 1
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+brownButtonHover
+  rotate: false
+  xy: 48, 1
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+brownButtonPressed
+  rotate: false
+  xy: 95, 1
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+greenButton
+  rotate: false
+  xy: 142, 1
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+greenButtonHover
+  rotate: false
+  xy: 189, 1
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+greenButtonPressed
+  rotate: false
+  xy: 924, 62
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+greyButton
+  rotate: false
+  xy: 971, 62
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+greyButtonHover
+  rotate: false
+  xy: 211, 70
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+greyButtonPressed
+  rotate: false
+  xy: 258, 70
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+orangeButton
+  rotate: false
+  xy: 305, 70
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+orangeButtonHover
+  rotate: false
+  xy: 352, 70
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+orangeButtonPressed
+  rotate: false
+  xy: 236, 23
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+redButton
+  rotate: false
+  xy: 283, 23
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+redButtonHover
+  rotate: false
+  xy: 330, 23
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+redButtonPressed
+  rotate: false
+  xy: 399, 66
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+boardButtonPressed
+  rotate: false
+  xy: 446, 71
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 boardButton
   rotate: false
-  xy: 43, 4
+  xy: 488, 74
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 boardButtonHover
   rotate: false
-  xy: 82, 4
-  size: 37, 37
-  orig: 37, 37
-  offset: 0, 0
-  index: -1
-handButton
-  rotate: false
-  xy: 121, 4
-  size: 37, 37
-  orig: 37, 37
-  offset: 0, 0
-  index: -1
-handButtonPressed
-  rotate: false
-  xy: 160, 4
+  xy: 527, 74
   size: 37, 37
   orig: 37, 37
   offset: 0, 0

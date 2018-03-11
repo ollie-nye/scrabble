@@ -50,7 +50,7 @@ public class LoadingScreen implements Screen {
 		
 			
 			if (initalX<=0){
-				initalX = (initalX + 20);
+				initalX = (initalX + 3);
 				stage.getBatch().draw(logoLoaded, logoLoaded.getWidth() * progress   , 0);
 			} else {
 				this.dispose();
