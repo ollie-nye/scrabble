@@ -177,6 +177,8 @@ public class scrabbleMain implements Screen {
 			}
 
 		}
+		
+		
 
 		table2.setSize(table.getWidth(), table.getHeight() - 650);
 		for (int i = 0; i < 7; i++) {

@@ -131,6 +131,8 @@ public class ButtonBase extends Table implements Disableable {
 	public void toggle () {
 		setChecked(!isChecked);
 	}
+	
+	
 
 	public boolean isChecked () {
 		return isChecked;
@@ -169,7 +171,7 @@ public class ButtonBase extends Table implements Disableable {
 
 		Drawable background = null;
 		if (isPressed() && !isDisabled()) {
-			background = style.down == null ? style.up : style.down;
+			background = style.down == null ? style.up : style.down;			
 		} else {
 			if (isDisabled() && style.disabled != null)
 				background = style.disabled;
@@ -245,7 +247,7 @@ public class ButtonBase extends Table implements Disableable {
 			background = style.up;
 		setBackground(background);
 
-		float offsetX = 0, offsetY = 0;
+		float offsetX = 0f, offsetY = 0;
 		if (isPressed && !isDisabled) {
 			offsetX = style.pressedOffsetX;
 			offsetY = style.pressedOffsetY;

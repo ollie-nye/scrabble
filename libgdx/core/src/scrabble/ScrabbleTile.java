@@ -13,6 +13,7 @@ public class ScrabbleTile extends JButton implements MouseListener {
 	private int boardOrPlayer; //this is set to 0 for board, 1 for player 1, 2 for player 2 etc
 	private String content;
 	private int[] coordinates;
+	
 
 	private Font font = new Font("Helvetica", Font.BOLD, 14);
 
@@ -30,6 +31,7 @@ public class ScrabbleTile extends JButton implements MouseListener {
 		this(x, y, z);
 		this.setSize(width, height);
 		this.setPreferredSize(new Dimension(width, height));
+		
 	}
 	
 	
