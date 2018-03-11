@@ -5,6 +5,7 @@ import data.Letter;
 import data.Result;
 import player.AIPlayer;
 import player.HumanPlayer;
+import player.Player;
 import player.PlayersContainer;
 import javax.swing.JOptionPane;
 import java.util.Random;
@@ -72,14 +73,16 @@ public class Scrabble {
 	 */
 	public static boolean incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
-		
 		String lastWord = Board.getInstance().getWord();
+		Player player = PlayersContainer.getInstance().getPlayer(currentPlayer);
+
 		if (lastResult.isCompleteWord()) {
             Random random = new Random();
-			PlayersContainer.getInstance().getPlayer(currentPlayer).addLetters();
-			//TODO: Change to scoring system
-			PlayersContainer.getInstance().getPlayer(currentPlayer).setScore((random.nextInt(13) + 7));
-			PlayersContainer.getInstance().getPlayer(currentPlayer).setLastWord(lastWord);
+			player.addLetters();
+			player.setScore((random.nextInt(13) + 7));
+			player.setScore(player.getScore() + player.getMoveScore());
+			player.setMoveScore(0);
+			player.setLastWord(lastWord);
 			currentPlayer += 1;
 			if (currentPlayer > 3) {
 				currentPlayer = 0;
@@ -88,7 +91,6 @@ public class Scrabble {
 			if(PlayersContainer.getInstance().getPlayer(currentPlayer) instanceof AIPlayer) {
 
             }
-
             return true;
 		} else {
 			JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);

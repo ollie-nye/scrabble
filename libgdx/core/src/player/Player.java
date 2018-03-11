@@ -13,7 +13,8 @@ public abstract class Player {
 
 	private Tile[] letterList = new Tile[7];
     private String playerName;
-    private int score = 0;
+    private int totalScore = 0;
+    private int currentMoveScore = 0;
     private String lastPlayedWord;
 
 
@@ -40,7 +41,7 @@ public abstract class Player {
      * @see         #getScore()
      */
     public void setScore(int score) {
-        this.score = score;
+        totalScore = score;
     }
 
     /**
@@ -49,7 +50,14 @@ public abstract class Player {
      * @see         #setScore(int)
      */
     public int getScore() {
-       return score;
+       return totalScore;
+    }
+
+    public int getMoveScore() {
+        return currentMoveScore;
+    }
+    public void setMoveScore(int score) {
+        currentMoveScore = score;
     }
     
     public void setLastWord(String last){

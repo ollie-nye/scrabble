@@ -4,6 +4,7 @@ import data.BoardScorer;
 import data.Coordinate;
 import data.Letter;
 import data.Result;
+import player.Player;
 import player.PlayersContainer;
 import validation.NewValidator;
 
@@ -170,10 +171,11 @@ public class Board {
 	 */
 	public Result place(Letter letter) {
 		Result res = validator.validateMove(letter);
+		Player player = PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer);
 		if (res.isLegal()) {
 			letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getTile();
-			PlayersContainer.getInstance().getPlayer(Scrabble.currentPlayer).removeLetter(letter.getTile());
-			letter.getScore(); // do something with this?
+			player.removeLetter(letter.getTile());
+			player.setMoveScore(player.getMoveScore() + letter.getScore());
 		}
 		partialTile = null;
 		partialPlace = null;
