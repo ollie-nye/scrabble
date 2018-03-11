@@ -11,7 +11,7 @@ import scrabble.Board;
  */
 public abstract class Player {
 
-	private Tile[] letterList = new Tile[7];
+	private final Tile[] letterList = new Tile[7];
     private String playerName;
     private int totalScore = 0;
     private int currentMoveScore = 0;
