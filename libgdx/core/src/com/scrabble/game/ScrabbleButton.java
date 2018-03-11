@@ -3,17 +3,13 @@ package com.scrabble.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-
 import data.Coordinate;
-import player.PlayersContainer;
 import scrabble.Board;
+import scrabble.Game;
 import scrabble.Scrabble;
 public class ScrabbleButton extends ButtonBase {
 	private final Label label;
@@ -75,10 +71,10 @@ public class ScrabbleButton extends ButtonBase {
 		 */
 		else if (boardOrPlayer >= 1){
 			
-			if (PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor) == null){
+			if (Game.getPlayers()[boardOrPlayer - 1].getLetter(xCoor) == null){
 				setText(" ");				
 			} else if (boardOrPlayer-1 == Scrabble.currentPlayer && scrabbleMain.passingOverTurn == false){
-				setText(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor).getContent());
+				setText(Game.getPlayers()[boardOrPlayer - 1].getLetter(xCoor).getContent());
 			} else{
 				setText(" ");
 			}
@@ -102,7 +98,7 @@ public class ScrabbleButton extends ButtonBase {
 			 * PLAYER
 			 */
 			if (boardOrPlayer > 0 && boardOrPlayer - 1 == Scrabble.currentPlayer){
-				Board.getInstance().partialPlace(PlayersContainer.getInstance().getPlayer(boardOrPlayer-1).getLetter(xCoor));
+				Board.getInstance().partialPlace(Game.getPlayers()[boardOrPlayer - 1].getLetter(xCoor));
 			}
 			
 			/*
@@ -115,7 +111,7 @@ public class ScrabbleButton extends ButtonBase {
 			
 		}
 		
-		if (isPressed() == false){			
+		if (!isPressed()){
 			isPressed = false;			
 		}
 		
