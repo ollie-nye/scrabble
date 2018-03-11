@@ -47,6 +47,13 @@ public class assetManager {
     public static final AssetDescriptor<Texture> settingsBackground = 
             new AssetDescriptor<Texture>("graphics/SettingsMenu/SettingsMenuBackground.png", Texture.class);
     
+    // graphics for loading screen
+    public static final AssetDescriptor<Texture> logo = 
+            new AssetDescriptor<Texture>("graphics/LoadingScreen/logo.png", Texture.class);
+    public static final AssetDescriptor<Texture> logoLoaded = 
+            new AssetDescriptor<Texture>("graphics/LoadingScreen/logoRed.png", Texture.class);
+    public static final AssetDescriptor<Texture> logoWhite = 
+            new AssetDescriptor<Texture>("graphics/LoadingScreen/logoWhite.png", Texture.class);
     
     // task window icon for game
     public static final AssetDescriptor<Texture> icon = 
@@ -108,6 +115,9 @@ private void loadTextures() {
 	manager.load(sliderKnob);
 	manager.load(settingsBackground);
 	manager.load(icon);
+	manager.load(logo);
+	manager.load(logoWhite);
+	manager.load(logoLoaded);
 }
 
 private void loadTextureAtlas(){

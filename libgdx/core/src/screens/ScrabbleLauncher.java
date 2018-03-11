@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import assetmanager.assetManager;
+import screens.Screens.LoadingScreen;
 import screens.Screens.MainMenu;
 
 public class ScrabbleLauncher extends Game {
 	
 	assetManager assets;
-	
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
-	
 	public SpriteBatch batch;
-	
 	private Music theme;
 	private static float soundVol = 0.5f;
 	public Stage stage;
@@ -31,12 +29,12 @@ public class ScrabbleLauncher extends Game {
 		assets.manager.finishLoading();
 		
 		batch = new SpriteBatch();
-		this.setScreen(new MainMenu(this));
+		this.setScreen(new LoadingScreen(this));
 		theme = assets.manager.get(assetManager.mainMusic);
 		theme.setVolume(0.5f);
 		theme.play();
 		theme.setLooping(true);
-			
+		
 	
 	}
 	public Music getTheme(){
