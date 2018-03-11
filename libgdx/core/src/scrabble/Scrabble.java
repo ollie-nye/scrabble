@@ -45,9 +45,12 @@ public class Scrabble {
 	 * Holds a reference to the instance of the PlayersContainer
 	 */
 	private PlayersContainer players = PlayersContainer.getInstance();
-	
+
+
 	/**
 	 * One half of a move is stored here
+     *
+     * THE BIG COW STOOD ON THE HILL
 	 */
 	Tile partialTile = null;
 	
