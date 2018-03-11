@@ -79,7 +79,6 @@ public class Scrabble {
 		if (lastResult.isCompleteWord()) {
             Random random = new Random();
 			player.addLetters();
-			player.setScore((random.nextInt(13) + 7));
 			player.setScore(player.getScore() + player.getMoveScore());
 			player.setMoveScore(0);
 			player.setLastWord(lastWord);
