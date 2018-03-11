@@ -7,6 +7,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -59,7 +61,6 @@ public class scrabbleMain implements Screen {
 	TextButton scores3;
 	TextButton scores4;
 	TextButton scoreThisTurn;
-	
 	OrthographicCamera camera;
 	
 	private Sound[] tilePress1;
@@ -81,6 +82,10 @@ public class scrabbleMain implements Screen {
 
 	int buttonCount = 0;
 	ScrabbleLauncher game;
+	private Label scoreLabel1;
+	private Label scoreLabel2;
+	private Label scoreLabel3;
+	private Label scoreLabel4;
 
 	public scrabbleMain(ScrabbleLauncher game) {
 		this.game = game;
@@ -94,6 +99,8 @@ public class scrabbleMain implements Screen {
 	}
 
 	public void create() {
+		
+		
 
 		tilePress1 = new Sound[]{
 				game.getAssetManager().manager.get(assetManager.click1),
@@ -115,6 +122,7 @@ public class scrabbleMain implements Screen {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		setupButtonConfig();
+		
 
 		stage = new Stage();
 
@@ -127,7 +135,22 @@ public class scrabbleMain implements Screen {
 
 		table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		ScrabbleButton libgdxsucks;
-				
+		
+		scoreLabel1 = new Label("",new Label.LabelStyle(font,Color.WHITE));
+		scoreLabel1.setPosition(1205, 630);
+        stage.addActor(scoreLabel1);		
+        
+        scoreLabel2 = new Label("",new Label.LabelStyle(font,Color.WHITE));
+		scoreLabel2.setPosition(1205, 605);
+        stage.addActor(scoreLabel2);	
+        
+        scoreLabel3 = new Label("",new Label.LabelStyle(font,Color.WHITE));
+		scoreLabel3.setPosition(1205, 580);
+        stage.addActor(scoreLabel3);	
+        
+        scoreLabel4 = new Label("",new Label.LabelStyle(font,Color.WHITE));
+		scoreLabel4.setPosition(1205, 555);
+        stage.addActor(scoreLabel4);	
 
 		// sets up buttons for board
 		int k = 0;
@@ -229,7 +252,7 @@ public class scrabbleMain implements Screen {
 		
 		//end turn button creation
 		endTurn = new TextButton("", textButtonStyle2);
-		endTurn.setPosition(1070.0f, 660.0f);
+		endTurn.setPosition(1070.0f, 350.0f);
 		endTurn.setSize(206.0f, 61.0f);
 		
 		endTurn.addListener( new ClickListener(){
@@ -245,7 +268,7 @@ public class scrabbleMain implements Screen {
 	
 		//start turn, selected to pass turns over
 		startTurn = new TextButton("", textButtonStyle3);
-		startTurn.setPosition(1070.0f, 660.0f);
+		startTurn.setPosition(1070.0f, 350.0f);
 		startTurn.setSize(206.0f, 61.0f);
 		
 		startTurn.addListener( new ClickListener(){
@@ -259,7 +282,7 @@ public class scrabbleMain implements Screen {
 		// main menu button
 		TextButton menu = new TextButton("", textButtonStyle);
 		menu.setPosition(0f,0f);
-		menu.setSize(206.0f, 61.0f);
+		menu.setSize(65.0f, 65.0f);
 		
 		menu.addListener( new ClickListener(){
 			@Override
@@ -271,9 +294,9 @@ public class scrabbleMain implements Screen {
 		});	
 		stage.addActor(menu);
 		
-		scores1 = new TextButton("P1 score" + Integer.toString(PlayersContainer.getInstance().getPlayer(0).getScore()), textButtonStyle2);
-		scores1.setPosition(1070.0f,110.0f);
-		scores1.setSize(206.0f, 40.0f);
+/**		scores1 = new TextButton("P1 score" + Integer.toString(PlayersContainer.getInstance().getPlayer(0).getScore()), textButtonStyle2);
+  		scores1.setPosition(1070.0f,110.0f);
+     	scores1.setSize(206.0f, 40.0f);
 		
 		scores1.addListener( new ClickListener(){
 			@Override
@@ -334,14 +357,14 @@ public class scrabbleMain implements Screen {
 			};
 		});	
 		stage.addActor(scoreThisTurn);
-		
+*/		
 		
 		Gdx.input.setInputProcessor(stage);
 	}
 
 	private void setupButtonConfig() {
 		// sets up graphics of tiles
-		font = new BitmapFont();
+		font = game.getAssetManager().manager.get(assetManager.PlayTime);
 		skin = new Skin();
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);;
 		skin.addRegions(buttonAtlas);
@@ -395,7 +418,10 @@ public class scrabbleMain implements Screen {
 			endTurn.setVisible(true);
 		}
 		
-		
+		scoreLabel1.setText(Integer.toString(PlayersContainer.getInstance().getPlayer(0).getScore()));
+		scoreLabel2.setText(Integer.toString(PlayersContainer.getInstance().getPlayer(1).getScore()));
+		scoreLabel3.setText(Integer.toString(PlayersContainer.getInstance().getPlayer(2).getScore()));
+		scoreLabel4.setText(Integer.toString(PlayersContainer.getInstance().getPlayer(3).getScore()));
 		
 	
 		stage.draw();

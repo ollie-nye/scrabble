@@ -3,28 +3,28 @@ gameButtons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+mainMenuButton
+  rotate: false
+  xy: 1, 172
+  size: 208, 64
+  orig: 208, 64
+  offset: 0, 0
+  index: -1
+mainMenuButtonPressed
+  rotate: false
+  xy: 1, 106
+  size: 208, 64
+  orig: 208, 64
+  offset: 0, 0
+  index: -1
 endButton
   rotate: false
-  xy: 1, 169
+  xy: 211, 175
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 endButtonPressed
-  rotate: false
-  xy: 1, 106
-  size: 206, 61
-  orig: 206, 61
-  offset: 0, 0
-  index: -1
-homeButton
-  rotate: false
-  xy: 209, 169
-  size: 206, 61
-  orig: 206, 61
-  offset: 0, 0
-  index: -1
-homeButtonPressed
   rotate: false
   xy: 1, 43
   size: 206, 61
@@ -33,56 +33,84 @@ homeButtonPressed
   index: -1
 startButton
   rotate: false
-  xy: 209, 106
+  xy: 211, 112
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
 startButtonPressed
   rotate: false
-  xy: 417, 169
+  xy: 419, 175
   size: 206, 61
   orig: 206, 61
   offset: 0, 0
   index: -1
+plainButton
+  rotate: false
+  xy: 419, 108
+  size: 155, 65
+  orig: 155, 65
+  offset: 0, 0
+  index: -1
+plainButtonPressed
+  rotate: false
+  xy: 627, 171
+  size: 155, 65
+  orig: 155, 65
+  offset: 0, 0
+  index: -1
 musicButton
   rotate: false
-  xy: 209, 19
+  xy: 784, 151
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 musicButtonHover
   rotate: false
-  xy: 296, 19
+  xy: 871, 151
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
+homeButton
+  rotate: false
+  xy: 958, 171
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: -1
+homeButtonPressed
+  rotate: false
+  xy: 958, 104
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: -1
 musicButtonPressed
   rotate: false
-  xy: 417, 82
+  xy: 576, 84
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 soundButton
   rotate: false
-  xy: 504, 82
+  xy: 663, 84
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 soundButtonHover
   rotate: false
-  xy: 625, 145
+  xy: 750, 64
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 soundButtonPressed
   rotate: false
-  xy: 712, 145
+  xy: 837, 64
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
@@ -96,28 +124,28 @@ boardButtonPressed
   index: -1
 boardButton
   rotate: false
-  xy: 799, 193
+  xy: 43, 4
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 boardButtonHover
   rotate: false
-  xy: 43, 4
+  xy: 82, 4
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 handButton
   rotate: false
-  xy: 799, 154
+  xy: 121, 4
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 handButtonPressed
   rotate: false
-  xy: 838, 193
+  xy: 160, 4
   size: 37, 37
   orig: 37, 37
   offset: 0, 0

@@ -1,4 +1,4 @@
-#Tue Feb 27 14:07:36 GMT 2018
+#Sat Mar 10 21:22:36 GMT 2018
 connection.arguments=
 connection.jvm.arguments=
 build.commands=org.eclipse.jdt.core.javabuilder
@@ -7,5 +7,5 @@ natures=org.eclipse.jdt.core.javanature
 eclipse.preferences.version=1
 connection.java.home=null
 derived.resources=.gradle,build
-project.path=\:core
 connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
+project.path=\:core

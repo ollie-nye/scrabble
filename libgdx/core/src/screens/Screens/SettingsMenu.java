@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
@@ -42,10 +43,12 @@ public class SettingsMenu implements Screen {
 	private TextButton soundButton;
 	private Sound hover;
 	private TextButton musicButton;
+	
 
 	public SettingsMenu(ScrabbleLauncher game) {
 		this.game = game;
 		font = new BitmapFont();
+		
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		settingsBackground = game.getAssetManager().manager.get(assetManager.settingsBackground);
 		
@@ -147,8 +150,8 @@ public class SettingsMenu implements Screen {
 
 		// Main menu button
 		textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.getDrawable("homeButton");
-		textButtonStyle.over = skin.getDrawable("homeButtonPressed");
+		textButtonStyle.up = skin.getDrawable("mainMenuButton");
+		textButtonStyle.over = skin.getDrawable("mainMenuButtonPressed");
 		textButtonStyle.font = font;
 
 		TextButton menu = new TextButton("", textButtonStyle);

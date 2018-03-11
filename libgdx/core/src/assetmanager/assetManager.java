@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class assetManager {
@@ -84,14 +85,14 @@ public class assetManager {
             new AssetDescriptor<Music>("sounds/Flintstones.mp3", Music.class);
     
     // the font
-    public static final AssetDescriptor<Font> font = 
-            new AssetDescriptor<Font>("fonts/PlayTime.TTF", Font.class);
+    public static final AssetDescriptor<BitmapFont> PlayTime = 
+            new AssetDescriptor<BitmapFont>("fonts/PlayTime.fnt", BitmapFont.class);
     
 
 public void load()
 {
     this.loadTextures();
-    //this.loadFonts();
+    this.loadFonts();
     this.loadMusic();
     this.loadSounds();
     this.loadTextureAtlas();
@@ -134,7 +135,7 @@ private void loadMusic(){
 
 
 private void loadFonts(){
-	manager.load(font);
+	manager.load(PlayTime);
 }
 
 public void dispose()
