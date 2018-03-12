@@ -70,6 +70,7 @@ public class MainMenu implements Screen {
 	Label p2Label;
 	Label p3Label;
 	Label p4Label;
+	Label noPlayers;
 	TextField p1NameEntry;
 	TextField p2NameEntry;
 	TextField p3NameEntry;
@@ -374,9 +375,14 @@ public class MainMenu implements Screen {
 		namingPlayer.add(p4NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
 		namingPlayer.setWidth(gameStartY/14.0f*18.0f);
 
+		noPlayers = new Label("Add Some Players First", altLabelStyle);
+		noPlayers.setAlignment(Align.center);
+		noPlayers.setVisible(false);
+				
 		Stack stack = new Stack();
 		stack.add(tempTable);
 		stack.add(namingPlayer);
+		stack.add(noPlayers);
 		
 		// start button, at bottom of box, starts the game
 		TextButton start = new TextButton("Quickstart", altButtonStyle);
@@ -410,7 +416,7 @@ public class MainMenu implements Screen {
 				.pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 14)
 				.size(gameStartY / 14 * 12, gameStartY / 7);
 		playOptions.row();
-		playOptions.add(stack).colspan(2);
+		playOptions.add(stack).colspan(2).maxWidth(500.0f);
 		playOptions.row();
 		playOptions.add(naming).pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 56)
 				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
@@ -468,18 +474,20 @@ public class MainMenu implements Screen {
 			setMainMenuVisible();
 
 		}
-		if (menuType == 1) {
+		else if (menuType == 1) {
 			setGameMenuVisible();
 			setMainMenuInvisible();
 		}
 		if (screen == 0) {
 			tempTable.setVisible(true);
 			namingPlayer.setVisible(false);
+			noPlayers.setVisible(false);
 
-		}
-		if (screen == 1) {
+		}	else {
 			tempTable.setVisible(false);
 			namingPlayer.setVisible(true);
+			noPlayers.setVisible(false);
+			
 		}
 		switch (playerCounter){
 			case 0: 
@@ -491,6 +499,9 @@ public class MainMenu implements Screen {
 				p2Label.setVisible(false);
 				p3Label.setVisible(false);
 				p4Label.setVisible(false);
+				if (screen == 1){
+					noPlayers.setVisible(true);
+				}
 				break;
 			case 1: 
 				p1NameEntry.setVisible(true);
@@ -501,6 +512,7 @@ public class MainMenu implements Screen {
 				p2Label.setVisible(false);
 				p3Label.setVisible(false);
 				p4Label.setVisible(false);
+				noPlayers.setVisible(false);
 				break;
 				
 			case 2:
@@ -512,6 +524,7 @@ public class MainMenu implements Screen {
 				p2Label.setVisible(true);
 				p3Label.setVisible(false);
 				p4Label.setVisible(false);
+				noPlayers.setVisible(false);
 				break;
 			case 3:
 				p1NameEntry.setVisible(true);
@@ -522,6 +535,7 @@ public class MainMenu implements Screen {
 				p2Label.setVisible(true);
 				p3Label.setVisible(true);
 				p4Label.setVisible(false);
+				noPlayers.setVisible(false);
 				break;
 			case 4: 
 				p1NameEntry.setVisible(true);
@@ -532,6 +546,7 @@ public class MainMenu implements Screen {
 				p2Label.setVisible(true);
 				p3Label.setVisible(true);
 				p4Label.setVisible(true);
+				noPlayers.setVisible(false);
 				break;
 			default:			 
 				p1NameEntry.setVisible(false);
@@ -542,6 +557,7 @@ public class MainMenu implements Screen {
 				p2Label.setVisible(false);
 				p3Label.setVisible(false);
 				p4Label.setVisible(false);
+				noPlayers.setVisible(false);
 				break;
 		}
 		switch (playerNumber){
