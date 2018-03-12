@@ -54,15 +54,14 @@ public class Score {
      */
     public int calculateScore(Letter letter) {
     	switch (types[letter.getLocation().getX()][letter.getLocation().getY()]) {
-    	case 'l': // letter multiplier
-    		return letter.getTile().getScore() * scores[letter.getLocation().getX()][letter.getLocation().getY()];
-    	case 'n':
-    		return letter.getTile().getScore();
-    	//TODO
-    	case 'w': // word multipler - needs to be handled
-    		return -1;
-    	default:
-    		return -1;
-    	}
+            case 'l': // letter multiplier
+                return letter.getTile().getScore() * scores[letter.getLocation().getX()][letter.getLocation().getY()];
+            //TODO
+            case 'w': // word multiplier - needs to be handled
+                return letter.getTile().getScore();
+            case 'n':
+            default:
+                return letter.getTile().getScore();
+        }
     }
 }
