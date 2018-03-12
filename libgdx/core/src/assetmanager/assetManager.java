@@ -34,6 +34,8 @@ public class assetManager {
     
     public static final AssetDescriptor<TextureAtlas> mainMenuButtonPack = 
             new AssetDescriptor<TextureAtlas>("graphics/MainMenu/MainMenu.pack", TextureAtlas.class);
+    public static final AssetDescriptor<TextureAtlas> texturesTemp = 
+            new AssetDescriptor<TextureAtlas>("graphics/MainMenu/TexturesTemp.pack", TextureAtlas.class);
     
     
     
@@ -123,6 +125,7 @@ private void loadTextures() {
 private void loadTextureAtlas(){
 	manager.load(gameButtonPack);
 	manager.load(mainMenuButtonPack);
+	manager.load(texturesTemp);
 }
 
 private void loadSounds(){

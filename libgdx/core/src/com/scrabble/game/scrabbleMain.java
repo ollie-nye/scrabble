@@ -68,6 +68,9 @@ public class scrabbleMain implements Screen {
 	private Sound hover;
 	private Random random;
 	
+	private int aI;
+	private int player;
+	
 
 	Scrabble scrabble = new Scrabble();
 	private final int players = Scrabble.maxPlayers;
@@ -87,13 +90,15 @@ public class scrabbleMain implements Screen {
 	private Label scoreLabel3;
 	private Label scoreLabel4;
 
-	public scrabbleMain(ScrabbleLauncher game) {
+	public scrabbleMain(ScrabbleLauncher game, int player, int aI) {
 		this.game = game;
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
 		this.create();		
+		this.player = player;
+		this.aI = aI;
 		
 
 	}

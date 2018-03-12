@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.scrabble.game.scrabbleMain;
@@ -38,7 +39,9 @@ public class MainMenu implements Screen {
 	private TextButton exit;
 	private TextButton website;
 	private Skin skin;
+	private Skin tempSkin;
 	private TextureAtlas buttonAtlas;
+	private TextureAtlas tempTextures;
 	private Sound hover;
 	private Texture background;
 	private BitmapFont font;
@@ -47,6 +50,9 @@ public class MainMenu implements Screen {
 	private Table playOptions;
 	private int menuType;
 	private int playerCounter;
+
+	private final float gameStartX = 500;
+	private final float gameStartY = 350;
 
 	public MainMenu(ScrabbleLauncher game) {
 
@@ -69,8 +75,11 @@ public class MainMenu implements Screen {
 
 		skin = new Skin();
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
-		;
 		skin.addRegions(buttonAtlas);
+
+		tempSkin = new Skin();
+		tempTextures = game.getAssetManager().manager.get(assetManager.texturesTemp);
+		tempSkin.addRegions(tempTextures);
 
 		TextButtonStyle playButtonStyle = new TextButtonStyle();
 		playButtonStyle.up = skin.getDrawable("play");
@@ -164,41 +173,49 @@ public class MainMenu implements Screen {
 			}
 		});
 		stage.addActor(website);
-		
-		
-		//setting up the play menu thing that comes up
-		playOptions = new Table();
-		playOptions.setPosition(640.0f, 240.0f);
-		playOptions.setBackground(skin.getDrawable("website"));
-		
+
+		/*
+		 * creating the menu that comes up after clicking play
+		 */
+		// first adding the button styles on
+		TextButtonStyle tempButtonStyle = new TextButtonStyle();
+		tempButtonStyle.up = tempSkin.getDrawable("purple");
+		tempButtonStyle.over = tempSkin.getDrawable("yellow");
+		tempButtonStyle.font = font;
+
+		TextButtonStyle altButtonStyle = new TextButtonStyle();
+		altButtonStyle.up = tempSkin.getDrawable("lightblue");
+		altButtonStyle.over = tempSkin.getDrawable("blue");
+		altButtonStyle.font = font;
+
+		// setting up a label style and font
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = font;		
+		labelStyle.font = font;
+		labelStyle.background = tempSkin.getDrawable("green");
 
-		Label header = new Label("Just click play not actually linked yet", labelStyle);
-		Label aiHeader = new Label("numberOfAi", labelStyle);
-		Label playerHeader = new Label("numberOfHeaders", labelStyle);
+		// creating the main table
+		playOptions = new Table();
+		playOptions.setPosition(640.0f - (gameStartY * (5.0f / 7.0f)), 360.0f - 300.0f);
+		playOptions.setBackground(tempSkin.getDrawable("orange"));
+		playOptions.setSize(gameStartY * (10.0f / 7.0f), gameStartY);
 
-		playOptionsHeaderArray.put("TopHeader", header);
-		playOptionsHeaderArray.put("AIHeader", aiHeader);
-		playOptionsHeaderArray.put("PlayerHeader", playerHeader);
-		
-		
-		TextButton start = new TextButton("", playButtonStyle);
-		start.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new scrabbleMain(game));
-			}
-		});
+		// creating main header and also headers above ai and player
+		Label header = new Label("Select Players", labelStyle);
+		header.setAlignment(Align.center);
 
-		
+		// playersBox is a table to store the number of players selection button
+		// collection for non ai
 		Table playersBox = new Table();
-	
-		playersBox.setBackground(skin.getDrawable("help"));
+		playersBox.setBackground(tempSkin.getDrawable("lightblue"));
+
+		Label playerHeader = new Label("Add Players", labelStyle);
+		playerHeader.setAlignment(Align.center);
+
 		Label playersBoxText = new Label("0", labelStyle);
-		TextButton playersBoxLeftArrow = new TextButton("", websiteButtonStyle);
-		TextButton playersBoxRightArrow = new TextButton("", websiteButtonStyle);
-		
+		playersBoxText.setAlignment(Align.center);
+		TextButton playersBoxLeftArrow = new TextButton("", tempButtonStyle);
+		TextButton playersBoxRightArrow = new TextButton("", tempButtonStyle);
+
 		playersBoxRightArrow.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -211,25 +228,34 @@ public class MainMenu implements Screen {
 		playersBoxLeftArrow.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (playerCounter > 0) {
+				if (playerCounter > 0 && Integer.parseInt(playersBoxText.getText().toString()) != 0) {
 					playersBoxText.setText(Integer.toString(Integer.parseInt(playersBoxText.getText().toString()) - 1));
 					playerCounter -= 1;
 				}
 			}
 		});
-		playersBox.add(playersBoxLeftArrow).pad(5f);
-		playersBox.add(playersBoxText).pad(5f);
-		playersBox.add(playersBoxRightArrow).pad(5f);
-		
+		playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
+				.width(gameStartY * (17.0f / 28.0f));
+		playersBox.row();
+		playersBox.add(playersBoxLeftArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		;
+		playersBox.add(playersBoxText).align(Align.center).height(gameStartY / 14.0f * 4.5f).width(gameStartY / 7.0f);
+		playersBox.add(playersBoxRightArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		;
 
-
+		// playersBox is a table to store the number of players selection button
+		// collection for ai
 		Table aIBox = new Table();
-		
-		aIBox.setBackground(skin.getDrawable("help"));
+		aIBox.setBackground(tempSkin.getDrawable("lightblue"));
+
+		Label aiHeader = new Label("Add CPU", labelStyle);
+		aiHeader.setAlignment(Align.center);
+
 		Label aIBoxText = new Label("0", labelStyle);
-		TextButton aIBoxLeftArrow = new TextButton("", websiteButtonStyle);
-		TextButton aIBoxRightArrow = new TextButton("", websiteButtonStyle);
-		
+		aIBoxText.setAlignment(Align.center);
+		TextButton aIBoxLeftArrow = new TextButton("", tempButtonStyle);
+		TextButton aIBoxRightArrow = new TextButton("", tempButtonStyle);
+
 		aIBoxRightArrow.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -242,27 +268,49 @@ public class MainMenu implements Screen {
 		aIBoxLeftArrow.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (playerCounter > 0) {
+				if (playerCounter > 0 && Integer.parseInt(aIBoxText.getText().toString()) != 0) {
 					aIBoxText.setText(Integer.toString(Integer.parseInt(aIBoxText.getText().toString()) - 1));
 					playerCounter -= 1;
 				}
 			}
 		});
-		aIBox.add(aIBoxLeftArrow);
-		aIBox.add(aIBoxText);
-		aIBox.add(aIBoxRightArrow);
+		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
+				.width(gameStartY * (17.0f / 28.0f));
+		aIBox.row();
+		aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		aIBox.add(aIBoxText).align(Align.center).height(gameStartY / 14.0f * 4.5f).width(gameStartY / 7.0f);
+		aIBox.add(aIBoxRightArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		;
+
+		// start button, at bottom of box, starts the game
+		TextButton start = new TextButton("Quickstart", altButtonStyle);
+		start.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new scrabbleMain(game, 0, 0));
+			}
+		});
 		
-		playOptionsArray.put("Start", start);		;
-	
-		playOptions.add(playOptionsHeaderArray.get("TopHeader")).colspan(2).padBottom(25.0f);
-		playOptions.row();		
-		playOptions.add(playOptionsHeaderArray.get("PlayerHeader")).padBottom(5.0f).padTop(5.0f);
-		playOptions.add(playOptionsHeaderArray.get("AIHeader")).padBottom(5.0f).padTop(5.0f);
+		// naming button, at bottom of box, changes screen to name player screen
+		TextButton naming = new TextButton("Name Players", altButtonStyle);
+		start.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {		
+			}
+		});
+
+		// creating the main table
+		playOptions.add(header).colspan(2).size(gameStartY / 14 * 12, gameStartY / 7)
+				.pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 14)
+				.size(gameStartY / 14 * 12, gameStartY / 7);
 		playOptions.row();
-		playOptions.add(playersBox).size(127.0f, 127.0f);
-		playOptions.add(aIBox).size(127.0f, 127.0f);
+		playOptions.add(playersBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padLeft(gameStartY / 14).padRight(gameStartY / 56);
+		playOptions.add(aIBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padRight(gameStartY / 14).padLeft(gameStartY / 56);
 		playOptions.row();
-		playOptions.add(playOptionsArray.get("Start")).colspan(2);
+		playOptions.add(naming).pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 56)
+				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
+		playOptions.add(start).pad(gameStartY / 14, gameStartY / 56, gameStartY / 14, gameStartY / 14)
+				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
 
 		stage.addActor(playOptions);
 
@@ -380,5 +428,6 @@ public class MainMenu implements Screen {
 		play.setVisible(false);
 		rules.setVisible(false);
 	}
+	
 
 }
