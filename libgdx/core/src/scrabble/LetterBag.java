@@ -1,36 +1,19 @@
 package scrabble;
 
-import java.util.Stack;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
-import java.util.ArrayList;
+import data.Tile;
+
+import java.util.*;
 
 /**
  * LetterBag class provides the next random letter for each player. Can be used multiple times for each player in a turn.
  * @author Ollie Nye
  * @version 1.0
  */
-
 public class LetterBag {
-	
-	private static LetterBag instance = null;
+
 	private HashMap<Tile, Integer> tiles = new HashMap<>();
 	private ArrayList<Tile> tileList = new ArrayList<>();
 	private Stack<Tile> tileStack = new Stack<>();
-	
-	/**
-	 * Singleton design pattern
-	 * @return The instance of LetterBag
-     */
-
-	public static LetterBag getInstance() {
-		if (instance == null) {
-			instance = new LetterBag();
-		}
-		return instance;
-	}
 	
 	public LetterBag() {
 		//put ( <letter>, (new Integer[]( <quantity in bag>, <score>))

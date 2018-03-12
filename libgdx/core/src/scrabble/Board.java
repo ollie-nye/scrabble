@@ -3,6 +3,7 @@ package scrabble;
 import data.Coordinate;
 import data.Letter;
 import data.Result;
+import data.Tile;
 import player.Player;
 import validation.NewValidator;
 
@@ -54,7 +55,7 @@ public class Board {
     private static int boardSizeX = 15;
     private static int boardSizeY = 15;
 
-		/**
+    /**
 	 * Singleton pattern getter method
 	 * @return		Instance of the Board, creating a new one if required
 	 */
@@ -64,6 +65,14 @@ public class Board {
 		}
 		return instance;
 	}
+
+    public Board() {
+        for (int x = 0; x < boardSizeX; x++) {
+            for (int y = 0; y < boardSizeY; y++) {
+                letters[x][y] = null;
+            }
+        }
+    }
 	
 	/**
 	 * Recreates the validator for a new word
@@ -72,30 +81,11 @@ public class Board {
 		validator = new NewValidator(this);
 	}
 
-	/*
-	 * needed for the libgdx UI
-	 */
-	public Tile getLetter(Coordinate location){
-		if (location.getX() < boardSizeX && location.getY() < boardSizeY){
-		return letters [location.getX()][location.getY()];
-		}
-		else{
-			return new Tile("0", 0);
-		}
-	}
-
 	/**
 	 * Letters played by the players
 	 */
 	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
 
-	public Board() {
-		for (int x = 0; x < boardSizeX; x++) {
-			for (int y = 0; y < boardSizeY; y++) {
-				letters[x][y] = null;
-			}
-		}
-	}
 	
 	/**
 	 * Gets the tile at the given coordinate
@@ -114,11 +104,13 @@ public class Board {
      * @param location  location of tile to remove
      * @return tile     removed tile
      */
-	public Tile removeTile(Coordinate location) {
-		Tile tile = getTile(location);
-		letters[location.getX()][location.getY()] = null;
-		tile.getPlayer().returnletter(tile);
-		return tile;
+	public void removeTile(Coordinate location) {
+        Tile tile = getTile(location);
+	    if(Game.getCurrentMove().getPlayedTiles().containsKey(tile)) {
+            letters[location.getX()][location.getY()] = null;
+            Game.getCurrentMove().removeTile(tile, location);
+            Game.getCurrentPlayer().returnTile(tile);
+        }
 	}
 	
 	/**
@@ -126,17 +118,16 @@ public class Board {
 	 * @param letter    Tile to play
 	 * @return          Result of the play
 	 */
-	public Result place(Letter letter) {
-		Result res = validator.validateMove(letter);
+	public void place(Tile tile, Coordinate coordinate) {
+		Result res = validator.validateMove(new Letter(tile, coordinate));
 		Player player = Game.getCurrentPlayer();
 		if (res.isLegal()) {
-			letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getTile();
-			player.removeLetter(letter.getTile());
-			player.setMoveScore(player.getMoveScore() + letter.getScore());
+			letters[coordinate.getX()][coordinate.getY()] = tile;
+			player.removeTile(tile);
+			Game.getCurrentMove().addTile(tile, coordinate);
 		}
-		partialTile = null;
+        partialTile  = null;
 		partialPlace = null;
-		return res;
 	}
 	
 	public void testPlace(Letter letter) {
@@ -149,15 +140,6 @@ public class Board {
 	 */
 	public void partialPlace(Tile tile) {
 		partialTile = tile;
-		try {
-            if (partialPlace != null) { //both required elements are provided
-                place(new Letter(partialTile, partialPlace));
-            } else {
-                throw new Exception("Place is null");
-            }
-        } catch (Exception e) {
-		    System.out.println(e);
-        }
 	}
 	
 	/**
@@ -169,7 +151,7 @@ public class Board {
 		partialPlace = new Coordinate(x, y);
 		try {
             if (partialTile != null) { //both required elements are provided
-                place(new Letter(partialTile, partialPlace));
+                place(partialTile, partialPlace);
             } else {
                 //throw new Exception("Tile is null");
             }
@@ -186,10 +168,5 @@ public class Board {
 	public Result getLastResult() {
 		return this.validator.getLastResult();
 	}
-	
-	//ignore for mvp
-	public String getWord(){
-		//return this.validator.getWord();
-		return null;
-	}
+
 }

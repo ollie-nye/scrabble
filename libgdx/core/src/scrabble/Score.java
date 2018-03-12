@@ -56,13 +56,11 @@ public class Score {
     	switch (types[letter.getLocation().getX()][letter.getLocation().getY()]) {
     	case 'l': // letter multiplier
     		return letter.getTile().getScore() * scores[letter.getLocation().getX()][letter.getLocation().getY()];
-    	case 'n':
+    	case 'n': default:
     		return letter.getTile().getScore();
-    	//TODO
-    	case 'w': // word multipler - needs to be handled
-    		return -1;
-    	default:
-    		return -1;
+    	//TODO word multiplier - needs to be handled
+    	case 'w':
+			return letter.getTile().getScore();
     	}
     }
 }
