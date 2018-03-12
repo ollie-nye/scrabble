@@ -162,7 +162,7 @@ public class MainMenu implements Screen {
 		websiteButtonStyle.over = skin.getDrawable("websiteHover");
 		websiteButtonStyle.font = font;
 		website = new TextButton("", websiteButtonStyle);
-		website.setPosition(0f, 0f);
+		website.setPosition(1190f, 0f);
 		website.setSize(90.0f, 90.0f);
 		website.addListener(new ClickListener() {
 			@Override
