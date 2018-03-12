@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import screens.ScrabbleLauncher;
 
+/**
+ * @author Ben Miller, Asid Khan
+ * @version 1.0
+ */
 public class HelpScreen implements Screen {
 	
 	private static final int BACK_BUTTON_WIDTH = 67;

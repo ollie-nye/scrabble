@@ -6,10 +6,10 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
- * 
  * @author Ollie Nye
  * @version 1.6
  */
+
 /* 
  * REVISIONS
  * 1.0 - Create class and constructor

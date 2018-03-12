@@ -23,6 +23,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import screens.ScrabbleLauncher;
 
+/**
+ * @author Ben Miller, Asid Khan
+ * @version 1.0
+ */
 public class SettingsMenu implements Screen {
 
 	private ScrabbleLauncher game;

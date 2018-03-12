@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import screens.screens.MainMenu;
 
+/**
+ * @author Ben Miller, Asid Khan
+ * @version 1.0
+ */
 public class ScrabbleLauncher extends Game {
 	
 	private assetManager assets;

@@ -25,7 +25,6 @@ public class Scrabble {
 	 */
 	public static boolean incrementTurn() {
 		Result lastResult = Board.getInstance().getLastResult();
-
 		if (lastResult.isCompleteWord()) {
 			Board.getInstance().validatorReset();
             return true;

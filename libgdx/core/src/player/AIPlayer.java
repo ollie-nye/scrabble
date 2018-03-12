@@ -3,7 +3,7 @@ package player;
 /**
  * Contains methods specific to AIPlayer player type. Extends 'Player ' abstract class.
  * @author Thomas Geraghty
- * @version 1.0
+ * @version 1.1
  */
 public class AIPlayer extends Player {
 

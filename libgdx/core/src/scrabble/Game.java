@@ -8,6 +8,10 @@ import player.Player;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
+ /**
+  * @author Tom Geraghty
+  * @version 1.0
+  * */
 public class Game {
 
     private static final LetterBag LETTER_BAG = new LetterBag();

@@ -1,7 +1,5 @@
 package assetmanager;
 
-import java.awt.Font;
-
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -10,6 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+/**
+ * @author Asid Khan
+ * @version 1.0
+ * */
 public class assetManager {
 	
 	public AssetManager manager = new AssetManager();

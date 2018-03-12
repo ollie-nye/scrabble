@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * @author Ben Miller, Asid Khan, Tom Geraghty
+ * @version 1.1
+ * */
 public class ScrabbleButton extends ButtonBase {
 
 	private final Label label;

@@ -18,6 +18,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
 
+/**
+ * @author Ben Miller, Asid Khan
+ * @version 1.0
+ */
 public class MainMenu implements Screen {
 	
 	private ScrabbleLauncher game;

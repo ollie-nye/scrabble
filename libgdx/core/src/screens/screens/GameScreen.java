@@ -30,6 +30,10 @@ import screens.ScrabbleLauncher;
 
 import java.util.Random;
 
+/**
+ * @author Ben Miller, Asid Khan
+ * @version 1.0
+ */
 public class GameScreen implements Screen {
 
     public static boolean passingOverTurn = false;

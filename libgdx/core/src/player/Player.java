@@ -7,7 +7,7 @@ import scrabble.LetterBag;
 /**
  * Superclass containing shared methods related to player component of game.
  * @author Thomas Geraghty
- * @version 1.1
+ * @version 1.2
  */
 public abstract class Player {
 

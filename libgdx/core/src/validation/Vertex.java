@@ -3,7 +3,6 @@ package validation;
 import java.util.HashMap;
 
 /**
- * 
  * @author Ollie Nye
  * @version 1.4
  */

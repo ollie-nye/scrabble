@@ -2,6 +2,10 @@ package scrabble;
 
 import data.Letter;
 
+/**
+ * @author Tom Geraghty
+ * @version 1.1
+ * */
 public class Score {
 
     /**

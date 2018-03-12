@@ -2,10 +2,8 @@ package validation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Dictionary for main game, provides lookup and regex access
