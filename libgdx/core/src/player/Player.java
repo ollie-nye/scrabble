@@ -1,8 +1,8 @@
 package player;
 
-import scrabble.Tile;
+import data.Tile;
+import scrabble.Game;
 import scrabble.LetterBag;
-import scrabble.Board;
 
 /**
  * Superclass containing shared methods related to player component of game.
@@ -13,8 +13,7 @@ public abstract class Player {
 
 	private final Tile[] letterList = new Tile[7];
     private String playerName;
-    private int totalScore = 0;
-    private int currentMoveScore = 0;
+    private int score = 0;
     private String lastPlayedWord;
 
 
@@ -41,31 +40,15 @@ public abstract class Player {
      * @see         #getScore()
      */
     public void setScore(int score) {
-        totalScore = score;
+        this.score = score;
     }
-
     /**
      * Returns player's score on call.
      * @return  score   Score represented as integer.
      * @see         #setScore(int)
      */
     public int getScore() {
-       return totalScore;
-    }
-    public int getMoveScore() {
-        return currentMoveScore;
-    }
-    public void setMoveScore(int score) {
-        currentMoveScore = score;
-    }
-    public void setLastWord(String last){
-    	 lastPlayedWord =  last;
-    }
-    public Tile getLetter(int x){
-    	return letterList[x];
-    }
-    public String getLastWord(){
-    	return lastPlayedWord;
+       return score;
     }
 
     /**
@@ -75,16 +58,16 @@ public abstract class Player {
      *
      *  @see    LetterBag#pick()
      */
-    public void addLetters() {
+    public void addTiles() {
         for(int i = 0; i < letterList.length; i++) {
             if(letterList[i] == null) {
-                letterList[i] = LetterBag.getInstance().pick();
+                letterList[i] = Game.getLetterBag().pick();
                 letterList[i].setPlayer(this);
             }
         }
     }
 
-    public void returnletter(Tile tile) {
+    public void returnTile(Tile tile) {
         for(int i = 0; i < letterList.length - 1; i++) {
             if (letterList[i] == null) {
                 letterList[i] = tile;
@@ -97,7 +80,7 @@ public abstract class Player {
      * Sorts through array to find parameter tile then removes it from user array of tiles.
      * @param tile      Tile to remove
      */
-    public void removeLetter(Tile tile) {
+    public void removeTile(Tile tile) {
         for(int i = 0; i < letterList.length; i++) {
 	    if (letterList[i] != null) {
             	if(letterList[i].getContent().equals(tile.getContent())) {
@@ -112,10 +95,7 @@ public abstract class Player {
      * Returns array of tiles that Player has.
      * @return
      */
-    public Tile[] getLetterList() {
+    public Tile[] getLetters() {
         return letterList;
-    }
-
-    public void selectedLetter(Tile tile, int x, int y) {
     }
 }
