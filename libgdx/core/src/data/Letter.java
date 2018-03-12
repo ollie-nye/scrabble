@@ -1,6 +1,5 @@
 package data;
 
-import scrabble.Score;
 import scrabble.Tile;
 
 /**
@@ -15,7 +14,6 @@ import scrabble.Tile;
 public class Letter {
 	private Coordinate location;
 	private Tile tile;
-    private final static Score scoring = new Score();
 	
 	public Letter(Tile tile, Coordinate location) {
 		this.tile = tile;
@@ -26,10 +24,6 @@ public class Letter {
 	    return tile;
 	}
 
-	public int getScore() {
-        return scoring.calculateScore(this);
-    }
-	
 	public Coordinate getLocation() {
 		return location;
 	}

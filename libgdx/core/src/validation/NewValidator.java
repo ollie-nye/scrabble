@@ -1,37 +1,25 @@
 package validation;
 
+import data.Coordinate;
+import data.Letter;
 import data.Result;
 import scrabble.Board;
 
 import java.util.ArrayList;
 
-import data.Coordinate;
-import data.Letter;
-
 public class NewValidator {
 
 	private enum Direction { HORIZONTAL, VERTICAL }
-
 	private Direction direction;
-
 	private int location = 0;
-
 	private static Dawg dictionary = new Dawg();
-
 	private Board board = null;
-
 	private int playedTiles = 0;
-
 	private Coordinate firstMove = null;
-
 	private String firstMoveContent = "";
-	
 	private WordOperations ops;
-	
 	private ArrayList<String> words = null;
-
 	private String[] turn = new String[15];
-	
 	private Result result = null;
 
 	public NewValidator(Board board) {

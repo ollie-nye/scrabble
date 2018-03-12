@@ -21,11 +21,11 @@ public class Coordinate {
 		this.y = y;
 	}
 	
-	public int getX() {return this.x;}
-	public int getY() {return this.y;}
+	public int getX() {return x;}
+	public int getY() {return y;}
 	
 
 	public String toString() {
-		return "(" + this.x + "," + this.y + ")";
+		return "(" + x + "," + y + ")";
 	}
 }

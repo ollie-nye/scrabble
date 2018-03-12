@@ -44,12 +44,9 @@ public class MainMenu implements Screen {
 
 	}
 
-	@Override
 	public void show() {
-		
+        skin = new Skin();
 		Gdx.input.setInputProcessor(stage);
-		
-		skin = new Skin();
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);;
 		skin.addRegions(buttonAtlas);
 		
@@ -58,6 +55,7 @@ public class MainMenu implements Screen {
 		playButtonStyle.over = skin.getDrawable("playPressed");	
 		playButtonStyle.checked = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
+
 		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 330f);
 		play.setSize(254.0f, 65.0f);
@@ -66,11 +64,11 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				//TODO: Implement another screen that allows you to select player amount
 
-				Game gameSession = new Game(4);
+				Game gameSession = new Game();
                 gameSession.addPlayer("Ollie", 1);
                 gameSession.addPlayer("Ben", 1);
                 gameSession.addPlayer("Asid", 1);
-                gameSession.addPlayer("Tom", 1);
+                gameSession.addPlayer("tom", 1);
                 gameSession.start();
                 // all above code needs its own screen
 				hover.play(game.getSoundVol());
