@@ -92,11 +92,13 @@ public class ScrabbleButton extends ButtonBase {
 
 			if (PlayersContainer.getInstance().getPlayer(boardOrPlayer - 1).getLetter(xCoor) == null) {
 				setText(" ");
+				score.setText(" ");
 			} else if (boardOrPlayer - 1 == Scrabble.currentPlayer && scrabbleMain.passingOverTurn == false) {
 				setText(PlayersContainer.getInstance().getPlayer(boardOrPlayer - 1).getLetter(xCoor).getContent());
 				score.setText(Integer.toString((PlayersContainer.getInstance().getPlayer(boardOrPlayer - 1).getLetter(xCoor).getScore())));
 			} else {
 				setText(" ");
+				score.setText(" ");
 			}
 
 		}
