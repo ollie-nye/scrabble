@@ -49,11 +49,8 @@ public class Game {
 
     /* GAME FUNCTIONS */
     public static void start() {
-        int i = 1;
         for(Player player : PLAYER_LIST) {
             player.addTiles();
-            System.out.println("Player: " + i + player);
-            i++;
         }
         startTurn();
     }

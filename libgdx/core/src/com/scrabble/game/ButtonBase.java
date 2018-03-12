@@ -1,8 +1,6 @@
 package com.scrabble.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
-import java.util.Random;
 
 /*
  * an adapted version of the button class
@@ -207,12 +204,9 @@ public class ButtonBase extends Table implements Disableable {
 		if(isPressed && firstPress == false && anyButtonSelected == false){
 			firstPress = true;
 			selectButtons();
-			System.out.println("asd");	
-			
 		}
 		else if(isPressed == false && firstPress == true){
 			firstPress = false;
-			System.out.println("reset");
 		}
 		else if(isPressed && firstPress == false && anyButtonSelected == true){
 			firstPress = true;

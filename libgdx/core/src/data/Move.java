@@ -23,7 +23,6 @@ public class Move {
     public void addTile(Tile tile, Coordinate coordinate) {
         playedTiles.put(tile, coordinate);
         moveScore += SCORE_CALCULATOR.calculateScore(new Letter(tile, coordinate));
-        System.out.println(coordinate);
     }
 
     public void removeTile(Tile tile, Coordinate coordinate) {
