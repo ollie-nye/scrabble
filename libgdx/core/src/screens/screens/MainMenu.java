@@ -1,4 +1,4 @@
-package screens.Screens;
+package screens.screens;
 
 import assetmanager.assetManager;
 import com.badlogic.gdx.Gdx;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.scrabble.game.scrabbleMain;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
 
@@ -72,7 +71,7 @@ public class MainMenu implements Screen {
                 gameSession.start();
                 // all above code needs its own screen
 				hover.play(game.getSoundVol());
-				game.setScreen(new scrabbleMain(game));
+				game.setScreen(new GameScreen(game));
 
 				}		
 		});

@@ -1,11 +1,11 @@
 package screens;
 
+import assetmanager.assetManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import assetmanager.assetManager;
-import screens.Screens.MainMenu;
+import screens.screens.MainMenu;
 
 public class ScrabbleLauncher extends Game {
 	
