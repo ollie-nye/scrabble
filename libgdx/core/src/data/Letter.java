@@ -1,7 +1,5 @@
 package data;
 
-import scrabble.Tile;
-
 /**
  * @author Ollie Nye
  * @version 1.1

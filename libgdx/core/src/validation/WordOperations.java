@@ -1,10 +1,11 @@
 package validation;
 
-import java.util.ArrayList;
 import data.Coordinate;
 import data.Letter;
+import data.Tile;
 import scrabble.Board;
-import scrabble.Tile;
+
+import java.util.ArrayList;
 
 /**
  * @author Ollie Nye
