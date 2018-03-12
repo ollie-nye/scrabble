@@ -7,29 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import data.Coordinate;
-import scrabble.Board;
-import scrabble.Game;
-import scrabble.Scrabble;
+
 public class ScrabbleButton extends ButtonBase {
+
 	private final Label label;
 	private ScrabbleButtonStyle style;
-	private int boardOrPlayer;
-	private int xCoor;
-	private int yCoor;
-	private boolean isPressed = false;
 
-	public ScrabbleButton (String text, ScrabbleButtonStyle style, int xCoor, int yCoor, int boardOrPlayer) {
+	public ScrabbleButton (ScrabbleButtonStyle style) {
 		super();
 		setStyle(style);
 		this.style = style;
 		label = new Label(" ", new LabelStyle(style.font, style.fontColor));
 		label.setAlignment(Align.center);
 		add(label).expand().fill();
-		setSize(getPrefWidth(), getPrefHeight());		
-		this.xCoor = xCoor;
-		this.yCoor = yCoor;
-		this.boardOrPlayer = boardOrPlayer;
+		setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public void setStyle (ButtonBaseStyle style) {
@@ -51,94 +42,32 @@ public class ScrabbleButton extends ButtonBase {
 	}
 
 	public void draw (Batch batch, float parentAlpha) {
-	
-		/*
-		 * BOARD
-		 * Setting the text for the tiles on the board
-		 */
-		if (boardOrPlayer == 0){
-			Coordinate loc = new Coordinate(xCoor, yCoor);
-			if (Board.getInstance().getTile(loc) == null){
-				setText(" ");				
-			}else{
-				setText(Board.getInstance().getTile(loc).getContent());
-			}
-		}
-		
-		/*
-		 * PLAYER
-		 * Setting the text for tiles in a players hand
-		 */
-		else if (boardOrPlayer >= 1){
-			
-			if (Game.getPlayers()[boardOrPlayer - 1].getLetter(xCoor) == null){
-				setText(" ");				
-			} else if (boardOrPlayer-1 == Scrabble.currentPlayer && scrabbleMain.passingOverTurn == false){
-				setText(Game.getPlayers()[boardOrPlayer - 1].getLetter(xCoor).getContent());
-			} else{
-				setText(" ");
-			}
-			
-			
-		} 
-		
-		/*
-		 * ERROR CATCH
-		 */
-		else {
-			
-		System.out.println("Error in getting letter for player tiles");
-		
-		}
-		
-		//placing the tiles
-		if (isPressed() && isPressed == false){
-			
-			/*
-			 * PLAYER
-			 */
-			if (boardOrPlayer > 0 && boardOrPlayer - 1 == Scrabble.currentPlayer){
-				Board.getInstance().partialPlace(Game.getPlayers()[boardOrPlayer - 1].getLetter(xCoor));
-			}
-			
-			/*
-			 * BOARD
-			 */
-			else{				
-				Board.getInstance().partialPlace(xCoor, yCoor);
-			}
-			isPressed = true;
-			
-		}
-		
-		if (!isPressed()){
-			isPressed = false;			
-		}
-		
-		Color fontColor = null;
-		if (isDisabled() && style.disabledFontColor != null){
-			fontColor = style.disabledFontColor;
-		}
-		else if (isPressed() && style.downFontColor != null){				
-			fontColor = style.downFontColor;			
-		}
-		else if (isChecked() && style.checkedFontColor != null){				
-			fontColor = (isOver() && style.checkedOverFontColor != null) ? style.checkedOverFontColor : style.checkedFontColor;
-				}
-		else if (isOver() && style.overFontColor != null){
-			fontColor = style.overFontColor;
-		}
-		else{			
-			fontColor = style.fontColor;
-		}
-		if (fontColor != null) label.getStyle().fontColor = fontColor;
-		super.draw(batch, parentAlpha);
+        super.draw(batch, parentAlpha);
 	}
+
+	public void fontColour() {
+        Color fontColor = null;
+        if (isDisabled() && style.disabledFontColor != null){
+            fontColor = style.disabledFontColor;
+        }
+        else if (isPressed() && style.downFontColor != null){
+            fontColor = style.downFontColor;
+        }
+        else if (isChecked() && style.checkedFontColor != null){
+            fontColor = (isOver() && style.checkedOverFontColor != null) ? style.checkedOverFontColor : style.checkedFontColor;
+        }
+        else if (isOver() && style.overFontColor != null){
+            fontColor = style.overFontColor;
+        }
+        else{
+            fontColor = style.fontColor;
+        }
+        if (fontColor != null) label.getStyle().fontColor = fontColor;
+    }
 
 	public Label getLabel () {
 		return label;
 	}
-	
 
 	public void setText (String c) {
 		label.setText(c);
@@ -154,7 +83,6 @@ public class ScrabbleButton extends ButtonBase {
 		public BitmapFont font;
 		/** Optional. */
 		public Color fontColor, downFontColor, overFontColor, checkedFontColor, checkedOverFontColor, disabledFontColor;
-
 		public ScrabbleButtonStyle () {
 		}
 

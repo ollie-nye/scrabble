@@ -1,4 +1,4 @@
-package com.scrabble.game;
+package screens.screens;
 
 import assetmanager.assetManager;
 import com.badlogic.gdx.Gdx;
@@ -19,16 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.scrabble.game.BoardButton;
+import com.scrabble.game.PlayerButton;
+import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
+import data.Coordinate;
 import scrabble.Game;
 import scrabble.Scrabble;
 import screens.ScrabbleLauncher;
-import screens.Screens.MainMenu;
 
 import java.util.Random;
 
-
-public class scrabbleMain implements Screen {
+public class GameScreen implements Screen {
 
     public static boolean passingOverTurn = false;
 	private Stage stage;
@@ -46,11 +48,11 @@ public class scrabbleMain implements Screen {
     private ScrabbleLauncher game;
 
 	// board and player tiles
-	private Table[] tables = new Table[5];
+	private Table[] tables = new Table[Game.getNumberOfPlayers() + 1];
 	// player score representations
-	private Label[] scoreLabels = new Label[4];
+	private Label[] scoreLabels = new Label[Game.getNumberOfPlayers()];
 
-	public scrabbleMain(ScrabbleLauncher game) {
+	public GameScreen(ScrabbleLauncher game) {
 		this.game = game;
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
@@ -60,6 +62,7 @@ public class scrabbleMain implements Screen {
 	}
 
 	public void create() {
+        ScrabbleButton scrabbleButton;
 		tilePress1 = new Sound[]{
 				game.getAssetManager().manager.get(assetManager.click1),
 				game.getAssetManager().manager.get(assetManager.click2),
@@ -77,29 +80,26 @@ public class scrabbleMain implements Screen {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		setupButtonConfig();
-		
-		tables = new Table[] {new Table(), new Table(), new Table(), new Table(), new Table()};
-		for(int i = 0; i < scoreLabels.length; i++) {
+
+		tables[0] = new Table();
+        tables[0].setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		int scoreLabelPositionY = 630;
+
+		for(int i = 0; i < Game.getNumberOfPlayers(); i++) {
+            tables[i + 1] = new Table();
 		    scoreLabels[i] = new Label("",new Label.LabelStyle(font,Color.WHITE));
-        }
-        scoreLabels[0].setPosition(1205, 630);
-        scoreLabels[1].setPosition(1205, 605);
-        scoreLabels[2].setPosition(1205, 580);
-        scoreLabels[3].setPosition(1205, 555);
-        for(Label label : scoreLabels) {
-            stage.addActor(label);
+		    scoreLabels[i].setPosition(1205, scoreLabelPositionY);
+		    scoreLabelPositionY -= 25;
+            stage.addActor(scoreLabels[i]);
         }
 
-		tables[0].setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		ScrabbleButton scrabbleButton;
 
 		// sets up buttons for board
 		int k = 0;
 		stage.addActor(tables[0]);
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
-
-				scrabbleButton = new ScrabbleButton(" ", scrabbleButtonStyle, j, i, 0);
+				scrabbleButton = new BoardButton(scrabbleButtonStyle, new Coordinate(i, j));
 				scrabbleButton.setSize(36.4f, 36.4f);
 				stage.addActor(scrabbleButton);
                 tables[0].add(scrabbleButton).size(36.4f, 36.4f).pad(2.0f);
@@ -109,7 +109,6 @@ public class scrabbleMain implements Screen {
 						tilePress1[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 					};
 				});
-
 				k += 1;
 				if (k % 15 == 0) {
                     tables[0].row();
@@ -117,17 +116,24 @@ public class scrabbleMain implements Screen {
 			}
 		}
 
-		tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
-		setupPlayerLetters(3, 1, false);
 
-        tables[2].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
-		setupPlayerLetters(1, 2, false);
 
-		tables[3].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
-        setupPlayerLetters(2, 3, true);
+		switch (Game.getNumberOfPlayers()) {
+            case 4:
+                tables[4].setSize(tables[0].getWidth() - 700, tables[0].getHeight());
+                setupPlayerLetters(4, 4, true);
+            case 3:
+                tables[3].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
+                setupPlayerLetters(2, 3, true);
+            default:
+                tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
+                setupPlayerLetters(3, 1, false);
+                tables[2].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
+                setupPlayerLetters(1, 2, false);
+                break;
+		}
 
-		tables[4].setSize(tables[0].getWidth() - 700, tables[0].getHeight());
-		setupPlayerLetters(4, 4, true);
+
 	
 		
 		//end turn button creation
@@ -139,7 +145,7 @@ public class scrabbleMain implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (Scrabble.incrementTurn() == true){
-				    Game.nextTurn();
+				    Game.endTurn();
 					passingOverTurn = true;
 				};
 			};
@@ -155,6 +161,7 @@ public class scrabbleMain implements Screen {
 		startTurn.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+			    Game.startTurn();
 				passingOverTurn = false;
 			};
 		});
@@ -218,7 +225,7 @@ public class scrabbleMain implements Screen {
 	private void setupPlayerLetters(int player, int table, boolean vertical) {
         ScrabbleButton scrabbleButton;
         for (int i = 0; i < 7; i++) {
-            scrabbleButton = new ScrabbleButton(" ", scrabbleButtonStyle, i, 1, player);
+            scrabbleButton = new PlayerButton(scrabbleButtonStyle, new Coordinate(i, 1), player);
             scrabbleButton.setSize(36.4f, 36.4f);
             stage.addActor(scrabbleButton);
             if(vertical) {
@@ -252,29 +259,23 @@ public class scrabbleMain implements Screen {
 		}
 
 		for(int i = 0; i < scoreLabels.length; i++) {
-            scoreLabels[i].setText(Integer.toString(Game.getPlayers()[i].getScore()));
+            scoreLabels[i].setText(Integer.toString(Game.getPlayers().get(i).getScore()));
         }
 
 		stage.draw();
 		stage.act();
 	}
 
-	public void resize(int width, int height) {
-	}
+    public void dispose() {
+        stage.dispose();
+        BoardBackground.dispose();
+        BoardBatch.dispose();
+        hover.dispose();
+    }
 
-	public void pause() {
-	}
-
-	public void resume() {
-	}
-
-	public void hide() {
-	}
-
-	public void dispose() {
-		stage.dispose();
-		BoardBackground.dispose();
-		BoardBatch.dispose();
-		hover.dispose();	
-	}
+    /* EMPTY IMPLEMENTATIONS */
+	public void resize(int width, int height) { }
+	public void pause() {}
+	public void resume() {}
+	public void hide() {}
 }
