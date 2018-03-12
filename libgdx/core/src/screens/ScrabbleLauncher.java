@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import screens.screens.LoadingScreen;
 import screens.screens.MainMenu;
 
 /**
@@ -29,7 +30,8 @@ public class ScrabbleLauncher extends Game {
 		assets.load();
 		assets.manager.finishLoading();
 		this.setScreen(new MainMenu(this));
-		theme = assets.manager.get(assetManager.mainMusic);
+        this.setScreen(new LoadingScreen(this));
+        theme = assets.manager.get(assetManager.mainMusic);
 		theme.setVolume(0.5f);
 		theme.play();
 		theme.setLooping(true);
