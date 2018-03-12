@@ -62,7 +62,6 @@ public abstract class Player {
         for(int i = 0; i < letterList.length; i++) {
             if(letterList[i] == null) {
                 letterList[i] = Game.getLetterBag().pick();
-                letterList[i].setPlayer(this);
             }
         }
     }

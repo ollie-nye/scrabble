@@ -1,7 +1,5 @@
 package data;
 
-import player.Player;
-
 /**
  * Communication object between classes carrying tile data
  * @author Ollie
@@ -11,7 +9,6 @@ import player.Player;
 public class Tile {
 	private String content;
 	private int score;
-	private Player player;
 	
 	public Tile(String content, int score) {
 		this.content = content;
@@ -29,12 +26,4 @@ public class Tile {
 	public String toString() {
 		return this.content;
 	}
-
-	public void setPlayer(Player player) {
-	    this.player = player;
-    }
-
-    public Player getPlayer() {
-	    return player;
-    }
 }
