@@ -22,12 +22,12 @@ public class Move {
 
     public void addTile(Tile tile, Coordinate coordinate) {
         playedTiles.put(tile, coordinate);
-        moveScore += SCORE_CALCULATOR.calculateScore(new Letter(tile, coordinate));
+        moveScore += SCORE_CALCULATOR.calculateScore(tile, coordinate);
     }
 
     public void removeTile(Tile tile, Coordinate coordinate) {
         playedTiles.remove(coordinate);
-        moveScore -= SCORE_CALCULATOR.calculateScore(new Letter(tile, coordinate));
+        moveScore -= SCORE_CALCULATOR.calculateScore(tile, coordinate);
     }
 
     public HashMap<Tile, Coordinate> getPlayedTiles() {
@@ -38,8 +38,12 @@ public class Move {
         return moveScore;
     }
 
-    public void setPlayedWord(String playedWord) {
+    private void setPlayedWord(String playedWord) {
         this.playedWord = playedWord;
+    }
+
+    public void endMove(String playedWord) {
+        setPlayedWord(playedWord);
     }
 
     public String getPlayedWord() {

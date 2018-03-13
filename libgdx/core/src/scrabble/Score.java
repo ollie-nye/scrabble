@@ -1,6 +1,7 @@
 package scrabble;
 
-import data.Letter;
+import data.Coordinate;
+import data.Tile;
 
 /**
  * @author Tom Geraghty
@@ -53,18 +54,19 @@ public class Score {
     /**
      * Takes a letter and position, and returns its
      * board value (i.e with double letter score).
-     * @param letter
+     * @param tile
+     * @param coordinate
      * @return
      */
-    public int calculateScore(Letter letter) {
-    	switch (types[letter.getLocation().getX()][letter.getLocation().getY()]) {
+    public int calculateScore(Tile tile, Coordinate coordinate) {
+    	switch (types[coordinate.getX()][coordinate.getY()]) {
     	case 'l': // letter multiplier
-    		return letter.getTile().getScore() * scores[letter.getLocation().getX()][letter.getLocation().getY()];
+    		return tile.getScore() * scores[coordinate.getX()][coordinate.getY()];
     	case 'n': default:
-    		return letter.getTile().getScore();
+    		return tile.getScore();
     	//TODO word multiplier - needs to be handled
     	case 'w':
-			return letter.getTile().getScore();
+			return tile.getScore();
     	}
     }
 }
