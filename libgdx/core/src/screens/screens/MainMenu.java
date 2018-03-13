@@ -11,12 +11,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
+
+import java.util.HashMap;
 
 /**
  * @author Ben Miller, Asid Khan
@@ -26,16 +29,15 @@ public class MainMenu implements Screen {
 	
 	private ScrabbleLauncher game;
 	private Stage stage;
-	private TextButton play;
-	private TextButton settings;
-	private TextButton rules;
-	private TextButton exit;
-	private TextButton website;
+	private TextButton play, settings, rules, exit, website;
 	private Skin skin;
 	private TextureAtlas buttonAtlas;
 	private Sound hover;
 	private Texture background;
 	private BitmapFont font;
+	private HashMap<String, TextButton> playOptionsArray;
+	private Table playOptions;
+
 	
 	public MainMenu(ScrabbleLauncher game){
           
@@ -44,7 +46,7 @@ public class MainMenu implements Screen {
 		 background = game.getAssetManager().manager.get(assetManager.mainBackground);
 		 stage = new Stage(new ScreenViewport());
 		 font = new BitmapFont();
-
+		 playOptionsArray = new HashMap<>();
 	}
 
 	public void show() {
@@ -155,8 +157,43 @@ public class MainMenu implements Screen {
 				}		
 		});
 		stage.addActor(website);
-		
-	}
+
+        playOptions = new Table();
+        playOptions.setPosition(640.0f, 120.0f);
+
+        TextButton start = new TextButton("", playButtonStyle);
+        start.setSize(254.0f, 65.0f);
+        website.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+
+        TextButton playersBox = new TextButton("0", playButtonStyle);
+        playersBox.setSize(127.0f, 127.0f);
+        website.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+
+        TextButton aIBox = new TextButton("0", playButtonStyle);
+        aIBox.setSize(127.0f, 127.0f);
+        website.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+        playOptionsArray.put("Start", start);
+        playOptionsArray.put("PlayersBox", playersBox);
+        playOptionsArray.put("AIBox", aIBox);
+        playOptions.add(playOptionsArray.get("PlayersBox")).size(127.0f, 127.0f);
+        playOptions.add(playOptionsArray.get("AIBox"));
+        playOptions.row();
+        playOptions.add(playOptionsArray.get("Start"));
+        stage.addActor(playOptions);
+        playOptions.setVisible(false);
+    }
 
 	@Override
 	public void render(float delta) {
