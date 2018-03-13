@@ -37,7 +37,8 @@ public class PlayerButton extends ScrabbleButton {
      * @param batch
      * @param parentAlpha
      */
-    public void draw(Batch batch, float parentAlpha) {
+    @Override
+	public void draw(Batch batch, float parentAlpha) {
         // Setting the text for tiles in a players hand
         if (Game.getPlayers().get(playerNumber).getTiles()[coordinate.getX()] == null) {
             setText("");

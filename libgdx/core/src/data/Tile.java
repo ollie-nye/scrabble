@@ -23,6 +23,7 @@ public class Tile {
 		return this.score;
 	}
 
+	@Override
 	public String toString() {
 		return this.content;
 	}

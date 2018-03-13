@@ -6,7 +6,7 @@ import scrabble.Board;
 
 /**
  * Subclass of ScrabbleButton, is used for buttons / tiles om the board.
- * @author Tom Geraghty
+ * @author Tom Geraghty + Ben yo i wrote half this class fam
  * @version 1.0
  */
 public class BoardButton extends ScrabbleButton {
@@ -31,7 +31,8 @@ public class BoardButton extends ScrabbleButton {
      * @param batch
      * @param parentAlpha
      */
-    public void draw (Batch batch, float parentAlpha) {
+    @Override
+	public void draw (Batch batch, float parentAlpha) {
         // Setting the text for the tiles on the board
         if (Board.getInstance().getTile(coordinate) == null){
             setText("");

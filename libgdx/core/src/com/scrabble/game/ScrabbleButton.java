@@ -34,6 +34,7 @@ public class ScrabbleButton extends ButtonBase {
         setSize(getPrefWidth(), getPrefHeight());
 	}
 
+	@Override
 	public void setStyle (ButtonBaseStyle style) {
 		if (style == null)
 		    throw new NullPointerException("style cannot be null");
@@ -50,10 +51,12 @@ public class ScrabbleButton extends ButtonBase {
 		}
 	}
 
+	@Override
 	public ScrabbleButtonStyle getStyle() {
 		return style;
 	}
 
+	@Override
 	public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 	}

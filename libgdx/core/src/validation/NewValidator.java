@@ -112,7 +112,7 @@ public class NewValidator {
 		if (words == null) { getWords(letter); }
 		int completeWords = 0;
 		for (String word : words) {
-			completeWords += this.dictionary.getCompleteWords(word);
+			completeWords += NewValidator.dictionary.getCompleteWords(word);
 		}
 		return (completeWords > 0);
 	}
