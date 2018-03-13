@@ -22,7 +22,8 @@ public class BoardButton extends ScrabbleButton {
     public void draw (Batch batch, float parentAlpha) {
         // BOARD - Setting the text for the tiles on the board
         if (Board.getInstance().getTile(coordinate) == null){
-            setText(" ");
+            setText("");
+            score.setText("");
         } else {
             setText(Board.getInstance().getTile(coordinate).getContent());
         }
