@@ -180,7 +180,7 @@ public class ButtonBase extends Table implements Disableable {
 		setBackground(background);
 	}
 
-	/** Returns the button's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
+	/** Returns the button's style. Modifying the returned style may not have an effect until is
 	 * called. */
 	public ButtonBaseStyle getStyle () {
 		return style;
@@ -239,7 +239,7 @@ public class ButtonBase extends Table implements Disableable {
 			background = style.up;
 		setBackground(background);
 
-		float offsetX = 0, offsetY = 0;
+		float offsetX = 0f, offsetY = 0;
 		if (isPressed && !isDisabled) {
 			offsetX = style.pressedOffsetX;
 			offsetY = style.pressedOffsetY;
@@ -287,7 +287,7 @@ public class ButtonBase extends Table implements Disableable {
 		return getPrefHeight();
 	}
 
-	/** The style for a button, see {@link Button}.
+	/** The style for a button, see .
 	 * @author mzechner */
 	static public class ButtonBaseStyle {
 		/** Optional. */

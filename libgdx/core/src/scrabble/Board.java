@@ -115,7 +115,8 @@ public class Board {
 	
 	/**
 	 * Places the tile at the given coordinates if both partialPlace variables are set
-	 * @param letter    Tile to play
+	 * @param tile     Tile to play
+     * @param coordinate Coordinate of tile.
 	 * @return          Result of the play
 	 */
 	public void place(Tile tile, Coordinate coordinate) {
@@ -168,5 +169,4 @@ public class Board {
 	public Result getLastResult() {
 		return this.validator.getLastResult();
 	}
-
 }

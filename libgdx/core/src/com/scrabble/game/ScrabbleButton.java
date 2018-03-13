@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import data.Coordinate;
 
 /**
  * @author Ben Miller, Asid Khan, Tom Geraghty
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 public class ScrabbleButton extends ButtonBase {
 
 	private final Label label;
+	protected final Label score;
 	private ScrabbleButtonStyle style;
 
 	public ScrabbleButton (ScrabbleButtonStyle style) {
@@ -23,17 +25,24 @@ public class ScrabbleButton extends ButtonBase {
 		this.style = style;
 		label = new Label(" ", new LabelStyle(style.font, style.fontColor));
 		label.setAlignment(Align.center);
-		add(label).expand().fill();
-		setSize(getPrefWidth(), getPrefHeight());
+        label.setFontScale(0.7f);
+        add(label).expand().fill();
+        score = new Label(" ", new Label.LabelStyle(style.font, style.fontColor));
+        score.setAlignment(Align.bottomRight);
+        score.setFontScale(0.5f);
+        add(score).fill();
+        setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public void setStyle (ButtonBaseStyle style) {
-		if (style == null) throw new NullPointerException("style cannot be null");
-		if (!(style instanceof ScrabbleButtonStyle)) throw new IllegalArgumentException("style must be a ScrabbleButtonStyle.");
+		if (style == null)
+		    throw new NullPointerException("style cannot be null");
+		if (!(style instanceof ScrabbleButtonStyle))
+		    throw new IllegalArgumentException("style must be a ScrabbleButtonStyle.");
 		super.setStyle(style);
-		this.style = (ScrabbleButtonStyle)style;
+		this.style = (ScrabbleButtonStyle) style;
 		if (label != null) {
-			ScrabbleButtonStyle ScrabbleButtonStyle = (ScrabbleButtonStyle)style;
+			ScrabbleButtonStyle ScrabbleButtonStyle = (ScrabbleButtonStyle) style;
 			LabelStyle labelStyle = label.getStyle();
 			labelStyle.font = ScrabbleButtonStyle.font;
 			labelStyle.fontColor = ScrabbleButtonStyle.fontColor;
@@ -41,13 +50,17 @@ public class ScrabbleButton extends ButtonBase {
 		}
 	}
 
-	public ScrabbleButtonStyle getStyle () {
+	public ScrabbleButtonStyle getStyle() {
 		return style;
 	}
 
-	public void draw (Batch batch, float parentAlpha) {
+	public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 	}
+
+	public void drawTileScore(Coordinate coordinate) {
+
+    }
 
 	public void fontColour() {
         Color fontColor = null;

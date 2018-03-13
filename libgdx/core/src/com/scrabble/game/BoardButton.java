@@ -12,6 +12,7 @@ public class BoardButton extends ScrabbleButton {
     private Coordinate coordinate;
     private boolean isPressed = false;
 
+
     public BoardButton(ScrabbleButtonStyle style, Coordinate coordinate) {
         super(style);
         this.coordinate = coordinate;
@@ -26,7 +27,7 @@ public class BoardButton extends ScrabbleButton {
             setText(Board.getInstance().getTile(coordinate).getContent());
         }
 
-        //placing the tile
+        // Placing the tile
         if (isPressed() && !isPressed) {
             if(Board.getInstance().getTile(coordinate) == null) {
                 Board.getInstance().partialPlace(coordinate.getX(), coordinate.getY());
@@ -39,8 +40,10 @@ public class BoardButton extends ScrabbleButton {
         if (!isPressed()){
             isPressed = false;
         }
-
         fontColour();
+        if(Board.getInstance().getTile(coordinate) != null) {
+            score.setText(Integer.toString(Board.getInstance().getTile(coordinate).getScore()));
+        }
         super.draw(batch, parentAlpha);
     }
 }

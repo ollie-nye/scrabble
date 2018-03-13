@@ -17,24 +17,30 @@ public class PlayerButton extends ScrabbleButton {
 
     public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, int playerNumber) {
         super(style);
-        this.playerNumber = playerNumber;
+
+        this.playerNumber = playerNumber - 1;
         this.coordinate = coordinate;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // PLAYER - Setting the text for tiles in a players hand
-        if (Game.getPlayers().get(playerNumber - 1).getLetters()[coordinate.getX()] == null) {
-            setText(" ");
-        } else if (Game.getPlayers().get(playerNumber - 1) == Game.getCurrentPlayer() && !GameScreen.passingOverTurn) {
-            setText(Game.getPlayers().get(playerNumber - 1).getLetters()[coordinate.getX()].getContent());
+        if (Game.getPlayers().get(playerNumber).getLetters()[coordinate.getX()] == null) {
+            setText("");
+            score.setText("");
         } else {
-            setText(" ");
+            if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer() && !GameScreen.passingOverTurn) {
+                setText(Game.getPlayers().get(playerNumber).getLetters()[coordinate.getX()].getContent());
+                score.setText(Integer.toString(Game.getCurrentPlayer().getLetters()[coordinate.getX()].getScore()));
+            } else {
+                setText("");
+                score.setText("");
+            }
         }
 
         //placing the tile
-        if (isPressed() && !isPressed) {
-            if (Game.getPlayers().get(playerNumber - 1) == Game.getCurrentPlayer()) {
+        if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer()) {
+            if (isPressed() && !isPressed) {
                 Board.getInstance().partialPlace(Game.getCurrentPlayer().getLetters()[coordinate.getX()]);
             }
             isPressed = true;

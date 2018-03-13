@@ -40,7 +40,7 @@ public class LoadingScreen implements Screen {
         stage.getBatch().draw(logoWhite,0,0);
         stage.getBatch().draw(logoLoaded,initalX,0);
         if (initalX<=0){
-            initalX = (initalX + 2);
+            initalX = (initalX + 28);
             stage.getBatch().draw(logoLoaded, logoLoaded.getWidth() * progress   , 0);
         } else {
             this.dispose();
