@@ -31,7 +31,7 @@ import screens.ScrabbleLauncher;
 import java.util.Random;
 
 /**
- * @author Ben Miller, Asid Khan
+ * @author Ben Miller, Asid Khan, Tom Geraghty
  * @version 1.0
  */
 public class GameScreen implements Screen {
@@ -62,8 +62,6 @@ public class GameScreen implements Screen {
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
-        //this.player = player;
-        //this.AI = AI;
 		this.create();
 	}
 
@@ -137,9 +135,13 @@ public class GameScreen implements Screen {
                 tables[2].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
                 setupPlayerLetters(1, 2, false);
                 break;
+			case 2:
+				tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
+				setupPlayerLetters(3, 1, false);
+				tables[3].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
+				setupPlayerLetters(2, 3, true);
+				break;
 		}
-
-
 	
 		
 		//end turn button creation
