@@ -26,6 +26,7 @@ public class Letter {
 		return location;
 	}
 	
+	@Override
 	public String toString() {
 		return tile.toString() + " at " + location.toString();
 	}

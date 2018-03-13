@@ -86,6 +86,7 @@ public class ButtonBase extends Table implements Disableable {
 	private void initialize () {
 		setTouchable(Touchable.enabled);
 		addListener(clickListener = new ClickListener() {
+			@Override
 			public void clicked (InputEvent event, float x, float y) {
 				if (isDisabled()) return;
 				setChecked(!isChecked, true);
@@ -145,11 +146,13 @@ public class ButtonBase extends Table implements Disableable {
 		return clickListener;
 	}
 
+	@Override
 	public boolean isDisabled () {
 		return isDisabled;
 	}
 
 	/** When true, the button will not toggle {@link #isChecked()} when clicked and will not fire a {@link ChangeEvent}. */
+	@Override
 	public void setDisabled (boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
@@ -191,6 +194,7 @@ public class ButtonBase extends Table implements Disableable {
 		return buttonGroup;
 	}
 
+	@Override
 	public void draw (Batch batch, float parentAlpha) {
 		validate();
 
@@ -263,6 +267,7 @@ public class ButtonBase extends Table implements Disableable {
 			Gdx.graphics.requestRendering();
 	}
 
+	@Override
 	public float getPrefWidth () {
 		float width = super.getPrefWidth();
 		if (style.up != null) width = Math.max(width, style.up.getMinWidth());
@@ -271,6 +276,7 @@ public class ButtonBase extends Table implements Disableable {
 		return width;
 	}
 
+	@Override
 	public float getPrefHeight () {
 		float height = super.getPrefHeight();
 		if (style.up != null) height = Math.max(height, style.up.getMinHeight());
@@ -279,10 +285,12 @@ public class ButtonBase extends Table implements Disableable {
 		return height;
 	}
 
+	@Override
 	public float getMinWidth () {
 		return getPrefWidth();
 	}
 
+	@Override
 	public float getMinHeight () {
 		return getPrefHeight();
 	}

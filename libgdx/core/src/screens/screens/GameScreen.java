@@ -233,6 +233,7 @@ public class GameScreen implements Screen {
 		textButtonStyle3.font = font;
 	}
 
+	@Override
 	public void show() {
 		stage.getRoot().getColor().a = 0;
 		stage.getRoot().addAction(Actions.fadeIn(0.5f));
@@ -259,6 +260,7 @@ public class GameScreen implements Screen {
         stage.addActor(tables[player]);
     }
 
+	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -282,7 +284,8 @@ public class GameScreen implements Screen {
 		stage.act();
 	}
 
-    public void dispose() {
+    @Override
+	public void dispose() {
         stage.dispose();
         BoardBackground.dispose();
         BoardBatch.dispose();
@@ -290,8 +293,12 @@ public class GameScreen implements Screen {
     }
 
     /* EMPTY IMPLEMENTATIONS */
+	@Override
 	public void resize(int width, int height) { }
+	@Override
 	public void pause() {}
+	@Override
 	public void resume() {}
+	@Override
 	public void hide() {}
 }

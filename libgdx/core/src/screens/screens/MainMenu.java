@@ -227,7 +227,7 @@ public class MainMenu implements Screen {
         Label playerHeader = new Label("Add Players", labelStyle);
         playerHeader.setAlignment(Align.center);
 
-        Label playersBoxText = new Label("0", counterLabelStyle);
+        final Label playersBoxText = new Label("0", counterLabelStyle);
         playersBoxText.setAlignment(Align.center);
         TextButton playersBoxLeftArrow = new TextButton("", leftArrowStyle);
         TextButton playersBoxRightArrow = new TextButton("", rightArrowStyle);
@@ -270,7 +270,7 @@ public class MainMenu implements Screen {
         Label aiHeader = new Label("Add CPU", labelStyle);
         aiHeader.setAlignment(Align.center);
 
-        Label aIBoxText = new Label("0", counterLabelStyle);
+        final Label aIBoxText = new Label("0", counterLabelStyle);
         aIBoxText.setAlignment(Align.center);
         TextButton aIBoxLeftArrow = new TextButton("", leftArrowStyle);
         //aIBoxLeftArrow.setSize(47.0f, 47.0f);
@@ -390,7 +390,7 @@ public class MainMenu implements Screen {
         });
 
         // naming button, at bottom of box, changes screen to name player screen
-        TextButton naming = new TextButton("Name Players", altButtonStyle);
+        final TextButton naming = new TextButton("Name Players", altButtonStyle);
         naming.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
