@@ -109,6 +109,7 @@ public class Game {
      */
     public static void endTurn() {
         currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
+        currentMove = null;
         currentPlayer.addTiles();
     }
     /**

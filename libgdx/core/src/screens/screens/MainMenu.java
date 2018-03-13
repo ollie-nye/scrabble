@@ -254,6 +254,7 @@ public class MainMenu implements Screen {
                 }
             }
         });
+
         playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
                 .width(gameStartY * (17.0f / 28.0f));
         playersBox.row();
@@ -283,8 +284,8 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (playerCounter < 4) {
                     aIBoxText.setText(Integer.toString(Integer.parseInt(aIBoxText.getText().toString()) + 1));
+                    aiNumber += 1;
                     playerCounter += 1;
-
                 }
             }
         });
@@ -293,10 +294,12 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (playerCounter > 0 && Integer.parseInt(aIBoxText.getText().toString()) != 0) {
                     aIBoxText.setText(Integer.toString(Integer.parseInt(aIBoxText.getText().toString()) - 1));
+                    aiNumber -= 1;
                     playerCounter -= 1;
                 }
             }
         });
+
         aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
                 .width(gameStartY * (17.0f / 28.0f));
         aIBox.row();
@@ -371,11 +374,14 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (playerCounter > 1){
                     setPlayerArray();
-                    Game gameSession = new Game();
-                    for(int i = 0; i < playerCounter; i++) {
-                        gameSession.addPlayer(playerNameEntry[i].getText(),1);
+                    for(int i = 0; i < playerNumber; i++) {
+                        Game.addPlayer(playerNameEntry[i].getText(),1);
                     }
-                    gameSession.start();
+                    for(int i = 0; i < aiNumber; i++) {
+                        Game.addPlayer("AI " + i,2);
+                    }
+                    Game.start();
+                    System.out.println(Game.getNumberOfPlayers());
 
                     game.setScreen(new GameScreen(game));
                 }

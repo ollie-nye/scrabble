@@ -2,6 +2,7 @@ package com.scrabble.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import data.Coordinate;
+import player.AIPlayer;
 import scrabble.Board;
 import scrabble.Game;
 import screens.screens.GameScreen;
@@ -52,12 +53,8 @@ public class PlayerButton extends ScrabbleButton {
             }
         }
 
-        // Placing the tile
-        if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer()) {
-            if (isPressed() && !isPressed) {
-                Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
-            }
-            isPressed = true;
+        if(!(Game.getCurrentPlayer() instanceof AIPlayer || Game.getCurrentMove() == null)) {
+            placeTile();
         }
 
         if (!isPressed()) {
@@ -66,5 +63,15 @@ public class PlayerButton extends ScrabbleButton {
 
         fontColour();
         super.draw(batch, parentAlpha);
+    }
+
+    public void placeTile() {
+        // Placing the tile
+        if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer()) {
+            if (isPressed() && !isPressed) {
+                Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
+            }
+            isPressed = true;
+        }
     }
 }
