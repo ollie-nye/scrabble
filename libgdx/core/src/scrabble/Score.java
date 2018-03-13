@@ -59,6 +59,7 @@ public class Score {
             {3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3}
     };
 
+
     /**
      * Takes a Tile and its Coordinate, and returns its
      * board value (i.e with double letter score).

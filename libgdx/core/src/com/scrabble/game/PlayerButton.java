@@ -7,14 +7,23 @@ import scrabble.Game;
 import screens.screens.GameScreen;
 
 /**
+ * Subclass of ScrabbleButton, is used for buttons / tiles in Players hand.
  * @author Tom Geraghty
  * @version 1.0
  */
 public class PlayerButton extends ScrabbleButton {
-    private Coordinate coordinate;
+    private final Coordinate coordinate;
     private boolean isPressed = false;
-    private int playerNumber;
+    private final int playerNumber;
 
+    /**
+     * Calls super (ScrabbleButton), passing the Style to it.
+     * Sets Button Coordinate to passed Coordinate
+     *
+     * @param style             Style of button
+     * @param coordinate        Coordinate of button
+     * @param playerNumber      Player who button belongs too (remove 1 from number)
+     */
     public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, int playerNumber) {
         super(style);
 
@@ -22,26 +31,31 @@ public class PlayerButton extends ScrabbleButton {
         this.coordinate = coordinate;
     }
 
-    @Override
+    /**
+     * Draws button. Deals with clicks/presses and calls corresponding logic.
+     *
+     * @param batch
+     * @param parentAlpha
+     */
     public void draw(Batch batch, float parentAlpha) {
-        // PLAYER - Setting the text for tiles in a players hand
-        if (Game.getPlayers().get(playerNumber).getLetters()[coordinate.getX()] == null) {
+        // Setting the text for tiles in a players hand
+        if (Game.getPlayers().get(playerNumber).getTiles()[coordinate.getX()] == null) {
             setText("");
             score.setText("");
         } else {
             if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer() && !GameScreen.passingOverTurn) {
-                setText(Game.getPlayers().get(playerNumber).getLetters()[coordinate.getX()].getContent());
-                score.setText(Integer.toString(Game.getCurrentPlayer().getLetters()[coordinate.getX()].getScore()));
+                setText(Game.getPlayers().get(playerNumber).getTiles()[coordinate.getX()].getContent());
+                score.setText(Integer.toString(Game.getCurrentPlayer().getTiles()[coordinate.getX()].getScore()));
             } else {
                 setText("");
                 score.setText("");
             }
         }
 
-        //placing the tile
+        // Placing the tile
         if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer()) {
             if (isPressed() && !isPressed) {
-                Board.getInstance().partialPlace(Game.getCurrentPlayer().getLetters()[coordinate.getX()]);
+                Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
             }
             isPressed = true;
         }

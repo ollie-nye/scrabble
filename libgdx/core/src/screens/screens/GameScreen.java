@@ -120,8 +120,6 @@ public class GameScreen implements Screen {
 			}
 		}
 
-
-
 		switch (Game.getNumberOfPlayers()) {
             case 4:
                 tables[4].setSize(tables[0].getWidth() - 700, tables[0].getHeight());
@@ -142,7 +140,6 @@ public class GameScreen implements Screen {
                 setupPlayerLetters(2, false);
                 break;
 		}
-	
 		
 		//end turn button creation
 		endTurn = new TextButton("", textButtonStyle2);

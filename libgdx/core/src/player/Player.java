@@ -14,9 +14,8 @@ public abstract class Player {
 	private final Tile[] letterList = new Tile[7];
     private String playerName;
     private int score = 0;
-    private String lastPlayedWord;
 
-
+    /* PLAYED NAME */
     /**
      * Sets player username to appear in game.
      * @see     #getPlayerName()
@@ -24,7 +23,6 @@ public abstract class Player {
     public void setPlayerName(String name) {
         playerName = name;
     }
-    
     /**
      * Returns player username upon call
      * @return  name    Player username String
@@ -34,6 +32,7 @@ public abstract class Player {
         return playerName;
     }
 
+    /* SCORE */
     /**
      * Set player's score to passed parameter amount..
      * @param   score   Score to set.
@@ -51,6 +50,7 @@ public abstract class Player {
        return score;
     }
 
+    /* TILES IN HAND */
     /**
      *  Adds letter to players current collection of letters (letterList array).
      *  Adds letter in first position free in players letter collection.
@@ -65,7 +65,11 @@ public abstract class Player {
             }
         }
     }
-
+    /**
+     * Returns a Tile to the Players hand.
+     *
+     * @param   tile    Tile to be returned.
+     */
     public void returnTile(Tile tile) {
         for(int i = 0; i < letterList.length - 1; i++) {
             if (letterList[i] == null) {
@@ -74,7 +78,6 @@ public abstract class Player {
             }
         }
     }
-
     /**
      * Sorts through array to find parameter tile then removes it from user array of tiles.
      * @param tile      Tile to remove
@@ -89,12 +92,11 @@ public abstract class Player {
             }
         }
     }
-
     /**
      * Returns array of tiles that Player has.
      * @return
      */
-    public Tile[] getLetters() {
+    public Tile[] getTiles() {
         return letterList;
     }
 }
