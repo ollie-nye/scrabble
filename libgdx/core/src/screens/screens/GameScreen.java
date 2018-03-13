@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     private Skin skin;
     private TextureAtlas buttonAtlas;
     private ScrabbleButtonStyle scrabbleButtonStyle;
-    private TextButton endTurn, startTurn;
+    private TextButton startTurn, endTurn, shuffleButton;
 	private Sound[] tilePress1, tilePress2;
 	private Sound hover;
 	private Random random;
@@ -62,6 +62,8 @@ public class GameScreen implements Screen {
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
+        //this.player = player;
+        //this.AI = AI;
 		this.create();
 	}
 
@@ -155,9 +157,20 @@ public class GameScreen implements Screen {
 			};
 		});
 		stage.addActor(endTurn);
-		
-	
-		//start turn, selected to pass turns over
+
+        shuffleButton = new TextButton("SHUFFLE", textButtonStyle2);
+        shuffleButton.setPosition(1070.0f, 275.0f);
+        shuffleButton.setSize(206.0f, 61.0f);
+
+        endTurn.addListener( new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            };
+        });
+        stage.addActor(shuffleButton);
+
+        //start turn, selected to pass turns over
 		startTurn = new TextButton("", textButtonStyle3);
 		startTurn.setPosition(1070.0f, 350.0f);
 		startTurn.setSize(206.0f, 61.0f);

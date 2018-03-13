@@ -59,6 +59,13 @@ help
   orig: 244, 69
   offset: 0, 0
   index: -1
+counter
+  rotate: false
+  xy: 881, 167
+  size: 125, 88
+  orig: 125, 88
+  offset: 0, 0
+  index: -1
 website
   rotate: false
   xy: 323, 1
@@ -71,5 +78,33 @@ websiteHover
   xy: 415, 1
   size: 90, 90
   orig: 90, 90
+  offset: 0, 0
+  index: -1
+leftArrow
+  rotate: false
+  xy: 263, 34
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+leftArrowPressed
+  rotate: false
+  xy: 507, 44
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+rightArrow
+  rotate: false
+  xy: 851, 118
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+rightArrowPressed
+  rotate: false
+  xy: 900, 118
+  size: 47, 47
+  orig: 47, 47
   offset: 0, 0
   index: -1
