@@ -26,7 +26,6 @@ import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 import data.Coordinate;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
-
 import java.util.Random;
 
 /**
