@@ -65,7 +65,7 @@ public class MainMenu implements Screen {
 	TextField txtUsername;
 	Table namingPlayer;
 	Table tempTable;
-	
+
 	Label p1Label;
 	Label p2Label;
 	Label p3Label;
@@ -75,7 +75,7 @@ public class MainMenu implements Screen {
 	TextField p2NameEntry;
 	TextField p3NameEntry;
 	TextField p4NameEntry;
-	
+	TextButton exitMenu;
 
 	public MainMenu(ScrabbleLauncher game) {
 
@@ -108,11 +108,9 @@ public class MainMenu implements Screen {
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
 
-		
 		tempSkin = new Skin();
 		tempTextures = game.getAssetManager().manager.get(assetManager.texturesTemp);
 		tempSkin.addRegions(tempTextures);
-		
 
 		TextButtonStyle playButtonStyle = new TextButtonStyle();
 		playButtonStyle.up = skin.getDrawable("play");
@@ -220,12 +218,12 @@ public class MainMenu implements Screen {
 		leftArrowStyle.up = skin.getDrawable("leftArrow");
 		leftArrowStyle.over = skin.getDrawable("leftArrowPressed");
 		leftArrowStyle.font = font;
-		
+
 		TextButtonStyle rightArrowStyle = new TextButtonStyle();
 		rightArrowStyle.up = skin.getDrawable("rightArrow");
 		rightArrowStyle.over = skin.getDrawable("rightArrowPressed");
-		rightArrowStyle.font = font;			
-		
+		rightArrowStyle.font = font;
+
 		TextButtonStyle altButtonStyle = new TextButtonStyle();
 		altButtonStyle.up = tempSkin.getDrawable("lightblue");
 		altButtonStyle.over = tempSkin.getDrawable("blue");
@@ -235,11 +233,11 @@ public class MainMenu implements Screen {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = font;
 		labelStyle.background = tempSkin.getDrawable("green");
-		
+
 		LabelStyle altLabelStyle = new LabelStyle();
 		altLabelStyle.font = font;
 		altLabelStyle.background = tempSkin.getDrawable("blue");
-		
+
 		LabelStyle counterLabelStyle = new LabelStyle();
 		counterLabelStyle.font = font;
 		counterLabelStyle.background = skin.getDrawable("counter");
@@ -248,7 +246,7 @@ public class MainMenu implements Screen {
 		textFieldStyle.font = font;
 		textFieldStyle.background = tempSkin.getDrawable("yellow");
 		textFieldStyle.messageFont = font;
-		textFieldStyle.fontColor = new Color(0.5f,0.5f,0.5f,1f);
+		textFieldStyle.fontColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 		textFieldStyle.focusedBackground = tempSkin.getDrawable("purple");
 
 		// creating the main table
@@ -279,7 +277,7 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if (playerCounter < 4) {
 					playersBoxText.setText(Integer.toString(Integer.parseInt(playersBoxText.getText().toString()) + 1));
-					playerCounter += 1; 
+					playerCounter += 1;
 					System.out.println(playerCounter);
 					playerNumber += 1;
 				}
@@ -301,7 +299,6 @@ public class MainMenu implements Screen {
 		playersBox.add(playersBoxLeftArrow);
 		playersBox.add(playersBoxText).align(Align.center).size(125.0f, 88.0f);
 		playersBox.add(playersBoxRightArrow);
-		
 
 		// playersBox is a table to store the number of players selection button
 		// collection for ai
@@ -314,10 +311,8 @@ public class MainMenu implements Screen {
 		Label aIBoxText = new Label("0", counterLabelStyle);
 		aIBoxText.setAlignment(Align.center);
 		TextButton aIBoxLeftArrow = new TextButton("", leftArrowStyle);
-		//aIBoxLeftArrow.setSize(47.0f, 47.0f);		
+		// aIBoxLeftArrow.setSize(47.0f, 47.0f);
 		TextButton aIBoxRightArrow = new TextButton("", rightArrowStyle);
-		
-		
 
 		aIBoxRightArrow.addListener(new ClickListener() {
 			@Override
@@ -325,7 +320,7 @@ public class MainMenu implements Screen {
 				if (playerCounter < 4) {
 					aIBoxText.setText(Integer.toString(Integer.parseInt(aIBoxText.getText().toString()) + 1));
 					playerCounter += 1;
-					
+
 				}
 			}
 		});
@@ -341,7 +336,8 @@ public class MainMenu implements Screen {
 		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
 				.width(gameStartY * (17.0f / 28.0f));
 		aIBox.row();
-		//aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		// aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f),
+		// gameStartY * (4.5f / 14.0f));
 		aIBox.add(aIBoxLeftArrow);
 		aIBox.add(aIBoxText).align(Align.center).size(125.0f, 88.0f);
 		aIBox.add(aIBoxRightArrow);
@@ -367,52 +363,54 @@ public class MainMenu implements Screen {
 		p1Label.setAlignment(Align.center);
 		p1NameEntry = new TextField("", textFieldStyle);
 		p1NameEntry.setAlignment(Align.center);
-		
+
 		p2Label = new Label("Player 2", altLabelStyle);
 		p2Label.setAlignment(Align.center);
-		p2NameEntry = new TextField("", textFieldStyle);	
+		p2NameEntry = new TextField("", textFieldStyle);
 		p2NameEntry.setAlignment(Align.center);
 
 		p3Label = new Label("Player 3", altLabelStyle);
 		p3NameEntry = new TextField("", textFieldStyle);
 		p3Label.setAlignment(Align.center);
 		p3NameEntry.setAlignment(Align.center);
-		
+
 		p4Label = new Label("Player 4", altLabelStyle);
 		p4NameEntry = new TextField("", textFieldStyle);
 		p4Label.setAlignment(Align.center);
 		p4NameEntry.setAlignment(Align.center);
-		
-		namingPlayer.add(p1Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);
-		namingPlayer.add(p1NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
+
+		namingPlayer.add(p1Label).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
+		namingPlayer.add(p1NameEntry).height(30.0f).width(gameStartY / 14 * 8.75f).padLeft(gameStartY / 56.0f);
 		namingPlayer.row();
-		namingPlayer.add(p2Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);
-		namingPlayer.add(p2NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
+		namingPlayer.add(p2Label).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
+		namingPlayer.add(p2NameEntry).height(30.0f).width(gameStartY / 14 * 8.75f).padLeft(gameStartY / 56.0f);
 		namingPlayer.row();
-		namingPlayer.add(p3Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);
-		namingPlayer.add(p3NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
+		namingPlayer.add(p3Label).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
+		namingPlayer.add(p3NameEntry).height(30.0f).width(gameStartY / 14 * 8.75f).padLeft(gameStartY / 56.0f);
 		namingPlayer.row();
-		namingPlayer.add(p4Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);;
-		namingPlayer.add(p4NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
-		namingPlayer.setWidth(gameStartY/14.0f*18.0f);
+		namingPlayer.add(p4Label).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
+		;
+		namingPlayer.add(p4NameEntry).height(30.0f).width(gameStartY / 14 * 8.75f).padLeft(gameStartY / 56.0f);
+		namingPlayer.setWidth(gameStartY / 14.0f * 18.0f);
 
 		noPlayers = new Label("Add Some Players First", altLabelStyle);
 		noPlayers.setAlignment(Align.center);
 		noPlayers.setVisible(false);
-				
+
 		Stack stack = new Stack();
 		stack.add(tempTable);
 		stack.add(namingPlayer);
 		stack.add(noPlayers);
-		
+
 		// start button, at bottom of box, starts the game
 		TextButton start = new TextButton("Quickstart", altButtonStyle);
 		start.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (playerCounter >= 2){
+				if (playerCounter >= 2) {
 					setPlayerArray();
-					game.setScreen(new scrabbleMain(game, playerNumber, playerCounter - playerNumber, setPlayerArray()));					
+					game.setScreen(
+							new scrabbleMain(game, playerNumber, playerCounter - playerNumber, setPlayerArray()));
 				}
 			}
 		});
@@ -446,6 +444,29 @@ public class MainMenu implements Screen {
 				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
 
 		stage.addActor(playOptions);
+
+		exitMenu = new TextButton("", rightArrowStyle);
+		exitMenu.setVisible(false);
+		exitMenu.setPosition(817.0f, 335.0f);
+	
+		exitMenu.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				p1NameEntry.clearSelection();
+				p2NameEntry.clearSelection();
+				p3NameEntry.clearSelection();
+				p4NameEntry.clearSelection();				
+				menuType = 0;
+				screen = 0;
+				playerCounter = 0;
+				playerNumber = 0;
+				aIBoxText.setText("0");
+				playersBoxText.setText("0");
+				
+			}
+		});
+		exitMenu.setVisible(false);
+		stage.addActor(exitMenu);
 
 	}
 
@@ -494,126 +515,127 @@ public class MainMenu implements Screen {
 		if (menuType == 0) {
 			setGameMenuInvisible();
 			setMainMenuVisible();
+			exitMenu.setVisible(false);
 
-		}
-		else if (menuType == 1) {
+		} else if (menuType == 1) {
 			setGameMenuVisible();
 			setMainMenuInvisible();
+			exitMenu.setVisible(true);
 		}
 		if (screen == 0) {
 			tempTable.setVisible(true);
 			namingPlayer.setVisible(false);
 			noPlayers.setVisible(false);
 
-		}	else {
+		} else {
 			tempTable.setVisible(false);
 			namingPlayer.setVisible(true);
 			noPlayers.setVisible(false);
-			
+
 		}
-		switch (playerCounter){
-			case 0: 
-				p1NameEntry.setVisible(false);
-				p2NameEntry.setVisible(false);
-				p3NameEntry.setVisible(false);
-				p4NameEntry.setVisible(false);
-				p1Label.setVisible(false);
-				p2Label.setVisible(false);
-				p3Label.setVisible(false);
-				p4Label.setVisible(false);
-				if (screen == 1){
-					noPlayers.setVisible(true);
-				}
-				break;
-			case 1: 
-				p1NameEntry.setVisible(true);
-				p2NameEntry.setVisible(false);
-				p3NameEntry.setVisible(false);
-				p4NameEntry.setVisible(false);
-				p1Label.setVisible(true);
-				p2Label.setVisible(false);
-				p3Label.setVisible(false);
-				p4Label.setVisible(false);
-				noPlayers.setVisible(false);
-				break;
-				
-			case 2:
-				p1NameEntry.setVisible(true);
-				p2NameEntry.setVisible(true);
-				p3NameEntry.setVisible(false);
-				p4NameEntry.setVisible(false);
-				p1Label.setVisible(true);
-				p2Label.setVisible(true);
-				p3Label.setVisible(false);
-				p4Label.setVisible(false);
-				noPlayers.setVisible(false);
-				break;
-			case 3:
-				p1NameEntry.setVisible(true);
-				p2NameEntry.setVisible(true);
-				p3NameEntry.setVisible(true);
-				p4NameEntry.setVisible(false);
-				p1Label.setVisible(true);
-				p2Label.setVisible(true);
-				p3Label.setVisible(true);
-				p4Label.setVisible(false);
-				noPlayers.setVisible(false);
-				break;
-			case 4: 
-				p1NameEntry.setVisible(true);
-				p2NameEntry.setVisible(true);
-				p3NameEntry.setVisible(true);
-				p4NameEntry.setVisible(true);
-				p1Label.setVisible(true);
-				p2Label.setVisible(true);
-				p3Label.setVisible(true);
-				p4Label.setVisible(true);
-				noPlayers.setVisible(false);
-				break;
-			default:			 
-				p1NameEntry.setVisible(false);
-				p2NameEntry.setVisible(false);
-				p3NameEntry.setVisible(false);
-				p4NameEntry.setVisible(false);
-				p1Label.setVisible(false);
-				p2Label.setVisible(false);
-				p3Label.setVisible(false);
-				p4Label.setVisible(false);
-				noPlayers.setVisible(false);
-				break;
+		switch (playerCounter) {
+		case 0:
+			p1NameEntry.setVisible(false);
+			p2NameEntry.setVisible(false);
+			p3NameEntry.setVisible(false);
+			p4NameEntry.setVisible(false);
+			p1Label.setVisible(false);
+			p2Label.setVisible(false);
+			p3Label.setVisible(false);
+			p4Label.setVisible(false);
+			if (screen == 1) {
+				noPlayers.setVisible(true);
+			}
+			break;
+		case 1:
+			p1NameEntry.setVisible(true);
+			p2NameEntry.setVisible(false);
+			p3NameEntry.setVisible(false);
+			p4NameEntry.setVisible(false);
+			p1Label.setVisible(true);
+			p2Label.setVisible(false);
+			p3Label.setVisible(false);
+			p4Label.setVisible(false);
+			noPlayers.setVisible(false);
+			break;
+
+		case 2:
+			p1NameEntry.setVisible(true);
+			p2NameEntry.setVisible(true);
+			p3NameEntry.setVisible(false);
+			p4NameEntry.setVisible(false);
+			p1Label.setVisible(true);
+			p2Label.setVisible(true);
+			p3Label.setVisible(false);
+			p4Label.setVisible(false);
+			noPlayers.setVisible(false);
+			break;
+		case 3:
+			p1NameEntry.setVisible(true);
+			p2NameEntry.setVisible(true);
+			p3NameEntry.setVisible(true);
+			p4NameEntry.setVisible(false);
+			p1Label.setVisible(true);
+			p2Label.setVisible(true);
+			p3Label.setVisible(true);
+			p4Label.setVisible(false);
+			noPlayers.setVisible(false);
+			break;
+		case 4:
+			p1NameEntry.setVisible(true);
+			p2NameEntry.setVisible(true);
+			p3NameEntry.setVisible(true);
+			p4NameEntry.setVisible(true);
+			p1Label.setVisible(true);
+			p2Label.setVisible(true);
+			p3Label.setVisible(true);
+			p4Label.setVisible(true);
+			noPlayers.setVisible(false);
+			break;
+		default:
+			p1NameEntry.setVisible(false);
+			p2NameEntry.setVisible(false);
+			p3NameEntry.setVisible(false);
+			p4NameEntry.setVisible(false);
+			p1Label.setVisible(false);
+			p2Label.setVisible(false);
+			p3Label.setVisible(false);
+			p4Label.setVisible(false);
+			noPlayers.setVisible(false);
+			break;
 		}
-		switch (playerNumber){
-			case 0:
-				p1Label.setText("AI P1");
-				p2Label.setText("AI P2");
-				p3Label.setText("AI P3");
-				p4Label.setText("AI P4");
-				break;
-			case 1:
-				p1Label.setText("Human P1");
-				p2Label.setText("AI P1");
-				p3Label.setText("AI P2");
-				p4Label.setText("AI P3");
-				break;
-			case 2:
-				p1Label.setText("Human P1");
-				p2Label.setText("Human P2");
-				p3Label.setText("AI P1");
-				p4Label.setText("AI P2");
-				break;
-			case 3:
-				p1Label.setText("Human P1");
-				p2Label.setText("Human P2");
-				p3Label.setText("Human P3");
-				p4Label.setText("AI P1");
-				break;
-			case 4:
-				p1Label.setText("Human P1");
-				p2Label.setText("Human P2");
-				p3Label.setText("Human P3");
-				p4Label.setText("Human P4");
-				break;
-				
+		switch (playerNumber) {
+		case 0:
+			p1Label.setText("AI P1");
+			p2Label.setText("AI P2");
+			p3Label.setText("AI P3");
+			p4Label.setText("AI P4");
+			break;
+		case 1:
+			p1Label.setText("Human P1");
+			p2Label.setText("AI P1");
+			p3Label.setText("AI P2");
+			p4Label.setText("AI P3");
+			break;
+		case 2:
+			p1Label.setText("Human P1");
+			p2Label.setText("Human P2");
+			p3Label.setText("AI P1");
+			p4Label.setText("AI P2");
+			break;
+		case 3:
+			p1Label.setText("Human P1");
+			p2Label.setText("Human P2");
+			p3Label.setText("Human P3");
+			p4Label.setText("AI P1");
+			break;
+		case 4:
+			p1Label.setText("Human P1");
+			p2Label.setText("Human P2");
+			p3Label.setText("Human P3");
+			p4Label.setText("Human P4");
+			break;
+
 		}
 
 		stage.getBatch().begin();
@@ -676,30 +698,27 @@ public class MainMenu implements Screen {
 		play.setVisible(false);
 		rules.setVisible(false);
 	}
-	private ArrayList<String> setPlayerArray(){
+
+	private ArrayList<String> setPlayerArray() {
 		ArrayList<String> x = new ArrayList<String>();
-		if(p1NameEntry.getSelection() != null){
+		if (p1NameEntry.getSelection() != null) {
 			x.add(p1NameEntry.getSelection());
-		}
-		else{
+		} else {
 			x.add("FuckYouLibgdx");
 		}
-		if(p2NameEntry.getSelection() != null){
+		if (p2NameEntry.getSelection() != null) {
 			x.add(p2NameEntry.getSelection());
-		}
-		else{
+		} else {
 			x.add("FuckYouLibgdx");
 		}
-		if(p3NameEntry.getSelection() != null){
+		if (p3NameEntry.getSelection() != null) {
 			x.add(p3NameEntry.getSelection());
-		}
-		else{
+		} else {
 			x.add("FuckYouLibgdx");
 		}
-		if(p4NameEntry.getSelection() != null){
+		if (p4NameEntry.getSelection() != null) {
 			x.add(p4NameEntry.getSelection());
-		}
-		else{
+		} else {
 			x.add("FuckYouLibgdx");
 		}
 		return x;

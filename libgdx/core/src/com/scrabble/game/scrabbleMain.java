@@ -56,6 +56,7 @@ public class scrabbleMain implements Screen {
 	Button startTurnButton;
 	TextButton endTurn;
 	TextButton startTurn;
+	TextButton shuffleButton;
 	TextButton scores1;
 	TextButton scores2;
 	TextButton scores3;
@@ -273,6 +274,18 @@ public class scrabbleMain implements Screen {
 			};
 		});
 		stage.addActor(endTurn);
+		
+		shuffleButton = new TextButton("SUFFLE", textButtonStyle2);
+		shuffleButton.setPosition(1070.0f, 275.0f);
+		shuffleButton.setSize(206.0f, 61.0f);
+		
+		endTurn.addListener( new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				
+			};
+		});
+		stage.addActor(shuffleButton);
 		
 	
 		//start turn, selected to pass turns over
