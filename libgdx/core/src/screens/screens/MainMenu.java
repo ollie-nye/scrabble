@@ -29,8 +29,9 @@ public class MainMenu implements Screen {
     private Table playOptions, namingPlayer, tempTable;
     private TextButton play, settings, rules, exit, website;
     private int menuType, playerCounter, aiNumber, playerNumber, screen;
-    private Label p1Label, p2Label, p3Label, p4Label, noPlayers;
-    private TextField p1NameEntry, p2NameEntry, p3NameEntry, p4NameEntry;
+    private Label[] playerLabel = new Label[4];
+    private TextField[] playerNameEntry = new TextField[4];
+    private Label noPlayers;
     private Stage stage;
     private Sound hover;
     private Texture background;
@@ -38,7 +39,6 @@ public class MainMenu implements Screen {
 
 
     public MainMenu(ScrabbleLauncher game) {
-
         this.game = game;
         hover = game.getAssetManager().manager.get(assetManager.mainClick);
         background = game.getAssetManager().manager.get(assetManager.mainBackground);
@@ -322,37 +322,37 @@ public class MainMenu implements Screen {
 
         namingPlayer.setVisible(false);
 
-        p1Label = new Label("Player 1", altLabelStyle);
-        p1Label.setAlignment(Align.center);
-        p1NameEntry = new TextField("", textFieldStyle);
-        p1NameEntry.setAlignment(Align.center);
+        playerLabel[0] = new Label("Player 1", altLabelStyle);
+        playerLabel[0].setAlignment(Align.center);
+        playerNameEntry[0] = new TextField("", textFieldStyle);
+        playerNameEntry[0].setAlignment(Align.center);
 
-        p2Label = new Label("Player 2", altLabelStyle);
-        p2Label.setAlignment(Align.center);
-        p2NameEntry = new TextField("", textFieldStyle);
-        p2NameEntry.setAlignment(Align.center);
+        playerLabel[1] = new Label("Player 2", altLabelStyle);
+        playerLabel[1].setAlignment(Align.center);
+        playerNameEntry[1] = new TextField("", textFieldStyle);
+        playerNameEntry[1].setAlignment(Align.center);
 
-        p3Label = new Label("Player 3", altLabelStyle);
-        p3NameEntry = new TextField("", textFieldStyle);
-        p3Label.setAlignment(Align.center);
-        p3NameEntry.setAlignment(Align.center);
+        playerLabel[2] = new Label("Player 3", altLabelStyle);
+        playerNameEntry[2] = new TextField("", textFieldStyle);
+        playerLabel[2].setAlignment(Align.center);
+        playerNameEntry[2].setAlignment(Align.center);
 
-        p4Label = new Label("Player 4", altLabelStyle);
-        p4NameEntry = new TextField("", textFieldStyle);
-        p4Label.setAlignment(Align.center);
-        p4NameEntry.setAlignment(Align.center);
+        playerLabel[3] = new Label("Player 4", altLabelStyle);
+        playerNameEntry[3] = new TextField("", textFieldStyle);
+        playerLabel[3].setAlignment(Align.center);
+        playerNameEntry[3].setAlignment(Align.center);
 
-        namingPlayer.add(p1Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
-        namingPlayer.add(p1NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
+        namingPlayer.add(playerLabel[0]).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
+        namingPlayer.add(playerNameEntry[0]).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.row();
-        namingPlayer.add(p2Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
-        namingPlayer.add(p2NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
+        namingPlayer.add(playerLabel[1]).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
+        namingPlayer.add(playerNameEntry[1]).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.row();
-        namingPlayer.add(p3Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
-        namingPlayer.add(p3NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
+        namingPlayer.add(playerLabel[2]).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
+        namingPlayer.add(playerNameEntry[2]).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.row();
-        namingPlayer.add(p4Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);;
-        namingPlayer.add(p4NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
+        namingPlayer.add(playerLabel[3]).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);;
+        namingPlayer.add(playerNameEntry[3]).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.setWidth(gameStartY /14.0f*18.0f);
 
         noPlayers = new Label("Add Some Players First", altLabelStyle);
@@ -369,14 +369,12 @@ public class MainMenu implements Screen {
         start.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (playerCounter >= 2){
+                if (playerCounter > 1){
                     setPlayerArray();
                     Game gameSession = new Game();
-                    //for()
-                    gameSession.addPlayer("Ollie", 1);
-                    gameSession.addPlayer("Ben", 1);
-                    gameSession.addPlayer("Asid", 1);
-                    gameSession.addPlayer("tom", 1);
+                    for(int i = 0; i < playerCounter; i++) {
+                        gameSession.addPlayer(playerNameEntry[i].getText(),1);
+                    }
                     gameSession.start();
 
                     game.setScreen(new GameScreen(game));
@@ -480,105 +478,105 @@ public class MainMenu implements Screen {
         }
         switch (playerCounter){
             case 0:
-                p1NameEntry.setVisible(false);
-                p2NameEntry.setVisible(false);
-                p3NameEntry.setVisible(false);
-                p4NameEntry.setVisible(false);
-                p1Label.setVisible(false);
-                p2Label.setVisible(false);
-                p3Label.setVisible(false);
-                p4Label.setVisible(false);
+                playerNameEntry[0].setVisible(false);
+                playerNameEntry[1].setVisible(false);
+                playerNameEntry[2].setVisible(false);
+                playerNameEntry[3].setVisible(false);
+                playerLabel[0].setVisible(false);
+                playerLabel[1].setVisible(false);
+                playerLabel[2].setVisible(false);
+                playerLabel[3].setVisible(false);
                 if (screen == 1){
                     noPlayers.setVisible(true);
                 }
                 break;
             case 1:
-                p1NameEntry.setVisible(true);
-                p2NameEntry.setVisible(false);
-                p3NameEntry.setVisible(false);
-                p4NameEntry.setVisible(false);
-                p1Label.setVisible(true);
-                p2Label.setVisible(false);
-                p3Label.setVisible(false);
-                p4Label.setVisible(false);
+                playerNameEntry[0].setVisible(true);
+                playerNameEntry[1].setVisible(false);
+                playerNameEntry[2].setVisible(false);
+                playerNameEntry[3].setVisible(false);
+                playerLabel[0].setVisible(true);
+                playerLabel[1].setVisible(false);
+                playerLabel[2].setVisible(false);
+                playerLabel[3].setVisible(false);
                 noPlayers.setVisible(false);
                 break;
 
             case 2:
-                p1NameEntry.setVisible(true);
-                p2NameEntry.setVisible(true);
-                p3NameEntry.setVisible(false);
-                p4NameEntry.setVisible(false);
-                p1Label.setVisible(true);
-                p2Label.setVisible(true);
-                p3Label.setVisible(false);
-                p4Label.setVisible(false);
+                playerNameEntry[0].setVisible(true);
+                playerNameEntry[1].setVisible(true);
+                playerNameEntry[2].setVisible(false);
+                playerNameEntry[3].setVisible(false);
+                playerLabel[0].setVisible(true);
+                playerLabel[1].setVisible(true);
+                playerLabel[2].setVisible(false);
+                playerLabel[3].setVisible(false);
                 noPlayers.setVisible(false);
                 break;
             case 3:
-                p1NameEntry.setVisible(true);
-                p2NameEntry.setVisible(true);
-                p3NameEntry.setVisible(true);
-                p4NameEntry.setVisible(false);
-                p1Label.setVisible(true);
-                p2Label.setVisible(true);
-                p3Label.setVisible(true);
-                p4Label.setVisible(false);
+                playerNameEntry[0].setVisible(true);
+                playerNameEntry[1].setVisible(true);
+                playerNameEntry[2].setVisible(true);
+                playerNameEntry[3].setVisible(false);
+                playerLabel[0].setVisible(true);
+                playerLabel[1].setVisible(true);
+                playerLabel[2].setVisible(true);
+                playerLabel[3].setVisible(false);
                 noPlayers.setVisible(false);
                 break;
             case 4:
-                p1NameEntry.setVisible(true);
-                p2NameEntry.setVisible(true);
-                p3NameEntry.setVisible(true);
-                p4NameEntry.setVisible(true);
-                p1Label.setVisible(true);
-                p2Label.setVisible(true);
-                p3Label.setVisible(true);
-                p4Label.setVisible(true);
+                playerNameEntry[0].setVisible(true);
+                playerNameEntry[1].setVisible(true);
+                playerNameEntry[2].setVisible(true);
+                playerNameEntry[3].setVisible(true);
+                playerLabel[0].setVisible(true);
+                playerLabel[1].setVisible(true);
+                playerLabel[2].setVisible(true);
+                playerLabel[3].setVisible(true);
                 noPlayers.setVisible(false);
                 break;
             default:
-                p1NameEntry.setVisible(false);
-                p2NameEntry.setVisible(false);
-                p3NameEntry.setVisible(false);
-                p4NameEntry.setVisible(false);
-                p1Label.setVisible(false);
-                p2Label.setVisible(false);
-                p3Label.setVisible(false);
-                p4Label.setVisible(false);
+                playerNameEntry[0].setVisible(false);
+                playerNameEntry[1].setVisible(false);
+                playerNameEntry[2].setVisible(false);
+                playerNameEntry[3].setVisible(false);
+                playerLabel[0].setVisible(false);
+                playerLabel[1].setVisible(false);
+                playerLabel[2].setVisible(false);
+                playerLabel[3].setVisible(false);
                 noPlayers.setVisible(false);
                 break;
         }
         switch (playerNumber){
             case 0:
-                p1Label.setText("AI P1");
-                p2Label.setText("AI P2");
-                p3Label.setText("AI P3");
-                p4Label.setText("AI P4");
+                playerLabel[0].setText("AI P1");
+                playerLabel[1].setText("AI P2");
+                playerLabel[2].setText("AI P3");
+                playerLabel[3].setText("AI P4");
                 break;
             case 1:
-                p1Label.setText("Human P1");
-                p2Label.setText("AI P1");
-                p3Label.setText("AI P2");
-                p4Label.setText("AI P3");
+                playerLabel[0].setText("Human P1");
+                playerLabel[1].setText("AI P1");
+                playerLabel[2].setText("AI P2");
+                playerLabel[3].setText("AI P3");
                 break;
             case 2:
-                p1Label.setText("Human P1");
-                p2Label.setText("Human P2");
-                p3Label.setText("AI P1");
-                p4Label.setText("AI P2");
+                playerLabel[0].setText("Human P1");
+                playerLabel[1].setText("Human P2");
+                playerLabel[2].setText("AI P1");
+                playerLabel[3].setText("AI P2");
                 break;
             case 3:
-                p1Label.setText("Human P1");
-                p2Label.setText("Human P2");
-                p3Label.setText("Human P3");
-                p4Label.setText("AI P1");
+                playerLabel[0].setText("Human P1");
+                playerLabel[1].setText("Human P2");
+                playerLabel[2].setText("Human P3");
+                playerLabel[3].setText("AI P1");
                 break;
             case 4:
-                p1Label.setText("Human P1");
-                p2Label.setText("Human P2");
-                p3Label.setText("Human P3");
-                p4Label.setText("Human P4");
+                playerLabel[0].setText("Human P1");
+                playerLabel[1].setText("Human P2");
+                playerLabel[2].setText("Human P3");
+                playerLabel[3].setText("Human P4");
                 break;
 
         }
@@ -645,26 +643,26 @@ public class MainMenu implements Screen {
     }
     private ArrayList<String> setPlayerArray(){
         ArrayList<String> x = new ArrayList<String>();
-        if(p1NameEntry.getSelection() != null){
-            x.add(p1NameEntry.getSelection());
+        if(playerNameEntry[0].getSelection() != null){
+            x.add(playerNameEntry[0].getSelection());
         }
         else{
             x.add("FuckYouLibgdx");
         }
-        if(p2NameEntry.getSelection() != null){
-            x.add(p2NameEntry.getSelection());
+        if(playerNameEntry[1].getSelection() != null){
+            x.add(playerNameEntry[1].getSelection());
         }
         else{
             x.add("FuckYouLibgdx");
         }
-        if(p3NameEntry.getSelection() != null){
-            x.add(p3NameEntry.getSelection());
+        if(playerNameEntry[2].getSelection() != null){
+            x.add(playerNameEntry[2].getSelection());
         }
         else{
             x.add("FuckYouLibgdx");
         }
-        if(p4NameEntry.getSelection() != null){
-            x.add(p4NameEntry.getSelection());
+        if(playerNameEntry[3].getSelection() != null){
+            x.add(playerNameEntry[3].getSelection());
         }
         else{
             x.add("FuckYouLibgdx");
