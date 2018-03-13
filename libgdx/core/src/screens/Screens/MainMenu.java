@@ -212,6 +212,16 @@ public class MainMenu implements Screen {
 		tempButtonStyle.over = tempSkin.getDrawable("yellow");
 		tempButtonStyle.font = font;
 
+		TextButtonStyle leftArrowStyle = new TextButtonStyle();
+		leftArrowStyle.up = skin.getDrawable("leftArrow");
+		leftArrowStyle.over = skin.getDrawable("leftArrowPressed");
+		leftArrowStyle.font = font;
+		
+		TextButtonStyle rightArrowStyle = new TextButtonStyle();
+		rightArrowStyle.up = skin.getDrawable("rightArrow");
+		rightArrowStyle.over = skin.getDrawable("rightArrowPressed");
+		rightArrowStyle.font = font;			
+		
 		TextButtonStyle altButtonStyle = new TextButtonStyle();
 		altButtonStyle.up = tempSkin.getDrawable("lightblue");
 		altButtonStyle.over = tempSkin.getDrawable("blue");
@@ -225,6 +235,10 @@ public class MainMenu implements Screen {
 		LabelStyle altLabelStyle = new LabelStyle();
 		altLabelStyle.font = font;
 		altLabelStyle.background = tempSkin.getDrawable("blue");
+		
+		LabelStyle counterLabelStyle = new LabelStyle();
+		counterLabelStyle.font = font;
+		counterLabelStyle.background = skin.getDrawable("counter");
 
 		TextFieldStyle textFieldStyle = new TextFieldStyle();
 		textFieldStyle.font = font;
@@ -251,10 +265,10 @@ public class MainMenu implements Screen {
 		Label playerHeader = new Label("Add Players", labelStyle);
 		playerHeader.setAlignment(Align.center);
 
-		Label playersBoxText = new Label("0", labelStyle);
+		Label playersBoxText = new Label("0", counterLabelStyle);
 		playersBoxText.setAlignment(Align.center);
-		TextButton playersBoxLeftArrow = new TextButton("", tempButtonStyle);
-		TextButton playersBoxRightArrow = new TextButton("", tempButtonStyle);
+		TextButton playersBoxLeftArrow = new TextButton("", leftArrowStyle);
+		TextButton playersBoxRightArrow = new TextButton("", rightArrowStyle);
 
 		playersBoxRightArrow.addListener(new ClickListener() {
 			@Override
@@ -280,11 +294,10 @@ public class MainMenu implements Screen {
 		playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
 				.width(gameStartY * (17.0f / 28.0f));
 		playersBox.row();
-		playersBox.add(playersBoxLeftArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
-		;
-		playersBox.add(playersBoxText).align(Align.center).height(gameStartY / 14.0f * 4.5f).width(gameStartY / 7.0f);
-		playersBox.add(playersBoxRightArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
-		;
+		playersBox.add(playersBoxLeftArrow);
+		playersBox.add(playersBoxText).align(Align.center).size(125.0f, 88.0f);
+		playersBox.add(playersBoxRightArrow);
+		
 
 		// playersBox is a table to store the number of players selection button
 		// collection for ai
@@ -294,10 +307,13 @@ public class MainMenu implements Screen {
 		Label aiHeader = new Label("Add CPU", labelStyle);
 		aiHeader.setAlignment(Align.center);
 
-		Label aIBoxText = new Label("0", labelStyle);
+		Label aIBoxText = new Label("0", counterLabelStyle);
 		aIBoxText.setAlignment(Align.center);
-		TextButton aIBoxLeftArrow = new TextButton("", tempButtonStyle);
-		TextButton aIBoxRightArrow = new TextButton("", tempButtonStyle);
+		TextButton aIBoxLeftArrow = new TextButton("", leftArrowStyle);
+		//aIBoxLeftArrow.setSize(47.0f, 47.0f);		
+		TextButton aIBoxRightArrow = new TextButton("", rightArrowStyle);
+		
+		
 
 		aIBoxRightArrow.addListener(new ClickListener() {
 			@Override
@@ -321,9 +337,10 @@ public class MainMenu implements Screen {
 		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
 				.width(gameStartY * (17.0f / 28.0f));
 		aIBox.row();
-		aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
-		aIBox.add(aIBoxText).align(Align.center).height(gameStartY / 14.0f * 4.5f).width(gameStartY / 7.0f);
-		aIBox.add(aIBoxRightArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		//aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f), gameStartY * (4.5f / 14.0f));
+		aIBox.add(aIBoxLeftArrow);
+		aIBox.add(aIBoxText).align(Align.center).size(125.0f, 88.0f);
+		aIBox.add(aIBoxRightArrow);
 		;
 
 		// adding these to one table
