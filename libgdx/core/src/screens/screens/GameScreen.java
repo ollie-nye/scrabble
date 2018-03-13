@@ -80,6 +80,8 @@ public class GameScreen implements Screen {
 				game.getAssetManager().manager.get(assetManager.click8),
 				game.getAssetManager().manager.get(assetManager.click9),
 				game.getAssetManager().manager.get(assetManager.click10),
+                //fiddy
+                game.getAssetManager().manager.get(assetManager.click11)
 		};
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
@@ -152,6 +154,8 @@ public class GameScreen implements Screen {
 				if (Scrabble.incrementTurn() == true){
 				    Game.endTurn();
 					passingOverTurn = true;
+					//fiddy
+					tilePress2[5].play();
 				};
 			};
 		});

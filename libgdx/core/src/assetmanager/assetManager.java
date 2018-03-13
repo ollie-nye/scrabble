@@ -86,6 +86,9 @@ public class assetManager {
             new AssetDescriptor<Sound>("Spells2_f.mp3", Sound.class);
     public static final AssetDescriptor<Sound> click10 =
             new AssetDescriptor<Sound>("Spells2_g.mp3", Sound.class);
+    //fiddy
+    public static final AssetDescriptor<Sound> click11 =
+            new AssetDescriptor<Sound>("fiddy.mp3", Sound.class);
 
     // main theme for game
     public static final AssetDescriptor<Music> mainMusic =
@@ -138,6 +141,7 @@ public class assetManager {
         manager.load(click8);
         manager.load(click9);
         manager.load(click10);
+        manager.load(click11);
     }
 
     private void loadMusic(){
