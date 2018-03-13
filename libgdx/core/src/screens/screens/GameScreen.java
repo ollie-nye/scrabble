@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
     private ScrabbleLauncher game;
 
 	// board and player tiles
-	private Table[] tables = new Table[4];
+	private Table[] tables = new Table[5];
 	// player score representations
 	private Label[] scoreLabels = new Label[Game.getNumberOfPlayers()];
 
@@ -127,12 +127,18 @@ public class GameScreen implements Screen {
                 tables[4].setSize(tables[0].getWidth() - 700, tables[0].getHeight());
                 setupPlayerLetters(4, true);
             case 3:
-                tables[3].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
-                setupPlayerLetters(3, true);
+                tables[3].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
+                setupPlayerLetters(3, false);
             default:
-                tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
+                tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
                 setupPlayerLetters(1, false);
-                tables[2].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
+                tables[2].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
+                setupPlayerLetters(2, true);
+                break;
+            case 2:
+                tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
+                setupPlayerLetters(1, false);
+                tables[2].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
                 setupPlayerLetters(2, false);
                 break;
 		}
