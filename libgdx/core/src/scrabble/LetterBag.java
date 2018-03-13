@@ -72,11 +72,24 @@ public class LetterBag {
 	}
 	
 	public Tile pick() {
-		return tileStack.pop();
+		if (tileStack.isEmpty() == false){
+			return tileStack.pop();
+		}
+		else{
+			return null;
+		}
 	}
 
 	public void returnToBag(ArrayList<Tile> tiles) {
 		this.tileStack.addAll(tiles);
 		shake();
+	}
+	
+	//this is only for test purposes
+	public void pickABunch(){
+		while(tileStack.size() > 3){
+			tileStack.pop();
+		}
+		System.out.println("letterBadDepleted");
 	}
 }

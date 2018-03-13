@@ -43,12 +43,15 @@ public class GameScreen implements Screen {
     private Skin skin;
     private TextureAtlas buttonAtlas;
     private ScrabbleButtonStyle scrabbleButtonStyle;
-    private TextButton startTurn, endTurn, shuffleButton;
+    private TextButton startTurn, endTurn, shuffleButton, testButton;
 	private Sound[] tilePress1, tilePress2;
 	private Sound hover;
 	private Random random;
     private ScrabbleLauncher game;
 
+    //for test purposes only
+    private boolean deplete;
+    
 	// board and player tiles
 	private Table[] tables = new Table[5];
 	// player score representations
@@ -170,6 +173,23 @@ public class GameScreen implements Screen {
         });
         stage.addActor(shuffleButton);
 
+        //this is for testing only
+        testButton = new TextButton("Deplete Bag", textButtonStyle2);
+        testButton.setPosition(1070.0f, 205.0f);
+        testButton.setSize(206.0f, 61.0f);
+
+        testButton.addListener( new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	if (deplete != true){
+            		Game.getLetterBag().pickABunch();
+            	}
+            	deplete =true;
+            };
+        });
+        stage.addActor(testButton);
+        
+        
         //start turn, selected to pass turns over
 		startTurn = new TextButton("", textButtonStyle3);
 		startTurn.setPosition(1070.0f, 350.0f);
