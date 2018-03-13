@@ -1,10 +1,12 @@
 package scrabble;
 
 import data.Move;
+import data.Result;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -108,9 +110,15 @@ public class Game {
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
-        currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
-        currentMove = null;
-        currentPlayer.addTiles();
+        Result lastResult = Board.getInstance().getLastResult();
+        if (lastResult.isCompleteWord()) {
+            Board.getInstance().validatorReset();
+            currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
+            currentMove = null;
+            currentPlayer.addTiles();
+        } else {
+            JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     /**
      * Returns the in progress Move.

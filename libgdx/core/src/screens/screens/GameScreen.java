@@ -25,7 +25,6 @@ import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 import data.Coordinate;
 import scrabble.Game;
-import scrabble.Scrabble;
 import screens.ScrabbleLauncher;
 
 import java.util.Random;
@@ -151,9 +150,8 @@ public class GameScreen implements Screen {
 		endTurn.addListener( new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (Scrabble.incrementTurn() == true){
-				    Game.endTurn();
-					passingOverTurn = true;
+                Game.endTurn();
+				if (Game.getCurrentMove() == null){
 					//fiddy
 					tilePress2[5].play();
 				};
@@ -182,7 +180,6 @@ public class GameScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 			    Game.startTurn();
-				passingOverTurn = false;
 			};
 		});
 		stage.addActor(startTurn);
@@ -270,7 +267,7 @@ public class GameScreen implements Screen {
 		BoardBatch.draw(BoardBackground, 0, 0);
 		BoardBatch.end();
 
-		if (passingOverTurn){
+		if (Game.getCurrentMove() == null){
 			endTurn.setVisible(false);
 			startTurn.setVisible(true);
 		} else {

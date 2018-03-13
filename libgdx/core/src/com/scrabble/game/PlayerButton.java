@@ -5,7 +5,6 @@ import data.Coordinate;
 import player.AIPlayer;
 import scrabble.Board;
 import scrabble.Game;
-import screens.screens.GameScreen;
 
 /**
  * Subclass of ScrabbleButton, is used for buttons / tiles in Players hand.
@@ -44,7 +43,7 @@ public class PlayerButton extends ScrabbleButton {
             setText("");
             score.setText("");
         } else {
-            if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer() && !GameScreen.passingOverTurn) {
+            if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer() && Game.getCurrentMove() != null) {
                 setText(Game.getPlayers().get(playerNumber).getTiles()[coordinate.getX()].getContent());
                 score.setText(Integer.toString(Game.getCurrentPlayer().getTiles()[coordinate.getX()].getScore()));
             } else {

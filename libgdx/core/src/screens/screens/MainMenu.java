@@ -380,8 +380,10 @@ public class MainMenu implements Screen {
                         Game.addPlayer("AI " + i,2);
                     }
                     Game.start();
+
                     //fiddy
                     gunit.play();
+
                     game.setScreen(new GameScreen(game));
                 }
             }
