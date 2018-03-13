@@ -22,48 +22,19 @@ import scrabble.Game;
 import screens.ScrabbleLauncher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainMenu implements Screen {
 
     private ScrabbleLauncher game;
+    private Table playOptions, namingPlayer, tempTable;
+    private TextButton play, settings, rules, exit, website;
+    private int menuType, playerCounter, aiNumber, playerNumber, screen;
+    private Label p1Label, p2Label, p3Label, p4Label, noPlayers;
+    private TextField p1NameEntry, p2NameEntry, p3NameEntry, p4NameEntry;
     private Stage stage;
-    private TextButton play;
-    private TextButton settings;
-    private TextButton rules;
-    private TextButton exit;
-    private TextButton website;
-    private Skin skin;
-    private Skin tempSkin;
-    private TextureAtlas buttonAtlas;
-    private TextureAtlas tempTextures;
     private Sound hover;
     private Texture background;
     private BitmapFont font;
-    private HashMap<String, TextButton> playOptionsArray;
-    private HashMap<String, Label> playOptionsHeaderArray;
-    private Table playOptions;
-    private int menuType;
-    private int playerCounter;
-    private int aiNumber;
-    private int playerNumber;
-    private int screen;
-    private ArrayList<String> nameList;
-    private final float gameStartY = 350;
-
-    TextField txtUsername;
-    Table namingPlayer;
-    Table tempTable;
-
-    Label p1Label;
-    Label p2Label;
-    Label p3Label;
-    Label p4Label;
-    Label noPlayers;
-    TextField p1NameEntry;
-    TextField p2NameEntry;
-    TextField p3NameEntry;
-    TextField p4NameEntry;
 
 
     public MainMenu(ScrabbleLauncher game) {
@@ -73,15 +44,13 @@ public class MainMenu implements Screen {
         background = game.getAssetManager().manager.get(assetManager.mainBackground);
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
-        playOptionsArray = new HashMap<String, TextButton>();
-        playOptionsHeaderArray = new HashMap<String, Label>();
         menuType = 0;
         playerCounter = 0;
         aiNumber = 0;
         playerNumber = 0;
         font = game.getAssetManager().manager.get(assetManager.PlayTime);
         screen = 0;
-        nameList = new ArrayList<String>();
+        ArrayList<String> nameList = new ArrayList<String>();
         nameList.add("1");
         nameList.add("2");
         nameList.add("3");
@@ -93,13 +62,13 @@ public class MainMenu implements Screen {
 
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin();
-        buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
+        Skin skin = new Skin();
+        TextureAtlas buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
         skin.addRegions(buttonAtlas);
 
 
-        tempSkin = new Skin();
-        tempTextures = game.getAssetManager().manager.get(assetManager.texturesTemp);
+        Skin tempSkin = new Skin();
+        TextureAtlas tempTextures = game.getAssetManager().manager.get(assetManager.texturesTemp);
         tempSkin.addRegions(tempTextures);
 
 
@@ -242,6 +211,7 @@ public class MainMenu implements Screen {
 
         // creating the main table
         playOptions = new Table();
+        float gameStartY = 350;
         playOptions.setPosition(640.0f - (gameStartY * (5.0f / 7.0f)), 360.0f - 300.0f);
         playOptions.setBackground(tempSkin.getDrawable("orange"));
         playOptions.setSize(gameStartY * (10.0f / 7.0f), gameStartY);
@@ -372,18 +342,18 @@ public class MainMenu implements Screen {
         p4Label.setAlignment(Align.center);
         p4NameEntry.setAlignment(Align.center);
 
-        namingPlayer.add(p1Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);
-        namingPlayer.add(p1NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
+        namingPlayer.add(p1Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
+        namingPlayer.add(p1NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.row();
-        namingPlayer.add(p2Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);
-        namingPlayer.add(p2NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
+        namingPlayer.add(p2Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
+        namingPlayer.add(p2NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.row();
-        namingPlayer.add(p3Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);
-        namingPlayer.add(p3NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
+        namingPlayer.add(p3Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);
+        namingPlayer.add(p3NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
         namingPlayer.row();
-        namingPlayer.add(p4Label).width(gameStartY/14*8.75f).padRight(gameStartY/56.0f);;
-        namingPlayer.add(p4NameEntry).height(30.0f).width(gameStartY/14*8.75f).padLeft(gameStartY/56.0f);
-        namingPlayer.setWidth(gameStartY/14.0f*18.0f);
+        namingPlayer.add(p4Label).width(gameStartY /14*8.75f).padRight(gameStartY /56.0f);;
+        namingPlayer.add(p4NameEntry).height(30.0f).width(gameStartY /14*8.75f).padLeft(gameStartY /56.0f);
+        namingPlayer.setWidth(gameStartY /14.0f*18.0f);
 
         noPlayers = new Label("Add Some Players First", altLabelStyle);
         noPlayers.setAlignment(Align.center);
@@ -402,6 +372,7 @@ public class MainMenu implements Screen {
                 if (playerCounter >= 2){
                     setPlayerArray();
                     Game gameSession = new Game();
+                    //for()
                     gameSession.addPlayer("Ollie", 1);
                     gameSession.addPlayer("Ben", 1);
                     gameSession.addPlayer("Asid", 1);
