@@ -59,7 +59,7 @@ public class MainMenu implements Screen {
 	private int aiNumber;
 	private int playerNumber;
 	private int screen;
-
+	private ArrayList<String> nameList;
 	private final float gameStartY = 350;
 
 	TextField txtUsername;
@@ -92,7 +92,11 @@ public class MainMenu implements Screen {
 		playerNumber = 0;
 		font = game.getAssetManager().manager.get(assetManager.PlayTime);
 		screen = 0;
-
+		nameList = new ArrayList<String>();
+		nameList.add("1");
+		nameList.add("2");
+		nameList.add("3");
+		nameList.add("4");
 	}
 
 	@Override
@@ -407,7 +411,8 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (playerCounter >= 2){
-					game.setScreen(new scrabbleMain(game, 0, 0));
+					setPlayerArray();
+					game.setScreen(new scrabbleMain(game, playerNumber, playerCounter - playerNumber, setPlayerArray()));					
 				}
 			}
 		});
@@ -671,5 +676,32 @@ public class MainMenu implements Screen {
 		play.setVisible(false);
 		rules.setVisible(false);
 	}
-
+	private ArrayList<String> setPlayerArray(){
+		ArrayList<String> x = new ArrayList<String>();
+		if(p1NameEntry.getSelection() != null){
+			x.add(p1NameEntry.getSelection());
+		}
+		else{
+			x.add("FuckYouLibgdx");
+		}
+		if(p2NameEntry.getSelection() != null){
+			x.add(p2NameEntry.getSelection());
+		}
+		else{
+			x.add("FuckYouLibgdx");
+		}
+		if(p3NameEntry.getSelection() != null){
+			x.add(p3NameEntry.getSelection());
+		}
+		else{
+			x.add("FuckYouLibgdx");
+		}
+		if(p4NameEntry.getSelection() != null){
+			x.add(p4NameEntry.getSelection());
+		}
+		else{
+			x.add("FuckYouLibgdx");
+		}
+		return x;
+	};
 }

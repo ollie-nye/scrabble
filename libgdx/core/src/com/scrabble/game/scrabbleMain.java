@@ -89,8 +89,10 @@ public class scrabbleMain implements Screen {
 	private Label scoreLabel2;
 	private Label scoreLabel3;
 	private Label scoreLabel4;
+	
+	private ArrayList<String> soBored;
 
-	public scrabbleMain(ScrabbleLauncher game, int player, int aI) {
+	public scrabbleMain(ScrabbleLauncher game, int player, int aI, ArrayList<String> soBored) {
 		this.game = game;
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
@@ -99,7 +101,7 @@ public class scrabbleMain implements Screen {
 		this.create();		
 		this.player = player;
 		this.aI = aI;
-		
+		this.soBored = soBored;
 
 	}
 
