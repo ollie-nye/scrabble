@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
     private ScrabbleLauncher game;
 
 	// board and player tiles
-	private Table[] tables = new Table[Game.getNumberOfPlayers() + 1];
+	private Table[] tables = new Table[4];
 	// player score representations
 	private Label[] scoreLabels = new Label[Game.getNumberOfPlayers()];
 
@@ -125,22 +125,16 @@ public class GameScreen implements Screen {
 		switch (Game.getNumberOfPlayers()) {
             case 4:
                 tables[4].setSize(tables[0].getWidth() - 700, tables[0].getHeight());
-                setupPlayerLetters(4, 4, true);
+                setupPlayerLetters(4, true);
             case 3:
                 tables[3].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
-                setupPlayerLetters(2, 3, true);
+                setupPlayerLetters(3, true);
             default:
                 tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
-                setupPlayerLetters(3, 1, false);
+                setupPlayerLetters(1, false);
                 tables[2].setSize(tables[0].getWidth(), tables[0].getHeight() + 650);
-                setupPlayerLetters(1, 2, false);
+                setupPlayerLetters(2, false);
                 break;
-			case 2:
-				tables[1].setSize(tables[0].getWidth(), tables[0].getHeight() - 650);
-				setupPlayerLetters(3, 1, false);
-				tables[3].setSize(tables[0].getWidth() + 700, tables[0].getHeight());
-				setupPlayerLetters(2, 3, true);
-				break;
 		}
 	
 		
@@ -241,16 +235,16 @@ public class GameScreen implements Screen {
 		stage.getRoot().addAction(Actions.fadeIn(0.5f));
 	}
 
-	private void setupPlayerLetters(int player, int table, boolean vertical) {
+	private void setupPlayerLetters(int player, boolean vertical) {
         ScrabbleButton scrabbleButton;
         for (int i = 0; i < 7; i++) {
             scrabbleButton = new PlayerButton(scrabbleButtonStyle, new Coordinate(i, 1), player);
             scrabbleButton.setSize(36.4f, 36.4f);
             stage.addActor(scrabbleButton);
             if(vertical) {
-                tables[table].add(scrabbleButton).size(36.4f, 36.4f).row();
+                tables[player].add(scrabbleButton).size(36.4f, 36.4f).row();
             } else {
-                tables[table].add(scrabbleButton).size(36.4f, 36.4f);
+                tables[player].add(scrabbleButton).size(36.4f, 36.4f);
             }
             scrabbleButton.addListener( new ClickListener(){
                 @Override
@@ -259,7 +253,7 @@ public class GameScreen implements Screen {
                 };
             });
         }
-        stage.addActor(tables[table]);
+        stage.addActor(tables[player]);
     }
 
 	public void render(float delta) {
