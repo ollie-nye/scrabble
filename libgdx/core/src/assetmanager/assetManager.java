@@ -89,6 +89,8 @@ public class assetManager {
     //fiddy
     public static final AssetDescriptor<Sound> click11 =
             new AssetDescriptor<Sound>("fiddy.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> click12 =
+            new AssetDescriptor<Sound>("gunit.mp3", Sound.class);
 
     // main theme for game
     public static final AssetDescriptor<Music> mainMusic =
@@ -142,6 +144,7 @@ public class assetManager {
         manager.load(click9);
         manager.load(click10);
         manager.load(click11);
+        manager.load(click12);
     }
 
     private void loadMusic(){

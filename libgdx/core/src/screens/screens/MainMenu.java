@@ -34,6 +34,8 @@ public class MainMenu implements Screen {
     private Label noPlayers;
     private Stage stage;
     private Sound hover;
+    //fiddy
+    private Sound gunit;
     private Texture background;
     private BitmapFont font;
 
@@ -41,6 +43,8 @@ public class MainMenu implements Screen {
     public MainMenu(ScrabbleLauncher game) {
         this.game = game;
         hover = game.getAssetManager().manager.get(assetManager.mainClick);
+        //fiddy
+        gunit = game.getAssetManager().manager.get(assetManager.click12);
         background = game.getAssetManager().manager.get(assetManager.mainBackground);
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
@@ -50,11 +54,6 @@ public class MainMenu implements Screen {
         playerNumber = 0;
         font = game.getAssetManager().manager.get(assetManager.PlayTime);
         screen = 0;
-        ArrayList<String> nameList = new ArrayList<String>();
-        nameList.add("1");
-        nameList.add("2");
-        nameList.add("3");
-        nameList.add("4");
     }
 
     @Override
@@ -381,8 +380,8 @@ public class MainMenu implements Screen {
                         Game.addPlayer("AI " + i,2);
                     }
                     Game.start();
-                    System.out.println(Game.getNumberOfPlayers());
-
+                    //fiddy
+                    gunit.play();
                     game.setScreen(new GameScreen(game));
                 }
             }
