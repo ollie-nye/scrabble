@@ -23,10 +23,7 @@ public class assetManager {
     public static final AssetDescriptor<Texture> gameButtons =
             new AssetDescriptor<Texture>("graphics/BoardScreen/gameButtons.png", Texture.class);
 
-
-
     // graphics needed for the main menu
-
     public static final AssetDescriptor<Texture> mainBackground =
             new AssetDescriptor<Texture>("graphics/MainMenu/mainBackground.png", Texture.class);
 
@@ -34,8 +31,6 @@ public class assetManager {
             new AssetDescriptor<TextureAtlas>("graphics/MainMenu/MainMenu.pack", TextureAtlas.class);
     public static final AssetDescriptor<TextureAtlas> texturesTemp =
             new AssetDescriptor<TextureAtlas>("graphics/MainMenu/TexturesTemp.pack", TextureAtlas.class);
-
-
 
     // graphics for settings menu
     public static final AssetDescriptor<Texture> sliderBar =
@@ -49,11 +44,8 @@ public class assetManager {
 
     
  // graphics for help menu
-   
     public static final AssetDescriptor<Texture> helpBackground =
             new AssetDescriptor<Texture>("graphics/HelpMenu/HelpBackground.png", Texture.class);
-
-    
     
     // graphics for loading screen
     public static final AssetDescriptor<Texture> logo =
@@ -73,32 +65,18 @@ public class assetManager {
             new AssetDescriptor<Sound>("sounds/click02.wav", Sound.class);
 
 
-    // random harry potter sounds
+    // Pick Up Sound
     public static final AssetDescriptor<Sound> click1 =
-            new AssetDescriptor<Sound>("Spells1_a_2edit.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click2 =
-            new AssetDescriptor<Sound>("Spells1_b.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click3 =
-            new AssetDescriptor<Sound>("Spells1_d.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click4 =
-            new AssetDescriptor<Sound>("Spells1_e.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click5 =
-            new AssetDescriptor<Sound>("Spells1_f.mp3", Sound.class);
+            new AssetDescriptor<Sound>("sounds/Tile_PickUp.mp3", Sound.class);
+    //Place In Sound
     public static final AssetDescriptor<Sound> click6 =
-            new AssetDescriptor<Sound>("Spells2_a.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click7 =
-            new AssetDescriptor<Sound>("Spells2_b.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click8 =
-            new AssetDescriptor<Sound>("Spells2_c.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click9 =
-            new AssetDescriptor<Sound>("Spells2_f.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> click10 =
-            new AssetDescriptor<Sound>("Spells2_g.mp3", Sound.class);
-    //fiddy
+            new AssetDescriptor<Sound>("sounds/Tile_Placed_in.mp3", Sound.class);
+    //Change Player Sound
     public static final AssetDescriptor<Sound> click11 =
-            new AssetDescriptor<Sound>("fiddy.mp3", Sound.class);
+            new AssetDescriptor<Sound>("sounds/Change Player.mp3", Sound.class);
+    //Start Game Sound
     public static final AssetDescriptor<Sound> click12 =
-            new AssetDescriptor<Sound>("gunit.mp3", Sound.class);
+            new AssetDescriptor<Sound>("sounds/Start Game.wav", Sound.class);
 
     // main theme for game
     public static final AssetDescriptor<Music> mainMusic =
@@ -143,15 +121,7 @@ public class assetManager {
     private void loadSounds(){
         manager.load(mainClick);
         manager.load(click1);
-        manager.load(click2);
-        manager.load(click3);
-        manager.load(click4);
-        manager.load(click5);
         manager.load(click6);
-        manager.load(click7);
-        manager.load(click8);
-        manager.load(click9);
-        manager.load(click10);
         manager.load(click11);
         manager.load(click12);
     }
