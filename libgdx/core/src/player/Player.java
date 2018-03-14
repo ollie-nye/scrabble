@@ -14,6 +14,7 @@ public abstract class Player {
 	private final Tile[] letterList = new Tile[7];
     private String playerName;
     private int score = 0;
+    private boolean finishedAllTurns = false;
 
     /* PLAYED NAME */
     /**
@@ -98,5 +99,13 @@ public abstract class Player {
      */
     public Tile[] getTiles() {
         return letterList;
+    }
+    
+    public boolean allTurnsFinished(){
+    	return finishedAllTurns;
+    }
+    
+    public void finishedAllTurns(){
+    	finishedAllTurns = true;
     }
 }
