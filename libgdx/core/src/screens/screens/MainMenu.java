@@ -72,7 +72,6 @@ public class MainMenu implements Screen {
 		TextButtonStyle playButtonStyle = new TextButtonStyle();
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
-		playButtonStyle.checked = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
 		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 330f);
