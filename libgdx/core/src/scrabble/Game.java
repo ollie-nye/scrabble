@@ -111,13 +111,17 @@ public class Game {
      */
     public static void endTurn() {
         Result lastResult = Board.getInstance().getLastResult();
-        if (lastResult.isCompleteWord()) {
+        if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
             Board.getInstance().validatorReset();
             currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
             currentMove = null;
             currentPlayer.addTiles();
         } else {
-            JOptionPane.showMessageDialog(null, "This is not a complete word", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "This is not a complete word, but f*ck it because ben wants this.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            Board.getInstance().validatorReset();
+            currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
+            currentMove = null;
+            currentPlayer.addTiles();
         }
     }
     /**
