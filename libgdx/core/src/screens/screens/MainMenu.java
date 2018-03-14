@@ -28,7 +28,7 @@ public class MainMenu implements Screen {
 
 	private ScrabbleLauncher game;
 	private Table playOptions, namingPlayer, tempTable;
-	private TextButton play, settings, rules, exit, website, exitMenu;;
+	private TextButton play, settings, rules, exit, website, exitMenu, skipToEndScreen;
 	private int menuType, playerCounter, aiNumber, playerNumber, screen;
 	private Label[] playerLabel = new Label[4];
 	private TextField[] playerNameEntry = new TextField[4];
@@ -160,6 +160,20 @@ public class MainMenu implements Screen {
 			}
 		});
 		stage.addActor(website);
+	
+		skipToEndScreen = new TextButton("SKIP", websiteButtonStyle);
+		skipToEndScreen.setPosition(90f, 0f);
+		skipToEndScreen.setSize(90.0f, 90.0f);
+		skipToEndScreen.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+
+				hover.play(game.getSoundVol());
+				game.setScreen(new ResultsScreen(game));
+
+			}
+		});
+		stage.addActor(skipToEndScreen);
 
 		/*
 		 * creating the menu that comes up after clicking play

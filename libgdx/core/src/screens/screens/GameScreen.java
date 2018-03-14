@@ -413,6 +413,10 @@ public class GameScreen implements Screen {
 		Label label = new Label(labelText, labelStyle);
 		label.setWrap(true);
 		label.setAlignment(Align.center);
+		if (this.playersEnded == 0){
+			label.setText("Are you sure you want to end your turn and finish the game?"); 
+		}
+		
 
 		TextButton yes = new TextButton("yes", tempStyle);
 		yes.addListener(new ClickListener() {
@@ -424,6 +428,9 @@ public class GameScreen implements Screen {
 				System.out.println("hello" + playersEnded);
 				if (playersEnded != 0) {
 					Game.endTurn();
+				}				
+				if (playersEnded == 0){
+					game.setScreen(new ResultsScreen(game));
 				}
 				
 			};
