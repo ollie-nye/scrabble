@@ -14,11 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import com.scrabble.game.BoardButton;
@@ -40,9 +42,11 @@ public class GameScreen implements Screen {
 	private Stage stage;
     private Texture BoardBackground;
     private SpriteBatch BoardBatch;
-    private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3;
+    private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle;
+    private LabelStyle labelStyle;
     private BitmapFont font;
     private Skin skin;
+    private Skin tempSkin;
     private TextureAtlas buttonAtlas;
     private ScrabbleButtonStyle scrabbleButtonStyle;
     private TextButton startTurn, endTurn, shuffleButton, endGame, testButton;
@@ -68,12 +72,14 @@ public class GameScreen implements Screen {
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
-		
+		tempSkin = new Skin();
+		buttonAtlas = game.getAssetManager().manager.get(assetManager.texturesTemp);
+		tempSkin.addRegions(buttonAtlas);
 		this.create(players);
 	}
 
 	public void create(Queue<String> players) {
-        ScrabbleButton scrabbleButton;
+		ScrabbleButton scrabbleButton;
 		tilePress1 = new Sound[]{
 				game.getAssetManager().manager.get(assetManager.click1),
 				game.getAssetManager().manager.get(assetManager.click2),
@@ -185,14 +191,15 @@ public class GameScreen implements Screen {
         });
         stage.addActor(shuffleButton);
         
-        endGame = new TextButton("SHUFFLE", textButtonStyle2);
+        endGame = new TextButton("endGame", textButtonStyle);
         endGame.setPosition(1070.0f, 275.0f);
         endGame.setSize(206.0f, 61.0f);
 
         endGame.addListener( new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	//need player Number
+            	Game.removePlayer(Game.getCurrentPlayer());
+            	Game.endTurn();
             };
         });
         endGame.setVisible(false);
@@ -243,6 +250,8 @@ public class GameScreen implements Screen {
 		});	
 		stage.addActor(menu);
 		Gdx.input.setInputProcessor(stage);
+		
+	
 	}
 
 	private void setupButtonConfig() {
@@ -276,6 +285,15 @@ public class GameScreen implements Screen {
 		textButtonStyle3.up = skin.getDrawable("startButton");
 		textButtonStyle3.over = skin.getDrawable("startButtonPressed");
 		textButtonStyle3.font = font;
+		
+		tempButtonStyle = new TextButtonStyle();
+		tempButtonStyle.up =  tempSkin.getDrawable("green");
+		tempButtonStyle.down =  tempSkin.getDrawable("yellow");
+		tempButtonStyle.over =  tempSkin.getDrawable("purple");
+		tempButtonStyle.font = font;
+		
+		labelStyle = new LabelStyle();
+		labelStyle.font = font;		
 	}
 
 	@Override
@@ -324,9 +342,44 @@ public class GameScreen implements Screen {
 		for(int i = 0; i < scoreLabels.length; i++) {
             scoreLabels[i].setText(Integer.toString(Game.getPlayers().get(i).getScore()));
         }
+		
+		if (Game.getLetterBag().isEmpty()){
+			endGame.setVisible(true);
+			shuffleButton.setVisible(false);
+		}
+		else{
+			endGame.setVisible(false);
+			shuffleButton.setVisible(true);
+		}
 
 		stage.draw();
 		stage.act();
+	}
+	
+	public Table confirmationBox(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable, String labelText){
+		
+		
+		Table table = new Table();
+		table.setWidth(360.0f);		
+				
+		Label label = new Label(labelText, labelStyle);
+		label.setWrap(true);
+		label.setAlignment(Align.center);
+		
+		TextButton yes = new TextButton("yes", tempStyle);						
+		TextButton no = new TextButton("no", tempStyle);
+				
+		table.add(label).pad(10.0f).colspan(2).fill().width(280.0f);
+		table.row();
+		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
+		table.add(no).pad(10.0f).size(130.0f, 40.0f);
+		table.setPosition(300.0f, 300.0f);
+		
+		table.setBackground(drawable);
+		table.pack();
+		table.setHeight(table.getHeight() - 60.0f);
+		
+		return table;
 	}
 
     @Override

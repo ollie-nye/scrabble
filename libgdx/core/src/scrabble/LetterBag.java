@@ -92,4 +92,11 @@ public class LetterBag {
 		}
 		System.out.println("letterBadDepleted");
 	}
+	
+	public boolean isEmpty(){
+		if (tileStack.isEmpty() == false){
+			return false;
+		}
+		else return true;
+	}
 }
