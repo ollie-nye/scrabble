@@ -120,7 +120,7 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 
 				hover.play(game.getSoundVol());
-				game.setScreen(new HelpScreen(game));
+				game.setScreen(new HelpMenu(game));
 
 			}
 		});
