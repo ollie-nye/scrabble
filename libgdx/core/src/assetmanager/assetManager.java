@@ -47,6 +47,14 @@ public class assetManager {
     public static final AssetDescriptor<Texture> settingsBackground =
             new AssetDescriptor<Texture>("graphics/SettingsMenu/SettingsMenuBackground.png", Texture.class);
 
+    
+ // graphics for help menu
+   
+    public static final AssetDescriptor<Texture> helpBackground =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/HelpBackground.png", Texture.class);
+
+    
+    
     // graphics for loading screen
     public static final AssetDescriptor<Texture> logo =
             new AssetDescriptor<Texture>("graphics/LoadingScreen/logo.png", Texture.class);
@@ -116,6 +124,7 @@ public class assetManager {
         manager.load(boardBackground);
         manager.load(gameButtons);
         manager.load(mainBackground);
+        manager.load(helpBackground);
         manager.load(sliderBar);
         manager.load(sliderKnob);
         manager.load(settingsBackground);
