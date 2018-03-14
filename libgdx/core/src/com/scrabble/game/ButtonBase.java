@@ -295,8 +295,7 @@ public class ButtonBase extends Table implements Disableable {
 		return getPrefHeight();
 	}
 
-	/** The style for a button, see .
-	 * @author mzechner */
+	
 	static public class ButtonBaseStyle {
 		/** Optional. */
 		public Drawable up, down, over, checked, checkedOver, disabled;

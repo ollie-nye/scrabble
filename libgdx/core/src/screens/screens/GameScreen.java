@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     private Skin skin;
     private TextureAtlas buttonAtlas;
     private ScrabbleButtonStyle scrabbleButtonStyle;
-    private TextButton startTurn, endTurn, shuffleButton, testButton;
+    private TextButton startTurn, endTurn, shuffleButton, endGame, testButton;
 	private Sound[] tilePress1, tilePress2;
 	private Sound hover;
 	private Random random;
@@ -59,6 +59,9 @@ public class GameScreen implements Screen {
 	// player score representations
 	private Label[] scoreLabels = new Label[Game.getNumberOfPlayers()];
 	private Label[] playerNames = new Label[Game.getNumberOfPlayers()];
+	// tracking players who have ended the game
+	private boolean[] playersEnded = new boolean[Game.getNumberOfPlayers()];
+			
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
@@ -174,13 +177,26 @@ public class GameScreen implements Screen {
         shuffleButton.setPosition(1070.0f, 275.0f);
         shuffleButton.setSize(206.0f, 61.0f);
 
-        endTurn.addListener( new ClickListener(){
+        shuffleButton.addListener( new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
             };
         });
         stage.addActor(shuffleButton);
+        
+        endGame = new TextButton("SHUFFLE", textButtonStyle2);
+        endGame.setPosition(1070.0f, 275.0f);
+        endGame.setSize(206.0f, 61.0f);
+
+        endGame.addListener( new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	//need player Number
+            };
+        });
+        endGame.setVisible(false);
+        stage.addActor(endGame);
 
         //this is for testing only
         testButton = new TextButton("Deplete Bag", textButtonStyle2);
