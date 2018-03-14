@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import com.scrabble.game.BoardButton;
+import com.scrabble.game.ButtonBase.ButtonBaseStyle;
 import com.scrabble.game.PlayerButton;
 import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
@@ -66,6 +67,10 @@ public class GameScreen implements Screen {
 	private Label[] playerNames = new Label[Game.getNumberOfPlayers()];
 	// tracking players who have ended the game
 	private int playersEnded = Game.getNumberOfPlayers();
+	private ScrabbleButtonStyle redButtonStyle;
+	private ScrabbleButtonStyle blueButtonStyle;
+	private ScrabbleButtonStyle orangeButtonStyle;
+	private ScrabbleButtonStyle greenButtonStyle;
 
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
@@ -113,6 +118,44 @@ public class GameScreen implements Screen {
 			for (int j = 0; j < 15; j++) {
 				scrabbleButton = new BoardButton(scrabbleButtonStyle, new Coordinate(i, j));
 				scrabbleButton.setSize(36.4f, 36.4f);
+				/* visual representation of multipliers 
+				* red = x3 word 
+				* blue = x2 word
+				* orange = x2 letter
+				* green = x3 letter
+				*/
+				if((i==0 && j == 0)  || (i==7 && j == 0) || 
+				   (i==14 && j == 0) || (i==0 && j == 7) || 
+				   (i==0 && j == 14)|| (i==7 && j == 14) || (i==14 && j == 14))
+				{
+					scrabbleButton.setStyle(redButtonStyle);
+					
+				} else if ((i==1 && j == 1) || (i==2 && j == 2) || (i==3 && j == 3) || (i==4 && j == 4) || (i==5 && j == 5)|| (i==6 && j == 6) ||    
+						   (i==13 && j == 1) || (i==12 && j == 2) || (i==11 && j == 3) || (i==10 && j == 4) || (i==9 && j == 5)|| (i==8 && j == 6) || (i==1 && j == 13)||
+						   (i==2 && j == 12) || (i==3 && j == 11) || (i==4 && j == 10) || (i==5 && j == 9) || (i==6 && j ==8 )||
+						   (i==13 && j == 13) || (i==12 && j == 12)|| (i==11 && j == 11) || (i==10 && j == 10) || (i==9 && j == 9) || (i==8 && j == 8))
+				{
+					scrabbleButton.setStyle(blueButtonStyle);
+					
+				} else if((i==0 && j == 3) || (i==0 && j == 10) || 
+						  (i==2 && j == 6) || (i==2 && j == 8)  || 
+						  (i==3 && j == 0) || (i==3 && j == 7)  || (i==3 && j == 14) || 
+						  (i==6 && j == 2) || (i==6 && j == 6)  || (i==6 && j == 8)  || (i==6 && j == 12) || 
+						  (i==7 && j == 3) || (i==7 && j == 11) || 
+						  (i==8 && j == 2) || (i==8 && j == 6)  || (i==8 && j == 8)  || (i==8 && j == 12)  || 
+						  (i==11 && j == 0)|| (i==11 && j == 7) || (i==11 && j == 14)||
+						  (i==12 && j == 6) || (i==12 && j == 8) )
+				{
+					scrabbleButton.setStyle(orangeButtonStyle);
+						
+				} else if((i==1 && j == 5) || (i==1 && j == 9) || 
+						  (i==5 && j == 1) || (i==5 && j == 5) || (i==5 && j == 9)|| (i==5 && j == 13) || 
+						  (i==9 && j == 1) || (i==9 && j == 5) || (i==9 && j == 9)|| (i==9 && j == 13) ||
+						  (i==13 && j == 5)|| (i==13 && j == 9))
+				{
+					scrabbleButton.setStyle(greenButtonStyle);
+				}
+				
 				stage.addActor(scrabbleButton);
 				tables[0].add(scrabbleButton).size(36.4f, 36.4f).pad(2.0f);
 				scrabbleButton.addListener(new ClickListener() {
@@ -283,10 +326,38 @@ public class GameScreen implements Screen {
 		scrabbleButtonStyle.over = skin.getDrawable("boardButtonHover");
 		scrabbleButtonStyle.font = font;
 		
+		blueButtonStyle = new ScrabbleButtonStyle();
+		blueButtonStyle.up = skin.getDrawable("greyButton");
+		blueButtonStyle.checked = skin.getDrawable("greyButtonPressed");
+		blueButtonStyle.down = skin.getDrawable("greyButtonHover");
+		blueButtonStyle.over = skin.getDrawable("greyButtonHover");
+		blueButtonStyle.font = font;
+		
+		greenButtonStyle = new ScrabbleButtonStyle();
+		greenButtonStyle.up = skin.getDrawable("greenButton");
+		greenButtonStyle.checked = skin.getDrawable("greenButtonPressed");
+		greenButtonStyle.down = skin.getDrawable("greenButtonHover");
+		greenButtonStyle.over = skin.getDrawable("greenButtonHover");
+		greenButtonStyle.font = font;
+		
+		orangeButtonStyle = new ScrabbleButtonStyle();
+		orangeButtonStyle.up = skin.getDrawable("orangeButton");
+		orangeButtonStyle.checked = skin.getDrawable("orangeButtonPressed");
+		orangeButtonStyle.down = skin.getDrawable("orangeButtonHover");
+		orangeButtonStyle.over = skin.getDrawable("orangeButtonHover");
+		orangeButtonStyle.font = font;
+		
+		redButtonStyle = new ScrabbleButtonStyle();
+		redButtonStyle.up = skin.getDrawable("redButton");
+		redButtonStyle.checked = skin.getDrawable("redButtonPressed");
+		redButtonStyle.down = skin.getDrawable("redButtonHover");
+		redButtonStyle.over = skin.getDrawable("redButtonHover");
+		redButtonStyle.font = font;
+		
 		plainButtonStyle = new TextButtonStyle();
 		plainButtonStyle.up = skin.getDrawable("plainButton");
 		plainButtonStyle.down = skin.getDrawable("plainButtonPressed");
-			plainButtonStyle.font = font;
+		plainButtonStyle.font = font;
 
 		// for the menu button
 		textButtonStyle = new TextButtonStyle();
