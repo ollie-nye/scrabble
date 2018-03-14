@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 	private Stage stage;
 	private Texture BoardBackground;
 	private SpriteBatch BoardBatch;
-	private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle;
+	private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle, plainButtonStyle;
 	private LabelStyle labelStyle;
 	private BitmapFont font;
 	private Skin skin;
@@ -54,7 +54,7 @@ public class GameScreen implements Screen {
 	private Sound hover;
 	private Random random;
 	private ScrabbleLauncher game;
-	private Label endLabel;
+	private Table endLabel, endPlayerTurn;
 
 	// for test purposes only
 	private boolean deplete;
@@ -148,7 +148,8 @@ public class GameScreen implements Screen {
 			setupPlayerLetters(2, false);
 			break;
 		}
-
+//from here
+		
 		// end turn button creation
 		endTurn = new TextButton("", textButtonStyle2);
 		endTurn.setPosition(1070.0f, 350.0f);
@@ -160,14 +161,14 @@ public class GameScreen implements Screen {
 				Game.endTurn();
 				if (Game.getCurrentMove() == null) {
 					// fiddy
-					turnChange[0].play();
+					
 				}
 				;
 			};
 		});
 		stage.addActor(endTurn);
 
-		shuffleButton = new TextButton("SHUFFLE", textButtonStyle2);
+		shuffleButton = new TextButton("SHUFFLE", plainButtonStyle);
 		shuffleButton.setPosition(1070.0f, 275.0f);
 		shuffleButton.setSize(206.0f, 61.0f);
 
@@ -179,23 +180,27 @@ public class GameScreen implements Screen {
 		});
 		stage.addActor(shuffleButton);
 
-		endGame = new TextButton("endGame", textButtonStyle);
+		endGame = new TextButton("endGame", plainButtonStyle);
 		endGame.setPosition(1070.0f, 275.0f);
 		endGame.setSize(206.0f, 61.0f);
 
 		endGame.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Game.getCurrentPlayer().finishedAllTurns();
-				playersEnded -= 1;
-				Game.endTurn();
+				endPlayerTurn.setVisible(true);
+				
+
 			};
 		});
 		endGame.setVisible(false);
 		stage.addActor(endGame);
+		endPlayerTurn = playerFinishedConfirmationBox(plainButtonStyle, labelStyle, tempSkin.getDrawable("purple"), "Are you sure you have can't play another move?");
+		
+		stage.addActor(endPlayerTurn);
+		endPlayerTurn.setVisible(false);
 
 		// this is for testing only
-		testButton = new TextButton("Deplete Bag", textButtonStyle2);
+		testButton = new TextButton("Deplete Bag", plainButtonStyle);
 		testButton.setPosition(1070.0f, 205.0f);
 		testButton.setSize(206.0f, 61.0f);
 
@@ -205,6 +210,7 @@ public class GameScreen implements Screen {
 				if (deplete != true) {
 					Game.getLetterBag().pickABunch();
 				}
+				System.out.println("bitch word");
 				deplete = true;
 			};
 		});
@@ -239,10 +245,24 @@ public class GameScreen implements Screen {
 		stage.addActor(menu);
 		Gdx.input.setInputProcessor(stage);
 
-		endLabel = new Label("Game has finished", labelStyle);
-		endLabel.setPosition(350.0f, 300.0f);
-		endLabel.setSize(600.0f, 300.0f);
-		endLabel.setAlignment(Align.center);
+		endLabel = new Table();
+		Label endGameLabel = new Label("Game has finished", labelStyle);
+		endGameLabel.setAlignment(Align.center);
+		TextButton resultsScreen = new TextButton("View Results", plainButtonStyle);
+		resultsScreen.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				hover.play(game.getSoundVol());
+				stage.dispose();
+
+			};
+		});
+		endLabel.add(endGameLabel).size(300.0f, 150.0f);
+		endLabel.row();
+		endLabel.add(resultsScreen).height(70.0f);
+		endLabel.pack();
+		endLabel.setPosition((1280.0f-endLabel.getWidth())*0.5f, (720.0f-endLabel.getHeight())*0.5f);
+		endLabel.setBackground(tempSkin.getDrawable("lightblue"));
 		stage.addActor(endLabel);
 
 	}
@@ -262,6 +282,11 @@ public class GameScreen implements Screen {
 		scrabbleButtonStyle.down = skin.getDrawable("boardButtonHover");
 		scrabbleButtonStyle.over = skin.getDrawable("boardButtonHover");
 		scrabbleButtonStyle.font = font;
+		
+		plainButtonStyle = new TextButtonStyle();
+		plainButtonStyle.up = skin.getDrawable("plainButton");
+		plainButtonStyle.down = skin.getDrawable("plainButtonPressed");
+			plainButtonStyle.font = font;
 
 		// for the menu button
 		textButtonStyle = new TextButtonStyle();
@@ -371,14 +396,61 @@ public class GameScreen implements Screen {
 		table.row();
 		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
 		table.add(no).pad(10.0f).size(130.0f, 40.0f);
-		table.setPosition(300.0f, 300.0f);
 
 		table.setBackground(drawable);
 		table.pack();
 		table.setHeight(table.getHeight() - 60.0f);
-
+		table.setPosition((1280.0f-table.getWidth())*0.5f, (720.0f-table.getHeight())*0.5f);
 		return table;
 	}
+	
+	public Table playerFinishedConfirmationBox(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
+			String labelText) {
+
+		Table table = new Table();
+		table.setWidth(360.0f);
+
+		Label label = new Label(labelText, labelStyle);
+		label.setWrap(true);
+		label.setAlignment(Align.center);
+
+		TextButton yes = new TextButton("yes", tempStyle);
+		yes.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
+				Game.getCurrentPlayer().finishedAllTurns();
+				playersEnded -= 1;
+				System.out.println("hello" + playersEnded);
+				if (playersEnded != 0) {
+					Game.endTurn();
+				}
+				
+			};
+		});
+		TextButton no = new TextButton("no", tempStyle);
+		no.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
+				endPlayerTurn.setVisible(false);
+			};
+		});
+
+		table.add(label).pad(10.0f).colspan(2).fill().width(280.0f);
+		table.row();
+		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
+		table.add(no).pad(10.0f).size(130.0f, 40.0f);
+	
+
+		table.setBackground(drawable);
+		table.pack();
+		table.setHeight(table.getHeight() - 60.0f);
+		table.setPosition((1280.0f-table.getWidth())*0.5f, (720.0f-table.getHeight())*0.5f);
+		
+		return table;
+	}
+
 
 	@Override
 	public void dispose() {
