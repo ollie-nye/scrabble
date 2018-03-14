@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
@@ -380,7 +381,8 @@ public class MainMenu implements Screen {
 					// fiddy
 					gunit.play();
 
-					game.setScreen(new GameScreen(game));
+					System.out.println(setPlayerArray().toString());
+					game.setScreen(new GameScreen(game, setPlayerArray()));
 				}
 			}
 		});
@@ -668,28 +670,11 @@ public class MainMenu implements Screen {
 		rules.setVisible(false);
 	}
 
-	private ArrayList<String> setPlayerArray() {
-		ArrayList<String> x = new ArrayList<String>();
-		if (playerNameEntry[0].getSelection() != null) {
-			x.add(playerNameEntry[0].getSelection());
-		} else {
-			x.add("FuckYouLibgdx");
+	private Queue<String> setPlayerArray() {
+		Queue<String> names = new Queue<String>();
+		for(TextField textField: playerNameEntry){
+			names.addLast(textField.getText());
 		}
-		if (playerNameEntry[1].getSelection() != null) {
-			x.add(playerNameEntry[1].getSelection());
-		} else {
-			x.add("FuckYouLibgdx");
-		}
-		if (playerNameEntry[2].getSelection() != null) {
-			x.add(playerNameEntry[2].getSelection());
-		} else {
-			x.add("FuckYouLibgdx");
-		}
-		if (playerNameEntry[3].getSelection() != null) {
-			x.add(playerNameEntry[3].getSelection());
-		} else {
-			x.add("FuckYouLibgdx");
-		}
-		return x;
+		return names;
 	};
 }

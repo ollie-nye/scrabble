@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Queue;
 import com.scrabble.game.BoardButton;
 import com.scrabble.game.PlayerButton;
 import com.scrabble.game.ScrabbleButton;
@@ -48,7 +50,7 @@ public class GameScreen implements Screen {
 	private Sound hover;
 	private Random random;
     private ScrabbleLauncher game;
-
+    
     //for test purposes only
     private boolean deplete;
     
@@ -56,17 +58,18 @@ public class GameScreen implements Screen {
 	private Table[] tables = new Table[5];
 	// player score representations
 	private Label[] scoreLabels = new Label[Game.getNumberOfPlayers()];
-
-	public GameScreen(ScrabbleLauncher game) {
+	private Label[] playerNames = new Label[Game.getNumberOfPlayers()];
+	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
-		this.create();
+		
+		this.create(players);
 	}
 
-	public void create() {
+	public void create(Queue<String> players) {
         ScrabbleButton scrabbleButton;
 		tilePress1 = new Sound[]{
 				game.getAssetManager().manager.get(assetManager.click1),
@@ -96,8 +99,14 @@ public class GameScreen implements Screen {
             tables[i + 1] = new Table();
 		    scoreLabels[i] = new Label("",new Label.LabelStyle(font,Color.WHITE));
 		    scoreLabels[i].setPosition(1205, scoreLabelPositionY);
+		    playerNames[i] = new Label(players.removeFirst(),new Label.LabelStyle(font,Color.WHITE));
+		    playerNames[i].setPosition(1078, scoreLabelPositionY-11.0f);
+		    playerNames[i].setWidth(100.0f);		
+		    playerNames[i].setAlignment(Align.center);
+		   
 		    scoreLabelPositionY -= 25;
             stage.addActor(scoreLabels[i]);
+            stage.addActor(playerNames[i]);
         }
 
 
