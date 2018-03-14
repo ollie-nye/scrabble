@@ -6,7 +6,6 @@ import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 import validation.NewValidator;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -107,10 +106,11 @@ public class Game {
 
         currentMove = new Move(currentPlayer);
         MOVE_LIST.add(currentMove);
-        
+
         if (currentPlayer.allTurnsFinished() == true){
         	startTurn();
         };
+        currentMove.getMoveTime();
     }
     /**
      * Ends current turn, increments Player score by the score of the Move.
@@ -151,11 +151,11 @@ public class Game {
     public static LetterBag getLetterBag() {
         return LETTER_BAG;
     }
-    
+
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
     }
-    
+
     public static boolean isFirstTurn() {
     	return (MOVE_LIST.size() == 1);
     }

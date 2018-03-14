@@ -22,7 +22,11 @@ public abstract class Player {
      * @see     #getPlayerName()
      */
     public void setPlayerName(String name) {
-        playerName = name;
+        if(!(name.equals(""))) {
+            playerName = name;
+        } else {
+            playerName = "Player " + Game.getNumberOfPlayers();
+        }
     }
     /**
      * Returns player username upon call

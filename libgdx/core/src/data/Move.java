@@ -2,8 +2,8 @@ package data;
 
 import player.Player;
 import scrabble.Score;
-
 import java.util.HashMap;
+import data.Timer;
 
 /**
  * Move object contains all played letters in a turn (move), the word played,
@@ -94,5 +94,12 @@ public class Move {
      */
     public int getMoveScore() {
         return moveScore * wordMultiplier;
+    }
+
+    public int getMoveTime() {
+        Timer timer = new Timer();
+        new Thread(timer).start();
+
+        return timer.getTime();
     }
 }
