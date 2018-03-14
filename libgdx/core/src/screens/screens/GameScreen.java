@@ -54,6 +54,8 @@ public class GameScreen implements Screen {
 	private Sound hover;
 	private Random random;
     private ScrabbleLauncher game;
+    private Label endLabel;
+    
     
     //for test purposes only
     private boolean deplete;
@@ -64,7 +66,7 @@ public class GameScreen implements Screen {
 	private Label[] scoreLabels = new Label[Game.getNumberOfPlayers()];
 	private Label[] playerNames = new Label[Game.getNumberOfPlayers()];
 	// tracking players who have ended the game
-	private boolean[] playersEnded = new boolean[Game.getNumberOfPlayers()];
+	private int playersEnded = Game.getNumberOfPlayers();
 			
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
@@ -198,7 +200,8 @@ public class GameScreen implements Screen {
         endGame.addListener( new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	Game.removePlayer(Game.getCurrentPlayer());
+            	Game.getCurrentPlayer().finishedAllTurns();
+            	playersEnded -= 1;
             	Game.endTurn();
             };
         });
@@ -251,7 +254,12 @@ public class GameScreen implements Screen {
 		stage.addActor(menu);
 		Gdx.input.setInputProcessor(stage);
 		
-	
+		endLabel = new Label("Game has finished", labelStyle);
+		endLabel.setPosition(350.0f, 300.0f);
+		endLabel.setSize(600.0f, 300.0f);		
+		endLabel.setAlignment(Align.center);
+		stage.addActor(endLabel);
+		
 	}
 
 	private void setupButtonConfig() {
@@ -293,7 +301,8 @@ public class GameScreen implements Screen {
 		tempButtonStyle.font = font;
 		
 		labelStyle = new LabelStyle();
-		labelStyle.font = font;		
+		labelStyle.font = font;	
+		labelStyle.background = tempSkin.getDrawable("purple");
 	}
 
 	@Override
@@ -351,7 +360,12 @@ public class GameScreen implements Screen {
 			endGame.setVisible(false);
 			shuffleButton.setVisible(true);
 		}
-
+		if (playersEnded == 0){
+			endLabel.setVisible(true);
+		}
+		else{
+			endLabel.setVisible(false);
+		}
 		stage.draw();
 		stage.act();
 	}
