@@ -5,6 +5,7 @@ import data.Result;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
+import validation.NewValidator;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Game {
     private static Move currentMove;
     private static Player currentPlayer;
     private static int numberOfPlayers;
+    private static NewValidator validator = new NewValidator(Board.getInstance());
 
 
     /* PLAYER FUNCTIONS */
@@ -112,10 +114,12 @@ public class Game {
     public static void endTurn() {
         Result lastResult = Board.getInstance().getLastResult();
         if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
-            Board.getInstance().validatorReset();
-            currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
-            currentMove = null;
-            currentPlayer.addTiles();
+        	if (validator.testConnectedWords(currentMove)) { //connected to other words {}
+        		Board.getInstance().validatorReset();
+                currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
+                currentMove = null;
+                currentPlayer.addTiles();
+        	}
         } else if(lastResult == null && currentMove.getPlayedTiles().size() == 0){
             JOptionPane.showMessageDialog(null, "Do you want to end?", "Error", JOptionPane.INFORMATION_MESSAGE);
             Board.getInstance().validatorReset();
@@ -142,5 +146,13 @@ public class Game {
      */
     public static LetterBag getLetterBag() {
         return LETTER_BAG;
+    }
+    
+    public static ArrayList<Move> getMoveList() {
+    	return MOVE_LIST;
+    }
+    
+    public static boolean isFirstTurn() {
+    	return (MOVE_LIST.size() == 1);
     }
 }

@@ -36,6 +36,9 @@ public class WordOperations {
 	
 	public static void main(String args[]) {
 		WordOperations ops = new WordOperations(new Board());
+		ops.board.testPlace(new Letter(new Tile("p", 0), new Coordinate(0, 6)));
+		ops.board.testPlace(new Letter(new Tile("a", 0), new Coordinate(1, 6)));
+		ops.board.testPlace(new Letter(new Tile("t", 0), new Coordinate(3, 6)));
 		ops.board.testPlace(new Letter(new Tile("i", 0), new Coordinate(2, 5)));
 		ops.board.testPlace(new Letter(new Tile("n", 0), new Coordinate(3, 5)));
 		ops.board.testPlace(new Letter(new Tile("t", 0), new Coordinate(4, 5)));
@@ -64,14 +67,26 @@ public class WordOperations {
 		//ops.board.testPlace(new Letter(new Tile("n", 0), new Coordinate(4, 12)));
 		
 		
-		Coordinate loc = new Coordinate(2, 12);
-		
+		Coordinate loc = new Coordinate(2, 6);
+				
 		Letter testLetter = null;
 		
 		if (ops.board.getTile(loc) != null) {
 			testLetter = new Letter(ops.board.getTile(loc), loc);
 		}
-		ops.identifyWords(testLetter);
+		System.out.println("Trace from letter");
+		for (String word : ops.identifyWords(testLetter)) {
+			System.out.println(word);
+		}
+		
+		
+		System.out.println("Trace from word");
+		for (ArrayList<Letter> word : ops.identifyWordsLetterlist(testLetter)) {
+			for (Letter letter : word) {
+				System.out.print(letter.toString() + ", ");
+			}
+			System.out.println("");
+		}
 	}
 	
 	
@@ -82,8 +97,8 @@ public class WordOperations {
 		
 		this.originLetter = letter;
 
-		wordsH = traceWords(letter, Orient.H, wordsH, false);
-		wordsV = traceWords(letter, Orient.V, wordsV, false);
+		wordsH = traceWords(letter, Orient.H, wordsH, 1);
+		wordsV = traceWords(letter, Orient.V, wordsV, 1);
 		
 		for (ArrayList<Letter> newWordList : wordsH) {
 			String newWord = "";
@@ -106,7 +121,45 @@ public class WordOperations {
 		return words;
 	}
 	
-	private ArrayList<ArrayList<Letter>> traceWords(Letter letter, Orient orientation, ArrayList<ArrayList<Letter>> words, boolean lowestLevel) {
+	public ArrayList<ArrayList<Letter>> identifyWordsLetterlist(Letter letter) {
+		ArrayList<ArrayList<Letter>> words = new ArrayList<>();
+		ArrayList<ArrayList<Letter>> wordsH = new ArrayList<>();
+		ArrayList<ArrayList<Letter>> wordsV = new ArrayList<>();
+		
+		this.originLetter = letter;
+
+		wordsH = traceWords(letter, Orient.H, wordsH, 2);
+		wordsV = traceWords(letter, Orient.V, wordsV, 2);
+		
+		for (ArrayList<Letter> newWordList : wordsH) {
+			words.add(newWordList);
+		}
+		
+		for (ArrayList<Letter> newWordList : wordsV) {
+			boolean exists = false;
+			for (ArrayList<Letter> wordList : words) {
+				if (convertToString(wordList).equals(convertToString(newWordList))) {
+					exists = true;
+					break;
+				}
+			}
+			if (!exists) {
+				words.add(newWordList);
+			}
+		}
+		
+		return words;
+	}
+	
+	private String convertToString(ArrayList<Letter> word) {
+		String returnWord = "";
+		for (Letter letter : word) {
+			returnWord += letter.getTile().toString();
+		}
+		return returnWord;
+	}
+	
+	private ArrayList<ArrayList<Letter>> traceWords(Letter letter, Orient orientation, ArrayList<ArrayList<Letter>> words, int depth) {
 		if (letter == null) { return words; }
 		ArrayList<Letter> currentWord = new ArrayList<>();
 		boolean initialDirection = true; //down or right, in order of reading the word
@@ -121,14 +174,14 @@ public class WordOperations {
 					break;
 				}
 			}
-			if (!lowestLevel) {
+			if (depth > 0) {
 				if (letter.toString().equals(this.originLetter.toString())) {
 					if (!beenHereBefore) {
 						beenHereBefore = true;
-						traceWords(nextLetter, (orientation == Orient.H)?Orient.V:Orient.H, words, false);
+						traceWords(nextLetter, (orientation == Orient.H)?Orient.V:Orient.H, words, depth - 1);
 					}
 				} else {
-					traceWords(nextLetter, (orientation == Orient.H)?Orient.V:Orient.H, words, true);
+					traceWords(nextLetter, (orientation == Orient.H)?Orient.V:Orient.H, words, 0);
 				}
 			}
 			//System.out.println(nextLetter.toString());
