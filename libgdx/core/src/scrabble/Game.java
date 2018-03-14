@@ -120,12 +120,14 @@ public class Game {
             currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
             currentMove = null;
             currentPlayer.addTiles();
-        } else {
-            JOptionPane.showMessageDialog(null, "This is not a complete word, but f*ck it because ben wants this.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else if(lastResult == null && currentMove.getPlayedTiles().size() == 0){
+            JOptionPane.showMessageDialog(null, "Do you want to end?", "Error", JOptionPane.INFORMATION_MESSAGE);
             Board.getInstance().validatorReset();
             currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
             currentMove = null;
             currentPlayer.addTiles();
+        } else {
+            JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     /**
