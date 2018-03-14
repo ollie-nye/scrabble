@@ -71,6 +71,7 @@ public class GameScreen implements Screen {
 	private ScrabbleButtonStyle blueButtonStyle;
 	private ScrabbleButtonStyle orangeButtonStyle;
 	private ScrabbleButtonStyle greenButtonStyle;
+	private TextButtonStyle shuffleButtonStyle;
 
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
@@ -196,7 +197,7 @@ public class GameScreen implements Screen {
 		// end turn button creation
 		endTurn = new TextButton("", textButtonStyle2);
 		endTurn.setPosition(1070.0f, 350.0f);
-		endTurn.setSize(206.0f, 61.0f);
+		endTurn.setSize(155.0f, 55.0f);
 
 		endTurn.addListener(new ClickListener() {
 			@Override
@@ -211,9 +212,9 @@ public class GameScreen implements Screen {
 		});
 		stage.addActor(endTurn);
 
-		shuffleButton = new TextButton("SHUFFLE", plainButtonStyle);
+		shuffleButton = new TextButton("", shuffleButtonStyle);
 		shuffleButton.setPosition(1070.0f, 275.0f);
-		shuffleButton.setSize(206.0f, 61.0f);
+		shuffleButton.setSize(155.0f, 55.0f);
 
 		shuffleButton.addListener(new ClickListener() {
 			@Override
@@ -225,7 +226,7 @@ public class GameScreen implements Screen {
 
 		endGame = new TextButton("endGame", plainButtonStyle);
 		endGame.setPosition(1070.0f, 275.0f);
-		endGame.setSize(206.0f, 61.0f);
+		endGame.setSize(155.0f, 65.0f);
 
 		endGame.addListener(new ClickListener() {
 			@Override
@@ -262,7 +263,7 @@ public class GameScreen implements Screen {
 		// start turn, selected to pass turns over
 		startTurn = new TextButton("", textButtonStyle3);
 		startTurn.setPosition(1070.0f, 350.0f);
-		startTurn.setSize(206.0f, 61.0f);
+		startTurn.setSize(155.0f, 55.0f);
 
 		startTurn.addListener(new ClickListener() {
 			@Override
@@ -353,6 +354,13 @@ public class GameScreen implements Screen {
 		redButtonStyle.down = skin.getDrawable("redButtonHover");
 		redButtonStyle.over = skin.getDrawable("redButtonHover");
 		redButtonStyle.font = font;
+		// shuffle button
+		shuffleButtonStyle = new TextButtonStyle();
+		shuffleButtonStyle.up = skin.getDrawable("shuffleButton");
+		shuffleButtonStyle.down = skin.getDrawable("shuffleButtonPressed");
+		shuffleButtonStyle.over = skin.getDrawable("shuffleButtonPressed");
+		shuffleButtonStyle.font = font;
+		
 		
 		plainButtonStyle = new TextButtonStyle();
 		plainButtonStyle.up = skin.getDrawable("plainButton");
