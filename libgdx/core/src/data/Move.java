@@ -46,6 +46,7 @@ public class Move {
         } else {
             Board.getInstance().removeTile(coordinate);
         }
+        Board.getInstance().resetPartial();
     }
     /**
      * Removes Tile from Move (Tile has been returned to Player hand and has not been played)
