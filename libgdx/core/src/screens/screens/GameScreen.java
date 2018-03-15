@@ -30,6 +30,7 @@ import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 import data.Coordinate;
 import data.Timer;
 import scrabble.Game;
+import scrabble.Score;
 import screens.ScrabbleLauncher;
 import java.util.Random;
 
@@ -123,65 +124,67 @@ public class GameScreen implements Screen {
 		// sets up buttons for board
 		int k = 0;
 		stage.addActor(tables[0]);
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 15; j++) {
-				scrabbleButton = new BoardButton(scrabbleButtonStyle, new Coordinate(i, j));
-				scrabbleButton.setSize(36.4f, 36.4f);
+
+        Score multipliers = new Score();
+        for(int y = 0; y < 15; y++) {
+            for(int x = 0; x < 15; x++) {
+                char multiplierType = multipliers.getMultiplierType()[x][y];
+                int multiplierValue = multipliers.getMultiplierScore()[x][y];
+                scrabbleButton = new BoardButton(scrabbleButtonStyle, new Coordinate(x, y));
+                scrabbleButton.setSize(36.4f, 36.4f);
+
+                switch (multiplierType) {
+                    case 'w':
+                        switch (multiplierValue) {
+                            case 2:
+                                scrabbleButton.setStyle(blueButtonStyle);
+                                break;
+                            case 3:
+                                scrabbleButton.setStyle(redButtonStyle);
+                                break;
+                        }
+                        break;
+                    case 'l':
+                        switch (multiplierValue) {
+                            case 2:
+                                scrabbleButton.setStyle(orangeButtonStyle);
+                                break;
+                            case 3:
+                                scrabbleButton.setStyle(greenButtonStyle);
+                                break;
+                        }
+                        break;
+                }
+
+                if(x == 7 && y == 7) {
+                    scrabbleButton.setStyle(brownButtonStyle);
+                }
+
+                stage.addActor(scrabbleButton);
+                tables[0].add(scrabbleButton).size(36.4f, 36.4f).pad(2.0f);
+                scrabbleButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        tilePress1[random.nextInt(tilePress1.length)].play(game.getSoundVol());
+                    };
+                });
+                k += 1;
+                if (k % 15 == 0) {
+                    tables[0].row();
+                }
+            }
+        }
+
+        /**
+				//scrabbleButton = new BoardButton(scrabbleButtonStyle, new Coordinate(i, j));
+				//scrabbleButton.setSize(36.4f, 36.4f);
 				/* visual representation of multipliers 
 				* red = x3 word 
 				* blue = x2 word
 				* orange = x2 letter
 				* green = x3 letter
 				* yellow = starting position
-				*/
-				if((i==0 && j == 0)  || (i==7 && j == 0) || 
-				   (i==14 && j == 0) || (i==0 && j == 7) || 
-				   (i==0 && j == 14)|| (i==7 && j == 14) || (i==14 && j == 14))
-				{
-					scrabbleButton.setStyle(redButtonStyle);
-					
-				} else if ((i==1 && j == 1) || (i==2 && j == 2) || (i==3 && j == 3) || (i==4 && j == 4) || (i==5 && j == 5)|| (i==6 && j == 6) ||    
-						   (i==13 && j == 1) || (i==12 && j == 2) || (i==11 && j == 3) || (i==10 && j == 4) || (i==9 && j == 5)|| (i==8 && j == 6) || (i==1 && j == 13)||
-						   (i==2 && j == 12) || (i==3 && j == 11) || (i==4 && j == 10) || (i==5 && j == 9) || (i==6 && j ==8 )||
-						   (i==13 && j == 13) || (i==12 && j == 12)|| (i==11 && j == 11) || (i==10 && j == 10) || (i==9 && j == 9) || (i==8 && j == 8))
-				{
-					scrabbleButton.setStyle(blueButtonStyle);
-					
-				} else if((i==0 && j == 3) || (i==0 && j == 10) || 
-						  (i==2 && j == 6) || (i==2 && j == 8)  || 
-						  (i==3 && j == 0) || (i==3 && j == 7)  || (i==3 && j == 14) || 
-						  (i==6 && j == 2) || (i==6 && j == 6)  || (i==6 && j == 8)  || (i==6 && j == 12) || 
-						  (i==7 && j == 3) || (i==7 && j == 11) || 
-						  (i==8 && j == 2) || (i==8 && j == 6)  || (i==8 && j == 8)  || (i==8 && j == 12)  || 
-						  (i==11 && j == 0)|| (i==11 && j == 7) || (i==11 && j == 14)||
-						  (i==12 && j == 6) || (i==12 && j == 8) )
-				{
-					scrabbleButton.setStyle(orangeButtonStyle);
-						
-				} else if((i==1 && j == 5) || (i==1 && j == 9) || 
-						  (i==5 && j == 1) || (i==5 && j == 5) || (i==5 && j == 9)|| (i==5 && j == 13) || 
-						  (i==9 && j == 1) || (i==9 && j == 5) || (i==9 && j == 9)|| (i==9 && j == 13) ||
-						  (i==13 && j == 5)|| (i==13 && j == 9))
-				{
-					scrabbleButton.setStyle(greenButtonStyle);
-				} else if (i==7 && j ==7){
-					scrabbleButton.setStyle(brownButtonStyle);
-				}
-				
-				stage.addActor(scrabbleButton);
-				tables[0].add(scrabbleButton).size(36.4f, 36.4f).pad(2.0f);
-				scrabbleButton.addListener(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						tilePress1[random.nextInt(tilePress1.length)].play(game.getSoundVol());
-					};
-				});
-				k += 1;
-				if (k % 15 == 0) {
-					tables[0].row();
-				}
-			}
-		}
+		*/
 
 		switch (Game.getNumberOfPlayers()) {
 		case 4:
