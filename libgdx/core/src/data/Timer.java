@@ -34,7 +34,7 @@ public class Timer implements Runnable {
         int nanoseconds = time % 1000;
 
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(String.format("|%02d|.|%02d|.|%03d|",minutes,seconds,nanoseconds));
+        stringBuffer.append(String.format("|%02d|.|%02d|",minutes,seconds));
 
         return stringBuffer.toString();
     }

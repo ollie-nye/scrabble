@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
 		// Timer
 		timer = new Label("", new Label.LabelStyle(font,Color.BLACK));
 		timer.setFontScale(0.8f);
-        timer.setPosition(135, 668);
+        timer.setPosition(130, 668);
         timer.setAlignment(Align.center);
         stage.addActor(timer);
         timer.setVisible(true);
