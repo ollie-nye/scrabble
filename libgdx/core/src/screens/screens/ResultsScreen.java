@@ -47,10 +47,11 @@ public class ResultsScreen implements Screen {
 	private int[] penalties;
 	private Tile[][] remainingTiles;
 	private float deltaTime, timer, penaltiesTimer;
-	private int[] addingPenalties;
-	private int[] tallyPenalties;
-
+	private float[] addingPenalties;
+	private float[] tallyPenalties;
+private boolean makeSureTileTimerOnlyCalledOnce;
 	private boolean[] timings;
+	private boolean[] currentScoreDone;
 
 	private Label[] p1CurrentScore, p1FinalScore, p1ScoreLoss;
 	private Label[][] p1LettersLeft;
@@ -82,12 +83,10 @@ public class ResultsScreen implements Screen {
 
 		for (int i = 0; i < Game.getNumberOfPlayers(); i++) {
 			names[i] = players.get(i).getPlayerName();
-			System.out.println(names[i]);
 		}
 		currentScores = new int[Game.getNumberOfPlayers()];
 		for (int i = 0; i < Game.getNumberOfPlayers(); i++) {
 			currentScores[i] = players.get(i).getScore();
-			System.out.println(currentScores[i]);
 		}
 
 		remainingTiles = new Tile[Game.getNumberOfPlayers()][];
@@ -111,7 +110,7 @@ public class ResultsScreen implements Screen {
 			int penalty = 0;
 			for (int j = 0; j < remainingTiles[i].length; j++) {
 				penalty += remainingTiles[i][j].getScore();
-				System.out.println(remainingTiles[i][j].getScore() + remainingTiles[i][j].getContent());
+
 			}
 			penalties[i] = penalty;
 		}
@@ -124,15 +123,21 @@ public class ResultsScreen implements Screen {
 		p1FinalScore = new Label[Game.getNumberOfPlayers()];
 		p1ScoreLoss = new Label[Game.getNumberOfPlayers()];
 		timer = 0;
-		addingPenalties = new int[Game.getNumberOfPlayers()];
-		for (int set : addingPenalties) {
-			set = 0;
+		addingPenalties = new float[Game.getNumberOfPlayers()];
+		for (int i = 0; i < addingPenalties.length; i++) {
+			addingPenalties[i] = 0;
 		}
-		tallyPenalties = new int[Game.getNumberOfPlayers()];
-		for (int set : tallyPenalties) {
-			set = 0;
+		tallyPenalties = new float[Game.getNumberOfPlayers()];
+		for (int i = 0; i < tallyPenalties.length; i++) {
+			addingPenalties[i] = 0;
 		}
+		currentScoreDone = new boolean[Game.getNumberOfPlayers()];
+		for (int i = 0; i < currentScoreDone.length; i++) {
+			currentScoreDone[i] = false;
+		}
+
 		letterCounter = 0.0f;
+		makeSureTileTimerOnlyCalledOnce = false;
 
 	}
 
@@ -164,9 +169,17 @@ public class ResultsScreen implements Screen {
 		deltaTime = Gdx.graphics.getDeltaTime();
 		timer += deltaTime;
 		addPenalties();
-		getCurrent(timer - 2);
-
-		tileTimer(timer - 7);
+		if (currentScoreDone() == false) {
+			getCurrent(timer-0.5f);				
+		}
+		if (currentScoreDone() == true && makeSureTileTimerOnlyCalledOnce == false){
+			timer = 0.5f;
+			makeSureTileTimerOnlyCalledOnce = true;
+		}
+		if (currentScoreDone() == true){
+			tileTimer(timer);
+			
+		}
 
 		stage.getBatch().begin();
 		stage.getBatch().draw(background, 0, 0);
@@ -175,12 +188,24 @@ public class ResultsScreen implements Screen {
 		stage.act();
 	}
 
+	private boolean currentScoreDone() {
+		for (int i = 0; i < currentScoreDone.length; i++) {
+			if (currentScoreDone[i] == false) {
+				return false;
+			}
+		}
+		return true;
+		
+	}
+
 	public void addPenalties() {
+
 		for (int i = 0; i < addingPenalties.length; i++) {
 			if (addingPenalties[i] > 0) {
 				addingPenalties[i] -= (deltaTime * 15.0f);
 				tallyPenalties[i] += (deltaTime * 15.0f);
 				p1ScoreLoss[i].setText(Integer.toString((int) tallyPenalties[i]));
+				System.out.println("hi" + addingPenalties[i]);
 			}
 		}
 	}
@@ -193,15 +218,15 @@ public class ResultsScreen implements Screen {
 		if (timer > 0) {
 			for (int i = 0; i < p1CurrentScore.length; i++) {
 				if ((int) letterCounter <= currentScores[i]) {
-					System.out.println(letterCounter);
+
 					p1CurrentScore[i].setText(Integer.toString((int) letterCounter));
 				} else {
 					p1CurrentScore[i].setText(Integer.toString(currentScores[i]));
+					currentScoreDone[i] = true;
 				}
 			}
 			letterCounter += deltaTime * 15.0f;
 		}
-		System.out.print(letterCounter);
 
 	}
 
@@ -215,6 +240,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][0].isVisible() == false) {
 						p1LettersLeft[i][0].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][0].getScore();
+
 					}
 				}
 			}
