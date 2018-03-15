@@ -90,7 +90,8 @@ public class NewValidator {
 			playedTiles++;
 			possibleWords = 0;
 		} else {
-			this.board.removeTile(letter.getLocation());
+			//this.board.removeTile(letter.getLocation());
+			Game.getCurrentMove().removeTile(letter.getTile());
 		}
 		this.result = new Result(allowedMove, possibleWords, testEndTurnMove(letter));
 		this.words = null;
@@ -102,7 +103,7 @@ public class NewValidator {
 		boolean connected = false;
 		ArrayList<Coordinate> coordinates = new ArrayList<>();
 		
-		if(Game.isFirstTurn()) {
+		if(Game.getMoveList().size() == 1) {
 			return true;
 		} else {
 			for (Entry<Tile, Coordinate> entry : word.entrySet()) {

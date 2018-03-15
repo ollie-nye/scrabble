@@ -10,6 +10,9 @@ public class Timer implements Runnable {
             try {
                 Thread.sleep(970);
                 time++;
+                if(time == Game.getTurmTime()) {
+                    Game.endTurn();
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -29,7 +32,9 @@ public class Timer implements Runnable {
         int minutes = time / 60;
         int seconds = time % 60;
 
-        System.out.println(minutes);
-        return (minutes + " : " + seconds);
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(String.format("|%02d|:|%02d|",minutes,seconds));
+
+        return stringBuffer.toString();
     }
 }

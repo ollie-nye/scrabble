@@ -3,6 +3,7 @@ package com.scrabble.game;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import data.Coordinate;
 import scrabble.Board;
+import scrabble.Game;
 
 /**
  * Subclass of ScrabbleButton, is used for buttons / tiles om the board.
@@ -52,11 +53,11 @@ public class BoardButton extends ScrabbleButton {
     }
 
     public void placeTile() {
-        if (isPressed() && !isPressed) {
+        if (isPressed() && !isPressed && Game.getCurrentMove() != null) {
             if(Board.getInstance().getTile(coordinate) == null) {
-                Board.getInstance().partialPlace(coordinate.getX(), coordinate.getY());
+                Board.getInstance().partialPlace(coordinate);
             } else {
-                Board.getInstance().removeTile(coordinate);
+                Game.getCurrentMove().removeTile(Board.getInstance().getTile(coordinate));
             }
             isPressed = true;
         }
