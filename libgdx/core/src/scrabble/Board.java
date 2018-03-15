@@ -33,6 +33,7 @@ public class Board {
 	private static Score score = new Score();
 	
 	/**
+	 * 	 
 	 * If the first word has been played, this is true. Used in validation
 	 */
 	public static boolean firstWordPlayed = false;

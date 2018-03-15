@@ -47,6 +47,10 @@ public class assetManager {
     public static final AssetDescriptor<Texture> helpBackground =
             new AssetDescriptor<Texture>("graphics/HelpMenu/HelpBackground.png", Texture.class);
     
+    //graphics for results screen
+    public static final AssetDescriptor<Texture> resultsBackground =
+            new AssetDescriptor<Texture>("graphics/ResultsScreen/Background.png", Texture.class);
+    
     // graphics for loading screen
     public static final AssetDescriptor<Texture> logo =
             new AssetDescriptor<Texture>("graphics/LoadingScreen/logo.png", Texture.class);
@@ -110,6 +114,7 @@ public class assetManager {
         manager.load(logo);
         manager.load(logoWhite);
         manager.load(logoLoaded);
+        manager.load(resultsBackground);
     }
 
     private void loadTextureAtlas(){

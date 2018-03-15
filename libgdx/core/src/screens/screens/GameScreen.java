@@ -507,6 +507,7 @@ public class GameScreen implements Screen {
 				System.out.println("hello" + playersEnded);
 				if (playersEnded != 0) {
 					Game.endTurn();
+					endPlayerTurn.setVisible(false);
 				}				
 				if (playersEnded == 0){
 					game.setScreen(new ResultsScreen(game));
