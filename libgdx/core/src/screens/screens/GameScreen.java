@@ -213,11 +213,13 @@ public class GameScreen implements Screen {
 		endTurn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				
 				Game.endTurn();
+				
 				if (Game.getCurrentMove() == null) {
-					// fiddy
-					
+									
 				}
+				
 				;
 			};
 		});
