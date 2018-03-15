@@ -98,12 +98,14 @@ public class GameScreen implements Screen {
 		tables[0].setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		int scoreLabelPositionY = 630;
 
-		for (int i = 0; i < Game.getNumberOfPlayers(); i++) {
+		for(int i = 0; i < Game.getNumberOfPlayers(); i++) {
 			tables[i + 1] = new Table();
-			scoreLabels[i] = new Label("", new Label.LabelStyle(font, Color.WHITE));
+			scoreLabels[i] = new Label("",new Label.LabelStyle(font,Color.WHITE));
+			scoreLabels[i].setFontScale(0.7f);
 			scoreLabels[i].setPosition(1205, scoreLabelPositionY);
-			playerNames[i] = new Label(players.removeFirst(), new Label.LabelStyle(font, Color.WHITE));
-			playerNames[i].setPosition(1078, scoreLabelPositionY - 11.0f);
+			playerNames[i] = new Label(Game.getPlayers().get(i).getPlayerName() ,new Label.LabelStyle(font,Color.WHITE));
+			playerNames[i].setPosition(1078, scoreLabelPositionY-11.0f);
+			playerNames[i].setFontScale(0.7f);
 			playerNames[i].setWidth(100.0f);
 			playerNames[i].setAlignment(Align.center);
 
