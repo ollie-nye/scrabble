@@ -26,34 +26,15 @@ public class Board {
 	 * Singleton pattern instance variable
 	 */
 	private static Board instance = null;
-
-    /**
-     * Scoring system
-     */
-	private static Score score = new Score();
-	
-	/**
-	 * 	 
-	 * If the first word has been played, this is true. Used in validation
-	 */
-	public static boolean firstWordPlayed = false;
-	
-	/**
-	 * Validator for testing words. New validator is a new word
-	 */
-	private NewValidator validator = new NewValidator(this);
-	
-	/**
-	 * One half of the variable pair that makes up a move
-	 */
-	private Coordinate partialPlace = null;
-	
 	/**
 	 * Other half of the variable pair that makes up a move
 	 */
 	private Tile partialTile = null;
-
-    private static int boardSizeX = 15;
+	/**
+	 * Letters played by the players
+	 */
+	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
+	private static int boardSizeX = 15;
     private static int boardSizeY = 15;
 
     /**
@@ -74,20 +55,7 @@ public class Board {
             }
         }
     }
-	
-	/**
-	 * Recreates the validator for a new word
-	 */
-	public void validatorReset(){
-		validator = new NewValidator(this);
-	}
 
-	/**
-	 * Letters played by the players
-	 */
-	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
-
-	
 	/**
 	 * Gets the tile at the given coordinate
 	 * @param location
@@ -106,32 +74,14 @@ public class Board {
      * @return tile     removed tile
      */
 	public void removeTile(Coordinate location) {
-        Tile tile = getTile(location);
-	    if(Game.getCurrentMove().getPlayedTiles().containsKey(tile)) {
-            letters[location.getX()][location.getY()] = null;
-            Game.getCurrentMove().removeTile(tile, location);
-            Game.getCurrentPlayer().returnTile(tile);
-        }
+        letters[location.getX()][location.getY()] = null;
 	}
-	
-	/**
-	 * Places the tile at the given coordinates if both partialPlace variables are set
-	 * @param tile     Tile to play
-     * @param coordinate Coordinate of tile.
-	 * @return          Result of the play
-	 */
+
 	public void place(Tile tile, Coordinate coordinate) {
-		Result res = validator.validateMove(new Letter(tile, coordinate));
-		Player player = Game.getCurrentPlayer();
-		if (res.isLegal()) {
-			letters[coordinate.getX()][coordinate.getY()] = tile;
-			player.removeTile(tile);
-			Game.getCurrentMove().addTile(tile, coordinate);
-		}
-        partialTile  = null;
-		partialPlace = null;
+		letters[coordinate.getX()][coordinate.getY()] = tile;
 	}
-	
+
+	//TODO: Can be swapped to just use place method now instead of this test method.
 	public void testPlace(Letter letter) {
 		letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getTile();
 	}
@@ -146,28 +96,15 @@ public class Board {
 	
 	/**
 	 * Specifies the coordinate that has been clicked for the next tile placement
-	 * @param x		X of tile clicked
-	 * @param y		Y of tile clicked
+     * @param coordinate
 	 */
-	public void partialPlace(int x, int y) {
-		partialPlace = new Coordinate(x, y);
-		try {
-            if (partialTile != null) { //both required elements are provided
-                place(partialTile, partialPlace);
-            } else {
-                //throw new Exception("Tile is null");
-            }
-        }
-        catch (Exception e) {
-		    e.printStackTrace();
+	public void partialPlace(Coordinate coordinate) {
+		if (coordinate != null) { //both required elements are provided
+            Game.getCurrentMove().addTile(partialTile, coordinate);
         }
 	}
 
-	/**
-	 * Returns the last result for validation checks
-	 * @return		Result containing the last validation check
-	 */
-	public Result getLastResult() {
-		return this.validator.getLastResult();
+	public void resetPartial() {
+		partialTile = null;
 	}
 }

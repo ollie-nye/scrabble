@@ -24,11 +24,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import com.scrabble.game.BoardButton;
-import com.scrabble.game.ButtonBase.ButtonBaseStyle;
 import com.scrabble.game.PlayerButton;
 import com.scrabble.game.ScrabbleButton;
 import com.scrabble.game.ScrabbleButton.ScrabbleButtonStyle;
 import data.Coordinate;
+import data.Timer;
 import scrabble.Game;
 import screens.ScrabbleLauncher;
 import java.util.Random;
@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
 	private Random random;
 	private ScrabbleLauncher game;
 	private Table endLabel, endPlayerTurn;
+	private Label timer;
 
 	// for test purposes only
 	private boolean deplete;
@@ -98,7 +99,15 @@ public class GameScreen implements Screen {
 		tables[0].setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		int scoreLabelPositionY = 630;
 
-		for(int i = 0; i < Game.getNumberOfPlayers(); i++) {
+		// Timer
+		timer = new Label("", new Label.LabelStyle(font,Color.BLACK));
+		timer.setFontScale(0.8f);
+        timer.setPosition(135, 668);
+        timer.setAlignment(Align.center);
+        stage.addActor(timer);
+        timer.setVisible(true);
+
+        for(int i = 0; i < Game.getNumberOfPlayers(); i++) {
 			tables[i + 1] = new Table();
 			scoreLabels[i] = new Label("",new Label.LabelStyle(font,Color.WHITE));
 			scoreLabels[i].setFontScale(0.7f);
@@ -107,7 +116,7 @@ public class GameScreen implements Screen {
 			playerNames[i].setPosition(1078, scoreLabelPositionY-11.0f);
 			playerNames[i].setFontScale(0.7f);
 			playerNames[i].setWidth(100.0f);
-			playerNames[i].setAlignment(Align.center);
+			playerNames[i].setAlignment(Align.left);
 
 			scoreLabelPositionY -= 25;
 			stage.addActor(scoreLabels[i]);
@@ -443,6 +452,8 @@ public class GameScreen implements Screen {
 		for (int i = 0; i < scoreLabels.length; i++) {
 			scoreLabels[i].setText(Integer.toString(Game.getPlayers().get(i).getScore()));
 		}
+
+		timer.setText(Timer.timeFormatter(Timer.getTimeLeft()));
 
 		if (Game.getLetterBag().isEmpty()) {
 			endGame.setVisible(true);

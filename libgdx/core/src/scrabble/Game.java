@@ -2,11 +2,12 @@ package scrabble;
 
 import data.Move;
 import data.Result;
+import data.Timer;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 import validation.NewValidator;
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -27,6 +28,7 @@ public class Game {
     private static Move currentMove;
     private static Player currentPlayer;
     private static int numberOfPlayers;
+    private static int turmTime = 90;
     private static NewValidator validator = new NewValidator(Board.getInstance());
 
 
@@ -116,22 +118,29 @@ public class Game {
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
-        Result lastResult = Board.getInstance().getLastResult();
-        if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
-        	if (validator.testConnectedWords(currentMove)) { //connected to other words {}
-        		Board.getInstance().validatorReset();
-                currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
+        if(Timer.getTimeLeft() > 0) {
+            Result lastResult = currentMove.getResult();
+            if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
+                if (validator.testConnectedWords(currentMove)) { //connected to other words {}
+                    Board.getInstance().resetPartial();
+                    currentMove.endMove();
+                    currentMove = null;
+                    currentPlayer = null;
+                }
+            } else if (lastResult == null && currentMove.getPlayedTiles().size() == 0 && Timer.getTimeLeft() > 0) {
+                JOptionPane.showMessageDialog(null, "Do you want to end?", "Error", JOptionPane.INFORMATION_MESSAGE);
+                Board.getInstance().resetPartial();
+                currentMove.endMove();
                 currentMove = null;
-                currentPlayer.addTiles();
-        	}
-        } else if(lastResult == null && currentMove.getPlayedTiles().size() == 0){
-            JOptionPane.showMessageDialog(null, "Do you want to end?", "Error", JOptionPane.INFORMATION_MESSAGE);
-            Board.getInstance().validatorReset();
-            currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
-            currentMove = null;
-            currentPlayer.addTiles();
+                currentPlayer = null;
+            } else {
+                JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            Board.getInstance().resetPartial();
+            currentMove.invalidateMove();
+            currentMove = null;
+            currentPlayer = null;
         }
     }
     /**
@@ -140,6 +149,10 @@ public class Game {
      */
     public static Move getCurrentMove() {
         return currentMove;
+    }
+
+    public static int getTurmTime() {
+        return turmTime;
     }
 
 
@@ -154,9 +167,5 @@ public class Game {
 
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
-    }
-
-    public static boolean isFirstTurn() {
-    	return (MOVE_LIST.size() == 1);
     }
 }

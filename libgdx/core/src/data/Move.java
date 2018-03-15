@@ -1,27 +1,31 @@
 package data;
 
 import player.Player;
+import scrabble.Board;
 import scrabble.Score;
+import validation.NewValidator;
 import java.util.HashMap;
-import data.Timer;
 
 /**
  * Move object contains all played letters in a turn (move), the word played,
  * the current score of the turn and who played the turn.
  * @author Tom Geraghty
- * @version 1.1
+ * @version 1.2
  */
 public class Move {
     private final static Score SCORE_CALCULATOR = new Score();
     private final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
+    private final NewValidator validator = new NewValidator(Board.getInstance());
     private final Player player;
-    private String playedWord;
-    private int moveScore;
+    private String playedWord = "";
     private int wordMultiplier = 1;
+    private int moveTime;
+    private int moveScore;
 
 
     public Move(Player player) {
         this.player = player;
+        new Thread(new Timer()).start();
     }
 
     /* PLAYED TILES */
@@ -32,7 +36,12 @@ public class Move {
      * @param   coordinate    Coordinate of played Tile
      */
     public void addTile(Tile tile, Coordinate coordinate) {
-        playedTiles.put(tile, coordinate);
+        Result placeResult = validator.validateMove(new Letter(tile, coordinate));
+        if (placeResult.isLegal()) {
+            Board.getInstance().place(tile, coordinate);
+            playedTiles.put(tile, coordinate);
+            player.removeTile(tile);
+        }
         moveScore += SCORE_CALCULATOR.calculateScore(tile, coordinate);
         wordMultiplier *= SCORE_CALCULATOR.getWordMultiplier(coordinate);
     }
@@ -40,11 +49,14 @@ public class Move {
      * Removes Tile from Move (Tile has been returned to Player hand and has not been played)
      *
      * @param   tile          Tile to remove
-     * @param   coordinate    Coordinate of Tile to remove.
      */
-    public void removeTile(Tile tile, Coordinate coordinate) {
-        playedTiles.remove(tile);
-        moveScore -= SCORE_CALCULATOR.calculateScore(tile, coordinate);
+    public void removeTile(Tile tile) {
+        if(playedTiles.containsKey(tile)) {
+            moveScore -= SCORE_CALCULATOR.calculateScore(tile, playedTiles.get(tile));
+            Board.getInstance().removeTile(playedTiles.get(tile));
+            player.returnTile(tile);
+            playedTiles.remove(tile);
+        }
     }
     /**
      * Returns all Tiles played in this Move.
@@ -96,10 +108,27 @@ public class Move {
         return moveScore * wordMultiplier;
     }
 
-    public int getMoveTime() {
-        Timer timer = new Timer();
-        new Thread(timer).start();
+    /* MOVE FUNCTIONS */
+    public void endMove() {
+        moveTime = Timer.getTime();
+        this.playedWord = playedWord;
+        player.setScore(player.getScore() + getMoveScore());
+        player.addTiles();
+    }
+    public void invalidateMove() {
+        moveScore = 0;
+        playedWord = "";
+        moveTime = Timer.getTime();
 
-        return timer.getTime();
+        HashMap<Tile, Coordinate> tempMap = new HashMap<>(playedTiles);
+        for(Tile tile : tempMap.keySet()) {
+            removeTile(tile);
+        }
+    }
+    public int getMoveTime() {
+        return moveTime;
+    }
+    public Result getResult() {
+        return validator.getLastResult();
     }
 }
