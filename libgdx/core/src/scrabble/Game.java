@@ -27,6 +27,7 @@ public class Game {
     private static Move currentMove;
     private static Player currentPlayer;
     private static int numberOfPlayers;
+    private static int turmTime = 90;
     private static NewValidator validator = new NewValidator(Board.getInstance());
 
 
@@ -121,6 +122,7 @@ public class Game {
         	if (validator.testConnectedWords(currentMove)) { //connected to other words {}
         		Board.getInstance().validatorReset();
                 currentPlayer.setScore(currentPlayer.getScore() + currentMove.getMoveScore());
+                System.out.println(currentMove.getMoveTime());
                 currentMove = null;
                 currentPlayer.addTiles();
         	}
@@ -142,6 +144,10 @@ public class Game {
         return currentMove;
     }
 
+    public static int getTurmTime() {
+        return turmTime;
+    }
+
 
     /* GAME PIECES */
     /**
@@ -155,6 +161,8 @@ public class Game {
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
     }
+
+
 
     public static boolean isFirstTurn() {
     	return (MOVE_LIST.size() == 1);

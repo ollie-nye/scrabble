@@ -3,7 +3,6 @@ package data;
 import player.Player;
 import scrabble.Score;
 import java.util.HashMap;
-import data.Timer;
 
 /**
  * Move object contains all played letters in a turn (move), the word played,
@@ -16,12 +15,14 @@ public class Move {
     private final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
     private final Player player;
     private String playedWord;
+    private int moveTime;
     private int moveScore;
     private int wordMultiplier = 1;
 
 
     public Move(Player player) {
         this.player = player;
+        new Thread(new Timer()).start();
     }
 
     /* PLAYED TILES */
@@ -97,9 +98,6 @@ public class Move {
     }
 
     public int getMoveTime() {
-        Timer timer = new Timer();
-        new Thread(timer).start();
-
-        return timer.getTime();
+        return moveTime;
     }
 }
