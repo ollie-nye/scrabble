@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
 	private Stage stage;
 	private Texture BoardBackground;
 	private SpriteBatch BoardBatch;
-	private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle, plainButtonStyle;
+	private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle, plainButtonStyle, shuffleButtonStyle;
 	private LabelStyle labelStyle;
 	private BitmapFont font;
 	private Skin skin;
@@ -57,7 +57,7 @@ public class GameScreen implements Screen {
 	private ScrabbleLauncher game;
 	private Table endLabel, endPlayerTurn;
 	private Label timer;
-
+	private ScrabbleButtonStyle redButtonStyle, blueButtonStyle, orangeButtonStyle, greenButtonStyle, brownButtonStyle;
 	// for test purposes only
 	private boolean deplete;
 
@@ -68,11 +68,8 @@ public class GameScreen implements Screen {
 	private Label[] playerNames = new Label[Game.getNumberOfPlayers()];
 	// tracking players who have ended the game
 	private int playersEnded = Game.getNumberOfPlayers();
-	private ScrabbleButtonStyle redButtonStyle;
-	private ScrabbleButtonStyle blueButtonStyle;
-	private ScrabbleButtonStyle orangeButtonStyle;
-	private ScrabbleButtonStyle greenButtonStyle;
-	private TextButtonStyle shuffleButtonStyle;
+	
+	
 
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
@@ -135,6 +132,7 @@ public class GameScreen implements Screen {
 				* blue = x2 word
 				* orange = x2 letter
 				* green = x3 letter
+				* yellow = starting position
 				*/
 				if((i==0 && j == 0)  || (i==7 && j == 0) || 
 				   (i==14 && j == 0) || (i==0 && j == 7) || 
@@ -166,6 +164,8 @@ public class GameScreen implements Screen {
 						  (i==13 && j == 5)|| (i==13 && j == 9))
 				{
 					scrabbleButton.setStyle(greenButtonStyle);
+				} else if (i==7 && j ==7){
+					scrabbleButton.setStyle(brownButtonStyle);
 				}
 				
 				stage.addActor(scrabbleButton);
@@ -367,6 +367,13 @@ public class GameScreen implements Screen {
 		redButtonStyle.down = skin.getDrawable("redButtonHover");
 		redButtonStyle.over = skin.getDrawable("redButtonHover");
 		redButtonStyle.font = font;
+		
+		brownButtonStyle = new ScrabbleButtonStyle();
+		brownButtonStyle.up = skin.getDrawable("brownButton");
+		brownButtonStyle.checked = skin.getDrawable("brownButtonPressed");
+		brownButtonStyle.down = skin.getDrawable("brownButtonHover");
+		brownButtonStyle.over = skin.getDrawable("brownButtonHover");
+		brownButtonStyle.font = font;
 		// shuffle button
 		shuffleButtonStyle = new TextButtonStyle();
 		shuffleButtonStyle.up = skin.getDrawable("shuffleButton");
