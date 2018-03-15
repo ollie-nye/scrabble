@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import assetmanager.assetManager;
@@ -45,6 +46,16 @@ public class ResultsScreen implements Screen {
 	private int[] finalScores;
 	private int[] penalties;
 	private Tile[][] remainingTiles;
+	private float deltaTime, timer, penaltiesTimer;
+	private int[] addingPenalties;
+	private int[] tallyPenalties;
+
+	private boolean[] timings;
+
+	private Label[] p1CurrentScore, p1FinalScore, p1ScoreLoss;
+	private Label[][] p1LettersLeft;
+
+	private float letterCounter;
 
 	public ResultsScreen(ScrabbleLauncher game) {
 
@@ -108,6 +119,20 @@ public class ResultsScreen implements Screen {
 		for (int i = 0; i < Game.getNumberOfPlayers(); i++) {
 			finalScores[i] = currentScores[i] - penalties[i];
 		}
+		p1LettersLeft = new Label[Game.getNumberOfPlayers()][];
+		p1CurrentScore = new Label[Game.getNumberOfPlayers()];
+		p1FinalScore = new Label[Game.getNumberOfPlayers()];
+		p1ScoreLoss = new Label[Game.getNumberOfPlayers()];
+		timer = 0;
+		addingPenalties = new int[Game.getNumberOfPlayers()];
+		for (int set : addingPenalties) {
+			set = 0;
+		}
+		tallyPenalties = new int[Game.getNumberOfPlayers()];
+		for (int set : tallyPenalties) {
+			set = 0;
+		}
+		letterCounter = 0.0f;
 
 	}
 
@@ -115,17 +140,17 @@ public class ResultsScreen implements Screen {
 	public void show() {
 
 		resultsTable = new Table();
-		resultsTable.add(playerScorecard(names[0], currentScores[0], penalties[0], finalScores[0], remainingTiles[0]));
-		resultsTable.add(playerScorecard(names[1], currentScores[1], penalties[1], finalScores[1], remainingTiles[1]));
-		if (Game.getNumberOfPlayers() > 2) {
-			resultsTable.row();
-			resultsTable
-					.add(playerScorecard(names[2], currentScores[2], penalties[2], finalScores[2], remainingTiles[2]));
-		}
-		if (Game.getNumberOfPlayers() > 3) {
-			resultsTable
-					.add(playerScorecard(names[3], currentScores[3], penalties[3], finalScores[3], remainingTiles[3]));
-		}
+		resultsTable.add(player1Scorecard(0));
+		resultsTable.add(player1Scorecard(1));
+		/*
+		 * resultsTable.add(playerScorecard(names[1], currentScores[1],
+		 * penalties[1], finalScores[1], remainingTiles[1])); if
+		 * (Game.getNumberOfPlayers() > 2) { resultsTable.row(); resultsTable
+		 * .add(playerScorecard(names[2], currentScores[2], penalties[2],
+		 * finalScores[2], remainingTiles[2])); } if (Game.getNumberOfPlayers()
+		 * > 3) { resultsTable .add(playerScorecard(names[3], currentScores[3],
+		 * penalties[3], finalScores[3], remainingTiles[3])); }
+		 */
 		resultsTable.pack();
 
 		resultsTable.setPosition((1280.0f - resultsTable.getWidth()) * 0.5f,
@@ -136,11 +161,124 @@ public class ResultsScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		deltaTime = Gdx.graphics.getDeltaTime();
+		timer += deltaTime;
+		addPenalties();
+		getCurrent(timer - 2);
+
+		tileTimer(timer - 7);
+
 		stage.getBatch().begin();
 		stage.getBatch().draw(background, 0, 0);
 		stage.getBatch().end();
 		stage.draw();
 		stage.act();
+	}
+
+	public void addPenalties() {
+		for (int i = 0; i < addingPenalties.length; i++) {
+			if (addingPenalties[i] > 0) {
+				addingPenalties[i] -= (deltaTime * 15.0f);
+				tallyPenalties[i] += (deltaTime * 15.0f);
+				p1ScoreLoss[i].setText(Integer.toString((int) tallyPenalties[i]));
+			}
+		}
+	}
+
+	/*
+	 * scheduling currentScores appearance
+	 */
+	public void getCurrent(float timer) {
+
+		if (timer > 0) {
+			for (int i = 0; i < p1CurrentScore.length; i++) {
+				if ((int) letterCounter <= currentScores[i]) {
+					System.out.println(letterCounter);
+					p1CurrentScore[i].setText(Integer.toString((int) letterCounter));
+				} else {
+					p1CurrentScore[i].setText(Integer.toString(currentScores[i]));
+				}
+			}
+			letterCounter += deltaTime * 15.0f;
+		}
+		System.out.print(letterCounter);
+
+	}
+
+	/*
+	 * scheduling the appearances of unplayed tiles
+	 */
+	public void tileTimer(float timer) {
+		if (timer >= 1) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 0) {
+					if (p1LettersLeft[i][0].isVisible() == false) {
+						p1LettersLeft[i][0].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][0].getScore();
+					}
+				}
+			}
+		}
+		if (timer >= 1.5) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 1) {
+					if (p1LettersLeft[i][1].isVisible() == false) {
+						p1LettersLeft[i][1].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][1].getScore();
+					}
+				}
+			}
+		}
+		if (timer >= 2.0) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 2) {
+					if (p1LettersLeft[i][2].isVisible() == false) {
+						p1LettersLeft[i][2].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][2].getScore();
+					}
+				}
+			}
+		}
+		if (timer >= 2.5) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 3) {
+					if (p1LettersLeft[i][3].isVisible() == false) {
+						p1LettersLeft[i][3].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][3].getScore();
+					}
+				}
+			}
+		}
+		if (timer >= 3.0) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 4) {
+					if (p1LettersLeft[i][4].isVisible() == false) {
+						p1LettersLeft[i][4].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][4].getScore();
+					}
+				}
+			}
+		}
+		if (timer >= 3.5) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 5) {
+					if (p1LettersLeft[i][5].isVisible() == false) {
+						p1LettersLeft[i][5].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][5].getScore();
+					}
+				}
+			}
+		}
+		if (timer >= 4.0) {
+			for (int i = 0; i < p1LettersLeft.length; i++) {
+				if (p1LettersLeft[i].length > 6) {
+					if (p1LettersLeft[i][6].isVisible() == false) {
+						p1LettersLeft[i][6].setVisible(true);
+						addingPenalties[i] += remainingTiles[i][6].getScore();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -178,7 +316,7 @@ public class ResultsScreen implements Screen {
 
 	}
 
-	private Table playerScorecard(String name, int currentScores, int penalty, int finalScores, Tile[] tiles) {
+	private Table player1Scorecard(int x) {
 
 		// +CREATING FULL PLAYER SCORECARD
 		Table player = new Table();
@@ -188,24 +326,31 @@ public class ResultsScreen implements Screen {
 
 		// player names at top of players box;
 		// ++PLAYER NAME ROW
-		Label playerName = new Label(name, labelStyle);
+		Label playerName = new Label(names[x], labelStyle);
 		playerName.setAlignment(Align.center);
 		player.add(playerName).colspan(2).expandX().width(500.0f);
 		player.row();
-
 		// --PLAYER NAME ROW
+
+		// ++END TILE COLLECTION HEADER
+		Label endTileHeader = new Label("Tiles left in players hand", labelStyle2);
+		playerName.setAlignment(Align.center);
+		player.add(endTileHeader).colspan(2).expandX().fill();
+		player.row();
+		// --END TILE COLLECTION HEADER
 
 		// this is the list of letters that the player had left;
 		// ++LIST OF TILES LEFT FOR PLAYER
 		Table letters = new Table();
-		Label[] lettersLeft = new Label[tiles.length];
-		for (int i = 0; i < tiles.length; i++) {
-			lettersLeft[i] = new Label(tiles[i].getContent(), labelStyle1);
-			lettersLeft[i].setFontScale(0.7f);
-			lettersLeft[i].setAlignment(Align.center);
-			letters.add(lettersLeft[i]).size(40.0f, 40.0f).expand();
+		p1LettersLeft[x] = new Label[remainingTiles[x].length]; // letterLeft
+		for (int i = 0; i < remainingTiles[x].length; i++) {
+			p1LettersLeft[x][i] = new Label(remainingTiles[x][i].getContent(), labelStyle1);
+			p1LettersLeft[x][i].setFontScale(0.7f);
+			p1LettersLeft[x][i].setAlignment(Align.center);
+			letters.add(p1LettersLeft[x][i]).size(40.0f, 40.0f).expand();
+			p1LettersLeft[x][i].setVisible(false);
 		}
-		if (tiles.length == 0){
+		if (remainingTiles[x].length == 0) {
 			Label allTilesGone = new Label("You Played All Your Tiles!", labelStyle1);
 			allTilesGone.setAlignment(Align.center);
 			letters.add(allTilesGone).expandX().height(40.0f).fill();
@@ -228,22 +373,21 @@ public class ResultsScreen implements Screen {
 
 		// this shows the actual score numbers
 		// ++SCORES TO CALCULATE
-		Label currentScore = new Label(Integer.toString(currentScores), labelStyle1);
-		Label scoreLoss = new Label(Integer.toString(penalty), labelStyle);
-		currentScore.setAlignment(Align.center);
-		scoreLoss.setAlignment(Align.center);
-		player.add(currentScore).expand().fill();
-		player.add(scoreLoss).expand().fill();
+		p1CurrentScore[x] = new Label(" ", labelStyle1);
+		p1ScoreLoss[x] = new Label(" ", labelStyle);
+		p1CurrentScore[x].setAlignment(Align.center);
+		p1ScoreLoss[x].setAlignment(Align.center);
+		player.add(p1CurrentScore[x]).expand().fill();
+		player.add(p1ScoreLoss[x]).expand().fill();
 		player.row();
 		// --SCORES TO CALCULATE
 
 		// ++FINAL SCORES
-		Label finalScore = new Label("Final Score: " + finalScores, labelStyle);
-		finalScore.setAlignment(Align.center);
-		player.add(finalScore).colspan(2).expandX().fill().height(50.0f).expandY();
+		p1FinalScore[x] = new Label("Final Score:   " + finalScores[x], labelStyle);
+		p1FinalScore[x].setAlignment(Align.center);
+		player.add(p1FinalScore[x]).colspan(2).expandX().fill().height(50.0f).expandY();
 		// --FINAL SCORES
 		player.pack();
 		return player;
 	}
-
 }
