@@ -8,7 +8,7 @@ public class Timer implements Runnable {
     public void run() {
         while(Game.getCurrentMove() != null) {
             try {
-                Thread.sleep(970);
+                Thread.sleep(1000);
                 time++;
                 if(time == Game.getTurmTime()) {
                     Game.endTurn();
@@ -33,7 +33,7 @@ public class Timer implements Runnable {
         int seconds = time % 60;
 
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(String.format("|%02d|:|%02d|",minutes,seconds));
+        stringBuffer.append(String.format("|%02d|.|%02d|",minutes,seconds));
 
         return stringBuffer.toString();
     }
