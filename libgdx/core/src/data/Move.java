@@ -41,9 +41,11 @@ public class Move {
             Board.getInstance().place(tile, coordinate);
             playedTiles.put(tile, coordinate);
             player.removeTile(tile);
+            moveScore += SCORE_CALCULATOR.calculateScore(tile, coordinate);
+            wordMultiplier *= SCORE_CALCULATOR.getWordMultiplier(coordinate);
+        } else {
+            Board.getInstance().removeTile(coordinate);
         }
-        moveScore += SCORE_CALCULATOR.calculateScore(tile, coordinate);
-        wordMultiplier *= SCORE_CALCULATOR.getWordMultiplier(coordinate);
     }
     /**
      * Removes Tile from Move (Tile has been returned to Player hand and has not been played)

@@ -104,6 +104,10 @@ public class Board {
         }
 	}
 
+	public Tile getPartialTile() {
+	    return partialTile;
+    }
+
 	public void resetPartial() {
 		partialTile = null;
 	}

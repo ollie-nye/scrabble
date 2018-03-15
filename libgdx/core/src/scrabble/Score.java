@@ -16,7 +16,7 @@ public class Score {
      * l - letter multiplier
      * w - word multiplier
      */
-    private char[][] types = new char[][]{
+    private char[][] multiplierType = new char[][]{
             {'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
             {'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},
             {'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n'},
@@ -41,7 +41,7 @@ public class Score {
      * 2 - 2x multiplication
      * 3 - 3x multiplication
      */
-    private int[][] scores = new int[][]{
+    private int[][] multiplierScore = new int[][]{
             {3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3},
             {0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
             {0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
@@ -69,9 +69,9 @@ public class Score {
      * @return score        Board score of tile
      */
     public int calculateScore(Tile tile, Coordinate coordinate) {
-        switch (types[coordinate.getX()][coordinate.getY()]) {
+        switch (multiplierType[coordinate.getX()][coordinate.getY()]) {
             case 'l':
-                return tile.getScore() * scores[coordinate.getX()][coordinate.getY()];
+                return tile.getScore() * multiplierScore[coordinate.getX()][coordinate.getY()];
             case 'n': default:
                 return tile.getScore();
         }
@@ -85,11 +85,19 @@ public class Score {
      * @return multiplier      Multiplier value
      */
     public int getWordMultiplier(Coordinate coordinate) {
-        switch (types[coordinate.getX()][coordinate.getY()]) {
+        switch (multiplierType[coordinate.getX()][coordinate.getY()]) {
             case 'w':
-                return scores[coordinate.getX()][coordinate.getY()];
+                return multiplierScore[coordinate.getX()][coordinate.getY()];
             default:
                 return 1;
         }
+    }
+
+    public char[][] getMultiplierType() {
+        return multiplierType;
+    }
+
+    public int[][] getMultiplierScore() {
+        return multiplierScore;
     }
 }
