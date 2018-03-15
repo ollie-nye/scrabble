@@ -109,9 +109,14 @@ public class Game {
         currentMove = new Move(currentPlayer);
         MOVE_LIST.add(currentMove);
 
-        if (currentPlayer.allTurnsFinished() == true){
-        	startTurn();
+        if(!(currentPlayer instanceof HumanPlayer)) {
+            currentPlayer.play();
         }
+
+        //TODO: figure out this cyclic logic?
+        //if (currentPlayer.allTurnsFinished() == true){
+        //	startTurn();
+        //}
     }
     /**
      * Ends current turn, increments Player score by the score of the Move.

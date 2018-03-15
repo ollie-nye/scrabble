@@ -113,4 +113,6 @@ public abstract class Player {
     public void finishedAllTurns(){
     	finishedAllTurns = true;
     }
+
+    public abstract void play();
 }

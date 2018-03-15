@@ -12,10 +12,13 @@ public class HumanPlayer extends Player {
      * Adds 7 letters from LetterBag to player's collection of letters.
      *
      * @param   name    Player username string
-     * @see         player.Player
+     * @see     player.Player
      */
 	public HumanPlayer(String name) {
         super();
 		setPlayerName(name);
+    }
+
+    public void play() {
     }
 }
