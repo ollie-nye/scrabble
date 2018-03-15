@@ -27,8 +27,6 @@ public class PlayerButton extends ScrabbleButton {
      */
     public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, Player player) {
         super(style);
-
-        //this.playerNumber = playerNumber - 1;
         this.coordinate = coordinate;
         this.player = player;
     }
@@ -50,24 +48,24 @@ public class PlayerButton extends ScrabbleButton {
             setText("");
             score.setText("");
         }
-
         if (!isPressed()) {
             isPressed = false;
         }
-
         fontColour();
         super.draw(batch, parentAlpha);
     }
 
-    public void placeTile() {
+    private void placeTile() {
         // Placing the tile
         if (player == Game.getCurrentPlayer() && player instanceof HumanPlayer) {
             Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
             isPressed = true;
+        } else {
+            Board.getInstance().resetPartial();
         }
     }
 
-    public void drawTileContent() {
+    private void drawTileContent() {
         if(player == Game.getCurrentPlayer()) {
             if (player.getTiles()[coordinate.getX()] == null) {
                 setText("");

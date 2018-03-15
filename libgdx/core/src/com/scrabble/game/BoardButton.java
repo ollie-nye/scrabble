@@ -34,14 +34,7 @@ public class BoardButton extends ScrabbleButton {
      */
     @Override
 	public void draw (Batch batch, float parentAlpha) {
-        // Setting the text for the tiles on the board
-        if (Board.getInstance().getTile(coordinate) == null){
-            setText("");
-            score.setText("");
-        } else {
-            setText(Board.getInstance().getTile(coordinate).getContent());
-            score.setText(Integer.toString(Board.getInstance().getTile(coordinate).getScore()));
-        }
+        drawTileContent();
 
         if (isPressed() && !isPressed) {
             buttonClicked();
@@ -54,7 +47,7 @@ public class BoardButton extends ScrabbleButton {
         super.draw(batch, parentAlpha);
     }
 
-    public void buttonClicked() {
+    private void buttonClicked() {
         if (Game.getCurrentMove() != null) {
             if(Board.getInstance().getTile(coordinate) == null && Board.getInstance().getPartialTile() != null) {
                 Board.getInstance().partialPlace(coordinate);
@@ -62,6 +55,15 @@ public class BoardButton extends ScrabbleButton {
                 Game.getCurrentMove().removeTile(Board.getInstance().getTile(coordinate));
             }
             isPressed = true;
+        }
+    }
+    private void drawTileContent() {
+        if (Board.getInstance().getTile(coordinate) == null){
+            setText("");
+            score.setText("");
+        } else {
+            setText(Board.getInstance().getTile(coordinate).getContent());
+            score.setText(Integer.toString(Board.getInstance().getTile(coordinate).getScore()));
         }
     }
 }
