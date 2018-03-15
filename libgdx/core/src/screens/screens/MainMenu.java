@@ -387,7 +387,7 @@ public class MainMenu implements Screen {
 						Game.addPlayer(playerNameEntry[i].getText(), 1);
 					}
 					for (int i = 0; i < aiNumber; i++) {
-						Game.addPlayer("AI " + i, 2);
+						Game.addPlayer("Bot " + i, 2);
 					}
 					Game.start();
 

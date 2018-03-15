@@ -3,6 +3,8 @@ package com.scrabble.game;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import data.Coordinate;
 import player.AIPlayer;
+import player.HumanPlayer;
+import player.Player;
 import scrabble.Board;
 import scrabble.Game;
 
@@ -14,7 +16,7 @@ import scrabble.Game;
 public class PlayerButton extends ScrabbleButton {
     private final Coordinate coordinate;
     private boolean isPressed = false;
-    private final int playerNumber;
+    private final Player player;
 
     /**
      * Calls super (ScrabbleButton), passing the Style to it.
@@ -22,13 +24,13 @@ public class PlayerButton extends ScrabbleButton {
      *
      * @param style             Style of button
      * @param coordinate        Coordinate of button
-     * @param playerNumber      Player who button belongs too (remove 1 from number)
      */
-    public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, int playerNumber) {
+    public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, Player player) {
         super(style);
 
-        this.playerNumber = playerNumber - 1;
+        //this.playerNumber = playerNumber - 1;
         this.coordinate = coordinate;
+        this.player = player;
     }
 
     /**
@@ -39,22 +41,14 @@ public class PlayerButton extends ScrabbleButton {
      */
     @Override
 	public void draw(Batch batch, float parentAlpha) {
-        // Setting the text for tiles in a players hand
-        if (Game.getPlayers().get(playerNumber).getTiles()[coordinate.getX()] == null) {
+        if(Game.getCurrentMove() != null) {
+            drawTileContent();
+            if (isPressed() && !isPressed) {
+                placeTile();
+            }
+        } else {
             setText("");
             score.setText("");
-        } else {
-            if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer() && Game.getCurrentMove() != null) {
-                setText(Game.getPlayers().get(playerNumber).getTiles()[coordinate.getX()].getContent());
-                score.setText(Integer.toString(Game.getCurrentPlayer().getTiles()[coordinate.getX()].getScore()));
-            } else {
-                setText("");
-                score.setText("");
-            }
-        }
-
-        if(!(Game.getCurrentPlayer() instanceof AIPlayer || Game.getCurrentMove() == null)) {
-            placeTile();
         }
 
         if (!isPressed()) {
@@ -67,11 +61,21 @@ public class PlayerButton extends ScrabbleButton {
 
     public void placeTile() {
         // Placing the tile
-        if (Game.getPlayers().get(playerNumber) == Game.getCurrentPlayer()) {
-            if (isPressed() && !isPressed) {
-                Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
-            }
+        if (player == Game.getCurrentPlayer() && player instanceof HumanPlayer) {
+            Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
             isPressed = true;
+        }
+    }
+
+    public void drawTileContent() {
+        if(player == Game.getCurrentPlayer()) {
+            if (player.getTiles()[coordinate.getX()] == null) {
+                setText("");
+                score.setText("");
+            } else {
+                setText(player.getTiles()[coordinate.getX()].getContent());
+                score.setText(Integer.toString(player.getTiles()[coordinate.getX()].getScore()));
+            }
         }
     }
 }

@@ -424,7 +424,7 @@ public class GameScreen implements Screen {
 	private void setupPlayerLetters(int player, boolean vertical) {
 		ScrabbleButton scrabbleButton;
 		for (int i = 0; i < 7; i++) {
-			scrabbleButton = new PlayerButton(scrabbleButtonStyle, new Coordinate(i, 1), player);
+			scrabbleButton = new PlayerButton(scrabbleButtonStyle, new Coordinate(i, 1), Game.getPlayers().get(player - 1));
 			scrabbleButton.setSize(36.4f, 36.4f);
 			stage.addActor(scrabbleButton);
 			if (vertical) {

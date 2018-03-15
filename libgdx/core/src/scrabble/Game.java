@@ -111,8 +111,7 @@ public class Game {
 
         if (currentPlayer.allTurnsFinished() == true){
         	startTurn();
-        };
-        currentMove.getMoveTime();
+        }
     }
     /**
      * Ends current turn, increments Player score by the score of the Move.

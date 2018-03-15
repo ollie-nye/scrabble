@@ -43,7 +43,9 @@ public class BoardButton extends ScrabbleButton {
             score.setText(Integer.toString(Board.getInstance().getTile(coordinate).getScore()));
         }
 
-        placeTile();
+        if (isPressed() && !isPressed) {
+            buttonClicked();
+        }
 
         if (!isPressed()){
             isPressed = false;
@@ -52,9 +54,9 @@ public class BoardButton extends ScrabbleButton {
         super.draw(batch, parentAlpha);
     }
 
-    public void placeTile() {
-        if (isPressed() && !isPressed && Game.getCurrentMove() != null) {
-            if(Board.getInstance().getTile(coordinate) == null) {
+    public void buttonClicked() {
+        if (Game.getCurrentMove() != null) {
+            if(Board.getInstance().getTile(coordinate) == null && Board.getInstance().getPartialTile() != null) {
                 Board.getInstance().partialPlace(coordinate);
             } else {
                 Game.getCurrentMove().removeTile(Board.getInstance().getTile(coordinate));
