@@ -28,7 +28,7 @@ public class Game {
     private static Move currentMove;
     private static Player currentPlayer;
     private static int numberOfPlayers;
-    private static int turmTime = 90;
+    private static int turmTime = 20000;
     private static NewValidator validator = new NewValidator(Board.getInstance());
 
 

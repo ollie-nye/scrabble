@@ -463,6 +463,19 @@ public class GameScreen implements Screen {
 		}
 
 		timer.setText(Timer.timeFormatter(Timer.getTimeLeft()));
+		if(Timer.getTimeLeft() < 10000) {
+            float scalar = 0.8f + ((float) (Timer.getTimeLeft() % 1000) / 1000) / 5f;
+		    if(scalar > 0.8) {
+                timer.setFontScale(scalar);
+            }
+            if((Timer.getTimeLeft() % 2000) > 1000 ||Timer.getTimeLeft() < 5000) {
+                timer.setStyle(new Label.LabelStyle(font,Color.RED));
+            } else {
+                timer.setStyle(new Label.LabelStyle(font,Color.BLACK));
+            }
+        } else {
+            timer.setStyle(new Label.LabelStyle(font,Color.BLACK));
+        }
 
 		if (Game.getLetterBag().isEmpty()) {
 			endGame.setVisible(true);
