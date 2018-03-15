@@ -116,7 +116,7 @@ public class GameScreen implements Screen {
 			playerNames[i].setPosition(1078, scoreLabelPositionY-11.0f);
 			playerNames[i].setFontScale(0.7f);
 			playerNames[i].setWidth(100.0f);
-			playerNames[i].setAlignment(Align.center);
+			playerNames[i].setAlignment(Align.left);
 
 			scoreLabelPositionY -= 25;
 			stage.addActor(scoreLabels[i]);
