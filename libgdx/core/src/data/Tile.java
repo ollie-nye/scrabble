@@ -7,8 +7,8 @@ package data;
  */
 
 public class Tile {
-	private String content;
-	private int score;
+	private final String content;
+	private final int score;
 	
 	public Tile(String content, int score) {
 		this.content = content;
@@ -16,15 +16,15 @@ public class Tile {
 	}
 	
 	public String getContent() {
-		return this.content;
+		return content;
 	}
 	
 	public int getScore() {
-		return this.score;
+		return score;
 	}
 
 	@Override
 	public String toString() {
-		return this.content;
+		return content;
 	}
 }

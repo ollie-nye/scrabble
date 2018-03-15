@@ -5,23 +5,22 @@ import scrabble.Board;
 import scrabble.Score;
 import validation.NewValidator;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Move object contains all played letters in a turn (move), the word played,
  * the current score of the turn and who played the turn.
  * @author Tom Geraghty
- * @version 1.1
+ * @version 1.2
  */
 public class Move {
     private final static Score SCORE_CALCULATOR = new Score();
     private final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
     private final NewValidator validator = new NewValidator(Board.getInstance());
     private final Player player;
-    private String playedWord;
+    private String playedWord = "";
+    private int wordMultiplier = 1;
     private int moveTime;
     private int moveScore;
-    private int wordMultiplier = 1;
 
 
     public Move(Player player) {
@@ -54,8 +53,8 @@ public class Move {
     public void removeTile(Tile tile) {
         if(playedTiles.containsKey(tile)) {
             moveScore -= SCORE_CALCULATOR.calculateScore(tile, playedTiles.get(tile));
-            player.returnTile(tile);
             Board.getInstance().removeTile(playedTiles.get(tile));
+            player.returnTile(tile);
             playedTiles.remove(tile);
         }
     }
@@ -109,27 +108,26 @@ public class Move {
         return moveScore * wordMultiplier;
     }
 
+    /* MOVE FUNCTIONS */
     public void endMove() {
         moveTime = Timer.getTime();
         this.playedWord = playedWord;
         player.setScore(player.getScore() + getMoveScore());
         player.addTiles();
     }
-
-    public int getMoveTime() {
-        return moveTime;
-    }
-
     public void invalidateMove() {
         moveScore = 0;
         playedWord = "";
-        //player.returnTile()
+        moveTime = Timer.getTime();
+
         HashMap<Tile, Coordinate> tempMap = new HashMap<>(playedTiles);
         for(Tile tile : tempMap.keySet()) {
             removeTile(tile);
         }
     }
-
+    public int getMoveTime() {
+        return moveTime;
+    }
     public Result getResult() {
         return validator.getLastResult();
     }

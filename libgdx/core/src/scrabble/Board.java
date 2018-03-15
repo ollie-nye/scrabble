@@ -26,28 +26,14 @@ public class Board {
 	 * Singleton pattern instance variable
 	 */
 	private static Board instance = null;
-
-	/**
-	 * Validator for testing words. New validator is a new word
-	 */
-	private NewValidator validator = new NewValidator(this);
-	
-	/**
-	 * One half of the variable pair that makes up a move
-	 */
-	private Coordinate partialPlace = null;
-	
 	/**
 	 * Other half of the variable pair that makes up a move
 	 */
 	private Tile partialTile = null;
-
 	/**
 	 * Letters played by the players
 	 */
 	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
-
-
 	private static int boardSizeX = 15;
     private static int boardSizeY = 15;
 
@@ -94,7 +80,8 @@ public class Board {
 	public void place(Tile tile, Coordinate coordinate) {
 		letters[coordinate.getX()][coordinate.getY()] = tile;
 	}
-	
+
+	//TODO: Can be swapped to just use place method now instead of this test method.
 	public void testPlace(Letter letter) {
 		letters[letter.getLocation().getX()][letter.getLocation().getY()] = letter.getTile();
 	}
@@ -117,12 +104,7 @@ public class Board {
         }
 	}
 
-	public Tile getPartialTile() {
-	    return partialTile;
-    }
-
 	public void resetPartial() {
-		partialPlace = null;
 		partialTile = null;
 	}
 }
