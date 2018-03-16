@@ -30,7 +30,7 @@ public class Dictionary {
 	/**
 	 * Path to dictonary file
 	 */
-	private String filePath = "ScrabbleDictionary.txt";
+	private String filePath = "ospd.txt";
 	
 	/**
 	 * Populates listOfWords with contents of the file specified in the method
