@@ -16,12 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import assetmanager.assetManager;
+import data.Move;
 import data.Tile;
 import player.Player;
 import scrabble.Game;
@@ -52,8 +54,10 @@ public class ResultsScreen implements Screen {
 	private boolean makeSureTileTimerOnlyCalledOnce;
 	private boolean[] timings;
 	private boolean[] currentScoreDone;
+	private boolean[] tilesFinished;
 
-	private Label[] p1CurrentScore, p1FinalScore, p1ScoreLoss;
+
+	private Label[] p1CurrentScore, p1FinalScore, p1ScoreLoss, finalScore;
 	private Label[][] p1LettersLeft;
 
 	private float letterCounter;
@@ -135,6 +139,12 @@ public class ResultsScreen implements Screen {
 		for (int i = 0; i < currentScoreDone.length; i++) {
 			currentScoreDone[i] = false;
 		}
+		tilesFinished = new boolean[Game.getNumberOfPlayers()];
+		for (int i = 0; i < tilesFinished.length; i++) {
+			tilesFinished[i] = false;
+		}
+		finalScore = new Label[Game.getNumberOfPlayers()];
+	
 
 		letterCounter = 0.0f;
 		makeSureTileTimerOnlyCalledOnce = false;
@@ -144,9 +154,16 @@ public class ResultsScreen implements Screen {
 	@Override
 	public void show() {
 
+		
 		resultsTable = new Table();
 		resultsTable.add(player1Scorecard(0));
 		resultsTable.add(player1Scorecard(1));
+		resultsTable.row();
+		Move highestWordz = highestWord();
+		Label highestWord = new Label("Highest word:\n"+ highestWordz.getPlayer().getPlayerName()+" with "+Integer.toString(highestWordz.getMoveScore()),  labelStyle);
+		highestWord.setWrap(false);
+		highestWord.setAlignment(Align.center);
+		resultsTable.add(highestWord).width(300.0f).colspan(2).align(Align.center).expand().fill();
 		if (Game.getNumberOfPlayers() == 3) {
 			resultsTable.row();
 			resultsTable.add(player1Scorecard(2)).colspan(2);
@@ -156,6 +173,8 @@ public class ResultsScreen implements Screen {
 			resultsTable.add(player1Scorecard(2));
 			resultsTable.add(player1Scorecard(3));
 		}
+		
+		
 
 		resultsTable.pack();
 
@@ -163,6 +182,17 @@ public class ResultsScreen implements Screen {
 				(720.0f - resultsTable.getHeight()) * 0.5f);
 		stage.addActor(resultsTable);
 
+	}
+	
+	private Move highestWord(){
+		ArrayList<Move> moves = Game.getMoveList();
+		Move highestMove = moves.get(0);
+		for (Move liberty: moves){
+			if(highestMove.getMoveScore()<liberty.getMoveScore()){
+				highestMove = liberty;
+			};
+		}
+		return highestMove;
 	}
 
 	@Override
@@ -179,9 +209,15 @@ public class ResultsScreen implements Screen {
 		}
 		if (currentScoreDone() == true) {
 			tileTimer(timer);
-
 		}
-
+		
+		if (tilesFinished() == true){
+			for (int i = 0; i<p1FinalScore.length; i++){
+				p1FinalScore[i].setVisible(true);
+				finalScore[i].setVisible(true);
+			}
+			
+		}
 		stage.getBatch().begin();
 		stage.getBatch().draw(background, 0, 0);
 		stage.getBatch().end();
@@ -189,6 +225,16 @@ public class ResultsScreen implements Screen {
 		stage.act();
 	}
 
+		private boolean tilesFinished() {
+			for (int i = 0; i < tilesFinished.length; i++) {
+				if (tilesFinished[i] == false) {
+					return false;
+				}
+			}
+			return true;
+
+		}
+		
 	private boolean currentScoreDone() {
 		for (int i = 0; i < currentScoreDone.length; i++) {
 			if (currentScoreDone[i] == false) {
@@ -244,6 +290,9 @@ public class ResultsScreen implements Screen {
 
 					}
 				}
+				else{
+					tilesFinished[i] = true;
+				}
 			}
 		}
 		if (timer >= 1.5) {
@@ -253,6 +302,9 @@ public class ResultsScreen implements Screen {
 						p1LettersLeft[i][1].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][1].getScore();
 					}
+				}
+				else{
+					tilesFinished[i] = true;
 				}
 			}
 		}
@@ -264,6 +316,9 @@ public class ResultsScreen implements Screen {
 						addingPenalties[i] += remainingTiles[i][2].getScore();
 					}
 				}
+				else{
+					tilesFinished[i] = true;
+				}
 			}
 		}
 		if (timer >= 2.5) {
@@ -273,6 +328,9 @@ public class ResultsScreen implements Screen {
 						p1LettersLeft[i][3].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][3].getScore();
 					}
+				}
+				else{
+					tilesFinished[i] = true;
 				}
 			}
 		}
@@ -284,6 +342,10 @@ public class ResultsScreen implements Screen {
 						addingPenalties[i] += remainingTiles[i][4].getScore();
 					}
 				}
+				else{
+					tilesFinished[i] = true;
+				}
+				
 			}
 		}
 		if (timer >= 3.5) {
@@ -294,6 +356,9 @@ public class ResultsScreen implements Screen {
 						addingPenalties[i] += remainingTiles[i][5].getScore();
 					}
 				}
+				else{
+					tilesFinished[i] = true;
+				}
 			}
 		}
 		if (timer >= 4.0) {
@@ -303,7 +368,11 @@ public class ResultsScreen implements Screen {
 						p1LettersLeft[i][6].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][6].getScore();
 					}
+					tilesFinished[i] = true;
 				}
+				
+					
+				
 			}
 		}
 	}
@@ -361,6 +430,7 @@ public class ResultsScreen implements Screen {
 
 		// ++END TILE COLLECTION HEADER
 		Label endTileHeader = new Label("Tiles left in players hand", labelStyle2);
+		endTileHeader.setAlignment(Align.center);
 		playerName.setAlignment(Align.center);
 		player.add(endTileHeader).colspan(2).expandX().fill();
 		player.row();
@@ -374,7 +444,7 @@ public class ResultsScreen implements Screen {
 			p1LettersLeft[x][i] = new Label(remainingTiles[x][i].getContent(), labelStyle1);
 			p1LettersLeft[x][i].setFontScale(0.7f);
 			p1LettersLeft[x][i].setAlignment(Align.center);
-			letters.add(p1LettersLeft[x][i]).size(40.0f, 40.0f).expand();
+			letters.add(p1LettersLeft[x][i]).size(40.0f, 40.0f).expand().pad(10.0f);
 			p1LettersLeft[x][i].setVisible(false);
 		}
 		if (remainingTiles[x].length == 0) {
@@ -389,31 +459,51 @@ public class ResultsScreen implements Screen {
 
 		// this shows current and score to be taken away
 		// ++SCORES TO CALCULATE TITLES
+		Stack stack = new Stack();
+		
+		Table headers = new Table();
+		
 		Label currentScoreTitle = new Label("Current Score", labelStyle);
 		Label scoreLossTitle = new Label("Penalties", labelStyle2);
 		currentScoreTitle.setAlignment(Align.center);
 		scoreLossTitle.setAlignment(Align.center);
-		player.add(currentScoreTitle).uniform().fill();
-		player.add(scoreLossTitle).uniform().fill();
+		
+		stack.add(headers);		
+		headers.add(currentScoreTitle).uniform().fill().expand();
+		headers.add(scoreLossTitle).uniform().fill().expand();
 		player.row();
 		// --SCORES TO CALCULATE TITLES
 
+		// ++FINAL SCORES
+		p1FinalScore[x] = new Label("Final Score", labelStyle);
+		p1FinalScore[x].setAlignment(Align.center);
+		stack.add(p1FinalScore[x]);
+		player.add(stack).expand().fill().colspan(2);
+		p1FinalScore[x].setVisible(false);
+		player.row();
+		// --FINAL SCORES
+		
 		// this shows the actual score numbers
 		// ++SCORES TO CALCULATE
+		Stack scoresStack = new Stack();
+		Table oldScores = new Table();
 		p1CurrentScore[x] = new Label(" ", labelStyle1);
 		p1ScoreLoss[x] = new Label(" ", labelStyle);
 		p1CurrentScore[x].setAlignment(Align.center);
 		p1ScoreLoss[x].setAlignment(Align.center);
-		player.add(p1CurrentScore[x]).expand().fill();
-		player.add(p1ScoreLoss[x]).expand().fill();
+		oldScores.add(p1CurrentScore[x]).expand().fill().uniform();
+		oldScores.add(p1ScoreLoss[x]).expand().fill().uniform();
+		scoresStack.add(oldScores);
+		
+		finalScore[x] = new Label(Integer.toString(currentScores[x]-finalScores[x]), labelStyle1);
+		finalScore[x].setAlignment(Align.center);
+		scoresStack.add(finalScore[x]);
+		player.add(scoresStack).expand().fill();
 		player.row();
+	    finalScore[x].setVisible(false);
 		// --SCORES TO CALCULATE
 
-		// ++FINAL SCORES
-		p1FinalScore[x] = new Label("Final Score:   " + finalScores[x], labelStyle);
-		p1FinalScore[x].setAlignment(Align.center);
-		player.add(p1FinalScore[x]).colspan(2).expandX().fill().height(50.0f).expandY();
-		// --FINAL SCORES
+		
 		player.pack();
 		return player;
 	}
