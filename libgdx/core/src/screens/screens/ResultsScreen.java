@@ -49,7 +49,7 @@ public class ResultsScreen implements Screen {
 	private float deltaTime, timer, penaltiesTimer;
 	private float[] addingPenalties;
 	private float[] tallyPenalties;
-private boolean makeSureTileTimerOnlyCalledOnce;
+	private boolean makeSureTileTimerOnlyCalledOnce;
 	private boolean[] timings;
 	private boolean[] currentScoreDone;
 
@@ -147,15 +147,16 @@ private boolean makeSureTileTimerOnlyCalledOnce;
 		resultsTable = new Table();
 		resultsTable.add(player1Scorecard(0));
 		resultsTable.add(player1Scorecard(1));
-		/*
-		 * resultsTable.add(playerScorecard(names[1], currentScores[1],
-		 * penalties[1], finalScores[1], remainingTiles[1])); if
-		 * (Game.getNumberOfPlayers() > 2) { resultsTable.row(); resultsTable
-		 * .add(playerScorecard(names[2], currentScores[2], penalties[2],
-		 * finalScores[2], remainingTiles[2])); } if (Game.getNumberOfPlayers()
-		 * > 3) { resultsTable .add(playerScorecard(names[3], currentScores[3],
-		 * penalties[3], finalScores[3], remainingTiles[3])); }
-		 */
+		if (Game.getNumberOfPlayers() == 2) {
+			resultsTable.row();
+			resultsTable.add(player1Scorecard(2)).colspan(2);
+		}
+		if (Game.getNumberOfPlayers() > 3) {
+			resultsTable.row();
+			resultsTable.add(player1Scorecard(2));
+			resultsTable.add(player1Scorecard(3));
+		}
+
 		resultsTable.pack();
 
 		resultsTable.setPosition((1280.0f - resultsTable.getWidth()) * 0.5f,
@@ -170,15 +171,15 @@ private boolean makeSureTileTimerOnlyCalledOnce;
 		timer += deltaTime;
 		addPenalties();
 		if (currentScoreDone() == false) {
-			getCurrent(timer-0.5f);				
+			getCurrent(timer - 0.5f);
 		}
-		if (currentScoreDone() == true && makeSureTileTimerOnlyCalledOnce == false){
+		if (currentScoreDone() == true && makeSureTileTimerOnlyCalledOnce == false) {
 			timer = 0.5f;
 			makeSureTileTimerOnlyCalledOnce = true;
 		}
-		if (currentScoreDone() == true){
+		if (currentScoreDone() == true) {
 			tileTimer(timer);
-			
+
 		}
 
 		stage.getBatch().begin();
@@ -195,7 +196,7 @@ private boolean makeSureTileTimerOnlyCalledOnce;
 			}
 		}
 		return true;
-		
+
 	}
 
 	public void addPenalties() {
