@@ -147,7 +147,7 @@ public class ResultsScreen implements Screen {
 		resultsTable = new Table();
 		resultsTable.add(player1Scorecard(0));
 		resultsTable.add(player1Scorecard(1));
-		if (Game.getNumberOfPlayers() == 2) {
+		if (Game.getNumberOfPlayers() == 3) {
 			resultsTable.row();
 			resultsTable.add(player1Scorecard(2)).colspan(2);
 		}
