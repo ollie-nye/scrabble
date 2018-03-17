@@ -23,6 +23,21 @@ public class Coordinate {
 	
 	public int getX() {return x;}
 	public int getY() {return y;}
+
+	public Coordinate getNear(char direction) {
+		switch (direction) {
+			case 'U':
+				return new Coordinate(x, y - 1);
+			case 'D':
+				return new Coordinate(x, y + 1);
+			case 'L':
+				return new Coordinate(x - 1, y);
+			case 'R':
+				return new Coordinate(x + 1, y);
+			default:
+				return this;
+		}
+	}
 	
 
 	@Override
