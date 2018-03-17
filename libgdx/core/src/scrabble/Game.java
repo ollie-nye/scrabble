@@ -147,7 +147,7 @@ public class Game {
         }
     }
 
-    public static void resetGame() {
+    public static void reset() {
         currentPlayer = null;
         currentMove = null;
         Board.getInstance().clearBoard();
