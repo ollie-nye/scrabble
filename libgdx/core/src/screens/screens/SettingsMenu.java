@@ -56,12 +56,15 @@ public class SettingsMenu implements Screen {
 
 		/// create stage and set it as input processor
 		stage = new Stage(new ScreenViewport());
+		
+		
 
 	}
 
 	@Override
 	public void show() {
 		stage.clear();
+		
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin();
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
@@ -177,6 +180,10 @@ public class SettingsMenu implements Screen {
 			}
 		});
 		stage.addActor(menu);
+		
+		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
+
+
 
 	}
 
@@ -199,11 +206,12 @@ public class SettingsMenu implements Screen {
 			musicButton.setChecked(false);
 
 		stage.getBatch().begin();
+		
 		stage.getBatch().draw(settingsBackground, 0, 0);
 		stage.getBatch().end();
 		stage.draw();
 		stage.act();
-
+	
 	}
 
 	public Slider getSoundSlider() {
