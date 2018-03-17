@@ -49,12 +49,17 @@ public class Board {
 	}
 
     public Board() {
-        for (int x = 0; x < boardSizeX; x++) {
-            for (int y = 0; y < boardSizeY; y++) {
-                letters[x][y] = null;
-            }
-        }
+		clearBoard();
+		resetPartial();
     }
+
+    public void clearBoard() {
+		for (int x = 0; x < boardSizeX; x++) {
+			for (int y = 0; y < boardSizeY; y++) {
+				letters[x][y] = null;
+			}
+		}
+	}
 
 	/**
 	 * Gets the tile at the given coordinate

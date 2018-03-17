@@ -27,10 +27,8 @@ public class Game {
     private static final ArrayList<Move> MOVE_LIST = new ArrayList<>();
     private static Move currentMove;
     private static Player currentPlayer;
-    private static int numberOfPlayers;
     private static int turmTime = 60000;
     private static NewValidator validator = new NewValidator(Board.getInstance());
-    //private static Score score = new Score();
 
 
     /* PLAYER FUNCTIONS */
@@ -54,7 +52,6 @@ public class Game {
                     PLAYER_LIST.add(player);
                     break;
             }
-            numberOfPlayers++;
             PLAYER_ORDER.add(player);
         }
     }
@@ -86,7 +83,7 @@ public class Game {
      * @return  amount      Number of players in Game.
      */
     public static int getNumberOfPlayers() {
-        return numberOfPlayers;
+        return PLAYER_LIST.size();
     }
 
 
@@ -95,6 +92,7 @@ public class Game {
      * Starts game. Adds Tiles to all Players hands. Calls startTurn
      */
     public static void start() {
+        LETTER_BAG.fill();
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
@@ -148,6 +146,17 @@ public class Game {
             currentPlayer = null;
         }
     }
+
+    public static void resetGame() {
+        currentPlayer = null;
+        currentMove = null;
+        Board.getInstance().clearBoard();
+        LETTER_BAG.empty();
+        PLAYER_ORDER.clear();
+        PLAYER_LIST.clear();
+        MOVE_LIST.clear();
+    }
+
     /**
      * Returns the in progress Move.
      * @return  move    In progress Move.
