@@ -70,6 +70,8 @@ public class HelpMenu implements Screen {
 
 		/// create stage and set it as input processor
 		stage = new Stage(new ScreenViewport());
+		
+		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 
 	}
 
@@ -178,6 +180,7 @@ public class HelpMenu implements Screen {
 		});
 		stage.addActor(exit);
 		
+		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		
 
 		Gdx.input.setInputProcessor(stage);
@@ -193,6 +196,8 @@ public class HelpMenu implements Screen {
 		stage.getBatch().begin();
 		stage.getBatch().draw(helpBackground, 0, 0);
 		stage.getBatch().end();
+		
+		
 		
 		batch.begin();
 		batch.draw(circle,530,110, 35 ,35);
@@ -237,7 +242,7 @@ public class HelpMenu implements Screen {
 	
 		stage.draw();
 		stage.act();
-
+	
 	}
 
 	@Override
