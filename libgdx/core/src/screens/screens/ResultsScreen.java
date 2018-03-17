@@ -140,13 +140,7 @@ public class ResultsScreen implements Screen {
 		makeSureTileTimerOnlyCalledOnce = false;
 		justFinished = true;
 		returnButton = new Button(returnButtonStyle);
-		returnButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new MainMenu(game));
-
-			}
-		});
+	
 
 	}
 
@@ -203,8 +197,7 @@ public class ResultsScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				//hover.play(game.getSoundVol());
-				//menuType = 1;
+				 disposey();
 
 			}
 		});
@@ -471,8 +464,14 @@ public class ResultsScreen implements Screen {
 	public void hide() {
 	}
 
+	public void disposey(){
+		Game.reset();
+		this.dispose();
+		game.setScreen(new MainMenu(game));
+	}
 	@Override
 	public void dispose() {
+		
 	}
 
 	/**
