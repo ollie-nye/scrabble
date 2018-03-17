@@ -2,15 +2,18 @@ package player;
 
 import data.Coordinate;
 import data.Tile;
+import data.Word;
 import scrabble.Board;
 import scrabble.Game;
 import scrabble.Score;
 import validation.Dictionary;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Contains methods specific to AIPlayer player type. Extends 'Player ' abstract class.
+ *
  * @author Thomas Geraghty
  * @version 1.1
  */
@@ -21,21 +24,21 @@ public class AIPlayer extends Player {
      * Constructor for AIPlayer, sets player username based on passed parameter 'name'.
      * Adds 7 letters from LetterBag to player's collection of letters.
      *
-     * @param   name    Player username string
-     * @see         player.Player
+     * @param name Player username string
+     * @see player.Player
      */
-	public AIPlayer(String name) {
-		super();
-		setPlayerName(name);
-	}
+    public AIPlayer(String name) {
+        super();
+        setPlayerName(name);
+    }
 
-	public void play() {
+    public void play() {
         // first play of game logic
         if (Board.getInstance().isEmpty()) {
-            char[] characters = calculateBestWord(findPossibleWords(new Coordinate(7,7))).toCharArray();
+            char[] characters = calculateBestWord(findPossibleWords(new Coordinate(7, 7))).toCharArray();
             // for each character in the word
             int i = 0;
-            for(char character : characters) {
+            for (char character : characters) {
                 // play the tile from hand.
                 for (Tile tile : super.getTiles()) {
                     if (tile != null && tile.getChar() == character) {
@@ -47,6 +50,7 @@ public class AIPlayer extends Player {
             }
         } else {
             // For each square in board, find the moves
+
             for (int y = 0; y < 15; y++) {
                 for (int x = 0; x < 15; x++) {
                     Coordinate coordinate = new Coordinate(x, y);
@@ -60,8 +64,9 @@ public class AIPlayer extends Player {
         Game.endTurn();
     }
 
-    private ArrayList<String> findMoves(Coordinate coordinate, ArrayList<String> words) {
+    private ArrayList<Word> findMoves(Coordinate coordinate, ArrayList<String> words) {
         char letterOnBoard = Board.getInstance().getTile(coordinate).getChar();
+        ArrayList<Word> moves = new ArrayList<>();
 
         // for each word
         for (String word : words) {
@@ -85,46 +90,170 @@ public class AIPlayer extends Player {
                 }
             }
 
+            int verticalScore = calculateVerticalMove(word, prefix, suffix, coordinate);
+            int horizontalScore = calculateHorizontalMove(word, prefix, suffix, coordinate);
+
+            if(verticalScore > 0) {
+                moves.add(new Word(word, verticalScore));
+            }
+            if(horizontalScore > 0) {
+                moves.add(new Word(word, horizontalScore));
+            }
+
             //TEST
             System.out.print("Word: " + word + " ");
             System.out.print("Character: " + letterOnBoard + " ");
             System.out.print("Prefix: " + prefix + " ");
-            System.out.println("Suffix: " + suffix + " ");
-
-            isWordPlayable(word, prefix, suffix, coordinate);
+            System.out.print("Suffix: " + suffix + " ");
+            System.out.print("Horizontal score: " + calculateHorizontalMove(word, prefix, suffix, coordinate) + " ");
+            System.out.println("Vertical score: " + calculateVerticalMove(word, prefix, suffix, coordinate) + " ");
+            //isWordPlayable(word, prefix, suffix, coordinate);
         }
-        return null;
+        return moves;
     }
 
-    private boolean isWordPlayable(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
-        Coordinate tempCoordinate = coordinate;
-        boolean wordPossible = false;
+    private Word calculateBestMove(ArrayList<Word> words) {
+        Word bestWord = null;
+        int wordScore = 0;
+        for (Word word : words) {
+            int tempScore = word.getScore();
+            if (tempScore > wordScore) {
+                wordScore = tempScore;
+                bestWord = word;
+            }
+        }
+        return bestWord;
+    }
 
-	    // vertically possible
-        // suffix below
-        // is furthest space + 1 free?
+    private void playMove(Word word) {
+    }
 
-        System.out.print(Board.getInstance().getTile(new Coordinate(coordinate.getX(), coordinate.getY())) );
-        if(suffix.size() > 0) {
-            if(Board.getInstance().getTile(new Coordinate(coordinate.getX(), coordinate.getY() + suffix.size())) == null) {
+    private int calculateVerticalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
+        Coordinate tempCoordinate;
+        boolean prefixFit = true;
+        boolean suffixFit = true;
+        int wordMultiplier = 1;
+        int score = 0;
+
+        if (prefix.size() > 0) {
+            // check prefix
+            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - prefix.size());
+            if (Board.getInstance().getTile(tempCoordinate.getNear('D')) == null) {
                 // if free,
-                tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + suffix.size());
+                int prefixLength = prefix.size();
+                // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
+                while (prefixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                    int letterScore = Score.getLetterScore(prefix.get(prefix.size() - prefixLength));
+                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
+                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
+                    score += letterScore * letterMultiplier;
+
+                    prefixLength--;
+                    tempCoordinate = tempCoordinate.getNear('D');
+                }
+                // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
+                if (prefixLength != 0) {
+                    prefixFit = false;
+                }
+            } else {
+                prefixFit = false;
+            }
+        }
+
+        if (suffix.size() > 0) {
+            // check suffix
+            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + suffix.size());
+            if (Board.getInstance().getTile(tempCoordinate.getNear('U')) == null) {
+                // if free,
                 int suffixLength = suffix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
                 while (suffixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                    int letterScore = Score.getLetterScore(suffix.get(suffix.size() - suffixLength));
+                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
+                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
+                    score += letterScore * letterMultiplier;
+
                     suffixLength--;
                     tempCoordinate = tempCoordinate.getNear('U');
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
-                if (suffixLength == 0) {
-                    wordPossible = true;
+                if (suffixLength != 0) {
+                    suffixFit = false;
                 }
-            }
-            if(!wordPossible) {
-                System.out.println("NOT POSSIBLE");
+            } else {
+                suffixFit = false;
             }
         }
-        return true; // just for sake
+
+        if (prefixFit || suffixFit) {
+            return score * wordMultiplier;
+        } else {
+            return 0;
+        }
+    }
+
+    private int calculateHorizontalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
+        Coordinate tempCoordinate;
+        boolean prefixFit = true;
+        boolean suffixFit = true;
+        int wordMultiplier = 1;
+        int score = 0;
+
+        // Horizontal fit
+        if (prefix.size() > 0) {
+            // check prefix
+            tempCoordinate = new Coordinate(coordinate.getX() - prefix.size(), coordinate.getY());
+            if (Board.getInstance().getTile(tempCoordinate.getNear('L')) == null) {
+                // if free,
+                int prefixLength = prefix.size();
+                // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
+                while (prefixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                    int letterScore = Score.getLetterScore(prefix.get(prefix.size() - prefixLength));
+                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
+                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
+                    score += letterScore * letterMultiplier;
+
+                    prefixLength--;
+                    tempCoordinate = tempCoordinate.getNear('L');
+                }
+                // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
+                if (prefixLength != 0) {
+                    prefixFit = false;
+                }
+            } else {
+                prefixFit = false;
+            }
+        }
+
+        if (suffix.size() > 0) {
+            // check suffix
+            tempCoordinate = new Coordinate(coordinate.getX() + suffix.size(), coordinate.getY());
+            if (Board.getInstance().getTile(tempCoordinate.getNear('R')) == null) {
+                // if free,
+                int suffixLength = suffix.size();
+                // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
+                while (suffixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                    int letterScore = Score.getLetterScore(suffix.get(suffix.size() - suffixLength));
+                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
+                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
+                    score += letterScore * letterMultiplier;
+
+                    suffixLength--;
+                    tempCoordinate = tempCoordinate.getNear('R');
+                }
+                // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
+                if (suffixLength != 0) {
+                    suffixFit = false;
+                }
+            } else {
+                suffixFit = false;
+            }
+        }
+        if (prefixFit || suffixFit) {
+            return score * wordMultiplier;
+        } else {
+            return 0;
+        }
     }
 
     private int contains(char[] word, char letter) {
@@ -143,7 +272,7 @@ public class AIPlayer extends Player {
         char letter;
 
         // board position empty.
-        if(tile != null){
+        if (tile != null) {
             // extend array by 1 to take into consideration already played tile
             letter = Board.getInstance().getTile(coordinate).getChar();
             characters = new char[super.getTiles().length + 1];
@@ -175,9 +304,9 @@ public class AIPlayer extends Player {
                         String newWord = new String(word);
 
                         // if letter isn't blank and is contained in the word, add to possible words
-                        if (letter != ' ' && newWord.contains("" + letter)){
+                        if (letter != ' ' && newWord.contains("" + letter)) {
                             possibleWords.add(newWord);
-                        } else if (letter == ' '){
+                        } else if (letter == ' ') {
                             possibleWords.add(newWord);
                         }
                     }
