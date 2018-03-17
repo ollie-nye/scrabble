@@ -29,7 +29,7 @@ public class MainMenu implements Screen {
 
 	private ScrabbleLauncher game;
 	private Table playOptions, namingPlayer, tempTable;
-	private TextButton play, settings, rules, exit, website, exitMenu, skipToEndScreen;
+	private TextButton play, continues, settings, rules, exit, website, exitMenu, skipToEndScreen;
 	private int menuType, playerCounter, aiNumber, playerNumber, screen;
 	private Label[] playerLabel = new Label[4];
 	private TextField[] playerNameEntry = new TextField[4];
@@ -75,7 +75,19 @@ public class MainMenu implements Screen {
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
-		play = new TextButton("", playButtonStyle);
+		continues = new TextButton("Continues", playButtonStyle);
+		continues.setPosition(515, 330f);
+		continues.setSize(254.0f, 65.0f);
+		continues.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				
+				game.setScreen(new MainMenu(game));		
+				
+			}
+		});
+		
+		play = new TextButton("New Game", playButtonStyle);
 		play.setPosition(515, 330f);
 		play.setSize(254.0f, 65.0f);
 		play.addListener(new ClickListener() {
