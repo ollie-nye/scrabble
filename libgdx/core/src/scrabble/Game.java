@@ -30,6 +30,7 @@ public class Game {
     private static int numberOfPlayers;
     private static int turmTime = 60000;
     private static NewValidator validator = new NewValidator(Board.getInstance());
+    //private static Score score = new Score();
 
 
     /* PLAYER FUNCTIONS */
