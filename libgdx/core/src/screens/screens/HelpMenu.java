@@ -164,7 +164,7 @@ public class HelpMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
 
 					@Override
 					public void run() {
