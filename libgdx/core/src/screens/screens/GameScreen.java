@@ -295,13 +295,21 @@ public class GameScreen implements Screen {
 		menu.setSize(65.0f, 65.0f);
 
 		menu.addListener(new ClickListener() {
-			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				hover.play(game.getSoundVol());
-				stage.dispose();
-				game.setScreen(new MainMenu(game));
-			};
-		});
+
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+
+					@Override
+					public void run() {
+
+						hover.play(game.getSoundVol());
+						stage.dispose();
+						game.setScreen(new MainMenu(game));
+
+					}
+				})));
+			}
+		});;
 		stage.addActor(menu);
 		Gdx.input.setInputProcessor(stage);
 

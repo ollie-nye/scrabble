@@ -56,6 +56,8 @@ public class MainMenu implements Screen {
 		playerNumber = 0;
 		font = game.getAssetManager().manager.get(assetManager.PlayTime);
 		screen = 0;
+		
+		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 	}
 
 	@Override
@@ -81,7 +83,7 @@ public class MainMenu implements Screen {
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-
+		
 				hover.play(game.getSoundVol());
 				menuType = 1;
 
@@ -475,6 +477,7 @@ public class MainMenu implements Screen {
 		stage.addActor(exitMenu);
 		
 		
+		
 
 	}
 
@@ -647,10 +650,10 @@ public class MainMenu implements Screen {
 		stage.getBatch().begin();
 		stage.getBatch().draw(background, 0, 0);
 		stage.getBatch().end();
-
+		
 		stage.draw();
 		stage.act();
-
+		
 	}
 
 	@Override
