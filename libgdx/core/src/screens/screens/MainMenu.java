@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -29,18 +30,21 @@ public class MainMenu implements Screen {
 
 	private ScrabbleLauncher game;
 	private Table playOptions, namingPlayer, tempTable;
-	private TextButton play, settings, rules, exit, website, exitMenu, skipToEndScreen;
+	private TextButton play, continues, settings, rules, exit, website, exitMenu, skipToEndScreen;
 	private int menuType, playerCounter, aiNumber, playerNumber, screen;
 	private Label[] playerLabel = new Label[4];
 	private TextField[] playerNameEntry = new TextField[4];
 	private Label noPlayers;
 	private Stage stage;
 	private Sound hover;
-
+	private Skin skin, altSkin;
+	private TextureAtlas buttonAtlas, altButtonAtlas;
 	// fiddy
 	private Sound gunit;
 	private Texture background;
 	private BitmapFont font;
+	private TextButtonStyle exitButtonStyle;
+private Table resetGame, noCurrentGame;
 
 	public MainMenu(ScrabbleLauncher game) {
 		this.game = game;
@@ -56,7 +60,14 @@ public class MainMenu implements Screen {
 		playerNumber = 0;
 		font = game.getAssetManager().manager.get(assetManager.PlayTime);
 		screen = 0;
-		
+		skin = new Skin();
+		altSkin = new Skin();
+
+		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
+		skin.addRegions(buttonAtlas);
+		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
+		altButtonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
+		altSkin.addRegions(altButtonAtlas);
 		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 	}
 
@@ -77,15 +88,36 @@ public class MainMenu implements Screen {
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
-		play = new TextButton("", playButtonStyle);
-		play.setPosition(515, 330f);
+		continues = new TextButton("Continues", playButtonStyle);
+		continues.setPosition(515, 400f);
+		continues.setSize(254.0f, 65.0f);
+		continues.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (Game.getPlayers().size() == 0){
+					noCurrentGame.setVisible(true);
+				}
+				else {
+					game.setScreen(new GameScreen(game, null));
+				}
+
+			}
+		});
+		stage.addActor(continues);
+
+		play = new TextButton("New Game", playButtonStyle);
+		play.setPosition(515, 320f);
 		play.setSize(254.0f, 65.0f);
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-		
-				hover.play(game.getSoundVol());
-				menuType = 1;
+				if (Game.getPlayers().size() == 0){
+					hover.play(game.getSoundVol());
+					menuType = 1;
+				}
+				else{
+					resetGame.setVisible(true);
+				}
 
 			}
 		});
@@ -141,7 +173,7 @@ public class MainMenu implements Screen {
 		});
 		stage.addActor(rules);
 
-		TextButtonStyle exitButtonStyle = new TextButtonStyle();
+		exitButtonStyle = new TextButtonStyle();
 		exitButtonStyle.up = skin.getDrawable("exitButton");
 		exitButtonStyle.over = skin.getDrawable("exitPressed");
 		exitButtonStyle.checked = skin.getDrawable("exitPressed");
@@ -476,8 +508,18 @@ public class MainMenu implements Screen {
 		exitMenu.setVisible(false);
 		stage.addActor(exitMenu);
 		
-		
-		
+		TextButtonStyle textButtonStyle = new TextButtonStyle();
+		textButtonStyle.up = altSkin.getDrawable("plainButton");
+		textButtonStyle.over = altSkin.getDrawable("plainButtonPressed");
+		textButtonStyle.font =  font;
+		LabelStyle llabelStyle = new LabelStyle();
+		llabelStyle.font = font;
+		resetGame = resetGame(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "Are you sure you want to start a new game instead of continuing?");
+		resetGame.setVisible(false);
+		stage.addActor(resetGame);
+		noCurrentGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "You have no game in progress. Start a new one?");
+		noCurrentGame.setVisible(false);
+		stage.addActor(noCurrentGame);
 
 	}
 
@@ -650,10 +692,10 @@ public class MainMenu implements Screen {
 		stage.getBatch().begin();
 		stage.getBatch().draw(background, 0, 0);
 		stage.getBatch().end();
-		
+
 		stage.draw();
 		stage.act();
-		
+
 	}
 
 	@Override
@@ -717,4 +759,92 @@ public class MainMenu implements Screen {
 		}
 		return names;
 	};
+	public Table resetGame(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
+			String labelText) {
+
+		Table table = new Table();
+		table.setWidth(450.0f);
+
+		Label label = new Label(labelText, labelStyle);
+		label.setWrap(true);
+		label.setAlignment(Align.center);		
+		
+		
+		
+
+		TextButton yes = new TextButton("yes", tempStyle);
+		yes.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Game.reset();
+				resetGame.setVisible(false);
+				menuType = 1;
+				
+			};
+		});
+		TextButton no = new TextButton("no", tempStyle);
+		no.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				resetGame.setVisible(false);
+			};
+		});
+
+		table.add(label).pad(10.0f, 30.0f, 10.0f, 30.0f).colspan(2).fill().expand();
+		table.row();
+		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
+		table.add(no).pad(10.0f).size(130.0f, 40.0f);
+	
+
+		table.setBackground(drawable);
+		table.pack();
+		table.setHeight(table.getHeight() - 60.0f);
+		table.setPosition((1280.0f-table.getWidth())*0.5f, (720.0f-table.getHeight())*0.5f);
+		
+		return table;
+	}
+	
+	public Table continues(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
+			String labelText) {
+
+		Table table = new Table();
+		table.setWidth(450.0f);
+
+		Label label = new Label(labelText, labelStyle);
+		label.setWrap(true);
+		label.setAlignment(Align.center);		
+		
+		
+		
+
+		TextButton yes = new TextButton("yes", tempStyle);
+		yes.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				menuType = 1;
+				noCurrentGame.setVisible(false);
+				
+			};
+		});
+		TextButton no = new TextButton("no", tempStyle);
+		no.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				noCurrentGame.setVisible(false);
+			};
+		});
+
+		table.add(label).pad(10.0f, 30.0f, 10.0f, 30.0f).colspan(2).fill().expand();
+		table.row();
+		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
+		table.add(no).pad(10.0f).size(130.0f, 40.0f);
+	
+
+		table.setBackground(drawable);
+		table.pack();
+		table.setHeight(table.getHeight() - 60.0f);
+		table.setPosition((1280.0f-table.getWidth())*0.5f, (720.0f-table.getHeight())*0.5f);
+		
+		return table;
+	}
 }
