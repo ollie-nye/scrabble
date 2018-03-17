@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -162,11 +163,22 @@ public class HelpMenu implements Screen {
 		exit.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new MainMenu(game));
-				hover.play(game.getSoundVol());
+
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
+
+					@Override
+					public void run() {
+
+						hover.play(game.getSoundVol());
+						game.setScreen(new MainMenu(game));
+
+					}
+				})));
 			}
 		});
 		stage.addActor(exit);
+		
+		
 
 		Gdx.input.setInputProcessor(stage);
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -35,6 +36,7 @@ public class MainMenu implements Screen {
 	private Label noPlayers;
 	private Stage stage;
 	private Sound hover;
+
 	// fiddy
 	private Sound gunit;
 	private Texture background;
@@ -99,9 +101,15 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				hover.play(game.getSoundVol());
-				game.setScreen(new SettingsMenu(game));
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
 
+					@Override
+					public void run() {
+						hover.play(game.getSoundVol());
+						game.setScreen(new SettingsMenu(game));
+
+					}
+				})));
 			}
 		});
 		stage.addActor(settings);
@@ -118,9 +126,15 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				hover.play(game.getSoundVol());
-				game.setScreen(new HelpMenu(game));
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
 
+					@Override
+					public void run() {
+						hover.play(game.getSoundVol());
+						game.setScreen(new HelpMenu(game));
+
+					}
+				})));
 			}
 		});
 		stage.addActor(rules);
@@ -137,9 +151,16 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				hover.play(game.getSoundVol());
-				Gdx.app.exit();
+				stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable() {
 
+					@Override
+					public void run() {
+
+						hover.play(game.getSoundVol());
+						Gdx.app.exit();
+
+					}
+				})));
 			}
 		});
 		stage.addActor(exit);
@@ -160,7 +181,7 @@ public class MainMenu implements Screen {
 			}
 		});
 		stage.addActor(website);
-	
+
 		skipToEndScreen = new TextButton("SKIP", websiteButtonStyle);
 		skipToEndScreen.setPosition(90f, 0f);
 		skipToEndScreen.setSize(90.0f, 90.0f);
@@ -436,10 +457,11 @@ public class MainMenu implements Screen {
 		exitMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				
-				for(TextField textField: playerNameEntry)textField.setText("");			
+
+				for (TextField textField : playerNameEntry)
+					textField.setText("");
 				setMainMenuVisible();
-				setGameMenuInvisible();				
+				setGameMenuInvisible();
 				menuType = 0;
 				screen = 0;
 				playerCounter = 0;
@@ -451,6 +473,8 @@ public class MainMenu implements Screen {
 		});
 		exitMenu.setVisible(false);
 		stage.addActor(exitMenu);
+		
+		
 
 	}
 
@@ -685,7 +709,7 @@ public class MainMenu implements Screen {
 
 	private Queue<String> setPlayerArray() {
 		Queue<String> names = new Queue<String>();
-		for(TextField textField: playerNameEntry){
+		for (TextField textField : playerNameEntry) {
 			names.addLast(textField.getText());
 		}
 		return names;
