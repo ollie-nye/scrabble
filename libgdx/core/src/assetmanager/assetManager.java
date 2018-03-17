@@ -47,6 +47,24 @@ public class assetManager {
     public static final AssetDescriptor<Texture> helpBackground =
             new AssetDescriptor<Texture>("graphics/HelpMenu/HelpBackground.png", Texture.class);
     
+    public static final AssetDescriptor<Texture> img1 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img1.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img2 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img2.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img3 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img3.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img4 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img4.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> circle =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/circle.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> circle1 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/circle1.png", Texture.class);
+    
     //graphics for results screen
     public static final AssetDescriptor<Texture> resultsBackground =
             new AssetDescriptor<Texture>("graphics/ResultsScreen/Background.png", Texture.class);
@@ -110,6 +128,12 @@ public class assetManager {
         manager.load(sliderBar);
         manager.load(sliderKnob);
         manager.load(settingsBackground);
+        manager.load(img1);
+        manager.load(img2);
+        manager.load(img3);
+        manager.load(img4);
+        manager.load(circle);
+        manager.load(circle1);
         manager.load(icon);
         manager.load(logo);
         manager.load(logoWhite);
