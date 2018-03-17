@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
@@ -45,15 +46,14 @@ public class SettingsMenu implements Screen {
 	private TextButton soundButton;
 	private Sound hover;
 	private TextButton musicButton;
-	
 
 	public SettingsMenu(ScrabbleLauncher game) {
 		this.game = game;
 		font = new BitmapFont();
-		
+
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		settingsBackground = game.getAssetManager().manager.get(assetManager.settingsBackground);
-		
+
 		/// create stage and set it as input processor
 		stage = new Stage(new ScreenViewport());
 
@@ -163,9 +163,18 @@ public class SettingsMenu implements Screen {
 		menu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new MainMenu(game));
-				hover.play(game.getSoundVol());
-			};
+
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+
+					@Override
+					public void run() {
+
+						hover.play(game.getSoundVol());
+						game.setScreen(new MainMenu(game));
+
+					}
+				})));
+			}
 		});
 		stage.addActor(menu);
 
@@ -176,19 +185,19 @@ public class SettingsMenu implements Screen {
 		// clear the screen ready for next set of images to be drawn
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		// So the Sound button is checked when returning to settings menu
 		if (soundSlider.getValue() == 0) {
 			soundButton.setChecked(true);
-		} else 
+		} else
 			soundButton.setChecked(false);
-		
+
 		// So the Music button is checked when returning to settings menu
 		if (game.getTheme().getVolume() == 0) {
 			musicButton.setChecked(true);
-		} else 
+		} else
 			musicButton.setChecked(false);
-		
+
 		stage.getBatch().begin();
 		stage.getBatch().draw(settingsBackground, 0, 0);
 		stage.getBatch().end();
@@ -196,8 +205,8 @@ public class SettingsMenu implements Screen {
 		stage.act();
 
 	}
-	
-	public Slider getSoundSlider(){
+
+	public Slider getSoundSlider() {
 		return soundSlider;
 	}
 
