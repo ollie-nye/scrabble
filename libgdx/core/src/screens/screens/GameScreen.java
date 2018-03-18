@@ -52,8 +52,8 @@ public class GameScreen implements Screen {
 	private TextureAtlas buttonAtlas;
 	private ScrabbleButtonStyle scrabbleButtonStyle;
 	private TextButton startTurn, endTurn, shuffleButton, endGame, testButton;
-	private Sound[] tilePress1, tilePress2, turnChange;
-	private Sound hover;
+	private Sound[] tilePress1, tilePress2;
+	private Sound turnChange, hover, timeCountdown, timeUp;
 	private Random random;
 	private ScrabbleLauncher game;
 	private Table endLabel, endPlayerTurn;
@@ -61,7 +61,6 @@ public class GameScreen implements Screen {
 	private ScrabbleButtonStyle redButtonStyle, blueButtonStyle, orangeButtonStyle, greenButtonStyle, brownButtonStyle;
 	// for test purposes only
 	private boolean deplete;
-
 	// board and player tiles
 	private Table[] tables = new Table[5];
 	// player score representations
@@ -69,8 +68,6 @@ public class GameScreen implements Screen {
 	private Label[] playerNames = new Label[Game.getNumberOfPlayers()];
 	// tracking players who have ended the game
 	private int playersEnded = Game.getNumberOfPlayers();
-	
-	
 
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
@@ -88,7 +85,9 @@ public class GameScreen implements Screen {
 		ScrabbleButton scrabbleButton;
 		tilePress1 = new Sound[] { game.getAssetManager().manager.get(assetManager.click1)	};
 		tilePress2 = new Sound[] { game.getAssetManager().manager.get(assetManager.click6)	};
-		turnChange = new Sound[] { game.getAssetManager().manager.get(assetManager.click11)	};
+		turnChange = game.getAssetManager().manager.get(assetManager.click11);
+		timeCountdown = game.getAssetManager().manager.get(assetManager.countdownTimer);
+		timeUp = game.getAssetManager().manager.get(assetManager.timesUp);
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		setupButtonConfig();
@@ -218,7 +217,7 @@ public class GameScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				
 				Game.endTurn();
-				
+				turnChange.play(game.getSoundVol());
 				if (Game.getCurrentMove() == null) {
 									
 				}

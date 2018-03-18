@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -59,9 +60,15 @@ public class ResultsScreen implements Screen {
 	private Label[][] p1LettersLeft;
 	private ButtonStyle returnButtonStyle;
 	private Button returnButton;
+	
+	private Sound scoreIncrement, finalScoreSound, winfanfare;
 
 	public ResultsScreen(ScrabbleLauncher game) {
 		this.game = game;
+		// Sound Implementation
+		scoreIncrement = game.getAssetManager().manager.get(assetManager.scoreInc);
+		finalScoreSound = game.getAssetManager().manager.get(assetManager.finalScores);
+		winfanfare = game.getAssetManager().manager.get(assetManager.winFanfare);
 		stage = new Stage(new ScreenViewport());
 		setupButtonConfig();
 		setupResults();
@@ -196,9 +203,7 @@ public class ResultsScreen implements Screen {
 		returnButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-
 				 disposey();
-
 			}
 		});
 		Button placeHolderButton = new Button(returnButtonStyle);
@@ -238,7 +243,6 @@ public class ResultsScreen implements Screen {
 	public void render(float delta) {
 		deltaTime = Gdx.graphics.getDeltaTime();
 		timer += deltaTime;
-
 		addPenalties();
 		// current scoreCounter
 		if (currentScoreDone() == false) {
@@ -266,11 +270,12 @@ public class ResultsScreen implements Screen {
 					finalScore[i].setVisible(true);
 				}
 			}
+			finalScoreSound.play(game.getSoundVol()); //CROSSCHECK (ERROR: Infinite Repeating)
 			endTimer += deltaTime;
 			if (endTimer > 7) {
 				tableThing.setVisible(true);
+				winfanfare.play(game.getSoundVol()); //CROSSCHECK (ERROR: Infinite Repeating)
 			}
-
 		}
 		stage.getBatch().begin();
 		stage.getBatch().draw(background, 0, 0);
@@ -335,8 +340,8 @@ public class ResultsScreen implements Screen {
 		if (timer > 0) {
 			for (int i = 0; i < p1CurrentScore.length; i++) {
 				if ((int) letterCounter <= currentScores[i]) {
-
 					p1CurrentScore[i].setText(Integer.toString((int) letterCounter));
+					scoreIncrement.play(game.getSoundVol());
 				} else {
 					p1CurrentScore[i].setText(Integer.toString(currentScores[i]));
 					currentScoreDone[i] = true;
@@ -360,6 +365,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][0].isVisible() == false) {
 						p1LettersLeft[i][0].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][0].getScore();
+						scoreIncrement.play(game.getSoundVol());
 
 					}
 				}
@@ -374,6 +380,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][1].isVisible() == false) {
 						p1LettersLeft[i][1].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][1].getScore();
+						scoreIncrement.play(game.getSoundVol());
 					}
 				}
 				if (p1LettersLeft[i].length == 2) {
@@ -387,6 +394,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][2].isVisible() == false) {
 						p1LettersLeft[i][2].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][2].getScore();
+						scoreIncrement.play(game.getSoundVol());
 					}
 				}
 				if (p1LettersLeft[i].length == 3) {
@@ -400,6 +408,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][3].isVisible() == false) {
 						p1LettersLeft[i][3].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][3].getScore();
+						scoreIncrement.play(game.getSoundVol());
 					}
 				}
 				if (p1LettersLeft[i].length == 4) {
@@ -413,6 +422,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][4].isVisible() == false) {
 						p1LettersLeft[i][4].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][4].getScore();
+						scoreIncrement.play(game.getSoundVol());
 					}
 				}
 				if (p1LettersLeft[i].length == 5) {
@@ -427,6 +437,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][5].isVisible() == false) {
 						p1LettersLeft[i][5].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][5].getScore();
+						scoreIncrement.play(game.getSoundVol());
 					}
 				}
 				if (p1LettersLeft[i].length == 6) {
@@ -440,6 +451,7 @@ public class ResultsScreen implements Screen {
 					if (p1LettersLeft[i][6].isVisible() == false) {
 						p1LettersLeft[i][6].setVisible(true);
 						addingPenalties[i] += remainingTiles[i][6].getScore();
+						scoreIncrement.play(game.getSoundVol());
 					}
 					tilesFinished[i] = true;
 				}
@@ -505,24 +517,23 @@ public class ResultsScreen implements Screen {
 	}
 
 	/**
-	 * scorecard create
-	 * @param x player number (game must have sufficient number of players)
-	 * @return scorecard
+	 * Create the Score Card
+	 * @param playerNum player number (game must have sufficient number of players)
+	 * @return Game ScoreCard
 	 */
-	private Table player1Scorecard(int x) {
+	private Table player1Scorecard(int playerNum) {
 
 		// +CREATING FULL PLAYER SCORECARD
-		Table player = new Table();
-		player.pad(15.0f);
-		player.setBackground(skin.getDrawable("creationBox"));
+		Table playerScoreCard = new Table();
+		playerScoreCard.pad(15.0f);
+		playerScoreCard.setBackground(skin.getDrawable("creationBox"));
 
 		// player names at top of players box;
 		// ++PLAYER NAME ROW
-		
-		Label playerName = new Label(names[x], longLabelStyle);
+		Label playerName = new Label(names[playerNum], longLabelStyle);
 		playerName.setAlignment(Align.center);
-		player.add(playerName).colspan(2).expandX().width(500.0f);
-		player.row();
+		playerScoreCard.add(playerName).colspan(2).expandX().width(500.0f);
+		playerScoreCard.row();
 		// --PLAYER NAME ROW
 
 		// ++END TILE COLLECTION HEADER
@@ -531,30 +542,30 @@ public class ResultsScreen implements Screen {
 		endTileHeader.setAlignment(Align.center);
 		playerName.setAlignment(Align.center);
 		tileys.add(endTileHeader).colspan(2).expandX().fill();
-		player.add(tileys).expand().fill();
-		player.row();
+		playerScoreCard.add(tileys).expand().fill();
+		playerScoreCard.row();
 		// --END TILE COLLECTION HEADER
 
 		// this is the list of letters that the player had left;
 		// ++LIST OF TILES LEFT FOR PLAYER
 		Table letters = new Table();
-		p1LettersLeft[x] = new Label[remainingTiles[x].length]; // letterLeft
-		for (int i = 0; i < remainingTiles[x].length; i++) {
-			p1LettersLeft[x][i] = new Label(remainingTiles[x][i].getContent(), tileLabelStyle);
-			p1LettersLeft[x][i].setFontScale(0.7f);
-			p1LettersLeft[x][i].setAlignment(Align.center);
-			letters.add(p1LettersLeft[x][i]).size(40.0f, 40.0f).expand().pad(10.0f);
-			p1LettersLeft[x][i].setVisible(false);
+		p1LettersLeft[playerNum] = new Label[remainingTiles[playerNum].length]; // letterLeft
+		for (int i = 0; i < remainingTiles[playerNum].length; i++) {
+			p1LettersLeft[playerNum][i] = new Label(remainingTiles[playerNum][i].getContent(), tileLabelStyle);
+			p1LettersLeft[playerNum][i].setFontScale(0.7f);
+			p1LettersLeft[playerNum][i].setAlignment(Align.center);
+			letters.add(p1LettersLeft[playerNum][i]).size(40.0f, 40.0f).expand().pad(10.0f);
+			p1LettersLeft[playerNum][i].setVisible(false);
 		}
-		if (remainingTiles[x].length == 0) {
+		if (remainingTiles[playerNum].length == 0) {
 			Label allTilesGone = new Label("You Played All Your Tiles!", longLabelStyle);
-			tilesFinished[x] = true;
+			tilesFinished[playerNum] = true;
 			allTilesGone.setAlignment(Align.center);
 			letters.add(allTilesGone).expandX().height(40.0f).fill();
 		}
-		player.add(letters).colspan(2).expandX().fill();
+		playerScoreCard.add(letters).colspan(2).expandX().fill();
 		letters.pack();
-		player.row();
+		playerScoreCard.row();
 		// --LIST OF TILES LEFT FOR PLAYER
 
 		// this shows current and score to be taken away
@@ -570,45 +581,45 @@ public class ResultsScreen implements Screen {
 		// --SCORES TO CALCULATE TITLES
 
 		// ++FINAL SCORES TITLES
-		p1FinalScore[x] = new Label("Final Score", longLabelStyle);
-		p1FinalScore[x].setAlignment(Align.center);	
-		p1FinalScore[x].setVisible(false);
+		p1FinalScore[playerNum] = new Label("Final Score", longLabelStyle);
+		p1FinalScore[playerNum].setAlignment(Align.center);	
+		p1FinalScore[playerNum].setVisible(false);
 		// --FINAL SCORES TITLES
 		
 		// ++SCORES HEADERS STACK
 		Stack stack = new Stack(); //stack will store header for current, then final
 		stack.add(headers);		
-		stack.add(p1FinalScore[x]);
-		player.add(stack).expand().fill().colspan(2);
-		player.row();
+		stack.add(p1FinalScore[playerNum]);
+		playerScoreCard.add(stack).expand().fill().colspan(2);
+		playerScoreCard.row();
 		// --SCORES HEADERS STACK
 
 		// this shows the actual score numbers
 		// ++SCORES TO CALCULATE
 		Table oldScores = new Table();
-		p1CurrentScore[x] = new Label(" ", shortLabelStyle);
-		p1ScoreLoss[x] = new Label(" ", shortLabelStyle);
-		p1CurrentScore[x].setAlignment(Align.center);
-		p1ScoreLoss[x].setAlignment(Align.center);
-		oldScores.add(p1CurrentScore[x]).expand().fill().uniform();
-		oldScores.add(p1ScoreLoss[x]).expand().fill().uniform();
+		p1CurrentScore[playerNum] = new Label(" ", shortLabelStyle);
+		p1ScoreLoss[playerNum] = new Label(" ", shortLabelStyle);
+		p1CurrentScore[playerNum].setAlignment(Align.center);
+		p1ScoreLoss[playerNum].setAlignment(Align.center);
+		oldScores.add(p1CurrentScore[playerNum]).expand().fill().uniform();
+		oldScores.add(p1ScoreLoss[playerNum]).expand().fill().uniform();
 		// ++SCORES TO CALCULATE
 	
 		// ++FINAL SCORES
-		finalScore[x] = new Label(Integer.toString(finalScores[x]), longLabelStyle);
-		finalScore[x].setAlignment(Align.center);
-		finalScore[x].setVisible(false);		
+		finalScore[playerNum] = new Label(Integer.toString(finalScores[playerNum]), longLabelStyle);
+		finalScore[playerNum].setAlignment(Align.center);
+		finalScore[playerNum].setVisible(false);		
 		// --FINAL SCORES
 		
 		// ++SCORES
 		Stack scoresStack = new Stack();
 		scoresStack.add(oldScores);
-		scoresStack.add(finalScore[x]);
-		player.add(scoresStack).expand().fill();
-		player.row();		
+		scoresStack.add(finalScore[playerNum]);
+		playerScoreCard.add(scoresStack).expand().fill();
+		playerScoreCard.row();		
 		// --SCORES 
 
-		player.pack();
-		return player;
+		playerScoreCard.pack();
+		return playerScoreCard;
 	}
 }
