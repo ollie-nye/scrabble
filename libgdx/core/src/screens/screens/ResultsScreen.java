@@ -62,6 +62,8 @@ public class ResultsScreen implements Screen {
 	private Button returnButton;
 	
 	private Sound scoreIncrement, finalScoreSound, winfanfare;
+	
+	private boolean hasWon, isFinal = false;
 
 	public ResultsScreen(ScrabbleLauncher game) {
 		this.game = game;
@@ -264,17 +266,26 @@ public class ResultsScreen implements Screen {
 		}
 		// shows the winner
 		if (tilesFinished() == true) {
+			
 			if (endTimer > 3) {
 				for (int i = 0; i < p1FinalScore.length; i++) {
 					p1FinalScore[i].setVisible(true);
 					finalScore[i].setVisible(true);
 				}
+				//Condition to One Shot Audio Play
+				if(isFinal == false) {
+					finalScoreSound.play(game.getSoundVol());
+					isFinal = true;
+				}
 			}
-			finalScoreSound.play(game.getSoundVol()); //CROSSCHECK (ERROR: Infinite Repeating)
 			endTimer += deltaTime;
 			if (endTimer > 7) {
 				tableThing.setVisible(true);
-				winfanfare.play(game.getSoundVol()); //CROSSCHECK (ERROR: Infinite Repeating)
+				//Condition to one shot play
+				if(hasWon == false) {
+					winfanfare.play(game.getSoundVol());
+					hasWon = true;
+				}
 			}
 		}
 		stage.getBatch().begin();

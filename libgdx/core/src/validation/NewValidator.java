@@ -204,6 +204,11 @@ public class NewValidator {
 		return new Coordinate(coordinate.getY(), coordinate.getX() + 1);
 	}
 	
+	public void resetDirection() {
+		this.direction = null;
+		this.playedTiles = 1;
+	}
+	
 	private void getWords(Letter letter) {
 		this.words = ops.identifyWords(letter);
 	} 
