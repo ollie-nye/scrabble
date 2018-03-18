@@ -2,6 +2,7 @@ package player;
 
 import data.Coordinate;
 import data.Tile;
+import data.Tuple;
 import data.Word;
 import scrabble.Board;
 import scrabble.Game;
@@ -50,23 +51,26 @@ public class AIPlayer extends Player {
             }
         } else {
             // For each square in board, find the moves
-
+            ArrayList<ArrayList<Tuple<Character, Coordinate>>> allMoves = new ArrayList<>();
             for (int y = 0; y < 15; y++) {
                 for (int x = 0; x < 15; x++) {
                     Coordinate coordinate = new Coordinate(x, y);
                     Tile tile = Board.getInstance().getTile(coordinate);
                     if (tile != null) {
-                        findMoves(coordinate, findPossibleWords(coordinate));
+                        for (ArrayList<Tuple<Character, Coordinate>> move : findMoves(coordinate, findPossibleWords(coordinate))) {
+                            allMoves.add(move);
+                        }
                     }
                 }
             }
+            playMove(calculateBestMove(allMoves));
         }
         Game.endTurn();
     }
 
-    private ArrayList<Word> findMoves(Coordinate coordinate, ArrayList<String> words) {
+    private ArrayList<ArrayList<Tuple<Character, Coordinate>>> findMoves(Coordinate coordinate, ArrayList<String> words) {
         char letterOnBoard = Board.getInstance().getTile(coordinate).getChar();
-        ArrayList<Word> moves = new ArrayList<>();
+        ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves = new ArrayList<>();
 
         // for each word
         for (String word : words) {
@@ -90,50 +94,74 @@ public class AIPlayer extends Player {
                 }
             }
 
-            int verticalScore = calculateVerticalMove(word, prefix, suffix, coordinate);
-            int horizontalScore = calculateHorizontalMove(word, prefix, suffix, coordinate);
+            ArrayList<Tuple<Character, Coordinate>> vertical, horizontal;
 
-            if(verticalScore > 0) {
-                moves.add(new Word(word, verticalScore));
-            }
-            if(horizontalScore > 0) {
-                moves.add(new Word(word, horizontalScore));
-            }
+            vertical = calculateVerticalMove(word, prefix, suffix, coordinate);
+            horizontal = calculateHorizontalMove(word, prefix, suffix, coordinate);
 
-            //TEST
-            System.out.print("Word: " + word + " ");
-            System.out.print("Character: " + letterOnBoard + " ");
-            System.out.print("Prefix: " + prefix + " ");
-            System.out.print("Suffix: " + suffix + " ");
-            System.out.print("Horizontal score: " + calculateHorizontalMove(word, prefix, suffix, coordinate) + " ");
-            System.out.println("Vertical score: " + calculateVerticalMove(word, prefix, suffix, coordinate) + " ");
-            //isWordPlayable(word, prefix, suffix, coordinate);
+            if (!vertical.isEmpty()) {
+                vertical.add(new Tuple<>(letterOnBoard, coordinate));
+                moves.add(vertical);
+            }
+            if (!horizontal.isEmpty()) {
+                horizontal.add(new Tuple<>(letterOnBoard, coordinate));
+                moves.add(horizontal);
+            }
         }
         return moves;
     }
 
-    private Word calculateBestMove(ArrayList<Word> words) {
-        Word bestWord = null;
+    private int calculateMoveScore(ArrayList<Tuple<Character, Coordinate>> move) {
+        int wordMultiplier = 1;
+        int score = 0;
+        for (Tuple<Character, Coordinate> letter : move) {
+            int letterScore = Score.getLetterScore(letter.getLeft());
+            int letterMultiplier = Score.getWordMultiplier(letter.getRight());
+            wordMultiplier *= Score.getWordMultiplier(letter.getRight());
+            score += letterScore * letterMultiplier;
+        }
+        return score * wordMultiplier;
+    }
+
+    private ArrayList<Tuple<Character, Coordinate>> calculateBestMove(ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves) {
+        ArrayList<Tuple<Character, Coordinate>> bestMove = null;
         int wordScore = 0;
-        for (Word word : words) {
-            int tempScore = word.getScore();
+        for (ArrayList<Tuple<Character, Coordinate>> move : moves) {
+            int tempScore = calculateMoveScore(move);
             if (tempScore > wordScore) {
                 wordScore = tempScore;
-                bestWord = word;
+                bestMove = move;
             }
         }
-        return bestWord;
+        return bestMove;
     }
 
-    private void playMove(Word word) {
+    private void playMove(ArrayList<Tuple<Character, Coordinate>> move) {
+        Tuple<Character, Coordinate> placedLetter = null;
+        for (Tuple<Character, Coordinate> letter : move) {
+            if (Board.getInstance().getTile(letter.getRight()) != null) {
+                placedLetter = letter;
+            }
+        }
+        System.out.println(move);
+        move.remove(placedLetter);
+
+        for (Tuple<Character, Coordinate> letter : move) {
+            for (Tile tile : super.getTiles()) {
+                if (tile != null && tile.getChar() == letter.getLeft()) {
+                    //Game.getCurrentMove().addTile(tile, letter.getRight());
+                    Board.getInstance().place(tile, letter.getRight());
+                }
+            }
+        }
     }
 
-    private int calculateVerticalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
+    private ArrayList<Tuple<Character, Coordinate>> calculateVerticalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
         Coordinate tempCoordinate;
         boolean prefixFit = true;
         boolean suffixFit = true;
-        int wordMultiplier = 1;
-        int score = 0;
+
+        ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
 
         if (prefix.size() > 0) {
             // check prefix
@@ -143,11 +171,9 @@ public class AIPlayer extends Player {
                 // if free,
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (prefixLength > 0 && tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    int letterScore = Score.getLetterScore(prefix.get(prefix.size() - prefixLength));
-                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
-                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
-                    score += letterScore * letterMultiplier;
+                while (prefixLength > 0 && tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+
+                    charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
 
                     prefixLength--;
                     tempCoordinate = tempCoordinate.getNear('D');
@@ -160,46 +186,35 @@ public class AIPlayer extends Player {
                 prefixFit = false;
             }
         }
+        if (!prefixFit) {
+            return charCoordinates;
+        }
 
         if (suffix.size() > 0) {
             // check suffix
-            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + suffix.size());
+            tempCoordinate = coordinate.getNear('D');
             if ((tempCoordinate.getY() == 14 && Board.getInstance().getTile(tempCoordinate) == null)
-                    || (tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('U')) == null))  {
+                    || (tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)) {
                 // if free,
-                int suffixLength = suffix.size();
+                int suffixLength = 0;
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (suffixLength > 0 && tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    int letterScore = Score.getLetterScore(suffix.get(suffix.size() - suffixLength));
-                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
-                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
-                    score += letterScore * letterMultiplier;
+                while (suffixLength < suffix.size() && tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
 
-                    suffixLength--;
-                    tempCoordinate = tempCoordinate.getNear('U');
+                    charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
+
+                    suffixLength++;
+                    tempCoordinate = tempCoordinate.getNear('D');
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
-                if (suffixLength != 0) {
-                    suffixFit = false;
-                }
-            } else {
-                suffixFit = false;
             }
         }
-
-        if (prefixFit || suffixFit) {
-            return score * wordMultiplier;
-        } else {
-            return 0;
-        }
+        return charCoordinates;
     }
 
-    private int calculateHorizontalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
+    private ArrayList<Tuple<Character, Coordinate>> calculateHorizontalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
         Coordinate tempCoordinate;
-        boolean prefixFit = true;
-        boolean suffixFit = true;
-        int wordMultiplier = 1;
-        int score = 0;
+        boolean possible = true;
+        ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
 
         // Horizontal fit
         if (prefix.size() > 0) {
@@ -211,53 +226,53 @@ public class AIPlayer extends Player {
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
                 while (prefixLength > 0 && tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    int letterScore = Score.getLetterScore(prefix.get(prefix.size() - prefixLength));
-                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
-                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
-                    score += letterScore * letterMultiplier;
+
+                    charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
 
                     prefixLength--;
-                    tempCoordinate = tempCoordinate.getNear('L');
+                    tempCoordinate = tempCoordinate.getNear('R');
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
                 if (prefixLength != 0) {
-                    prefixFit = false;
+                    possible = false;
                 }
             } else {
-                prefixFit = false;
+                possible = false;
             }
+        }
+        if (!possible) {
+            charCoordinates.clear();
+            return charCoordinates;
         }
 
         if (suffix.size() > 0) {
             // check suffix
-            tempCoordinate = new Coordinate(coordinate.getX() + suffix.size(), coordinate.getY());
+            tempCoordinate = coordinate.getNear('R');
             if ((tempCoordinate.getX() == 14 && Board.getInstance().getTile(tempCoordinate) == null)
                     || (tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)) {
                 // if free,
-                int suffixLength = suffix.size();
+                int suffixLength = 0;
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (suffixLength > 0 && tempCoordinate.getX() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    int letterScore = Score.getLetterScore(suffix.get(suffix.size() - suffixLength));
-                    int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
-                    wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
-                    score += letterScore * letterMultiplier;
+                while (suffixLength < suffix.size() && tempCoordinate.getX() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
 
-                    suffixLength--;
+                    charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
+                    suffixLength++;
+
                     tempCoordinate = tempCoordinate.getNear('R');
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
-                if (suffixLength != 0) {
-                    suffixFit = false;
+                if (suffixLength != suffix.size()) {
+                    possible = false;
                 }
             } else {
-                suffixFit = false;
+                possible = false;
             }
         }
-        if (prefixFit || suffixFit) {
-            return score * wordMultiplier;
-        } else {
-            return 0;
+        if (!possible) {
+            charCoordinates.clear();
+            return charCoordinates;
         }
+        return charCoordinates;
     }
 
     private int contains(char[] word, char letter) {
