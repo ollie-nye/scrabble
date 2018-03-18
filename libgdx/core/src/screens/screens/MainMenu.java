@@ -103,9 +103,9 @@ private Table resetGame, noCurrentGame;
 
 			}
 		});
-		stage.addActor(continues);
+		//stage.addActor(continues);
 
-		play = new TextButton("New Game", playButtonStyle);
+		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 320f);
 		play.setSize(254.0f, 65.0f);
 		play.addListener(new ClickListener() {
@@ -514,12 +514,12 @@ private Table resetGame, noCurrentGame;
 		textButtonStyle.font =  font;
 		LabelStyle llabelStyle = new LabelStyle();
 		llabelStyle.font = font;
-		resetGame = resetGame(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "Are you sure you want to start a new game instead of continuing?");
+		resetGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "Are you sure you want to start a new game instead of continuing?");
 		resetGame.setVisible(false);
 		stage.addActor(resetGame);
 		noCurrentGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "You have no game in progress. Start a new one?");
 		noCurrentGame.setVisible(false);
-		stage.addActor(noCurrentGame);
+		//stage.addActor(noCurrentGame);
 
 	}
 
@@ -812,6 +812,8 @@ private Table resetGame, noCurrentGame;
 		return table;
 	}
 	
+	
+	
 	public Table continues(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
 			String labelText) {
 
@@ -825,16 +827,25 @@ private Table resetGame, noCurrentGame;
 		
 		
 
-		TextButton yes = new TextButton("yes", tempStyle);
+		TextButton yes = new TextButton("Continue", tempStyle);
 		yes.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				menuType = 1;
+				game.setScreen(new GameScreen(game, null));
 				noCurrentGame.setVisible(false);
 				
 			};
 		});
-		TextButton no = new TextButton("no", tempStyle);
+		TextButton no = new TextButton("New Game", tempStyle);
+		no.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				menuType = 1;
+				Game.reset();
+				noCurrentGame.setVisible(false);
+			};
+		});
+		TextButton cancel = new TextButton("Cancel", tempStyle);
 		no.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -842,10 +853,11 @@ private Table resetGame, noCurrentGame;
 			};
 		});
 
-		table.add(label).pad(10.0f, 30.0f, 10.0f, 30.0f).colspan(2).fill().expand();
+		table.add(label).pad(10.0f, 30.0f, 10.0f, 30.0f).colspan(3).fill().expand();
 		table.row();
-		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
-		table.add(no).pad(10.0f).size(130.0f, 40.0f);
+		table.add(yes).pad(10.0f).size(180.0f, 40.0f);
+		table.add(no).pad(10.0f).size(180.0f, 40.0f);
+		table.add(cancel).pad(10.0f).size(180.0f, 40.0f);
 	
 
 		table.setBackground(drawable);

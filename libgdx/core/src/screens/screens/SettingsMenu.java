@@ -46,25 +46,25 @@ public class SettingsMenu implements Screen {
 	private TextButton soundButton;
 	private Sound hover;
 	private TextButton musicButton;
+	private boolean firstFrame;
 
 	public SettingsMenu(ScrabbleLauncher game) {
 		this.game = game;
 		font = new BitmapFont();
-
+		stage = new Stage(new ScreenViewport());
+	
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
+
 		settingsBackground = game.getAssetManager().manager.get(assetManager.settingsBackground);
 
 		/// create stage and set it as input processor
-		stage = new Stage(new ScreenViewport());
-		
-		
 
 	}
 
 	@Override
 	public void show() {
 		stage.clear();
-		
+
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin();
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
@@ -180,10 +180,8 @@ public class SettingsMenu implements Screen {
 			}
 		});
 		stage.addActor(menu);
-		
+
 		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
-
-
 
 	}
 
@@ -193,6 +191,7 @@ public class SettingsMenu implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+	
 		// So the Sound button is checked when returning to settings menu
 		if (soundSlider.getValue() == 0) {
 			soundButton.setChecked(true);
@@ -206,12 +205,14 @@ public class SettingsMenu implements Screen {
 			musicButton.setChecked(false);
 
 		stage.getBatch().begin();
-		
+
 		stage.getBatch().draw(settingsBackground, 0, 0);
+
 		stage.getBatch().end();
 		stage.draw();
 		stage.act();
-	
+		
+		
 	}
 
 	public Slider getSoundSlider() {
