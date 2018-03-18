@@ -1,8 +1,6 @@
 package scrabble;
 
-import data.Move;
-import data.Result;
-import data.Timer;
+import data.*;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
@@ -96,6 +94,7 @@ public class Game {
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
+        //aiTest();
         startTurn();
     }
     /**
@@ -111,11 +110,6 @@ public class Game {
         if(!(currentPlayer instanceof HumanPlayer)) {
             currentPlayer.play();
         }
-
-        //TODO: figure out this cyclic logic?
-        //if (currentPlayer.allTurnsFinished() == true){
-        //	startTurn();
-        //}
     }
     /**
      * Ends current turn, increments Player score by the score of the Move.
@@ -131,7 +125,6 @@ public class Game {
                     currentPlayer = null;
                 }
             } else if (lastResult == null && currentMove.getPlayedTiles().size() == 0 && Timer.getTimeLeft() > 0) {
-                JOptionPane.showMessageDialog(null, "Do you want to end?", "Error", JOptionPane.INFORMATION_MESSAGE);
                 Board.getInstance().resetPartial();
                 currentMove.endMove();
                 currentMove = null;
@@ -181,5 +174,32 @@ public class Game {
 
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
+    }
+
+    //TEST
+    private static void aiTest() {
+        //Board.getInstance().place(new Tile('l', 1), new Coordinate(4,7));
+        //Board.getInstance().place(new Tile('o', 1), new Coordinate(5,7));
+        //Board.getInstance().place(new Tile('c', 1), new Coordinate(6,7));
+        /*
+        Board.getInstance().place(new Tile('k', 5), new Coordinate(7,7));
+        Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
+        Board.getInstance().place(new Tile('y', 4), new Coordinate(7,9));
+
+        Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
+        Board.getInstance().place(new Tile('x', 8), new Coordinate(7,9));
+
+        Board.getInstance().place(new Tile('d', 2), new Coordinate(7,4));
+        Board.getInstance().place(new Tile('h', 4), new Coordinate(7,5));
+        Board.getInstance().place(new Tile('a', 1), new Coordinate(7,6));
+
+        Board.getInstance().place(new Tile('e', 1), new Coordinate(8,4));
+        Board.getInstance().place(new Tile('l', 1), new Coordinate(9,4));
+        Board.getInstance().place(new Tile('f', 4), new Coordinate(10,4));
+        Board.getInstance().place(new Tile('t', 1), new Coordinate(11,4));
+        Board.getInstance().place(new Tile('s', 1), new Coordinate(12,4));
+        */
+        //Board.getInstance().place(new Tile('j', 1), new Coordinate(5,9));
+        //Board.getInstance().place(new Tile('a', 1), new Coordinate(6,9));
     }
 }
