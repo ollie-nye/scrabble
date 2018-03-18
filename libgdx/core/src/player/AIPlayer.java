@@ -158,6 +158,7 @@ public class AIPlayer extends Player {
 
     private ArrayList<Tuple<Character, Coordinate>> calculateVerticalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
         Coordinate tempCoordinate;
+        boolean possible = true;
         boolean prefixFit = true;
         boolean suffixFit = true;
 
@@ -180,13 +181,14 @@ public class AIPlayer extends Player {
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
                 if (prefixLength != 0) {
-                    prefixFit = false;
+                    possible = false;
                 }
             } else {
-                prefixFit = false;
+                possible = false;
             }
         }
-        if (!prefixFit) {
+        if (!possible) {
+            charCoordinates.clear();
             return charCoordinates;
         }
 
@@ -205,8 +207,16 @@ public class AIPlayer extends Player {
                     suffixLength++;
                     tempCoordinate = tempCoordinate.getNear('D');
                 }
-                // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
+                if (suffixLength != suffix.size()) {
+                    possible = false;
+                }
+            } else {
+                possible = false;
             }
+        }
+        if (!possible) {
+            charCoordinates.clear();
+            return charCoordinates;
         }
         return charCoordinates;
     }
