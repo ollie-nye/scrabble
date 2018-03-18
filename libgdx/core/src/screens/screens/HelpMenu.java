@@ -72,7 +72,7 @@ public class HelpMenu implements Screen {
 		/// create stage and set it as input processor
 		stage = new Stage(new ScreenViewport());
 		
-		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
+		
 
 	}
 
@@ -167,22 +167,15 @@ public class HelpMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
-
-					@Override
-					public void run() {
+				
 
 						hover.play(game.getSoundVol());
 						game.setScreen(new MainMenu(game));
 
 					}
-				})));
-			}
-		});
+				});
+		
 		stage.addActor(exit);
-		
-		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
-		
 
 		Gdx.input.setInputProcessor(stage);
 

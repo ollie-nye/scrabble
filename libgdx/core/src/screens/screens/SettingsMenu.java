@@ -46,7 +46,7 @@ public class SettingsMenu implements Screen {
 	private TextButton soundButton;
 	private Sound hover;
 	private TextButton musicButton;
-	private boolean firstFrame;
+
 
 	public SettingsMenu(ScrabbleLauncher game) {
 		this.game = game;
@@ -167,21 +167,14 @@ public class SettingsMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
-
-					@Override
-					public void run() {
-
 						hover.play(game.getSoundVol());
 						game.setScreen(new MainMenu(game));
 
 					}
-				})));
-			}
 		});
 		stage.addActor(menu);
 
-		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
+
 
 	}
 

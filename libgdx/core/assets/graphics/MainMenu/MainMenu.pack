@@ -164,31 +164,59 @@ whiteLine
   orig: 8, 180
   offset: 0, 0
   index: -1
+homeButton
+  rotate: false
+  xy: 128, 24
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: -1
+homeButtonPressed
+  rotate: false
+  xy: 356, 501
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: -1
 leftArrow
-  rotate: false
-  xy: 128, 42
-  size: 47, 47
-  orig: 47, 47
-  offset: 0, 0
-  index: -1
-leftArrowPressed
-  rotate: false
-  xy: 356, 519
-  size: 47, 47
-  orig: 47, 47
-  offset: 0, 0
-  index: -1
-rightArrow
   rotate: false
   xy: 267, 350
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
-rightArrowPressed
+leftArrowPressed
   rotate: false
-  xy: 177, 42
+  xy: 195, 42
   size: 47, 47
   orig: 47, 47
+  offset: 0, 0
+  index: -1
+rightArrow
+  rotate: false
+  xy: 323, 432
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+rightArrowPressed
+  rotate: false
+  xy: 323, 383
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+exButton
+  rotate: false
+  xy: 471, 748
+  size: 27, 23
+  orig: 27, 23
+  offset: 0, 0
+  index: -1
+exButtonHover
+  rotate: false
+  xy: 717, 717
+  size: 27, 23
+  orig: 27, 23
   offset: 0, 0
   index: -1
