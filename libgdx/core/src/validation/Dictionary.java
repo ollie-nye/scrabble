@@ -3,6 +3,7 @@ package validation;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -25,7 +26,7 @@ public class Dictionary {
 	/**
 	 * ArrayList holding the dictionary
 	 */
-	private ArrayList<String> listOfWords;
+		private HashSet<String> listOfWords;
 	
 	/**
 	 * Path to dictonary file
@@ -37,7 +38,7 @@ public class Dictionary {
 	 */
 	public Dictionary() {
 		try (Scanner wordScanner = new Scanner(new File(filePath))) {
-			listOfWords = new ArrayList<>();
+			listOfWords = new HashSet<>();
 			while (wordScanner.hasNext()) {
 				listOfWords.add(wordScanner.next());
 			}
@@ -49,15 +50,6 @@ public class Dictionary {
 	}
 
 	/**
-	 * Gets a word by index
-	 * @param word	Index of word to fetch
-	 * @return		Word at the index given 
-	 */
-	public String getWord(int word) {
-		return listOfWords.get(word).toString();
-	}
-
-	/**
 	 * Gets the size of the dictionary 
 	 * @return 		Size of the dictionary ArrayList
 	 */
@@ -65,7 +57,7 @@ public class Dictionary {
 		return listOfWords.size();
 	}
 
-	public ArrayList<String> getWords() {
+	public HashSet<String> getWords() {
 		return listOfWords;
 	}
 	

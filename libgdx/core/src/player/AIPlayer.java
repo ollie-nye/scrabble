@@ -3,14 +3,12 @@ package player;
 import data.Coordinate;
 import data.Tile;
 import data.Tuple;
-import data.Word;
 import scrabble.Board;
 import scrabble.Game;
 import scrabble.Score;
 import validation.Dictionary;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Contains methods specific to AIPlayer player type. Extends 'Player ' abstract class.
@@ -20,6 +18,8 @@ import java.util.Collections;
  */
 public class AIPlayer extends Player {
     private Dictionary dictionary = new Dictionary();
+    HashMap<Character, HashSet<String>> cache = new HashMap<>();
+    Board board = Board.getInstance();
 
     /**
      * Constructor for AIPlayer, sets player username based on passed parameter 'name'.
@@ -35,7 +35,7 @@ public class AIPlayer extends Player {
 
     public void play() {
         // first play of game logic
-        if (Board.getInstance().isEmpty()) {
+        if (board.isEmpty()) {
             char[] characters = calculateBestWord(findPossibleWords(new Coordinate(7, 7))).toCharArray();
             // for each character in the word
             int i = 0;
@@ -55,21 +55,24 @@ public class AIPlayer extends Player {
             for (int y = 0; y < 15; y++) {
                 for (int x = 0; x < 15; x++) {
                     Coordinate coordinate = new Coordinate(x, y);
-                    Tile tile = Board.getInstance().getTile(coordinate);
+                    Tile tile = board.getTile(coordinate);
                     if (tile != null) {
-                        for (ArrayList<Tuple<Character, Coordinate>> move : findMoves(coordinate, findPossibleWords(coordinate))) {
+                        for (ArrayList<Tuple<Character, Coordinate>> move : findMoves(coordinate, cacheCheck(coordinate))) {
                             allMoves.add(move);
                         }
                     }
                 }
             }
+            //long start = System.currentTimeMillis();
             playMove(calculateBestMove(allMoves));
+            //System.out.println(System.currentTimeMillis() - start);
         }
+        cache.clear();
         Game.endTurn();
     }
 
-    private ArrayList<ArrayList<Tuple<Character, Coordinate>>> findMoves(Coordinate coordinate, ArrayList<String> words) {
-        char letterOnBoard = Board.getInstance().getTile(coordinate).getChar();
+    private ArrayList<ArrayList<Tuple<Character, Coordinate>>> findMoves(Coordinate coordinate, HashSet<String> words) {
+        char letterOnBoard = board.getTile(coordinate).getChar();
         ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves = new ArrayList<>();
 
         // for each word
@@ -94,18 +97,42 @@ public class AIPlayer extends Player {
                 }
             }
 
-            ArrayList<Tuple<Character, Coordinate>> vertical, horizontal;
 
-            vertical = calculateVerticalMove(word, prefix, suffix, coordinate);
-            horizontal = calculateHorizontalMove(word, prefix, suffix, coordinate);
+            final Object[] vertical = new Object[1];
+            final Object[] horizontal = new Object[1];
 
-            if (!vertical.isEmpty()) {
-                vertical.add(new Tuple<>(letterOnBoard, coordinate));
-                moves.add(vertical);
+
+            Thread t1 = new Thread() {
+                public void run() {
+                    vertical[0] = calculateVerticalMove(word, prefix, suffix, coordinate);
+                }
+            };
+            t1.start();
+
+            Thread t2 = new Thread() {
+                public void run() {
+                    horizontal[0] = calculateHorizontalMove(word, prefix, suffix, coordinate);
+                }
+            };
+            t2.start();
+
+            try {
+                t1.join();
+                t2.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            if (!horizontal.isEmpty()) {
-                horizontal.add(new Tuple<>(letterOnBoard, coordinate));
-                moves.add(horizontal);
+
+            ArrayList<Tuple<Character, Coordinate>> verticalMove = (ArrayList<Tuple<Character, Coordinate>>) vertical[0];
+            ArrayList<Tuple<Character, Coordinate>> horizontalMove = (ArrayList<Tuple<Character, Coordinate>>) horizontal[0];
+
+            if (!verticalMove.isEmpty()) {
+                verticalMove.add(new Tuple<>(letterOnBoard, coordinate));
+                moves.add(verticalMove);
+            }
+            if (!horizontalMove.isEmpty()) {
+                horizontalMove.add(new Tuple<>(letterOnBoard, coordinate));
+                moves.add(horizontalMove);
             }
         }
         return moves;
@@ -137,20 +164,13 @@ public class AIPlayer extends Player {
     }
 
     private void playMove(ArrayList<Tuple<Character, Coordinate>> move) {
-        Tuple<Character, Coordinate> placedLetter = null;
-        for (Tuple<Character, Coordinate> letter : move) {
-            if (Board.getInstance().getTile(letter.getRight()) != null) {
-                placedLetter = letter;
-            }
-        }
-        System.out.println(move);
+        Tuple<Character, Coordinate> placedLetter = move.get(move.size() - 1);;
         move.remove(placedLetter);
 
         for (Tuple<Character, Coordinate> letter : move) {
             for (Tile tile : super.getTiles()) {
-                if (tile != null && tile.getChar() == letter.getLeft()) {
-                    //Game.getCurrentMove().addTile(tile, letter.getRight());
-                    Board.getInstance().place(tile, letter.getRight());
+                if (tile.getChar() == letter.getLeft()) {
+                    board.place(tile, letter.getRight());
                 }
             }
         }
@@ -161,60 +181,34 @@ public class AIPlayer extends Player {
         Coordinate tempCoordinate;
         boolean possible = true;
 
-        if((coordinate.getY() > 0 && Board.getInstance().getTile(coordinate.getNear('U')) != null) && prefix.size() == 0 && suffix.size() > 0) {
-            String connectedWord = "";
-            String combinedWord;
-            possible = false;
-            tempCoordinate = coordinate.getNear('U');
-            while(tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) != null) {
-                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
-                tempCoordinate = tempCoordinate.getNear('U');
-            }
-            connectedWord = new StringBuffer(connectedWord).reverse().toString();
-            combinedWord = connectedWord + word;
-
-            for(String dictWord : dictionary.getWords()) {
-                if (combinedWord.equals(dictWord)) {
-                    possible = true;
-                    System.out.println(dictWord);
-                }
-            }
-        } else if((coordinate.getY() > 14 && Board.getInstance().getTile(coordinate.getNear('D')) != null) && suffix.size() == 0 && prefix.size() > 0)  {
-            String connectedWord = "";
-            String combinedWord;
-            possible = false;
-            tempCoordinate = coordinate.getNear('D');
-            while(tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) != null) {
-                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
-                tempCoordinate = tempCoordinate.getNear('D');
-            }
-            connectedWord = new StringBuffer(connectedWord).reverse().toString();
-            combinedWord = connectedWord + word;
-
-            for(String dictWord : dictionary.getWords()) {
-                if (combinedWord.equals(dictWord)) {
-                    possible = true;
-                    System.out.println(dictWord);
-                }
-            }
-        }
-
-        if (!possible) {
-            charCoordinates.clear();
-            return charCoordinates;
-        }
-
         if (prefix.size() > 0) {
+            if ((coordinate.getY() > 14 && board.getTile(coordinate.getNear('D')) != null) && suffix.size() == 0) {
+                String connectedWord = "";
+                String combinedWord;
+                possible = false;
+                tempCoordinate = coordinate.getNear('D');
+                while (tempCoordinate.getY() < 15 && board.getTile(tempCoordinate) != null) {
+                    connectedWord += board.getTile(tempCoordinate).getContent();
+                    tempCoordinate = tempCoordinate.getNear('D');
+                }
+                connectedWord = new StringBuffer(connectedWord).reverse().toString();
+                combinedWord = connectedWord + word;
+                if(!dictionary.getWords().contains(combinedWord)) {
+                    charCoordinates.clear();
+                    return charCoordinates;
+                }
+            }
+
             // check prefix
             tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - prefix.size());
-            if ((tempCoordinate.getY() == 0 && Board.getInstance().getTile(tempCoordinate) == null)
-                    || (tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)) {
+            if ((tempCoordinate.getY() == 0 && board.getTile(tempCoordinate) == null)
+                    || (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate.getNear('D')) == null)) {
                 // if free,
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (prefixLength > 0 && tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    if((tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)
-                            && (tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('L')) == null)) {
+                while (prefixLength > 0 && tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) == null) {
+                    if ((tempCoordinate.getX() < 14 && board.getTile(tempCoordinate.getNear('R')) == null)
+                            && (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate.getNear('L')) == null)) {
                         charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
                         prefixLength--;
                         tempCoordinate = tempCoordinate.getNear('D');
@@ -236,16 +230,33 @@ public class AIPlayer extends Player {
         }
 
         if (suffix.size() > 0) {
+            if ((coordinate.getY() > 0 && board.getTile(coordinate.getNear('U')) != null) && prefix.size() == 0) {
+                String connectedWord = "";
+                String combinedWord;
+                possible = false;
+                tempCoordinate = coordinate.getNear('U');
+                while (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) != null) {
+                    connectedWord += board.getTile(tempCoordinate).getContent();
+                    tempCoordinate = tempCoordinate.getNear('U');
+                }
+                connectedWord = new StringBuffer(connectedWord).reverse().toString();
+                combinedWord = connectedWord + word;
+                if(!dictionary.getWords().contains(combinedWord)) {
+                    charCoordinates.clear();
+                    return charCoordinates;
+                }
+            }
+
             // check suffix
             tempCoordinate = coordinate.getNear('D');
-            if ((tempCoordinate.getY() == 14 && Board.getInstance().getTile(tempCoordinate) == null)
-                    || (tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)) {
+            if ((tempCoordinate.getY() == 14 && board.getTile(tempCoordinate) == null)
+                    || (tempCoordinate.getY() < 14 && board.getTile(tempCoordinate.getNear('D')) == null)) {
                 // if free,
                 int suffixLength = 0;
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (suffixLength < suffix.size() && tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    if((tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)
-                            && (tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('L')) == null)) {
+                while (suffixLength < suffix.size() && tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) == null) {
+                    if ((tempCoordinate.getX() < 14 && board.getTile(tempCoordinate.getNear('R')) == null)
+                            && (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate.getNear('L')) == null)) {
                         charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
 
                         suffixLength++;
@@ -273,62 +284,35 @@ public class AIPlayer extends Player {
         boolean possible = true;
         ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
 
-        if((coordinate.getX() < 14 && Board.getInstance().getTile(coordinate.getNear('L')) != null) && prefix.size() == 0 && suffix.size() > 0) {
-            String connectedWord = "";
-            String combinedWord;
-            possible = false;
-            tempCoordinate = coordinate.getNear('L');
-            while(tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate) != null) {
-                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
-                tempCoordinate = tempCoordinate.getNear('L');
-            }
-            connectedWord = new StringBuffer(connectedWord).reverse().toString();
-            combinedWord = connectedWord + word;
-
-            for(String dictWord : dictionary.getWords()) {
-                if (combinedWord.equals(dictWord)) {
-                    possible = true;
-                    System.out.println(dictWord);
-                }
-            }
-        } else if((coordinate.getX() > 0 && Board.getInstance().getTile(coordinate.getNear('R')) != null)  && suffix.size() == 0 && prefix.size() > 0)  {
-            String connectedWord = "";
-            String combinedWord;
-            possible = false;
-            tempCoordinate = coordinate.getNear('R');
-            while(tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate) != null) {
-                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
-                tempCoordinate = tempCoordinate.getNear('R');
-            }
-            connectedWord = new StringBuffer(connectedWord).reverse().toString();
-            combinedWord = connectedWord + word;
-
-            for(String dictWord : dictionary.getWords()) {
-                if (combinedWord.equals(dictWord)) {
-                    possible = true;
-                    System.out.println(dictWord);
-                }
-            }
-        }
-
-        if (!possible) {
-            charCoordinates.clear();
-            return charCoordinates;
-        }
-
-
         // Horizontal fit
         if (prefix.size() > 0) {
+            if ((coordinate.getX() < 14 && board.getTile(coordinate.getNear('R')) != null) && suffix.size() == 0) {
+                String connectedWord = "";
+                String combinedWord;
+                tempCoordinate = coordinate.getNear('R');
+                while (tempCoordinate.getX() < 14 && board.getTile(tempCoordinate) != null) {
+                    connectedWord += board.getTile(tempCoordinate).getContent();
+                    tempCoordinate = tempCoordinate.getNear('R');
+                }
+                connectedWord = new StringBuffer(connectedWord).reverse().toString();
+                combinedWord = connectedWord + word;
+
+                if (!dictionary.getWords().contains(combinedWord)) {
+                    charCoordinates.clear();
+                    return charCoordinates;
+                }
+            }
+
             // check prefix
             tempCoordinate = new Coordinate(coordinate.getX() - prefix.size(), coordinate.getY());
-            if ((tempCoordinate.getX() == 0 && Board.getInstance().getTile(tempCoordinate) == null) ||
-                    (tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('L')) == null)) {
+            if ((tempCoordinate.getX() == 0 && board.getTile(tempCoordinate) == null) ||
+                    (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate.getNear('L')) == null)) {
                 // if free,
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (prefixLength > 0 && tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    if((tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)
-                            && (tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('U')) == null)) {
+                while (prefixLength > 0 && tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) == null) {
+                    if ((tempCoordinate.getY() < 14 && board.getTile(tempCoordinate.getNear('D')) == null)
+                            && (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate.getNear('U')) == null)) {
                         charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
 
                         prefixLength--;
@@ -351,16 +335,32 @@ public class AIPlayer extends Player {
         }
 
         if (suffix.size() > 0) {
+            if ((coordinate.getX() < 14 && board.getTile(coordinate.getNear('L')) != null) && prefix.size() == 0) {
+                String connectedWord = "";
+                String combinedWord;
+                tempCoordinate = coordinate.getNear('L');
+                while (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) != null) {
+                    connectedWord += board.getTile(tempCoordinate).getContent();
+                    tempCoordinate = tempCoordinate.getNear('L');
+                }
+                connectedWord = new StringBuffer(connectedWord).reverse().toString();
+                combinedWord = connectedWord + word;
+                if (!dictionary.getWords().contains(combinedWord)) {
+                    charCoordinates.clear();
+                    return charCoordinates;
+                }
+            }
+
             // check suffix
             tempCoordinate = coordinate.getNear('R');
-            if ((tempCoordinate.getX() == 14 && Board.getInstance().getTile(tempCoordinate) == null)
-                    || (tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)) {
+            if ((tempCoordinate.getX() == 14 && board.getTile(tempCoordinate) == null)
+                    || (tempCoordinate.getX() < 14 && board.getTile(tempCoordinate.getNear('R')) == null)) {
                 // if free,
                 int suffixLength = 0;
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (suffixLength < suffix.size() && tempCoordinate.getX() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
-                    if((tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)
-                            && (tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('U')) == null)) {
+                while (suffixLength < suffix.size() && tempCoordinate.getX() < 15 && board.getTile(tempCoordinate) == null) {
+                    if ((tempCoordinate.getY() < 14 && board.getTile(tempCoordinate.getNear('D')) == null)
+                            && (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate.getNear('U')) == null)) {
                         charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
                         suffixLength++;
                         tempCoordinate = tempCoordinate.getNear('R');
@@ -392,16 +392,24 @@ public class AIPlayer extends Player {
         return -1;
     }
 
-    private ArrayList<String> findPossibleWords(Coordinate coordinate) {
-        Tile tile = Board.getInstance().getTile(coordinate);
-        ArrayList<String> possibleWords = new ArrayList<>();
+    private HashSet<String> cacheCheck(Coordinate coordinate) {
+        char letter = board.getTile(coordinate).getChar();
+        if(!cache.containsKey(letter)) {
+            cache.put(letter, findPossibleWords(coordinate));
+        }
+        return cache.get(letter);
+    }
+
+    private HashSet<String> findPossibleWords(Coordinate coordinate) {
+        Tile tile = board.getTile(coordinate);
+        HashSet<String> possibleWords = new HashSet<>();
         char[] characters;
         char letter;
 
         // board position empty.
         if (tile != null) {
             // extend array by 1 to take into consideration already played tile
-            letter = Board.getInstance().getTile(coordinate).getChar();
+            letter = board.getTile(coordinate).getChar();
             characters = new char[super.getTiles().length + 1];
             characters[super.getTiles().length] = letter;
         } else {
@@ -414,8 +422,8 @@ public class AIPlayer extends Player {
             characters[i] = super.getTiles()[i].getChar();
         }
         // Loop over each word in the dictionary.
-        for (int i = 0; i < dictionary.getSize(); i++) {
-            char[] word = dictionary.getWords().get(i).toCharArray();
+        for (String string : dictionary.getWords()) {
+            char[] word = string.toCharArray();
             char[] tempChar = characters.clone();
 
             // for each char in current word
@@ -442,7 +450,6 @@ public class AIPlayer extends Player {
                 }
             }
         }
-        Collections.sort(possibleWords);
         return possibleWords;
     }
 
@@ -455,7 +462,7 @@ public class AIPlayer extends Player {
         return score;
     }
 
-    private String calculateBestWord(ArrayList<String> words) {
+    private String calculateBestWord(HashSet<String> words) {
         String bestWord = "";
         int wordScore = 0;
         for (String word : words) {
