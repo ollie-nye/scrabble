@@ -105,7 +105,7 @@ private Table resetGame, noCurrentGame;
 		});
 		//stage.addActor(continues);
 
-		play = new TextButton("New Game", playButtonStyle);
+		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 320f);
 		play.setSize(254.0f, 65.0f);
 		play.addListener(new ClickListener() {
