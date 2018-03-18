@@ -49,12 +49,17 @@ public class Board {
 	}
 
     public Board() {
-        for (int x = 0; x < boardSizeX; x++) {
-            for (int y = 0; y < boardSizeY; y++) {
-                letters[x][y] = null;
-            }
-        }
+		clearBoard();
+		resetPartial();
     }
+
+    public void clearBoard() {
+		for (int x = 0; x < boardSizeX; x++) {
+			for (int y = 0; y < boardSizeY; y++) {
+				letters[x][y] = null;
+			}
+		}
+	}
 
 	/**
 	 * Gets the tile at the given coordinate
@@ -62,10 +67,7 @@ public class Board {
 	 * @return		Returns the tile at the given position
 	 */
 	public Tile getTile(Coordinate location) {
-		if (location.getX() >= 0 && location.getX() < boardSizeX && location.getY() >= 0 && location.getY() < boardSizeY) {
-			return letters[location.getX()][location.getY()];
-		}
-		return null;
+		return letters[location.getX()][location.getY()];
 	}
 
     /**
@@ -110,5 +112,16 @@ public class Board {
 
 	public void resetPartial() {
 		partialTile = null;
+	}
+
+	public boolean isEmpty() {
+		for (int x = 0; x < boardSizeX; x++) {
+			for (int y = 0; y < boardSizeY; y++) {
+				if(letters[x][y] != null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

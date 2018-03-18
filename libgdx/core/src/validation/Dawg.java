@@ -29,7 +29,7 @@ public class Dawg { // Directed Acyclic Word Graph
 	/**
 	 * Path to the dictionary file, possibly set in settings?
 	 */
-	private String filePath = "ScrabbleDictionary.txt";
+	private String filePath = "ospd.txt";
 	
 	/**
 	 * Root vertex, has short content

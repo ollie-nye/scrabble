@@ -7,16 +7,28 @@ package data;
  */
 
 public class Tile {
-	private final String content;
-	private final int score;
+	private char letter;
+	private int score;
 	
-	public Tile(String content, int score) {
-		this.content = content;
+	public Tile(char letter, int score) {
+		this.letter = letter;
 		this.score = score;
 	}
 	
 	public String getContent() {
-		return content;
+		return "" + letter;
+	}
+
+	public void setLetter(char letter) {
+	    this.letter = letter;
+    }
+
+	public void setScore(int score) {
+	    this.score = score;
+    }
+
+	public char getChar() {
+		return letter;
 	}
 	
 	public int getScore() {
@@ -25,6 +37,6 @@ public class Tile {
 
 	@Override
 	public String toString() {
-		return content;
+		return "" + letter;
 	}
 }

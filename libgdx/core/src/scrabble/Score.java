@@ -2,6 +2,7 @@ package scrabble;
 
 import data.Coordinate;
 import data.Tile;
+import java.util.HashMap;
 
 /**
  * @author Tom Geraghty
@@ -16,7 +17,7 @@ public class Score {
      * l - letter multiplier
      * w - word multiplier
      */
-    private char[][] multiplierType = new char[][]{
+    private static final char[][] multiplierType = new char[][]{
             {'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
             {'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},
             {'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n'},
@@ -41,7 +42,7 @@ public class Score {
      * 2 - 2x multiplication
      * 3 - 3x multiplication
      */
-    private int[][] multiplierScore = new int[][]{
+    private static final int[][] multiplierScore = new int[][]{
             {3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3},
             {0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
             {0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
@@ -59,6 +60,36 @@ public class Score {
             {3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3}
     };
 
+    private final static HashMap<Character, Integer> letterScores = new HashMap<>();
+
+    public Score() {
+        letterScores.put('a', 1);
+        letterScores.put('b', 3);
+        letterScores.put('c', 3);
+        letterScores.put('d', 2);
+        letterScores.put('e', 1);
+        letterScores.put('f', 4);
+        letterScores.put('g', 2);
+        letterScores.put('h', 4);
+        letterScores.put('i', 1);
+        letterScores.put('j', 8);
+        letterScores.put('k', 5);
+        letterScores.put('l', 1);
+        letterScores.put('m', 3);
+        letterScores.put('n', 1);
+        letterScores.put('o', 1);
+        letterScores.put('p', 3);
+        letterScores.put('q', 10);
+        letterScores.put('r', 1);
+        letterScores.put('s', 1);
+        letterScores.put('t', 1);
+        letterScores.put('u', 1);
+        letterScores.put('v', 4);
+        letterScores.put('w', 4);
+        letterScores.put('x', 8);
+        letterScores.put('y', 4);
+        letterScores.put('z', 10);
+    }
 
     /**
      * Takes a Tile and its Coordinate, and returns its
@@ -68,7 +99,7 @@ public class Score {
      * @param coordinate    Position of tile
      * @return score        Board score of tile
      */
-    public int calculateScore(Tile tile, Coordinate coordinate) {
+    public static int calculateScore(Tile tile, Coordinate coordinate) {
         switch (multiplierType[coordinate.getX()][coordinate.getY()]) {
             case 'l':
                 return tile.getScore() * multiplierScore[coordinate.getX()][coordinate.getY()];
@@ -84,7 +115,7 @@ public class Score {
      * @param coordinate       Coordinate to check for multiplier
      * @return multiplier      Multiplier value
      */
-    public int getWordMultiplier(Coordinate coordinate) {
+    public static int getWordMultiplier(Coordinate coordinate) {
         switch (multiplierType[coordinate.getX()][coordinate.getY()]) {
             case 'w':
                 return multiplierScore[coordinate.getX()][coordinate.getY()];
@@ -93,11 +124,19 @@ public class Score {
         }
     }
 
-    public char[][] getMultiplierType() {
+    public static char[][] getMultiplierType() {
         return multiplierType;
     }
 
-    public int[][] getMultiplierScore() {
+    public static int[][] getMultiplierScore() {
         return multiplierScore;
+    }
+
+    public static HashMap<Character, Integer> getLetterScores() {
+        return letterScores;
+    }
+
+    public static int getLetterScore(char letter) {
+        return letterScores.get(letter);
     }
 }

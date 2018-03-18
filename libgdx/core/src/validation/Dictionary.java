@@ -30,7 +30,7 @@ public class Dictionary {
 	/**
 	 * Path to dictonary file
 	 */
-	private String filePath = "ScrabbleDictionary.txt";
+	private String filePath = "ospd.txt";
 	
 	/**
 	 * Populates listOfWords with contents of the file specified in the method
@@ -46,7 +46,6 @@ public class Dictionary {
 			System.out.println("Error with dictionary setup - File Not Found.");
 			System.exit(1);
 		}
-
 	}
 
 	/**
@@ -64,6 +63,10 @@ public class Dictionary {
 	 */
 	public int getSize() {
 		return listOfWords.size();
+	}
+
+	public ArrayList<String> getWords() {
+		return listOfWords;
 	}
 	
 	/**

@@ -36,6 +36,7 @@ public class WordOperations {
 	
 	public static void main(String args[]) {
 		WordOperations ops = new WordOperations(new Board());
+		/**
 		ops.board.testPlace(new Letter(new Tile("p", 0), new Coordinate(0, 6)));
 		ops.board.testPlace(new Letter(new Tile("a", 0), new Coordinate(1, 6)));
 		ops.board.testPlace(new Letter(new Tile("t", 0), new Coordinate(3, 6)));
@@ -87,6 +88,7 @@ public class WordOperations {
 			}
 			System.out.println("");
 		}
+		 **/
 	}
 	
 	

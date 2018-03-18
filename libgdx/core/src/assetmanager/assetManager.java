@@ -47,6 +47,24 @@ public class assetManager {
     public static final AssetDescriptor<Texture> helpBackground =
             new AssetDescriptor<Texture>("graphics/HelpMenu/HelpBackground.png", Texture.class);
     
+    public static final AssetDescriptor<Texture> img1 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img1.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img2 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img2.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img3 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img3.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img4 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img4.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> circle =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/circle.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> circle1 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/circle1.png", Texture.class);
+    
     //graphics for results screen
     public static final AssetDescriptor<Texture> resultsBackground =
             new AssetDescriptor<Texture>("graphics/ResultsScreen/Background.png", Texture.class);
@@ -68,7 +86,6 @@ public class assetManager {
     public static final AssetDescriptor<Sound> mainClick =
             new AssetDescriptor<Sound>("sounds/click02.wav", Sound.class);
 
-
     // Pick Up Sound
     public static final AssetDescriptor<Sound> click1 =
             new AssetDescriptor<Sound>("sounds/Tile_PickUp.mp3", Sound.class);
@@ -81,11 +98,26 @@ public class assetManager {
     //Start Game Sound
     public static final AssetDescriptor<Sound> click12 =
             new AssetDescriptor<Sound>("sounds/Start Game.wav", Sound.class);
-
     // main theme for game
     public static final AssetDescriptor<Music> mainMusic =
             new AssetDescriptor<Music>("sounds/Flintstones.mp3", Music.class);
-
+    //Time Countdown
+    public static final AssetDescriptor<Sound> countdownTimer =
+            new AssetDescriptor<Sound>("sounds/time_countdown.mp3", Sound.class);
+    //Time Up
+    public static final AssetDescriptor<Sound> timesUp = 
+    			new AssetDescriptor<Sound>("sounds/Times_up.mp3",Sound.class);
+    //End Screen
+    		//Score Increment sound
+    public static final AssetDescriptor<Sound> scoreInc =
+            new AssetDescriptor<Sound>("sounds/score_increment.mp3", Sound.class);
+    		//Final Scores
+    public static final AssetDescriptor<Sound> finalScores =
+            new AssetDescriptor<Sound>("sounds/final_score.mp3", Sound.class);
+    		// Fanfare
+    public static final AssetDescriptor<Sound> winFanfare =
+            new AssetDescriptor<Sound>("sounds/fanfare.mp3", Sound.class);
+  
     // the font
     public static final AssetDescriptor<BitmapFont> PlayTime =
             new AssetDescriptor<BitmapFont>("fonts/PlayTime.fnt", BitmapFont.class);
@@ -110,6 +142,12 @@ public class assetManager {
         manager.load(sliderBar);
         manager.load(sliderKnob);
         manager.load(settingsBackground);
+        manager.load(img1);
+        manager.load(img2);
+        manager.load(img3);
+        manager.load(img4);
+        manager.load(circle);
+        manager.load(circle1);
         manager.load(icon);
         manager.load(logo);
         manager.load(logoWhite);
@@ -129,6 +167,11 @@ public class assetManager {
         manager.load(click6);
         manager.load(click11);
         manager.load(click12);
+        manager.load(scoreInc);
+        manager.load(winFanfare);
+        manager.load(finalScores);
+        manager.load(countdownTimer);
+        manager.load(timesUp);
     }
 
     private void loadMusic(){

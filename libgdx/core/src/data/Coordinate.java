@@ -11,22 +11,31 @@ package data;
  * 1.2 - Add toString method
  */
 
-public class Coordinate {
+public class Coordinate extends Tuple<Integer, Integer> {
 
-	private final int x;
-	private final int y;
-	
 	public Coordinate(int x, int y) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 	}
 	
-	public int getX() {return x;}
-	public int getY() {return y;}
-	
+	public int getX() {
+		return super.getLeft();
+	}
+	public int getY() {
+		return super.getRight();
+	}
 
-	@Override
-	public String toString() {
-		return "(" + x + "," + y + ")";
+	public Coordinate getNear(char direction) {
+		switch (direction) {
+			case 'U':
+				return new Coordinate(super.getLeft(), super.getRight() - 1);
+			case 'D':
+				return new Coordinate(super.getLeft(), super.getRight() + 1);
+			case 'L':
+				return new Coordinate(super.getLeft() - 1, super.getRight());
+			case 'R':
+				return new Coordinate(super.getLeft() + 1, super.getRight());
+			default:
+				return this;
+		}
 	}
 }

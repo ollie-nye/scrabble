@@ -15,39 +15,8 @@ public class LetterBag {
 	private HashMap<Tile, Integer> tiles = new HashMap<>();
 	private ArrayList<Tile> tileList = new ArrayList<>();
 	private Stack<Tile> tileStack = new Stack<>();
-	
-	public LetterBag() {
-		//put ( <letter>, (new Integer[]( <quantity in bag>, <score>))
-		tiles.put(new Tile("a", 1), 9);
-		tiles.put(new Tile("b", 3), 2);
-		tiles.put(new Tile("c", 3), 2);
-		tiles.put(new Tile("d", 2), 4);
-		tiles.put(new Tile("e", 1), 12);
-		tiles.put(new Tile("f", 4), 2);
-		tiles.put(new Tile("g", 2), 3);
-		tiles.put(new Tile("h", 4), 2);
-		tiles.put(new Tile("i", 1), 9);
-		tiles.put(new Tile("j", 8), 1);
-		tiles.put(new Tile("k", 5), 1);
-		tiles.put(new Tile("l", 1), 4);
-		tiles.put(new Tile("m", 3), 2);
-		tiles.put(new Tile("n", 1), 6);
-		tiles.put(new Tile("o", 1), 8);
-		tiles.put(new Tile("p", 3), 2);
-		tiles.put(new Tile("q", 10), 1);
-		tiles.put(new Tile("r", 1), 6);
-		tiles.put(new Tile("s", 1), 4);
-		tiles.put(new Tile("t", 1), 6);
-		tiles.put(new Tile("u", 1), 4);
-		tiles.put(new Tile("v", 4), 2);
-		tiles.put(new Tile("w", 4), 2);
-		tiles.put(new Tile("x", 8), 1);
-		tiles.put(new Tile("y", 4), 2);
-		tiles.put(new Tile("z", 10), 1);
-		
-		shake();
-	}
-	
+	private Score score = new Score();
+
 	private void shake() {
 		for (Map.Entry<Tile, Integer> entry : this.tiles.entrySet()) {
 			Tile tile = entry.getKey();
@@ -71,12 +40,48 @@ public class LetterBag {
 			tileStack.push(tileToPush);
 		}
 	}
+
+	public void fill() {
+        //put ( <letter>, (new Integer[]( <quantity in bag>, <score>))
+        tiles.put(new Tile('a', Score.getLetterScore('a')), 9);
+        tiles.put(new Tile('b', Score.getLetterScore('b')), 2);
+        tiles.put(new Tile('c', Score.getLetterScore('c')), 2);
+        tiles.put(new Tile('d', Score.getLetterScore('d')), 4);
+        tiles.put(new Tile('e', Score.getLetterScore('e')), 12);
+        tiles.put(new Tile('f', Score.getLetterScore('f')), 2);
+        tiles.put(new Tile('g', Score.getLetterScore('g')), 3);
+        tiles.put(new Tile('h', Score.getLetterScore('h')), 2);
+        tiles.put(new Tile('i', Score.getLetterScore('i')), 9);
+        tiles.put(new Tile('j', Score.getLetterScore('j')), 1);
+        tiles.put(new Tile('k', Score.getLetterScore('k')), 1);
+        tiles.put(new Tile('l', Score.getLetterScore('l')), 4);
+        tiles.put(new Tile('m', Score.getLetterScore('m')), 2);
+        tiles.put(new Tile('n', Score.getLetterScore('n')), 6);
+        tiles.put(new Tile('o', Score.getLetterScore('o')), 8);
+        tiles.put(new Tile('p', Score.getLetterScore('p')), 2);
+        tiles.put(new Tile('q', Score.getLetterScore('q')), 1);
+        tiles.put(new Tile('r', Score.getLetterScore('r')), 6);
+        tiles.put(new Tile('s', Score.getLetterScore('s')), 4);
+        tiles.put(new Tile('t', Score.getLetterScore('t')), 6);
+        tiles.put(new Tile('u', Score.getLetterScore('u')), 4);
+        tiles.put(new Tile('v', Score.getLetterScore('v')), 2);
+        tiles.put(new Tile('w', Score.getLetterScore('w')), 2);
+        tiles.put(new Tile('x', Score.getLetterScore('x')), 1);
+        tiles.put(new Tile('y', Score.getLetterScore('y')), 2);
+        tiles.put(new Tile('z', Score.getLetterScore('z')), 1);
+        shake();
+    }
+
+    public void empty() {
+	    tiles.clear();
+	    tileList.clear();
+	    tileStack.clear();
+    }
 	
 	public Tile pick() {
-		if (tileStack.isEmpty() == false){
+		if (!tileStack.isEmpty()){
 			return tileStack.pop();
-		}
-		else{
+		} else {
 			return null;
 		}
 	}
@@ -95,7 +100,7 @@ public class LetterBag {
 	}
 	
 	public boolean isEmpty(){
-		if (tileStack.isEmpty() == false){
+		if(!tileStack.isEmpty()){
 			return false;
 		}
 		else return true;
