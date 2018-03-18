@@ -50,6 +50,7 @@ public class HelpMenu implements Screen {
 
 	SpriteBatch batch;
 	String myText;
+	private TextureAtlas buttonAtlass;
 
 	public HelpMenu(ScrabbleLauncher game) {
 		this.game = game;
@@ -80,8 +81,10 @@ public class HelpMenu implements Screen {
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin();
-		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
+		buttonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
+		buttonAtlass = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
+		skin.addRegions(buttonAtlass);
 
 		
 
@@ -113,7 +116,7 @@ public class HelpMenu implements Screen {
 		leftArrowStyle.font = font;
 
 		TextButton previous = new TextButton("", leftArrowStyle);
-		previous.setPosition(100f, 350f);
+		previous.setPosition(209f, 350f);
 		previous.setSize(47.0f, 47.0f);
 
 		previous.addListener(new ClickListener() {
@@ -134,7 +137,7 @@ public class HelpMenu implements Screen {
 		rightArrowStyle.font = font;
 
 		TextButton next = new TextButton("", rightArrowStyle);
-		next.setPosition(1100f, 350f);
+		next.setPosition(1050f, 350f);
 		next.setSize(47.0f, 47.0f);
 		next.addListener(new ClickListener() {
 			@Override
@@ -151,14 +154,14 @@ public class HelpMenu implements Screen {
 
 		// exit to main menu button
 		TextButtonStyle exitButtonStyle = new TextButtonStyle();
-		exitButtonStyle.up = skin.getDrawable("exitButton");
-		exitButtonStyle.over = skin.getDrawable("exitPressed");
-		exitButtonStyle.checked = skin.getDrawable("exitPressed");
+		exitButtonStyle.up = skin.getDrawable("mainMenuButton");
+		exitButtonStyle.over = skin.getDrawable("mainMenuButtonPressed");
+		exitButtonStyle.checked = skin.getDrawable("mainMenuButtonPressed");
 		exitButtonStyle.font = font;
 
 		TextButton exit = new TextButton("", exitButtonStyle);
-		exit.setPosition(550f, 0f);
-		exit.setSize(206.0f, 61.0f);
+		exit.setPosition(550f, 70f);
+		exit.setSize(208.0f, 64.0f);
 
 		exit.addListener(new ClickListener() {
 			@Override
@@ -198,17 +201,17 @@ public class HelpMenu implements Screen {
 		
 		
 		batch.begin();
-		batch.draw(circle,530,110, 35 ,35);
-		batch.draw(circle,600,110, 35 ,35);
-		batch.draw(circle,670,110, 35 ,35);
-		batch.draw(circle,740,110, 35 ,35);
+		batch.draw(circle,530,160, 45 ,40);
+		batch.draw(circle,600,160, 45 ,40);
+		batch.draw(circle,670,160, 45 ,40);
+		batch.draw(circle,740,160, 45 ,40);
 		batch.end();
 
 		if (helpCounter == 0) {
 
 			batch.begin();
 			batch.draw(img1, 342, 230, 631, 298);
-			batch.draw(circle1,530,110, 35 ,35);
+			batch.draw(circle1,520,155, 59 ,55);
 			batch.end();
 
 		}
@@ -216,7 +219,7 @@ public class HelpMenu implements Screen {
 
 			batch.begin();
 			batch.draw(img2, 342, 230, 631, 298);
-			batch.draw(circle1,600,110, 35 ,35);
+			batch.draw(circle1,590,155, 59 ,55);
 			batch.end();
 
 		}
@@ -224,7 +227,7 @@ public class HelpMenu implements Screen {
 
 			batch.begin();
 			batch.draw(img3, 300, 180, 700, 390);
-			batch.draw(circle1,670,110, 35 ,35);
+			batch.draw(circle1,660,155, 59 ,55);
 			batch.end();
 
 		}
@@ -232,7 +235,7 @@ public class HelpMenu implements Screen {
 
 			batch.begin();
 			batch.draw(img4, 300, 180, 700, 390);
-			batch.draw(circle1,740,110, 35 ,35);
+			batch.draw(circle1,730,155, 59 ,55);
 			batch.end();
 
 		}
