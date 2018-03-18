@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class Move {
     private final static Score SCORE_CALCULATOR = new Score();
     private final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
-    private final NewValidator validator = new NewValidator(Board.getInstance());
+    private NewValidator validator = new NewValidator(Board.getInstance());
     private final Player player;
     private String playedWord = "";
     private int wordMultiplier = 1;
@@ -58,6 +58,11 @@ public class Move {
             Board.getInstance().removeTile(playedTiles.get(tile));
             player.returnTile(tile);
             playedTiles.remove(tile);
+            if (playedTiles.size() == 1) { //Direction is no longer set
+            	this.validator.resetDirection();
+            } else if (playedTiles.size() == 0) { //First place is no longer set
+            	this.validator = new NewValidator(Board.getInstance());
+            }
         }
     }
     /**
