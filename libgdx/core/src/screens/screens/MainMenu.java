@@ -44,7 +44,8 @@ public class MainMenu implements Screen {
 	private Texture background;
 	private BitmapFont font;
 	private TextButtonStyle exitButtonStyle;
-private Table resetGame, noCurrentGame;
+    private Table resetGame, noCurrentGame;
+
 
 	public MainMenu(ScrabbleLauncher game) {
 		this.game = game;
@@ -65,10 +66,9 @@ private Table resetGame, noCurrentGame;
 
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
-		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		altButtonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
 		altSkin.addRegions(altButtonAtlas);
-		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
+		
 	}
 
 	@Override
@@ -135,17 +135,13 @@ private Table resetGame, noCurrentGame;
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						hover.play(game.getSoundVol());
 						game.setScreen(new SettingsMenu(game));
 
 					}
-				})));
-			}
-		});
+				});
+		
 		stage.addActor(settings);
 
 		TextButtonStyle rulesButtonStyle = new TextButtonStyle();
@@ -160,17 +156,12 @@ private Table resetGame, noCurrentGame;
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
-
-					@Override
-					public void run() {
 						hover.play(game.getSoundVol());
 						game.setScreen(new HelpMenu(game));
 
 					}
-				})));
-			}
-		});
+				});
+		
 		stage.addActor(rules);
 
 		exitButtonStyle = new TextButtonStyle();
@@ -447,7 +438,7 @@ private Table resetGame, noCurrentGame;
 					Game.start();
 
 					// fiddy
-					gunit.play();
+					gunit.play(game.getSoundVol());
 
 					System.out.println(setPlayerArray().toString());
 					game.setScreen(new GameScreen(game, setPlayerArray()));
@@ -514,10 +505,10 @@ private Table resetGame, noCurrentGame;
 		textButtonStyle.font =  font;
 		LabelStyle llabelStyle = new LabelStyle();
 		llabelStyle.font = font;
-		resetGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "Are you sure you want to start a new game instead of continuing?");
+		resetGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("creationBox"), "Are you sure you want to start a new game instead of continuing?");
 		resetGame.setVisible(false);
 		stage.addActor(resetGame);
-		noCurrentGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("resultBox"), "You have no game in progress. Start a new one?");
+		noCurrentGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("creationBox"), "You have no game in progress. Start a new one?");
 		noCurrentGame.setVisible(false);
 		//stage.addActor(noCurrentGame);
 
@@ -537,6 +528,8 @@ private Table resetGame, noCurrentGame;
 			play.setPosition(515, 330f);
 			play.setSize(254.0f, 65.0f);
 		}
+		
+		
 		
 		if (continues.isOver()) {
 			continues.setSize(274f, 85f);
@@ -828,6 +821,7 @@ private Table resetGame, noCurrentGame;
 		
 
 		TextButton yes = new TextButton("Continue", tempStyle);
+		yes.getLabel().setColor(Color.BLACK);
 		yes.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -837,18 +831,24 @@ private Table resetGame, noCurrentGame;
 			};
 		});
 		TextButton no = new TextButton("New Game", tempStyle);
+		no.getLabel().setColor(Color.BLACK);
 		no.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				menuType = 1;
 				Game.reset();
+				table.setVisible(false);
 				noCurrentGame.setVisible(false);
 			};
 		});
-		TextButton cancel = new TextButton("Cancel", tempStyle);
-		no.addListener(new ClickListener() {
+		
+		// little x button for do you want to continue or start new game pop up
+		TextButton cancel = new TextButton("Cancel", tempStyle );
+		cancel.getLabel().setColor(Color.BLACK);
+		cancel.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				table.setVisible(false);
 				noCurrentGame.setVisible(false);
 			};
 		});

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -46,8 +48,8 @@ public class ResultsScreen implements Screen {
 	private TextureAtlas buttonAtlas, buttonAtlas2;
 	private Table resultsTable, endTable, tableThing;
 	private Stage stage;
-	private Texture background;
-	private LabelStyle tileLabelStyle, longLabelStyle, noLabelStyle, shortLabelStyle, boxLabelStyle;
+	private Texture background,victory;
+	private LabelStyle tileLabelStyle, longLabelStyle, noLabelStyle, shortLabelStyle, boxLabelStyle, resultStyle;
 	private String[] names;
 	private int[] currentScores, finalScores, penalties;
 	private Tile[][] remainingTiles;
@@ -59,11 +61,14 @@ public class ResultsScreen implements Screen {
 	private Label[] p1CurrentScore, p1FinalScore, p1ScoreLoss, finalScore;
 	private Label[][] p1LettersLeft;
 	private ButtonStyle returnButtonStyle;
-	private Button returnButton;
+	private Button returnButton, placeHolderButton;
 	
 	private Sound scoreIncrement, finalScoreSound, winfanfare;
 	
 	private boolean hasWon, isFinal = false;
+	private TextureAtlas buttonAtlass;
+
+	
 
 	public ResultsScreen(ScrabbleLauncher game) {
 		this.game = game;
@@ -80,11 +85,15 @@ public class ResultsScreen implements Screen {
 		// sets up graphics of tiles
 		skin = new Skin();
 		altSkin = new Skin();
+		buttonAtlass = new TextureAtlas();
+		buttonAtlass.addRegion("victory", game.getAssetManager().manager.get(assetManager.victory), 0, 0, 1280, 720);
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
+		skin.addRegions(buttonAtlass);
 		buttonAtlas2 = game.getAssetManager().manager.get(assetManager.gameButtonPack);
 		altSkin.addRegions(buttonAtlas2);
 		background = game.getAssetManager().manager.get(assetManager.resultsBackground);
+		
 		font = game.getAssetManager().manager.get(assetManager.PlayTime);
 		styleSetups();
 
@@ -196,7 +205,7 @@ public class ResultsScreen implements Screen {
 			}
 		}
 
-		winnerLabel = new Label(winner + " wins!", boxLabelStyle);
+		winnerLabel = new Label(winner + " wins!", resultStyle);
 		winnerLabel.setAlignment(Align.center);		
 	//	winnerLabel.setSize(500.0f, 300.0f);	
 	//	winnerLabel.setPosition((1280.0f - winnerLabel.getWidth()) * 0.5f, (720.0f - winnerLabel.getHeight()) * 0.5f);
@@ -208,10 +217,10 @@ public class ResultsScreen implements Screen {
 				 disposey();
 			}
 		});
-		Button placeHolderButton = new Button(returnButtonStyle);
+		placeHolderButton = new Button(returnButtonStyle);
 		placeHolderButton.setVisible(false);
 		tableThing = new Table();
-		tableThing.setSize(500.0f, 300.0f);
+		tableThing.setSize(1280.0f, 850.0f);
 		tableThing.add(placeHolderButton);
 		tableThing.row();
 		tableThing.add(winnerLabel).expand().fill();
@@ -219,7 +228,9 @@ public class ResultsScreen implements Screen {
 		tableThing.add(returnButton).align(Align.center);
 		tableThing.setPosition((1280.0f - tableThing.getWidth()) * 0.5f, (720.0f - (tableThing.getHeight())) * 0.5f);
 		tableThing.setVisible(false);
+		placeHolderButton.setPosition(600, 300);
 		stage.addActor(tableThing);
+		stage.addActor(placeHolderButton);
 		// --WINNER POPUP
 
 	}
@@ -281,6 +292,7 @@ public class ResultsScreen implements Screen {
 			endTimer += deltaTime;
 			if (endTimer > 7) {
 				tableThing.setVisible(true);
+				placeHolderButton.setVisible(true);
 				//Condition to one shot play
 				if(hasWon == false) {
 					winfanfare.play(game.getSoundVol());
@@ -517,6 +529,10 @@ public class ResultsScreen implements Screen {
 		boxLabelStyle = new LabelStyle();
 		boxLabelStyle.font = font;
 		boxLabelStyle.background = skin.getDrawable("creationBox");
+		
+		resultStyle = new LabelStyle();
+		resultStyle.font = font;
+		resultStyle.background = skin.getDrawable("victory");
 		
 		noLabelStyle = new LabelStyle();
 		noLabelStyle.font = font;
