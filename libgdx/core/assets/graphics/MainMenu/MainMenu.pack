@@ -136,7 +136,7 @@ addBot
   orig: 204, 49
   offset: 0, 0
   index: -1
-quickStart
+editPlayers
   rotate: false
   xy: 785, 783
   size: 215, 45
@@ -150,9 +150,23 @@ websiteHover
   orig: 90, 90
   offset: 0, 0
   index: -1
-quickStartPressed
+editPlayersPressed
   rotate: false
   xy: 755, 736
+  size: 215, 45
+  orig: 215, 45
+  offset: 0, 0
+  index: -1
+quickStart
+  rotate: false
+  xy: 717, 689
+  size: 215, 45
+  orig: 215, 45
+  offset: 0, 0
+  index: -1
+quickStartPressed
+  rotate: false
+  xy: 717, 642
   size: 215, 45
   orig: 215, 45
   offset: 0, 0
@@ -194,28 +208,28 @@ leftArrowPressed
   index: -1
 rightArrow
   rotate: false
-  xy: 323, 432
+  xy: 934, 687
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 rightArrowPressed
   rotate: false
-  xy: 323, 383
+  xy: 934, 638
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 exButton
   rotate: false
-  xy: 471, 748
+  xy: 323, 456
   size: 27, 23
   orig: 27, 23
   offset: 0, 0
   index: -1
 exButtonHover
   rotate: false
-  xy: 717, 717
+  xy: 471, 748
   size: 27, 23
   orig: 27, 23
   offset: 0, 0
