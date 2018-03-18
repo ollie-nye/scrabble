@@ -138,11 +138,12 @@ public class AIPlayer extends Player {
         if (prefix.size() > 0) {
             // check prefix
             tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - prefix.size());
-            if (Board.getInstance().getTile(tempCoordinate.getNear('D')) == null) {
+            if ((tempCoordinate.getY() == 0 && Board.getInstance().getTile(tempCoordinate) == null)
+                    || (tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)) {
                 // if free,
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (prefixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                while (prefixLength > 0 && tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
                     int letterScore = Score.getLetterScore(prefix.get(prefix.size() - prefixLength));
                     int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
                     wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
@@ -163,11 +164,12 @@ public class AIPlayer extends Player {
         if (suffix.size() > 0) {
             // check suffix
             tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + suffix.size());
-            if (Board.getInstance().getTile(tempCoordinate.getNear('U')) == null) {
+            if ((tempCoordinate.getY() == 14 && Board.getInstance().getTile(tempCoordinate) == null)
+                    || (tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('U')) == null))  {
                 // if free,
                 int suffixLength = suffix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (suffixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                while (suffixLength > 0 && tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
                     int letterScore = Score.getLetterScore(suffix.get(suffix.size() - suffixLength));
                     int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
                     wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
@@ -203,11 +205,12 @@ public class AIPlayer extends Player {
         if (prefix.size() > 0) {
             // check prefix
             tempCoordinate = new Coordinate(coordinate.getX() - prefix.size(), coordinate.getY());
-            if (Board.getInstance().getTile(tempCoordinate.getNear('L')) == null) {
+            if ((tempCoordinate.getX() == 0 && Board.getInstance().getTile(tempCoordinate) == null) ||
+                    (tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('L')) == null)) {
                 // if free,
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (prefixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                while (prefixLength > 0 && tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
                     int letterScore = Score.getLetterScore(prefix.get(prefix.size() - prefixLength));
                     int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
                     wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
@@ -228,11 +231,12 @@ public class AIPlayer extends Player {
         if (suffix.size() > 0) {
             // check suffix
             tempCoordinate = new Coordinate(coordinate.getX() + suffix.size(), coordinate.getY());
-            if (Board.getInstance().getTile(tempCoordinate.getNear('R')) == null) {
+            if ((tempCoordinate.getX() == 14 && Board.getInstance().getTile(tempCoordinate) == null)
+                    || (tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)) {
                 // if free,
                 int suffixLength = suffix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
-                while (suffixLength > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                while (suffixLength > 0 && tempCoordinate.getX() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
                     int letterScore = Score.getLetterScore(suffix.get(suffix.size() - suffixLength));
                     int letterMultiplier = Score.getWordMultiplier(tempCoordinate);
                     wordMultiplier *= Score.getWordMultiplier(tempCoordinate);
