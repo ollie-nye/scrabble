@@ -2,8 +2,6 @@ package scrabble;
 
 import data.Coordinate;
 import data.Tile;
-import javafx.util.Pair;
-
 import java.util.HashMap;
 
 /**
@@ -19,7 +17,7 @@ public class Score {
      * l - letter multiplier
      * w - word multiplier
      */
-    private char[][] multiplierType = new char[][]{
+    private static final char[][] multiplierType = new char[][]{
             {'w', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'w'},
             {'n', 'w', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'l', 'n', 'n', 'n', 'w', 'n'},
             {'n', 'n', 'w', 'n', 'n', 'n', 'l', 'n', 'l', 'n', 'n', 'n', 'w', 'n', 'n'},
@@ -44,7 +42,7 @@ public class Score {
      * 2 - 2x multiplication
      * 3 - 3x multiplication
      */
-    private int[][] multiplierScore = new int[][]{
+    private static final int[][] multiplierScore = new int[][]{
             {3, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 3},
             {0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0},
             {0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0},
@@ -101,7 +99,7 @@ public class Score {
      * @param coordinate    Position of tile
      * @return score        Board score of tile
      */
-    public int calculateScore(Tile tile, Coordinate coordinate) {
+    public static int calculateScore(Tile tile, Coordinate coordinate) {
         switch (multiplierType[coordinate.getX()][coordinate.getY()]) {
             case 'l':
                 return tile.getScore() * multiplierScore[coordinate.getX()][coordinate.getY()];
@@ -117,7 +115,7 @@ public class Score {
      * @param coordinate       Coordinate to check for multiplier
      * @return multiplier      Multiplier value
      */
-    public int getWordMultiplier(Coordinate coordinate) {
+    public static int getWordMultiplier(Coordinate coordinate) {
         switch (multiplierType[coordinate.getX()][coordinate.getY()]) {
             case 'w':
                 return multiplierScore[coordinate.getX()][coordinate.getY()];
@@ -126,11 +124,11 @@ public class Score {
         }
     }
 
-    public char[][] getMultiplierType() {
+    public static char[][] getMultiplierType() {
         return multiplierType;
     }
 
-    public int[][] getMultiplierScore() {
+    public static int[][] getMultiplierScore() {
         return multiplierScore;
     }
 

@@ -88,7 +88,7 @@ private Table resetGame, noCurrentGame;
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
-		continues = new TextButton("Continues", playButtonStyle);
+		continues = new TextButton("Continue", playButtonStyle);
 		continues.setPosition(515, 400f);
 		continues.setSize(254.0f, 65.0f);
 		continues.addListener(new ClickListener() {
@@ -536,6 +536,14 @@ private Table resetGame, noCurrentGame;
 		} else {
 			play.setPosition(515, 330f);
 			play.setSize(254.0f, 65.0f);
+		}
+		
+		if (continues.isOver()) {
+			continues.setSize(274f, 85f);
+			continues.setPosition(507f, 392f);
+		} else {
+			continues.setPosition(515, 400f);
+			continues.setSize(254.0f, 65.0f);
 		}
 
 		// for animation of the settings button
