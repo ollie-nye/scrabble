@@ -83,9 +83,7 @@ public class HelpMenu implements Screen {
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
 
-		tempSkin = new Skin();
-		tempTextures = game.getAssetManager().manager.get(assetManager.texturesTemp);
-		tempSkin.addRegions(tempTextures);
+		
 
 		this.create();
 	}
@@ -116,7 +114,7 @@ public class HelpMenu implements Screen {
 
 		TextButton previous = new TextButton("", leftArrowStyle);
 		previous.setPosition(100f, 350f);
-		previous.setSize(68.0f, 68.0f);
+		previous.setSize(47.0f, 47.0f);
 
 		previous.addListener(new ClickListener() {
 			@Override
@@ -137,7 +135,7 @@ public class HelpMenu implements Screen {
 
 		TextButton next = new TextButton("", rightArrowStyle);
 		next.setPosition(1100f, 350f);
-		next.setSize(68.0f, 68.0f);
+		next.setSize(47.0f, 47.0f);
 		next.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -209,7 +207,7 @@ public class HelpMenu implements Screen {
 		if (helpCounter == 0) {
 
 			batch.begin();
-			batch.draw(img1, 300, 180, 700, 390);
+			batch.draw(img1, 342, 230, 631, 298);
 			batch.draw(circle1,530,110, 35 ,35);
 			batch.end();
 
@@ -217,7 +215,7 @@ public class HelpMenu implements Screen {
 		if (helpCounter == 1) {
 
 			batch.begin();
-			batch.draw(img2, 300, 180, 700, 390);
+			batch.draw(img2, 342, 230, 631, 298);
 			batch.draw(circle1,600,110, 35 ,35);
 			batch.end();
 
