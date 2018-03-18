@@ -157,12 +157,52 @@ public class AIPlayer extends Player {
     }
 
     private ArrayList<Tuple<Character, Coordinate>> calculateVerticalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
+        ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
         Coordinate tempCoordinate;
         boolean possible = true;
-        boolean prefixFit = true;
-        boolean suffixFit = true;
 
-        ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
+        if((coordinate.getY() > 0 && Board.getInstance().getTile(coordinate.getNear('U')) != null) && prefix.size() == 0 && suffix.size() > 0) {
+            String connectedWord = "";
+            String combinedWord;
+            possible = false;
+            tempCoordinate = coordinate.getNear('U');
+            while(tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) != null) {
+                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
+                tempCoordinate = tempCoordinate.getNear('U');
+            }
+            connectedWord = new StringBuffer(connectedWord).reverse().toString();
+            combinedWord = connectedWord + word;
+
+            for(String dictWord : dictionary.getWords()) {
+                if (combinedWord.equals(dictWord)) {
+                    possible = true;
+                    System.out.println(dictWord);
+                }
+            }
+        } else if((coordinate.getY() > 14 && Board.getInstance().getTile(coordinate.getNear('D')) != null) && suffix.size() == 0 && prefix.size() > 0)  {
+            String connectedWord = "";
+            String combinedWord;
+            possible = false;
+            tempCoordinate = coordinate.getNear('D');
+            while(tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) != null) {
+                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
+                tempCoordinate = tempCoordinate.getNear('D');
+            }
+            connectedWord = new StringBuffer(connectedWord).reverse().toString();
+            combinedWord = connectedWord + word;
+
+            for(String dictWord : dictionary.getWords()) {
+                if (combinedWord.equals(dictWord)) {
+                    possible = true;
+                    System.out.println(dictWord);
+                }
+            }
+        }
+
+        if (!possible) {
+            charCoordinates.clear();
+            return charCoordinates;
+        }
 
         if (prefix.size() > 0) {
             // check prefix
@@ -173,11 +213,14 @@ public class AIPlayer extends Player {
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
                 while (prefixLength > 0 && tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
-
-                    charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
-
-                    prefixLength--;
-                    tempCoordinate = tempCoordinate.getNear('D');
+                    if((tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)
+                            && (tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('L')) == null)) {
+                        charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
+                        prefixLength--;
+                        tempCoordinate = tempCoordinate.getNear('D');
+                    } else {
+                        break;
+                    }
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
                 if (prefixLength != 0) {
@@ -201,11 +244,15 @@ public class AIPlayer extends Player {
                 int suffixLength = 0;
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
                 while (suffixLength < suffix.size() && tempCoordinate.getY() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
+                    if((tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('R')) == null)
+                            && (tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('L')) == null)) {
+                        charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
 
-                    charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
-
-                    suffixLength++;
-                    tempCoordinate = tempCoordinate.getNear('D');
+                        suffixLength++;
+                        tempCoordinate = tempCoordinate.getNear('D');
+                    } else {
+                        break;
+                    }
                 }
                 if (suffixLength != suffix.size()) {
                     possible = false;
@@ -226,6 +273,50 @@ public class AIPlayer extends Player {
         boolean possible = true;
         ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
 
+        if((coordinate.getX() < 14 && Board.getInstance().getTile(coordinate.getNear('L')) != null) && prefix.size() == 0 && suffix.size() > 0) {
+            String connectedWord = "";
+            String combinedWord;
+            possible = false;
+            tempCoordinate = coordinate.getNear('L');
+            while(tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate) != null) {
+                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
+                tempCoordinate = tempCoordinate.getNear('L');
+            }
+            connectedWord = new StringBuffer(connectedWord).reverse().toString();
+            combinedWord = connectedWord + word;
+
+            for(String dictWord : dictionary.getWords()) {
+                if (combinedWord.equals(dictWord)) {
+                    possible = true;
+                    System.out.println(dictWord);
+                }
+            }
+        } else if((coordinate.getX() > 0 && Board.getInstance().getTile(coordinate.getNear('R')) != null)  && suffix.size() == 0 && prefix.size() > 0)  {
+            String connectedWord = "";
+            String combinedWord;
+            possible = false;
+            tempCoordinate = coordinate.getNear('R');
+            while(tempCoordinate.getX() < 14 && Board.getInstance().getTile(tempCoordinate) != null) {
+                connectedWord += Board.getInstance().getTile(tempCoordinate).getContent();
+                tempCoordinate = tempCoordinate.getNear('R');
+            }
+            connectedWord = new StringBuffer(connectedWord).reverse().toString();
+            combinedWord = connectedWord + word;
+
+            for(String dictWord : dictionary.getWords()) {
+                if (combinedWord.equals(dictWord)) {
+                    possible = true;
+                    System.out.println(dictWord);
+                }
+            }
+        }
+
+        if (!possible) {
+            charCoordinates.clear();
+            return charCoordinates;
+        }
+
+
         // Horizontal fit
         if (prefix.size() > 0) {
             // check prefix
@@ -236,11 +327,15 @@ public class AIPlayer extends Player {
                 int prefixLength = prefix.size();
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
                 while (prefixLength > 0 && tempCoordinate.getX() > 0 && Board.getInstance().getTile(tempCoordinate) == null) {
+                    if((tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)
+                            && (tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('U')) == null)) {
+                        charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
 
-                    charCoordinates.add(new Tuple<>(prefix.get(prefix.size() - prefixLength), tempCoordinate));
-
-                    prefixLength--;
-                    tempCoordinate = tempCoordinate.getNear('R');
+                        prefixLength--;
+                        tempCoordinate = tempCoordinate.getNear('R');
+                    } else {
+                        break;
+                    }
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
                 if (prefixLength != 0) {
@@ -264,11 +359,14 @@ public class AIPlayer extends Player {
                 int suffixLength = 0;
                 // check each tile is free above suffix last character. Decrement suffixLength with each empty tile.
                 while (suffixLength < suffix.size() && tempCoordinate.getX() < 15 && Board.getInstance().getTile(tempCoordinate) == null) {
-
-                    charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
-                    suffixLength++;
-
-                    tempCoordinate = tempCoordinate.getNear('R');
+                    if((tempCoordinate.getY() < 14 && Board.getInstance().getTile(tempCoordinate.getNear('D')) == null)
+                            && (tempCoordinate.getY() > 0 && Board.getInstance().getTile(tempCoordinate.getNear('U')) == null)) {
+                        charCoordinates.add(new Tuple<>(suffix.get(suffixLength), tempCoordinate));
+                        suffixLength++;
+                        tempCoordinate = tempCoordinate.getNear('R');
+                    } else {
+                        break;
+                    }
                 }
                 // if suffixLength is more then 0, then not all spaces where free and word cannot be placed.
                 if (suffixLength != suffix.size()) {
