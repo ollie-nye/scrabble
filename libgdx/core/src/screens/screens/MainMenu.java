@@ -274,6 +274,33 @@ public class MainMenu implements Screen {
 		namingButtonStyle.over = skin.getDrawable("editNamesPressed");
 		namingButtonStyle.font = font;
 		
+		LabelStyle boxLabelStyle = new LabelStyle();
+		boxLabelStyle.background = skin.getDrawable("creationBox");
+		boxLabelStyle.font = font;
+		
+		LabelStyle addPlayerLabelStyle = new LabelStyle();
+		addPlayerLabelStyle.background = skin.getDrawable("addPlayer");
+		addPlayerLabelStyle.font = font;
+
+		LabelStyle addBotLabelStyle = new LabelStyle();
+		addBotLabelStyle.background = skin.getDrawable("addPlayer");
+		addBotLabelStyle.font = font;
+		
+		LabelStyle labelLineStyle = new LabelStyle();
+		labelLineStyle.background = skin.getDrawable("whiteLine");
+		labelLineStyle.font = font;
+		
+		LabelStyle noLabelStyle = new LabelStyle();
+		noLabelStyle.font = font;
+		
+		TextFieldStyle shorterTextBarStyle= new TextFieldStyle();
+		shorterTextBarStyle.background = skin.getDrawable("textBarShorter");
+		shorterTextBarStyle.font = font;			
+		shorterTextBarStyle.messageFont = font;
+		shorterTextBarStyle.fontColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+		shorterTextBarStyle.focusedBackground = tempSkin.getDrawable("purple");
+		
+		// --
 		/*
 		TextButtonStyle  = new TextButtonStyle();
 		.up = skin.getDrawable("");
@@ -315,21 +342,21 @@ public class MainMenu implements Screen {
 		playOptions = new Table();
 		float gameStartY = 350;
 		playOptions.setPosition(640.0f - (gameStartY * (5.0f / 7.0f)), 360.0f - 300.0f);
-		playOptions.setBackground(tempSkin.getDrawable("orange"));
-		playOptions.setSize(gameStartY * (10.0f / 7.0f), gameStartY);
+		
+		playOptions.setSize(gameStartY * (12.0f / 7.0f), gameStartY);
 
 		// creating main header and also headers above ai and player
-		Label header = new Label("Create Players", createPlayerStyle);
+		Label header = new Label("", createPlayerStyle);
 		header.setAlignment(Align.center);
 
 		// playersBox is a table to store the number of players selection button
 		// collection for non ai
 		Table playersBox = new Table();
-		playersBox.setBackground(tempSkin.getDrawable("lightblue"));
+		
 
-		Label playerHeader = new Label("Add Players", labelStyle);
+		Label playerHeader = new Label("", addPlayerLabelStyle);
 		playerHeader.setAlignment(Align.center);
-
+		
 		final Label playersBoxText = new Label("0", counterLabelStyle);
 		playersBoxText.setAlignment(Align.center);
 		TextButton playersBoxLeftArrow = new TextButton("", leftArrowStyle);
@@ -357,7 +384,7 @@ public class MainMenu implements Screen {
 			}
 		});
 
-		playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
+		playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 7)
 				.width(gameStartY * (17.0f / 28.0f));
 		playersBox.row();
 		playersBox.add(playersBoxLeftArrow);
@@ -367,9 +394,9 @@ public class MainMenu implements Screen {
 		// playersBox is a table to store the number of players selection button
 		// collection for ai
 		Table aIBox = new Table();
-		aIBox.setBackground(tempSkin.getDrawable("lightblue"));
+	
 
-		Label aiHeader = new Label("Add CPU", labelStyle);
+		Label aiHeader = new Label("", addBotLabelStyle);
 		aiHeader.setAlignment(Align.center);
 
 		final Label aIBoxText = new Label("0", counterLabelStyle);
@@ -399,7 +426,7 @@ public class MainMenu implements Screen {
 			}
 		});
 
-		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 14)
+		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 7)
 				.width(gameStartY * (17.0f / 28.0f));
 		aIBox.row();
 		// aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f),
@@ -409,43 +436,49 @@ public class MainMenu implements Screen {
 		aIBox.add(aIBoxRightArrow);
 		;
 
+		Label line = new Label ("", labelLineStyle);
+		
 		// adding these to one table
 		tempTable = new Table();
-		tempTable.setBackground(tempSkin.getDrawable("purple"));
+		tempTable.setBackground(skin.getDrawable("creationBox"));
 		tempTable.add(playersBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padLeft(gameStartY / 14)
 				.padRight(gameStartY / 56);
+	//	tempTable.add(line).width(5.0f).expand().fill();
+		
+		
 		tempTable.add(aIBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padRight(gameStartY / 14)
 				.padLeft(gameStartY / 56);
 
 		namingPlayer = new Table();
-		namingPlayer.setBackground(tempSkin.getDrawable("green"));
+		namingPlayer.setBackground(skin.getDrawable("creationBox"));
 
 		// namingPlayer.add(p1);
 		namingPlayer.setSize(gameStartY * (9.0f / 7.0f), gameStartY * (6.0f / 14.0f));
 
 		namingPlayer.setVisible(false);
 
-		playerLabel[0] = new Label("Player 1", altLabelStyle);
+		playerLabel[0] = new Label("Player 1", noLabelStyle);
 		playerLabel[0].setAlignment(Align.center);
-		playerNameEntry[0] = new TextField("", textFieldStyle);
+		playerNameEntry[0] = new TextField("", shorterTextBarStyle);
 		playerNameEntry[0].setAlignment(Align.center);
 
-		playerLabel[1] = new Label("Player 2", altLabelStyle);
+		playerLabel[1] = new Label("Player 2", noLabelStyle);
 		playerLabel[1].setAlignment(Align.center);
-		playerNameEntry[1] = new TextField("", textFieldStyle);
+		playerNameEntry[1] = new TextField("", shorterTextBarStyle);
 		playerNameEntry[1].setAlignment(Align.center);
 
-		playerLabel[2] = new Label("Player 3", altLabelStyle);
-		playerNameEntry[2] = new TextField("", textFieldStyle);
+		playerLabel[2] = new Label("Player 3", noLabelStyle);
+		playerNameEntry[2] = new TextField("", shorterTextBarStyle);
 		playerLabel[2].setAlignment(Align.center);
 		playerNameEntry[2].setAlignment(Align.center);
 
-		playerLabel[3] = new Label("Player 4", altLabelStyle);
-		playerNameEntry[3] = new TextField("", textFieldStyle);
+		playerLabel[3] = new Label("Player 4", noLabelStyle);
+		playerNameEntry[3] = new TextField("", shorterTextBarStyle);
 		playerLabel[3].setAlignment(Align.center);
 		playerNameEntry[3].setAlignment(Align.center);
 
 		namingPlayer.add(playerLabel[0]).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
+
 		namingPlayer.add(playerNameEntry[0]).height(30.0f).width(gameStartY / 14 * 8.75f).padLeft(gameStartY / 56.0f);
 		namingPlayer.row();
 		namingPlayer.add(playerLabel[1]).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
@@ -459,7 +492,7 @@ public class MainMenu implements Screen {
 		namingPlayer.add(playerNameEntry[3]).height(30.0f).width(gameStartY / 14 * 8.75f).padLeft(gameStartY / 56.0f);
 		namingPlayer.setWidth(gameStartY / 14.0f * 18.0f);
 
-		noPlayers = new Label("Add Some Players First", altLabelStyle);
+		noPlayers = new Label("Add Some Players First", boxLabelStyle);
 		noPlayers.setAlignment(Align.center);
 		noPlayers.setVisible(false);
 
@@ -469,7 +502,7 @@ public class MainMenu implements Screen {
 		stack.add(noPlayers);
 
 		// start button, at bottom of box, starts the game
-		TextButton start = new TextButton("Quickstart", startButtonStyle);
+		TextButton start = new TextButton("", startButtonStyle);
 		start.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -493,14 +526,14 @@ public class MainMenu implements Screen {
 		});
 
 		// naming button, at bottom of box, changes screen to name player screen
-		final TextButton naming = new TextButton("Name Players", namingButtonStyle);
+		final TextButton naming = new TextButton("", namingButtonStyle);
 		naming.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
 				if (screen == 0) {
 					namingButtonStyle.up = skin.getDrawable("editNames");
-					namingButtonStyle.over = skin.getDrawable("editNamesPresed");
+					namingButtonStyle.over = skin.getDrawable("editNamesPressed");
 					screen = 1;
 				} else if (screen == 1) {
 					namingButtonStyle.up = skin.getDrawable("editPlayers");
@@ -511,9 +544,8 @@ public class MainMenu implements Screen {
 		});
 
 		// creating the main table
-		playOptions.add(header).colspan(2).size(gameStartY / 14 * 12, gameStartY / 7)
-				.pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 14)
-				.size(gameStartY / 14 * 12, gameStartY / 7);
+		playOptions.add(header).colspan(2).pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 14)
+				.size(gameStartY / 14 * 12, gameStartY / 5);
 		playOptions.row();
 		playOptions.add(stack).colspan(2).maxWidth(500.0f);
 		playOptions.row();
@@ -525,7 +557,7 @@ public class MainMenu implements Screen {
 		stage.addActor(playOptions);
 
 		exitMenu = new TextButton("", exitMenuStyle);
-		exitMenu.setPosition(817.0f, 335.0f);
+		exitMenu.setPosition(847.0f, 335.0f);
 
 		exitMenu.addListener(new ClickListener() {
 			@Override
