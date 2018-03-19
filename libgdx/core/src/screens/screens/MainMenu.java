@@ -4,6 +4,7 @@ import assetmanager.assetManager;
 import data.Coordinate;
 import data.Move;
 import data.Tile;
+import data.Timer;
 import player.Player;
 
 import com.badlogic.gdx.Gdx;
@@ -500,9 +501,6 @@ public class MainMenu implements Screen {
 					}
 					Game.start();
 
-					// fiddy
-					gunit.play(game.getSoundVol());
-
 					System.out.println(setPlayerArray().toString());
 					game.setScreen(new GameScreen(game, setPlayerArray()));
 				}
@@ -741,7 +739,7 @@ public class MainMenu implements Screen {
 		}
 		switch (playerNumber) {
 		case 0:
-			playerLabel[0].setText("AI P1");
+			playerLabel[0].setText("AI P8");
 			playerLabel[1].setText("AI P2");
 			playerLabel[2].setText("AI P3");
 			playerLabel[3].setText("AI P4");
@@ -901,6 +899,8 @@ public class MainMenu implements Screen {
 			
 				
 				game.setScreen(new GameScreen(game, null));
+				System.out.println("lol");
+                Timer.resume();
 				noCurrentGame.setVisible(false);
 
 			};

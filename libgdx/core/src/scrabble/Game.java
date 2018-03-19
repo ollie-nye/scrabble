@@ -103,6 +103,7 @@ public class Game implements Serializable{
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
     public static void startTurn() {
+        Timer.reset();
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
 
@@ -136,6 +137,7 @@ public class Game implements Serializable{
                         currentMove.endMove();
                         currentMove = null;
                         currentPlayer = null;
+                        Timer.pause();
                     } else {
                         JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -147,6 +149,7 @@ public class Game implements Serializable{
                 currentMove.endMove();
                 currentMove = null;
                 currentPlayer = null;
+                Timer.pause();
             }
         } else {
             Board.getInstance().resetPartial();

@@ -81,12 +81,9 @@ public class AIPlayer extends Player implements Serializable {
         Tuple<Character, Coordinate> placedLetter = move.get(move.size() - 1);
         move.remove(placedLetter);
         Tile[] temp = super.getTiles().clone();
-
         for (Tuple<Character, Coordinate> letter : move) {
-
             for (Tile tile : temp) {
                 if (tile.getChar() == letter.getLeft()) {
-                    //board.place(tile, letter.getRight());
                     Game.getCurrentMove().addTile(tile, letter.getRight());
                     break;
                 }

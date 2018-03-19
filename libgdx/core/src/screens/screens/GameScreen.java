@@ -304,6 +304,7 @@ public class GameScreen implements Screen {
 
 						hover.play(game.getSoundVol());
 						stage.dispose();
+						Timer.pause();
 						game.setScreen(new MainMenu(game));
 
 					}

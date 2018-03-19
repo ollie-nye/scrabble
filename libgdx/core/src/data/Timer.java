@@ -4,20 +4,26 @@ import scrabble.Game;
 
 public class Timer implements Runnable {
     private static int time = 0;
+    private static boolean paused = false;
 
     public void run() {
-        while(Game.getCurrentMove() != null) {
-            try {
-                Thread.sleep(1);
-                time++;
-                if(time == Game.getTurmTime()) {
-                    Game.endTurn();
+        while(true) {
+            if(paused) {
+                System.out.print("");
+            } else {
+                while (!paused) {
+                    try {
+                        Thread.sleep(1);
+                        time++;
+                        if (time == Game.getTurmTime()) {
+                            Game.endTurn();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
-        time = 0;
     }
 
     public static int getTime() {
@@ -26,6 +32,19 @@ public class Timer implements Runnable {
 
     public static int getTimeLeft() {
         return Game.getTurmTime() - time;
+    }
+
+    public static void pause() {
+        paused = true;
+    }
+
+    public static void resume() {
+        paused = false;
+    }
+
+    public static void reset() {
+        time = 0;
+        resume();
     }
 
     public static String timeFormatter(int time) {
