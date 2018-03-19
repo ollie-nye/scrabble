@@ -105,7 +105,24 @@ public abstract class Player implements Serializable{
      * @return
      */
     public Tile[] getTiles() {
-        return letterList;
+        //test
+
+
+        /*
+        Tile[] test = new Tile[] {
+                new Tile('i', 2),
+                new Tile('n', 1),
+                new Tile('g', 1),
+                new Tile('f', 1),
+                new Tile('r', 1),
+                new Tile('t', 1),
+                new Tile('p', 1),
+        };
+
+       return test;
+       */
+
+       return letterList;
     }
     
     public boolean allTurnsFinished(){

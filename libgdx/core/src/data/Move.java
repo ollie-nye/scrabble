@@ -1,9 +1,7 @@
 package data;
 
 import player.Player;
-import scrabble.Board;
 import scrabble.Score;
-import validation.NewValidator;
 import java.util.HashMap;
 
 /**
@@ -12,15 +10,14 @@ import java.util.HashMap;
  * @author Tom Geraghty
  * @version 1.2
  */
-public class Move {
-    private final static Score SCORE_CALCULATOR = new Score();
-    private final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
-    private NewValidator validator = new NewValidator(Board.getInstance());
-    private final Player player;
-    private String playedWord = "";
-    private int wordMultiplier = 1;
-    private int moveTime;
-    private int moveScore;
+public abstract class Move {
+    final static Score SCORE_CALCULATOR = new Score();
+    final static HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
+    final Player player;
+    String playedWord = "";
+    int wordMultiplier = 1;
+    int moveTime;
+    int moveScore;
 
 
     public Move(Player player) {
@@ -29,43 +26,10 @@ public class Move {
     }
 
     /* PLAYED TILES */
-    /**
-     * Add a Tile to Move (as in Tile has been played in this Move).
-     *
-     * @param   tile          Tile that's been played
-     * @param   coordinate    Coordinate of played Tile
-     */
-    public void addTile(Tile tile, Coordinate coordinate) {
-        Result placeResult = validator.validateMove(new Letter(tile, coordinate));
-        if (placeResult.isLegal()) {
-            Board.getInstance().place(tile, coordinate);
-            playedTiles.put(tile, coordinate);
-            player.removeTile(tile);
-            moveScore += SCORE_CALCULATOR.calculateScore(tile, coordinate);
-            wordMultiplier *= SCORE_CALCULATOR.getWordMultiplier(coordinate);
-        } else {
-            Board.getInstance().removeTile(coordinate);
-        }
-        Board.getInstance().resetPartial();
-    }
-    /**
-     * Removes Tile from Move (Tile has been returned to Player hand and has not been played)
-     *
-     * @param   tile          Tile to remove
-     */
-    public void removeTile(Tile tile) {
-        if(playedTiles.containsKey(tile)) {
-            moveScore -= SCORE_CALCULATOR.calculateScore(tile, playedTiles.get(tile));
-            Board.getInstance().removeTile(playedTiles.get(tile));
-            player.returnTile(tile);
-            playedTiles.remove(tile);
-            if (playedTiles.size() == 1) { //Direction is no longer set
-            	this.validator.resetDirection();
-            } else if (playedTiles.size() == 0) { //First place is no longer set
-            	this.validator = new NewValidator(Board.getInstance());
-            }
-        }
-    }
+
+    public abstract void addTile(Tile tile, Coordinate coordinate);
+    public abstract void removeTile(Tile tile);
+
     /**
      * Returns all Tiles played in this Move.
      *
@@ -133,10 +97,8 @@ public class Move {
             removeTile(tile);
         }
     }
+
     public int getMoveTime() {
         return moveTime;
-    }
-    public Result getResult() {
-        return validator.getLastResult();
     }
 }

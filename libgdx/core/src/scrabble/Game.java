@@ -1,8 +1,6 @@
 package scrabble;
 
-import data.Move;
-import data.Result;
-import data.Timer;
+import data.*;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
@@ -55,8 +53,6 @@ public class Game {
             PLAYER_ORDER.add(player);
         }
     }
-    
-   
     /**
      * Removes Player from game.
      *
@@ -87,7 +83,7 @@ public class Game {
     public static int getNumberOfPlayers() {
         return PLAYER_LIST.size();
     }
-  
+
 
     /* GAME FUNCTIONS */
     /**
@@ -98,49 +94,58 @@ public class Game {
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
+        //aiTest();
         startTurn();
     }
     /**
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
-   
     public static void startTurn() {
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
 
-        currentMove = new Move(currentPlayer);
-        MOVE_LIST.add(currentMove);
-
-        if(!(currentPlayer instanceof HumanPlayer)) {
-            currentPlayer.play();
+        if (currentPlayer instanceof HumanPlayer) {
+            currentMove = new HumanMove(currentPlayer);
+        } else if (currentPlayer instanceof AIPlayer) {
+            currentMove = new AIMove(currentPlayer);
         }
 
-        //TODO: figure out this cyclic logic?
-        //if (currentPlayer.allTurnsFinished() == true){
-        //	startTurn();
-        //}
+        MOVE_LIST.add(currentMove);
+
+        if(currentPlayer instanceof AIPlayer) {
+            currentPlayer.play();
+        }
     }
     /**
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
-        if(Timer.getTimeLeft() > 0) {
-            Result lastResult = currentMove.getResult();
-            if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
-                if (validator.testConnectedWords(currentMove)) { //connected to other words {}
-                    Board.getInstance().resetPartial();
-                    currentMove.endMove();
-                    currentMove = null;
-                    currentPlayer = null;
+        System.out.println("fuck the po lice");
+        if(currentMove instanceof AIMove) {
+            Board.getInstance().resetPartial();
+            currentMove.endMove();
+            currentMove = null;
+            currentPlayer = null;
+        } else if (Timer.getTimeLeft() > 0) {
+            if (currentMove instanceof HumanMove) {
+                Result lastResult = ((HumanMove) currentMove).getResult();
+                if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
+                    if (validator.testConnectedWords(currentMove)) {
+                        Board.getInstance().resetPartial();
+                        currentMove.endMove();
+                        currentMove = null;
+                        currentPlayer = null;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } else if (lastResult == null && currentMove.getPlayedTiles().size() == 0 && Timer.getTimeLeft() > 0) {
-                JOptionPane.showMessageDialog(null, "Do you want to end?", "Error", JOptionPane.INFORMATION_MESSAGE);
+            } else if (currentMove.getPlayedTiles().isEmpty() && Timer.getTimeLeft() > 0) {
                 Board.getInstance().resetPartial();
                 currentMove.endMove();
                 currentMove = null;
                 currentPlayer = null;
-            } else {
-                JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             Board.getInstance().resetPartial();
@@ -149,6 +154,24 @@ public class Game {
             currentPlayer = null;
         }
     }
+
+    /*
+                if (currentMove.getPlayedTiles().isEmpty() && Timer.getTimeLeft() > 0) {
+                    Board.getInstance().resetPartial();
+                    currentMove.endMove();
+                    currentMove = null;
+                    currentPlayer = null;
+                } else {
+                }
+            } else {
+                Board.getInstance().resetPartial();
+                currentMove.invalidateMove();
+                currentMove = null;
+                currentPlayer = null;
+            }
+        }
+    }
+    */
 
     public static void reset() {
         currentPlayer = null;
@@ -185,6 +208,7 @@ public class Game {
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
     }
+      
     public static ArrayBlockingQueue<Player> getPlayersOrder(){
     	return PLAYER_ORDER;
     }
@@ -198,4 +222,31 @@ public class Game {
     	PLAYER_ORDER.add(player);        
     }
 	
+
+    //TEST
+    private static void aiTest() {
+        //Board.getInstance().place(new Tile('l', 1), new Coordinate(4,7));
+        //Board.getInstance().place(new Tile('o', 1), new Coordinate(5,7));
+        //Board.getInstance().place(new Tile('c', 1), new Coordinate(6,7));
+        /*
+        Board.getInstance().place(new Tile('k', 5), new Coordinate(7,7));
+        Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
+        Board.getInstance().place(new Tile('y', 4), new Coordinate(7,9));
+
+        Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
+        Board.getInstance().place(new Tile('x', 8), new Coordinate(7,9));
+
+        Board.getInstance().place(new Tile('d', 2), new Coordinate(7,4));
+        Board.getInstance().place(new Tile('h', 4), new Coordinate(7,5));
+        Board.getInstance().place(new Tile('a', 1), new Coordinate(7,6));
+
+        Board.getInstance().place(new Tile('e', 1), new Coordinate(8,4));
+        Board.getInstance().place(new Tile('l', 1), new Coordinate(9,4));
+        Board.getInstance().place(new Tile('f', 4), new Coordinate(10,4));
+        Board.getInstance().place(new Tile('t', 1), new Coordinate(11,4));
+        Board.getInstance().place(new Tile('s', 1), new Coordinate(12,4));
+        */
+        //Board.getInstance().place(new Tile('j', 1), new Coordinate(5,9));
+        //Board.getInstance().place(new Tile('a', 1), new Coordinate(6,9));
+    }
 }
