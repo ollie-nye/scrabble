@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public abstract class Move implements Serializable{
     final static Score SCORE_CALCULATOR = new Score();
-    final static HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
+    final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
     final Player player;
     String playedWord = "";
     int wordMultiplier = 1;
