@@ -283,7 +283,7 @@ public class MainMenu implements Screen {
 		addPlayerLabelStyle.font = font;
 
 		LabelStyle addBotLabelStyle = new LabelStyle();
-		addBotLabelStyle.background = skin.getDrawable("addPlayer");
+		addBotLabelStyle.background = skin.getDrawable("addBot");
 		addBotLabelStyle.font = font;
 		
 		LabelStyle labelLineStyle = new LabelStyle();
@@ -385,7 +385,7 @@ public class MainMenu implements Screen {
 		});
 
 		playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 7)
-				.width(gameStartY * (17.0f / 28.0f));
+				.width(gameStartY * (17.0f / 28.0f)).align(Align.center).padRight(12.0f);
 		playersBox.row();
 		playersBox.add(playersBoxLeftArrow);
 		playersBox.add(playersBoxText).align(Align.center).size(125.0f, 88.0f);
@@ -427,7 +427,7 @@ public class MainMenu implements Screen {
 		});
 
 		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 7)
-				.width(gameStartY * (17.0f / 28.0f));
+				.width(gameStartY * (17.0f / 28.0f)).align(Align.center);
 		aIBox.row();
 		// aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f),
 		// gameStartY * (4.5f / 14.0f));
@@ -441,13 +441,11 @@ public class MainMenu implements Screen {
 		// adding these to one table
 		tempTable = new Table();
 		tempTable.setBackground(skin.getDrawable("creationBoxWithLine"));
-		tempTable.add(playersBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padLeft(gameStartY / 14)
-				.padRight(gameStartY / 56);
+		tempTable.add(playersBox).height(gameStartY / 14.0f * 6.0f).align(Align.center).padRight(15.0f).uniform();
 	//	tempTable.add(line).width(5.0f).expand().fill();
 		
 		
-		tempTable.add(aIBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padRight(gameStartY / 14)
-				.padLeft(gameStartY / 56);
+		tempTable.add(aIBox).height(gameStartY / 14.0f * 6.0f).align(Align.center).padLeft(15.0f).uniform();
 
 		namingPlayer = new Table();
 		namingPlayer.setBackground(skin.getDrawable("creationBox"));
@@ -549,15 +547,13 @@ public class MainMenu implements Screen {
 		playOptions.row();
 		playOptions.add(stack).colspan(2).maxWidth(500.0f);
 		playOptions.row();
-		playOptions.add(naming).pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 56)
-				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
-		playOptions.add(start).pad(gameStartY / 14, gameStartY / 56, gameStartY / 14, gameStartY / 14)
-				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
+		playOptions.add(naming).height(gameStartY / 7).padRight(15.0f).uniform();
+		playOptions.add(start).height(gameStartY / 7).padRight(15.0f).uniform();
 
 		stage.addActor(playOptions);
 
 		exitMenu = new TextButton("", exitMenuStyle);
-		exitMenu.setPosition(847.0f, 335.0f);
+		exitMenu.setPosition(857.0f, 317.0f);
 
 		exitMenu.addListener(new ClickListener() {
 			@Override
