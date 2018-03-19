@@ -32,12 +32,16 @@ import scrabble.Game;
 import scrabble.LetterBag;
 import screens.ScrabbleLauncher;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -63,6 +67,7 @@ public class MainMenu implements Screen {
 
 	public MainMenu(ScrabbleLauncher game) {
 		this.game = game;
+	
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		// fiddy
 		gunit = game.getAssetManager().manager.get(assetManager.click12);
@@ -82,7 +87,8 @@ public class MainMenu implements Screen {
 		skin.addRegions(buttonAtlas);
 		altButtonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
 		altSkin.addRegions(altButtonAtlas);
-
+		
+		
 	}
 
 	@Override
@@ -101,30 +107,7 @@ public class MainMenu implements Screen {
 		TextButtonStyle playButtonStyle = new TextButtonStyle();
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
-		playButtonStyle.font = font;
-		TextButton continues1 = new TextButton("Save", playButtonStyle);
-		continues1.setPosition(115, 400f);
-		continues1.setSize(65.0f, 65.0f);
-		continues1.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				save();
-			}
-		});
-		stage.addActor(continues1);
-
-		TextButton continues2 = new TextButton("Load", playButtonStyle);
-		continues2.setPosition(115, 300f);
-		continues2.setSize(65.0f, 65.0f);
-		continues2.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-
-			load();
-				
-			}
-		});
-		stage.addActor(continues2);
+		playButtonStyle.font = font;		
 
 		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 320f);
@@ -201,6 +184,9 @@ public class MainMenu implements Screen {
 					public void run() {
 
 						hover.play(game.getSoundVol());
+						if (Game.getNumberOfPlayers() > 0){
+							save();
+						}
 						Gdx.app.exit();
 
 					}
@@ -590,6 +576,29 @@ public class MainMenu implements Screen {
 		noCurrentGame.setVisible(false);
 		// stage.addActor(noCurrentGame);
 
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("save.ser"));
+			try {
+				if (br.readLine() != null) {
+				   load();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}     		
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter("save.ser");
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -889,6 +898,8 @@ public class MainMenu implements Screen {
 		yes.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+			
+				
 				game.setScreen(new GameScreen(game, null));
 				noCurrentGame.setVisible(false);
 
@@ -962,18 +973,24 @@ public class MainMenu implements Screen {
 			for (int i=0; i<players.size(); i++){
 				Game.addPlayerCheatForSaves(players.get(i));
 			}
-			for (int i=0; i<players.size(); i++){
-				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
-			}
+			
 			for (int i=0; i<moveList.size(); i++){
+			
 				Game.addMove(moveList.get(i));
 			}
-			Game.setCurrentPlayer(currentPlayer);
+			for (int i = 0; i<(players.size()-1);i++){
+				
+					Player playersss = playersOrder.poll();
+					playersOrder.add(playersss);
+				
+			}
+			Game.setCurrentPlayer(playersOrder.peek());
+			for (int i=0; i<players.size(); i++){
+				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
+			}			
+	
 			
-			
-			game.setScreen(new GameScreen(game, setPlayerArray()));
-			
-			
+		
 			
 		} catch (IOException i) {
 			i.printStackTrace();

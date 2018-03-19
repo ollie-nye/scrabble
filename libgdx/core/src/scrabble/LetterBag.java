@@ -42,11 +42,11 @@ public class LetterBag implements Serializable{
 		}
 	}
 	
-	public void setList(ArrayList<Tile> tiles){
-		tileList = tiles;
+	public void setList(Stack<Tile> tiles){
+		tileStack = tiles;
 	}
-	public ArrayList<Tile> getList(){
-		return tileList;
+	public Stack<Tile> getList(){
+		return tileStack;
 	}
 
 	public void fill() {
