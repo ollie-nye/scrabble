@@ -304,8 +304,8 @@ public class GameScreen implements Screen {
 
 						hover.play(game.getSoundVol());
 						stage.dispose();
-						Timer.pause();
-						game.setScreen(new MainMenu(game));
+						Game.getTimer().pauseTimer();
+                        game.setScreen(new MainMenu(game));
 
 					}
 				})));
@@ -474,13 +474,13 @@ public class GameScreen implements Screen {
 			scoreLabels[i].setText(Integer.toString(Game.getPlayers().get(i).getScore()));
 		}
 
-		timer.setText(Timer.timeFormatter(Timer.getTimeLeft()));
-		if(Timer.getTimeLeft() < 10000) {
-            float scalar = 0.8f + ((float) (Timer.getTimeLeft() % 1000) / 1000) / 5f;
+		timer.setText(Timer.timeFormatter(Game.getTimer().getTimeLeft()));
+		if(Game.getTimer().getTimeLeft() < 10000) {
+            float scalar = 0.8f + ((float) (Game.getTimer().getTimeLeft() % 1000) / 1000) / 5f;
 		    if(scalar > 0.8) {
                 timer.setFontScale(scalar);
             }
-            if((Timer.getTimeLeft() % 2000) > 1000 ||Timer.getTimeLeft() < 5000) {
+            if((Game.getTimer().getTimeLeft() % 2000) > 1000 ||Game.getTimer().getTimeLeft() < 5000) {
                 timer.setStyle(new Label.LabelStyle(font,Color.RED));
             } else {
                 timer.setStyle(new Label.LabelStyle(font,Color.BLACK));

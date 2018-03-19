@@ -899,8 +899,7 @@ public class MainMenu implements Screen {
 			
 				
 				game.setScreen(new GameScreen(game, null));
-				System.out.println("lol");
-                Timer.resume();
+                Game.getTimer().startTimer();
 				noCurrentGame.setVisible(false);
 
 			};

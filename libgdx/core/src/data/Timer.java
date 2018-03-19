@@ -3,15 +3,13 @@ package data;
 import scrabble.Game;
 
 public class Timer implements Runnable {
-    private static int time = 0;
-    private static boolean paused = false;
+    private int time = 0;
+    private boolean paused = false;
 
     public void run() {
-        while(true) {
-            if(paused) {
-                System.out.print("");
-            } else {
-                while (!paused) {
+        while (true) {
+            if (Game.getTimer() == this) {
+                if (!getPaused()) {
                     try {
                         Thread.sleep(1);
                         time++;
@@ -21,30 +19,38 @@ public class Timer implements Runnable {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    System.out.println(paused);
                 }
+            } else {
+                break;
             }
         }
+        System.out.println("dead");
     }
 
-    public static int getTime() {
+    public int getTime() {
         return time;
     }
 
-    public static int getTimeLeft() {
-        return Game.getTurmTime() - time;
-    }
-
-    public static void pause() {
+    public void pauseTimer() {
         paused = true;
     }
 
-    public static void resume() {
+    public void startTimer() {
         paused = false;
     }
 
-    public static void reset() {
+    public boolean getPaused() {
+        return paused;
+    }
+
+    public int getTimeLeft() {
+        return Game.getTurmTime() - time;
+    }
+
+    public void reset() {
         time = 0;
-        resume();
     }
 
     public static String timeFormatter(int time) {
@@ -53,7 +59,7 @@ public class Timer implements Runnable {
         int nanoseconds = time % 1000;
 
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(String.format("|%02d|.|%02d|",minutes,seconds));
+        stringBuffer.append(String.format("|%02d|.|%02d|", minutes, seconds));
 
         return stringBuffer.toString();
     }

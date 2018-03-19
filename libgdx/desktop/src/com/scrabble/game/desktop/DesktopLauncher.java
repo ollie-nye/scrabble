@@ -3,6 +3,7 @@ package com.scrabble.game.desktop;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import scrabble.Game;
 import screens.ScrabbleLauncher;
 
 public class DesktopLauncher {
@@ -13,6 +14,7 @@ public class DesktopLauncher {
 		config.width = 1280;
 		config.height = 720;
 		config.addIcon("graphics/icon.png", FileType.Internal);
+		Game game = new Game();
 		new LwjglApplication(new ScrabbleLauncher(), config);
 	}
 }

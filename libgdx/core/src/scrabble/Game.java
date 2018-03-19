@@ -25,6 +25,7 @@ public class Game implements Serializable{
     private static final ArrayBlockingQueue<Player> PLAYER_ORDER = new ArrayBlockingQueue<>(MAX_PLAYERS);
     private static final ArrayList<Player> PLAYER_LIST = new ArrayList<>();
     private static final ArrayList<Move> MOVE_LIST = new ArrayList<>();
+    private static Timer timer = new Timer();
     private static Move currentMove;
     private static Player currentPlayer;
     private static int turmTime = 60000;
@@ -96,14 +97,12 @@ public class Game implements Serializable{
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
-        //aiTest();
-        startTurn();
     }
     /**
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
     public static void startTurn() {
-        Timer.reset();
+        new Thread(timer).start();
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
 
@@ -114,6 +113,7 @@ public class Game implements Serializable{
         }
 
         MOVE_LIST.add(currentMove);
+        timer.startTimer();
 
         if(currentPlayer instanceof AIPlayer) {
             currentPlayer.play();
@@ -128,7 +128,8 @@ public class Game implements Serializable{
             currentMove.endMove();
             currentMove = null;
             currentPlayer = null;
-        } else if (Timer.getTimeLeft() > 0) {
+            timer = new Timer();
+        } else if (timer.getTimeLeft() > 0) {
             if (currentMove instanceof HumanMove) {
                 Result lastResult = ((HumanMove) currentMove).getResult();
                 if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
@@ -137,19 +138,19 @@ public class Game implements Serializable{
                         currentMove.endMove();
                         currentMove = null;
                         currentPlayer = null;
-                        Timer.pause();
+                        timer = new Timer();
                     } else {
                         JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } else if (currentMove.getPlayedTiles().isEmpty() && Timer.getTimeLeft() > 0) {
+            } else if (currentMove.getPlayedTiles().isEmpty() && timer.getTimeLeft() > 0) {
                 Board.getInstance().resetPartial();
                 currentMove.endMove();
                 currentMove = null;
                 currentPlayer = null;
-                Timer.pause();
+                timer = new Timer();
             }
         } else {
             Board.getInstance().resetPartial();
@@ -157,30 +158,14 @@ public class Game implements Serializable{
             currentMove = null;
             currentPlayer = null;
         }
+        System.out.println(timer.getTime());
     }
-
-    /*
-                if (currentMove.getPlayedTiles().isEmpty() && Timer.getTimeLeft() > 0) {
-                    Board.getInstance().resetPartial();
-                    currentMove.endMove();
-                    currentMove = null;
-                    currentPlayer = null;
-                } else {
-                }
-            } else {
-                Board.getInstance().resetPartial();
-                currentMove.invalidateMove();
-                currentMove = null;
-                currentPlayer = null;
-            }
-        }
-    }
-    */
 
     public static void reset() {
         currentPlayer = null;
         currentMove = null;
         Board.getInstance().clearBoard();
+        timer = new Timer();
         LETTER_BAG.empty();
         PLAYER_ORDER.clear();
         PLAYER_LIST.clear();
@@ -208,7 +193,9 @@ public class Game implements Serializable{
     public static LetterBag getLetterBag() {
         return LETTER_BAG;
     }
-    
+    public static Timer getTimer() {
+        return timer;
+    }
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
     }      
@@ -227,6 +214,8 @@ public class Game implements Serializable{
     public static void addMove(Move move){
     	MOVE_LIST.add(move);
     }
+
+
 	
 
     //TEST
