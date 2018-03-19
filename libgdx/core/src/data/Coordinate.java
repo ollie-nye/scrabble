@@ -13,6 +13,7 @@ import java.io.Serializable;
  * 1.2 - Add toString method
  */
 
+
 public class Coordinate extends Tuple<Integer, Integer> implements Serializable{
 
 	public Coordinate(int x, int y) {
@@ -20,22 +21,22 @@ public class Coordinate extends Tuple<Integer, Integer> implements Serializable{
 	}
 	
 	public int getX() {
-		return super.getLeft();
+		return left;
 	}
 	public int getY() {
-		return super.getRight();
+		return right;
 	}
 
 	public Coordinate getNear(char direction) {
 		switch (direction) {
 			case 'U':
-				return new Coordinate(super.getLeft(), super.getRight() - 1);
+				return new Coordinate(left, right - 1);
 			case 'D':
-				return new Coordinate(super.getLeft(), super.getRight() + 1);
+				return new Coordinate(left, right + 1);
 			case 'L':
-				return new Coordinate(super.getLeft() - 1, super.getRight());
+				return new Coordinate(left - 1, right);
 			case 'R':
-				return new Coordinate(super.getLeft() + 1, super.getRight());
+				return new Coordinate(left + 1, right);
 			default:
 				return this;
 		}
