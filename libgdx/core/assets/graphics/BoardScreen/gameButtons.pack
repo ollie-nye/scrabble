@@ -59,14 +59,14 @@ confirm
   orig: 155, 55
   offset: 0, 0
   index: -1
-endButton
+confirmPressed
   rotate: false
   xy: 592, 440
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-endButtonDark
+endButton
   rotate: false
   xy: 749, 440
   size: 155, 55
@@ -87,37 +87,44 @@ musicButtonHover
   orig: 85, 85
   offset: 0, 0
   index: -1
-endButtonPressed
+endButtonDark
   rotate: false
   xy: 410, 383
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-shuffleButton
+endButtonPressed
   rotate: false
   xy: 567, 383
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-shuffleButtonPressed
+shuffleButton
   rotate: false
   xy: 724, 383
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-startButton
+shuffleButtonPressed
   rotate: false
   xy: 410, 326
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-startButtonPressed
+startButton
   rotate: false
   xy: 567, 326
+  size: 155, 55
+  orig: 155, 55
+  offset: 0, 0
+  index: -1
+startButtonPressed
+  rotate: false
+  xy: 724, 326
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
@@ -145,21 +152,21 @@ soundButtonHover
   index: -1
 soundButtonPressed
   rotate: false
-  xy: 724, 296
+  xy: 881, 323
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
   index: -1
 homeButton
   rotate: false
-  xy: 811, 316
+  xy: 410, 259
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
   index: -1
 homeButtonPressed
   rotate: false
-  xy: 410, 259
+  xy: 477, 259
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
@@ -173,7 +180,7 @@ brownButtonPressed
   index: -1
 greenButtonPressed
   rotate: false
-  xy: 477, 283
+  xy: 544, 283
   size: 41, 41
   orig: 41, 41
   offset: 0, 0
@@ -187,7 +194,7 @@ greyButtonPressed
   index: -1
 orangeButtonPressed
   rotate: false
-  xy: 520, 283
+  xy: 587, 283
   size: 41, 41
   orig: 41, 41
   offset: 0, 0
@@ -201,58 +208,86 @@ redButtonPressed
   index: -1
 boardButtonPressed
   rotate: false
-  xy: 563, 284
+  xy: 630, 284
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 brownButton
   rotate: false
-  xy: 605, 287
+  xy: 672, 287
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 brownButtonHover
   rotate: false
-  xy: 645, 287
+  xy: 712, 287
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
-boardButton
-  rotate: false
-  xy: 685, 287
-  size: 37, 37
-  orig: 37, 37
-  offset: 0, 0
-  index: -1
 greenButton
   rotate: false
-  xy: 313, 230
+  xy: 752, 287
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greenButtonHover
   rotate: false
-  xy: 353, 230
+  xy: 792, 287
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greyButton
   rotate: false
-  xy: 313, 191
+  xy: 832, 287
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greyButtonHover
   rotate: false
+  xy: 313, 230
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+orangeButton
+  rotate: false
+  xy: 353, 230
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+orangeButtonHover
+  rotate: false
+  xy: 313, 191
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+redButton
+  rotate: false
   xy: 353, 191
   size: 38, 37
   orig: 38, 37
+  offset: 0, 0
+  index: -1
+redButtonHover
+  rotate: false
+  xy: 872, 284
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+boardButton
+  rotate: false
+  xy: 912, 284
+  size: 37, 37
+  orig: 37, 37
   offset: 0, 0
   index: -1
 boardButtonHover
@@ -260,33 +295,5 @@ boardButtonHover
   xy: 88, 136
   size: 37, 37
   orig: 37, 37
-  offset: 0, 0
-  index: -1
-orangeButton
-  rotate: false
-  xy: 88, 97
-  size: 38, 37
-  orig: 38, 37
-  offset: 0, 0
-  index: -1
-orangeButtonHover
-  rotate: false
-  xy: 88, 58
-  size: 38, 37
-  orig: 38, 37
-  offset: 0, 0
-  index: -1
-redButton
-  rotate: false
-  xy: 88, 19
-  size: 38, 37
-  orig: 38, 37
-  offset: 0, 0
-  index: -1
-redButtonHover
-  rotate: false
-  xy: 127, 138
-  size: 38, 37
-  orig: 38, 37
   offset: 0, 0
   index: -1
