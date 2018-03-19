@@ -19,14 +19,11 @@ public class Timer implements Runnable {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    System.out.println(paused);
                 }
             } else {
                 break;
             }
         }
-        System.out.println("dead");
     }
 
     public int getTime() {
@@ -41,7 +38,7 @@ public class Timer implements Runnable {
         paused = false;
     }
 
-    public boolean getPaused() {
+    public synchronized boolean getPaused() {
         return paused;
     }
 
