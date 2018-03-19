@@ -14,7 +14,6 @@ public class DesktopLauncher {
 		config.width = 1280;
 		config.height = 720;
 		config.addIcon("graphics/icon.png", FileType.Internal);
-		Game game = new Game();
 		new LwjglApplication(new ScrabbleLauncher(), config);
 	}
 }
