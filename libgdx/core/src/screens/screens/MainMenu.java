@@ -90,7 +90,7 @@ public class MainMenu implements Screen {
 
 		Gdx.input.setInputProcessor(stage);
 
-		Skin skin = new Skin();
+		final Skin skin = new Skin();
 		TextureAtlas buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
 
@@ -269,7 +269,7 @@ public class MainMenu implements Screen {
 		createPlayerStyle.background = skin.getDrawable("createPlayer");
 		createPlayerStyle.font = font;
 		
-		TextButtonStyle namingButtonStyle = new TextButtonStyle();
+		final TextButtonStyle namingButtonStyle = new TextButtonStyle();
 		namingButtonStyle.up = skin.getDrawable("editNames");
 		namingButtonStyle.over = skin.getDrawable("editNamesPressed");
 		namingButtonStyle.font = font;
@@ -877,7 +877,7 @@ public class MainMenu implements Screen {
 
 	public Table continues(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable, String labelText) {
 
-		Table table = new Table();
+		final Table table = new Table();
 		table.setWidth(450.0f);
 
 		Label label = new Label(labelText, labelStyle);
