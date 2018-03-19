@@ -210,7 +210,7 @@ public class WordOperations implements Serializable {
 		Coordinate nextLoc = null;
 		switch (direction) {
 		case UP:
-			if (!(letter.getLocation().getY() < 0)) {
+			if (!(letter.getLocation().getY() <= 1)) {
 				nextLoc = new Coordinate(x, y - 1);
 				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
@@ -218,7 +218,7 @@ public class WordOperations implements Serializable {
 			}
 			break;
 		case DOWN:
-			if (!(letter.getLocation().getY() > 15)) {
+			if (!(letter.getLocation().getY() >= 13)) {
 				nextLoc = new Coordinate (x, y + 1);
 				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
@@ -226,7 +226,7 @@ public class WordOperations implements Serializable {
 			}
 			break;
 		case LEFT:
-			if (!(letter.getLocation().getX() < 0)) {
+			if (!(letter.getLocation().getX() <= 1)) {
 				nextLoc = new Coordinate (x - 1, y);
 				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
@@ -234,7 +234,7 @@ public class WordOperations implements Serializable {
 			}
 			break;
 		case RIGHT:
-			if (!(letter.getLocation().getX() > 15)) {
+			if (!(letter.getLocation().getX() >= 13)) {
 				nextLoc = new Coordinate (x + 1, y);
 				Tile tile = board.getTile(nextLoc);
 				if (tile == null) { return null; }
