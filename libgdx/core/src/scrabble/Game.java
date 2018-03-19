@@ -104,10 +104,15 @@ public class Game {
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
 
-        currentMove = new Move(currentPlayer);
+        if (currentPlayer instanceof HumanPlayer) {
+            currentMove = new HumanMove(currentPlayer);
+        } else if (currentPlayer instanceof AIPlayer) {
+            currentMove = new AIMove(currentPlayer);
+        }
+
         MOVE_LIST.add(currentMove);
 
-        if(!(currentPlayer instanceof HumanPlayer)) {
+        if(currentPlayer instanceof AIPlayer) {
             currentPlayer.play();
         }
     }
@@ -115,22 +120,32 @@ public class Game {
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
-        if(Timer.getTimeLeft() > 0) {
-            Result lastResult = currentMove.getResult();
-            if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
-                if (validator.testConnectedWords(currentMove)) { //connected to other words {}
-                    Board.getInstance().resetPartial();
-                    currentMove.endMove();
-                    currentMove = null;
-                    currentPlayer = null;
+        System.out.println("fuck the po lice");
+        if(currentMove instanceof AIMove) {
+            Board.getInstance().resetPartial();
+            currentMove.endMove();
+            currentMove = null;
+            currentPlayer = null;
+        } else if (Timer.getTimeLeft() > 0) {
+            if (currentMove instanceof HumanMove) {
+                Result lastResult = ((HumanMove) currentMove).getResult();
+                if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
+                    if (validator.testConnectedWords(currentMove)) {
+                        Board.getInstance().resetPartial();
+                        currentMove.endMove();
+                        currentMove = null;
+                        currentPlayer = null;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } else if (lastResult == null && currentMove.getPlayedTiles().size() == 0 && Timer.getTimeLeft() > 0) {
+            } else if (currentMove.getPlayedTiles().isEmpty() && Timer.getTimeLeft() > 0) {
                 Board.getInstance().resetPartial();
                 currentMove.endMove();
                 currentMove = null;
                 currentPlayer = null;
-            } else {
-                JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             Board.getInstance().resetPartial();
@@ -139,6 +154,24 @@ public class Game {
             currentPlayer = null;
         }
     }
+
+    /*
+                if (currentMove.getPlayedTiles().isEmpty() && Timer.getTimeLeft() > 0) {
+                    Board.getInstance().resetPartial();
+                    currentMove.endMove();
+                    currentMove = null;
+                    currentPlayer = null;
+                } else {
+                }
+            } else {
+                Board.getInstance().resetPartial();
+                currentMove.invalidateMove();
+                currentMove = null;
+                currentPlayer = null;
+            }
+        }
+    }
+    */
 
     public static void reset() {
         currentPlayer = null;
