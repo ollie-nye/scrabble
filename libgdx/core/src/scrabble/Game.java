@@ -120,7 +120,6 @@ public class Game {
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
-        System.out.println("fuck the po lice");
         if(currentMove instanceof AIMove) {
             Board.getInstance().resetPartial();
             currentMove.endMove();
