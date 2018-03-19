@@ -1,5 +1,6 @@
 package player;
 
+import data.AIMove;
 import data.Coordinate;
 import data.Tile;
 import data.Tuple;
@@ -65,14 +66,15 @@ public class AIPlayer extends Player implements Serializable {
             for(Tile tile : super.getTiles()) {
                 System.out.print(tile + ", ");
             }
-            System.out.println();
-            playMove(calculateBestMove(allMoves));
+
+            Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> moveToPlay = calculateBestMove(allMoves);
+
+            playMove(moveToPlay.getLeft());
+            ((AIMove) Game.getCurrentMove()).setScore(moveToPlay.getRight());
         }
 
         cache.clear();
-        //Game.endTurn();
-        //this.addTiles();
-        //System.out.println();
+        Game.endTurn();
     }
 
     private void playMove(ArrayList<Tuple<Character, Coordinate>> move) {
@@ -454,7 +456,7 @@ public class AIPlayer extends Player implements Serializable {
         return possibleWords;
     }
 
-    private ArrayList<Tuple<Character, Coordinate>> calculateBestMove(ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves) {
+    private Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> calculateBestMove(ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves) {
         ArrayList<Tuple<Character, Coordinate>> bestMove = null;
         int wordScore = 0;
         for (ArrayList<Tuple<Character, Coordinate>> move : moves) {
@@ -464,7 +466,10 @@ public class AIPlayer extends Player implements Serializable {
                 bestMove = move;
             }
         }
-        return bestMove;
+
+        Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> bestMovePossible = new Tuple(bestMove, wordScore);
+
+        return bestMovePossible;
     }
 
 
