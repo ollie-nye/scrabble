@@ -32,12 +32,16 @@ import scrabble.Game;
 import scrabble.LetterBag;
 import screens.ScrabbleLauncher;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -47,7 +51,7 @@ public class MainMenu implements Screen {
 	private Table playOptions, namingPlayer, tempTable;
 	private TextButton play, continues, settings, rules, exit, website, exitMenu, skipToEndScreen;
 	private int menuType, playerCounter, aiNumber, playerNumber, screen;
-	private Label[] playerLabel = new Label[4];
+	private TextButton[] playerLabel = new TextButton[4];
 	private TextField[] playerNameEntry = new TextField[4];
 	private Label noPlayers;
 	private Stage stage;
@@ -60,9 +64,12 @@ public class MainMenu implements Screen {
 	private BitmapFont font;
 	private TextButtonStyle exitButtonStyle;
 	private Table resetGame, noCurrentGame;
+	private String[] aiDifficulties;
+	private String[] playerText;
 
 	public MainMenu(ScrabbleLauncher game) {
 		this.game = game;
+
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
 		// fiddy
 		gunit = game.getAssetManager().manager.get(assetManager.click12);
@@ -85,10 +92,25 @@ public class MainMenu implements Screen {
 
 	}
 
+	private void setDifficultyArray() {
+		aiDifficulties = new String[3];
+		aiDifficulties[0] = "Easy Bot";
+		aiDifficulties[1] = "Normal Bot";
+		aiDifficulties[2] = "Hard Bot";
+		playerText = new String[4];
+		playerText[0] = "Easy Bot";
+		playerText[1] = "Easy Bot";
+		playerText[2] = "Easy Bot";
+		playerText[3] = "Easy Bot";
+
+	}
+
 	@Override
 	public void show() {
 
 		Gdx.input.setInputProcessor(stage);
+
+		setDifficultyArray();
 
 		final Skin skin = new Skin();
 		TextureAtlas buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
@@ -102,29 +124,6 @@ public class MainMenu implements Screen {
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
-		TextButton continues1 = new TextButton("Save", playButtonStyle);
-		continues1.setPosition(115, 400f);
-		continues1.setSize(65.0f, 65.0f);
-		continues1.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				save();
-			}
-		});
-		stage.addActor(continues1);
-
-		TextButton continues2 = new TextButton("Load", playButtonStyle);
-		continues2.setPosition(115, 300f);
-		continues2.setSize(65.0f, 65.0f);
-		continues2.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-
-			load();
-				
-			}
-		});
-		stage.addActor(continues2);
 
 		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 320f);
@@ -201,6 +200,9 @@ public class MainMenu implements Screen {
 					public void run() {
 
 						hover.play(game.getSoundVol());
+						if (Game.getNumberOfPlayers() > 0) {
+							save();
+						}
 						Gdx.app.exit();
 
 					}
@@ -259,60 +261,60 @@ public class MainMenu implements Screen {
 		exitMenuStyle.font = font;
 		exitMenuStyle.over = skin.getDrawable("homeButtonPressed");
 		exitMenuStyle.up = skin.getDrawable("homeButton");
-		
-		TextButtonStyle startButtonStyle= new TextButtonStyle();
+
+		TextButtonStyle startButtonStyle = new TextButtonStyle();
 		startButtonStyle.up = skin.getDrawable("quickStart");
 		startButtonStyle.over = skin.getDrawable("quickStartPressed");
 		startButtonStyle.font = font;
-		
+
 		LabelStyle createPlayerStyle = new LabelStyle();
 		createPlayerStyle.background = skin.getDrawable("createPlayer");
 		createPlayerStyle.font = font;
-		
+
 		final TextButtonStyle namingButtonStyle = new TextButtonStyle();
 		namingButtonStyle.up = skin.getDrawable("editNames");
 		namingButtonStyle.over = skin.getDrawable("editNamesPressed");
 		namingButtonStyle.font = font;
-		
+
 		LabelStyle boxLabelStyle = new LabelStyle();
 		boxLabelStyle.background = skin.getDrawable("creationBox");
 		boxLabelStyle.font = font;
-		
+
 		LabelStyle addPlayerLabelStyle = new LabelStyle();
 		addPlayerLabelStyle.background = skin.getDrawable("addPlayer");
 		addPlayerLabelStyle.font = font;
 
 		LabelStyle addBotLabelStyle = new LabelStyle();
-		addBotLabelStyle.background = skin.getDrawable("addPlayer");
+		addBotLabelStyle.background = skin.getDrawable("addBot");
 		addBotLabelStyle.font = font;
-		
+
 		LabelStyle labelLineStyle = new LabelStyle();
 		labelLineStyle.background = skin.getDrawable("whiteLine");
 		labelLineStyle.font = font;
-		
+
 		LabelStyle noLabelStyle = new LabelStyle();
 		noLabelStyle.font = font;
-		
-		TextFieldStyle shorterTextBarStyle= new TextFieldStyle();
+
+		TextButtonStyle noButtonStyle = new TextButtonStyle();
+		noButtonStyle.font = font;
+
+		TextFieldStyle shorterTextBarStyle = new TextFieldStyle();
 		shorterTextBarStyle.background = skin.getDrawable("textBarShorter");
-		shorterTextBarStyle.font = font;			
+		shorterTextBarStyle.font = font;
 		shorterTextBarStyle.messageFont = font;
 		shorterTextBarStyle.fontColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 		shorterTextBarStyle.focusedBackground = skin.getDrawable("textBarShorterLight");
-		
+
 		// --
 		/*
-		TextButtonStyle  = new TextButtonStyle();
-		.up = skin.getDrawable("");
-		.over = skin.getDrawable("");
-		.font = font;
-		*/
+		 * TextButtonStyle = new TextButtonStyle(); .up = skin.getDrawable("");
+		 * .over = skin.getDrawable(""); .font = font;
+		 */
 		TextButtonStyle rightArrowStyle = new TextButtonStyle();
 		rightArrowStyle.up = skin.getDrawable("rightArrow");
 		rightArrowStyle.over = skin.getDrawable("rightArrowPressed");
 		rightArrowStyle.font = font;
-		
-	
+
 		TextButtonStyle altButtonStyle = new TextButtonStyle();
 		altButtonStyle.up = tempSkin.getDrawable("lightblue");
 		altButtonStyle.over = tempSkin.getDrawable("blue");
@@ -342,7 +344,7 @@ public class MainMenu implements Screen {
 		playOptions = new Table();
 		float gameStartY = 350;
 		playOptions.setPosition(640.0f - (gameStartY * (5.0f / 7.0f)), 360.0f - 300.0f);
-		
+
 		playOptions.setSize(gameStartY * (12.0f / 7.0f), gameStartY);
 
 		// creating main header and also headers above ai and player
@@ -352,11 +354,10 @@ public class MainMenu implements Screen {
 		// playersBox is a table to store the number of players selection button
 		// collection for non ai
 		Table playersBox = new Table();
-		
 
 		Label playerHeader = new Label("", addPlayerLabelStyle);
 		playerHeader.setAlignment(Align.center);
-		
+
 		final Label playersBoxText = new Label("0", counterLabelStyle);
 		playersBoxText.setAlignment(Align.center);
 		TextButton playersBoxLeftArrow = new TextButton("", leftArrowStyle);
@@ -385,7 +386,7 @@ public class MainMenu implements Screen {
 		});
 
 		playersBox.add(playerHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 7)
-				.width(gameStartY * (17.0f / 28.0f));
+				.width(gameStartY * (17.0f / 28.0f)).align(Align.center).padRight(12.0f);
 		playersBox.row();
 		playersBox.add(playersBoxLeftArrow);
 		playersBox.add(playersBoxText).align(Align.center).size(125.0f, 88.0f);
@@ -394,7 +395,6 @@ public class MainMenu implements Screen {
 		// playersBox is a table to store the number of players selection button
 		// collection for ai
 		Table aIBox = new Table();
-	
 
 		Label aiHeader = new Label("", addBotLabelStyle);
 		aiHeader.setAlignment(Align.center);
@@ -427,7 +427,7 @@ public class MainMenu implements Screen {
 		});
 
 		aIBox.add(aiHeader).colspan(3).padBottom(gameStartY / 28).height(gameStartY / 7)
-				.width(gameStartY * (17.0f / 28.0f));
+				.width(gameStartY * (17.0f / 28.0f)).align(Align.center);
 		aIBox.row();
 		// aIBox.add(aIBoxLeftArrow).size(gameStartY * (6.5f / 28.0f),
 		// gameStartY * (4.5f / 14.0f));
@@ -436,18 +436,15 @@ public class MainMenu implements Screen {
 		aIBox.add(aIBoxRightArrow);
 		;
 
-		Label line = new Label ("", labelLineStyle);
-		
+		Label line = new Label("", labelLineStyle);
+
 		// adding these to one table
 		tempTable = new Table();
 		tempTable.setBackground(skin.getDrawable("creationBoxWithLine"));
-		tempTable.add(playersBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padLeft(gameStartY / 14)
-				.padRight(gameStartY / 56);
-	//	tempTable.add(line).width(5.0f).expand().fill();
-		
-		
-		tempTable.add(aIBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padRight(gameStartY / 14)
-				.padLeft(gameStartY / 56);
+		tempTable.add(playersBox).height(gameStartY / 14.0f * 6.0f).align(Align.center).padRight(15.0f).uniform();
+		// tempTable.add(line).width(5.0f).expand().fill();
+
+		tempTable.add(aIBox).height(gameStartY / 14.0f * 6.0f).align(Align.center).padLeft(15.0f).uniform();
 
 		namingPlayer = new Table();
 		namingPlayer.setBackground(skin.getDrawable("creationBox"));
@@ -457,24 +454,102 @@ public class MainMenu implements Screen {
 
 		namingPlayer.setVisible(false);
 
-		playerLabel[0] = new Label("Player 1", noLabelStyle);
-		playerLabel[0].setAlignment(Align.center);
+		playerLabel[0] = new TextButton("", noButtonStyle);
+		playerLabel[0].align(Align.center);
+		playerLabel[0].addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (playerLabel[0].getText().charAt(0) != 'P') {
+					for (int i = 0; i < aiDifficulties.length; i++) {
+						System.out.println(playerLabel[0].getText() + aiDifficulties[i]);
+						if (playerLabel[0].getText().toString().equals(aiDifficulties[i])) {
+							if (i < aiDifficulties.length - 1) {
+								playerText[0] = (aiDifficulties[i + 1]);								
+								break;
+							} else {
+								playerText[0] = (aiDifficulties[0]);
+								break;
+							}
+						}
+					}
+				}
+
+			}
+		});
+
 		playerNameEntry[0] = new TextField("", shorterTextBarStyle);
 		playerNameEntry[0].setAlignment(Align.center);
 
-		playerLabel[1] = new Label("Player 2", noLabelStyle);
-		playerLabel[1].setAlignment(Align.center);
+		playerLabel[1] = new TextButton("Player 2", noButtonStyle);
+		playerLabel[1].align(Align.center);
+		playerLabel[1].addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (playerLabel[1].getText().charAt(0) != 'P') {
+					for (int i = 0; i < aiDifficulties.length; i++) {
+						if (playerLabel[1].getText().toString().equals(aiDifficulties[i])) {
+							if (i < aiDifficulties.length - 1) {
+								playerText[1] = (aiDifficulties[i + 1]);
+								break;
+							} else {
+								playerText[1] = (aiDifficulties[0]);
+								break;
+							}
+						}
+					}
+				}
+
+			}
+		});
 		playerNameEntry[1] = new TextField("", shorterTextBarStyle);
 		playerNameEntry[1].setAlignment(Align.center);
 
-		playerLabel[2] = new Label("Player 3", noLabelStyle);
+		playerLabel[2] = new TextButton("Player 3", noButtonStyle);
 		playerNameEntry[2] = new TextField("", shorterTextBarStyle);
-		playerLabel[2].setAlignment(Align.center);
+		playerLabel[2].addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (playerLabel[2].getText().charAt(0) != 'P') {
+					for (int i = 0; i < aiDifficulties.length; i++) {
+						if (playerLabel[2].getText().toString().equals(aiDifficulties[i])) {
+							if (i < aiDifficulties.length - 1) {
+								playerText[2] = (aiDifficulties[i + 1]);
+								break;
+							} else {
+								playerText[2] = (aiDifficulties[0]);
+								break;
+							}
+						}
+					}
+				}
+
+			}
+		});
+		playerLabel[2].align(Align.center);
 		playerNameEntry[2].setAlignment(Align.center);
 
-		playerLabel[3] = new Label("Player 4", noLabelStyle);
+		playerLabel[3] = new TextButton("Player 4", noButtonStyle);
 		playerNameEntry[3] = new TextField("", shorterTextBarStyle);
-		playerLabel[3].setAlignment(Align.center);
+		playerLabel[3].addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (playerLabel[3].getText().charAt(0) != 'P') {
+					for (int i = 0; i < aiDifficulties.length; i++) {
+						if (playerLabel[3].getText().toString().equals(aiDifficulties[i])) {
+							if (i < aiDifficulties.length - 1) {
+								playerText[3] = (aiDifficulties[i + 1]);
+								break;
+							} else {
+								playerText[3] = (aiDifficulties[0]);
+								break;
+							}
+						}
+					}
+				}
+
+			}
+		});
+		playerLabel[3].align(Align.center);
 		playerNameEntry[3].setAlignment(Align.center);
 
 		namingPlayer.add(playerLabel[0]).width(gameStartY / 14 * 8.75f).padRight(gameStartY / 56.0f);
@@ -549,15 +624,13 @@ public class MainMenu implements Screen {
 		playOptions.row();
 		playOptions.add(stack).colspan(2).maxWidth(500.0f);
 		playOptions.row();
-		playOptions.add(naming).pad(gameStartY / 14, gameStartY / 14, gameStartY / 14, gameStartY / 56)
-				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
-		playOptions.add(start).pad(gameStartY / 14, gameStartY / 56, gameStartY / 14, gameStartY / 14)
-				.size(gameStartY / 28.0f * 18.0f, gameStartY / 7);
+		playOptions.add(naming).height(gameStartY / 7).padRight(15.0f).uniform();
+		playOptions.add(start).height(gameStartY / 7).padRight(15.0f).uniform();
 
 		stage.addActor(playOptions);
 
 		exitMenu = new TextButton("", exitMenuStyle);
-		exitMenu.setPosition(847.0f, 335.0f);
+		exitMenu.setPosition(857.0f, 317.0f);
 
 		exitMenu.addListener(new ClickListener() {
 			@Override
@@ -594,6 +667,29 @@ public class MainMenu implements Screen {
 		noCurrentGame.setVisible(false);
 		// stage.addActor(noCurrentGame);
 
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("save.ser"));
+			try {
+				if (br.readLine() != null) {
+					load();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter("save.ser");
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -736,28 +832,28 @@ public class MainMenu implements Screen {
 		}
 		switch (playerNumber) {
 		case 0:
-			playerLabel[0].setText("AI P1");
-			playerLabel[1].setText("AI P2");
-			playerLabel[2].setText("AI P3");
-			playerLabel[3].setText("AI P4");
+			playerLabel[0].setText(playerText[0]);
+			playerLabel[1].setText(playerText[1]);
+			playerLabel[2].setText(playerText[2]);
+			playerLabel[3].setText(playerText[3]);
 			break;
 		case 1:
 			playerLabel[0].setText("Human P1");
-			playerLabel[1].setText("AI P1");
-			playerLabel[2].setText("AI P2");
-			playerLabel[3].setText("AI P3");
+			playerLabel[1].setText(playerText[1]);
+			playerLabel[2].setText(playerText[2]);
+			playerLabel[3].setText(playerText[3]);
 			break;
 		case 2:
 			playerLabel[0].setText("Human P1");
 			playerLabel[1].setText("Human P2");
-			playerLabel[2].setText("AI P1");
-			playerLabel[3].setText("AI P2");
+			playerLabel[2].setText(playerText[2]);
+			playerLabel[3].setText(playerText[3]);
 			break;
 		case 3:
 			playerLabel[0].setText("Human P1");
 			playerLabel[1].setText("Human P2");
 			playerLabel[2].setText("Human P3");
-			playerLabel[3].setText("AI P1");
+			playerLabel[3].setText(playerText[3]);
 			break;
 		case 4:
 			playerLabel[0].setText("Human P1");
@@ -893,6 +989,7 @@ public class MainMenu implements Screen {
 		yes.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+
 				game.setScreen(new GameScreen(game, null));
 				noCurrentGame.setVisible(false);
 
@@ -934,8 +1031,8 @@ public class MainMenu implements Screen {
 
 		return table;
 	}
-	
-	private void load(){
+
+	private void load() {
 		ArrayList<Player> players = null;
 		ArrayBlockingQueue<Player> playersOrder = null;
 		Player currentPlayer = null;
@@ -952,33 +1049,37 @@ public class MainMenu implements Screen {
 			letters = (Tile[][]) in.readObject();
 			letterBag = (LetterBag) in.readObject();
 			moveList = (ArrayList) in.readObject();
-			
-			//gamsu = (Game) in.readObject();
+
+			// gamsu = (Game) in.readObject();
 			in.close();
 			fileIn.close();
-			
-			for (int i = 0; i<players.size(); i++){
-				
+
+			for (int i = 0; i < players.size(); i++) {
+
 			}
 			Board.getInstance().setBoard(letters);
 			Game.getLetterBag().setList(letterBag.getList());
-			System.out.println(letterBag.pick().getContent() + letterBag.pick().getContent()+ letterBag.pick().getContent()+ letterBag.pick().getContent());
-			for (int i=0; i<players.size(); i++){
+			System.out.println(letterBag.pick().getContent() + letterBag.pick().getContent()
+					+ letterBag.pick().getContent() + letterBag.pick().getContent());
+			for (int i = 0; i < players.size(); i++) {
 				Game.addPlayerCheatForSaves(players.get(i));
 			}
-			for (int i=0; i<players.size(); i++){
-				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
-			}
-			for (int i=0; i<moveList.size(); i++){
+
+			for (int i = 0; i < moveList.size(); i++) {
+
 				Game.addMove(moveList.get(i));
 			}
-			Game.setCurrentPlayer(currentPlayer);
-			
-			
-			game.setScreen(new GameScreen(game, setPlayerArray()));
-			
-			
-			
+			for (int i = 0; i < (players.size() - 1); i++) {
+
+				Player playersss = playersOrder.poll();
+				playersOrder.add(playersss);
+
+			}
+			Game.setCurrentPlayer(playersOrder.peek());
+			for (int i = 0; i < players.size(); i++) {
+				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
+			}
+
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -988,31 +1089,30 @@ public class MainMenu implements Screen {
 			return;
 		}
 	}
-	private void save(){
+
+	private void save() {
 		try {
-			//Game gamsu = new Game();
-			
+			// Game gamsu = new Game();
+
 			FileOutputStream fileOut =
 
 					new FileOutputStream(new File("save.ser"));
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-			
 			out.writeObject(Game.getPlayers());
 			out.writeObject(Game.getPlayersOrder());
 			out.writeObject(Game.getCurrentPlayer());
 			out.writeObject(Board.getInstance().returnBoard());
 			out.writeObject(Game.getLetterBag());
 			out.writeObject(Game.getMoveList());
-			
-			
-			//out.writeObject(gamsu);
+
+			// out.writeObject(gamsu);
 			out.close();
 			fileOut.close();
 			System.out.printf("Serialized data is saved in save.ser");
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
-		
+
 	}
 }

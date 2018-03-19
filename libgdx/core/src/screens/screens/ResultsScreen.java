@@ -60,13 +60,14 @@ public class ResultsScreen implements Screen {
 	private Label winnerLabel;
 	private Label[] p1CurrentScore, p1FinalScore, p1ScoreLoss, finalScore;
 	private Label[][] p1LettersLeft;
-	private ButtonStyle returnButtonStyle;
+	private ButtonStyle returnButtonStyle, menuButtonStyle;;
 	private Button returnButton, placeHolderButton;
 	
 	private Sound scoreIncrement, finalScoreSound, winfanfare;
 	
 	private boolean hasWon, isFinal = false;
 	private TextureAtlas buttonAtlass;
+	
 
 	
 
@@ -86,7 +87,7 @@ public class ResultsScreen implements Screen {
 		skin = new Skin();
 		altSkin = new Skin();
 		buttonAtlass = new TextureAtlas();
-		buttonAtlass.addRegion("victory", game.getAssetManager().manager.get(assetManager.victory), 0, 0, 1280, 720);
+		buttonAtlass.addRegion("victory", game.getAssetManager().manager.get(assetManager.victory), 0, 0, 1280, 850);
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
 		skin.addRegions(buttonAtlas);
 		skin.addRegions(buttonAtlass);
@@ -215,9 +216,10 @@ public class ResultsScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				 disposey();
+				 
 			}
 		});
-		placeHolderButton = new Button(returnButtonStyle);
+		placeHolderButton = new Button(menuButtonStyle);
 		placeHolderButton.setVisible(false);
 		tableThing = new Table();
 		tableThing.setSize(1280.0f, 850.0f);
@@ -228,7 +230,14 @@ public class ResultsScreen implements Screen {
 		tableThing.add(returnButton).align(Align.center);
 		tableThing.setPosition((1280.0f - tableThing.getWidth()) * 0.5f, (720.0f - (tableThing.getHeight())) * 0.5f);
 		tableThing.setVisible(false);
-		placeHolderButton.setPosition(600, 300);
+		placeHolderButton.setPosition(540, 200);
+		placeHolderButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				 disposey();
+				 
+			}
+		});
 		stage.addActor(tableThing);
 		stage.addActor(placeHolderButton);
 		// --WINNER POPUP
@@ -540,6 +549,10 @@ public class ResultsScreen implements Screen {
 		returnButtonStyle = new ButtonStyle();
 		returnButtonStyle.up = altSkin.getDrawable("homeButton");
 		returnButtonStyle.over = altSkin.getDrawable("homeButtonPressed");
+		
+		menuButtonStyle = new ButtonStyle();
+		menuButtonStyle.up = altSkin.getDrawable("mainMenuButton");
+		menuButtonStyle.over = altSkin.getDrawable("mainMenuButtonPressed");
 
 	}
 
