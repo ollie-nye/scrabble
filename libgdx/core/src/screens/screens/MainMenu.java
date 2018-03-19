@@ -629,12 +629,11 @@ public class MainMenu implements Screen {
 		stage.addActor(playOptions);
 
 		exitMenu = new TextButton("", exitMenuStyle);
-		exitMenu.setPosition(857.0f, 317.0f);
+		exitMenu.setPosition(437.0f, 317.0f);
 
 		exitMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-
 				for (TextField textField : playerNameEntry)
 					textField.setText("");
 				setMainMenuVisible();
