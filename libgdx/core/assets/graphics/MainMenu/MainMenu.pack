@@ -3,254 +3,268 @@ MainMenu.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+creationBoxWithLine
+  rotate: false
+  xy: 1, 725
+  size: 631, 298
+  orig: 631, 298
+  offset: 0, 0
+  index: -1
 resultBox
   rotate: false
-  xy: 1, 773
+  xy: 1, 473
   size: 500, 250
   orig: 500, 250
   offset: 0, 0
   index: -1
 creationBox
   rotate: false
-  xy: 1, 568
+  xy: 1, 268
   size: 468, 203
   orig: 468, 203
   offset: 0, 0
   index: -1
 textBarLong
   rotate: false
-  xy: 503, 973
+  xy: 1, 216
   size: 500, 50
   orig: 500, 50
   offset: 0, 0
   index: -1
 createPlayer
   rotate: false
-  xy: 1, 481
+  xy: 634, 938
   size: 353, 85
   orig: 353, 85
   offset: 0, 0
   index: -1
 settingsPressed
   rotate: false
-  xy: 503, 881
+  xy: 1, 124
   size: 330, 90
   orig: 330, 90
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 1, 399
+  xy: 634, 856
   size: 320, 80
   orig: 320, 80
   offset: 0, 0
   index: -1
 playPressed
   rotate: false
-  xy: 503, 794
+  xy: 1, 37
   size: 280, 85
   orig: 280, 85
   offset: 0, 0
   index: -1
 helpPressed
   rotate: false
-  xy: 1, 312
+  xy: 634, 769
   size: 264, 85
   orig: 264, 85
   offset: 0, 0
   index: -1
 exitButton
   rotate: false
-  xy: 1, 235
+  xy: 634, 692
   size: 260, 75
   orig: 260, 75
   offset: 0, 0
   index: -1
 exitPressed
   rotate: false
-  xy: 1, 158
+  xy: 333, 139
   size: 260, 75
   orig: 260, 75
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 1, 91
+  xy: 333, 72
   size: 254, 65
   orig: 254, 65
   offset: 0, 0
   index: -1
+help
+  rotate: false
+  xy: 283, 1
+  size: 244, 69
+  orig: 244, 69
+  offset: 0, 0
+  index: -1
 counter
   rotate: false
-  xy: 1, 1
+  xy: 503, 635
   size: 125, 88
   orig: 125, 88
   offset: 0, 0
   index: -1
 textBarShort
   rotate: false
-  xy: 503, 742
+  xy: 630, 640
   size: 250, 50
   orig: 250, 50
   offset: 0, 0
   index: -1
-help
-  rotate: false
-  xy: 471, 671
-  size: 244, 69
-  orig: 244, 69
-  offset: 0, 0
-  index: -1
 addPlayer
   rotate: false
-  xy: 471, 620
+  xy: 630, 589
   size: 218, 49
   orig: 218, 49
-  offset: 0, 0
-  index: -1
-character
-  rotate: false
-  xy: 471, 569
-  size: 218, 49
-  orig: 218, 49
-  offset: 0, 0
-  index: -1
-editNames
-  rotate: false
-  xy: 471, 522
-  size: 215, 45
-  orig: 215, 45
-  offset: 0, 0
-  index: -1
-textBarShorter
-  rotate: false
-  xy: 835, 940
-  size: 155, 31
-  orig: 155, 31
-  offset: 0, 0
-  index: -1
-addBot
-  rotate: false
-  xy: 128, 40
-  size: 204, 49
-  orig: 204, 49
-  offset: 0, 0
-  index: -1
-website
-  rotate: false
-  xy: 356, 476
-  size: 90, 90
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
-editNamesPressed
-  rotate: false
-  xy: 448, 475
-  size: 215, 45
-  orig: 215, 45
   offset: 0, 0
   index: -1
 whiteLine
   rotate: false
-  xy: 263, 130
+  xy: 471, 291
   size: 8, 180
   orig: 8, 180
   offset: 0, 0
   index: -1
-websiteHover
+textBarShorter
   rotate: false
-  xy: 835, 848
+  xy: 1, 4
+  size: 155, 31
+  orig: 155, 31
+  offset: 0, 0
+  index: -1
+character
+  rotate: false
+  xy: 595, 538
+  size: 218, 49
+  orig: 218, 49
+  offset: 0, 0
+  index: -1
+website
+  rotate: false
+  xy: 503, 543
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
-name
+editNames
   rotate: false
-  xy: 785, 797
-  size: 204, 49
-  orig: 204, 49
+  xy: 595, 491
+  size: 215, 45
+  orig: 215, 45
+  offset: 0, 0
+  index: -1
+editNamesPressed
+  rotate: false
+  xy: 595, 444
+  size: 215, 45
+  orig: 215, 45
+  offset: 0, 0
+  index: -1
+websiteHover
+  rotate: false
+  xy: 503, 451
+  size: 90, 90
+  orig: 90, 90
   offset: 0, 0
   index: -1
 editPlayers
   rotate: false
-  xy: 785, 750
+  xy: 595, 397
   size: 215, 45
   orig: 215, 45
   offset: 0, 0
   index: -1
 editPlayersPressed
   rotate: false
-  xy: 755, 703
+  xy: 595, 350
   size: 215, 45
   orig: 215, 45
   offset: 0, 0
   index: -1
 quickStart
   rotate: false
-  xy: 717, 656
+  xy: 595, 303
   size: 215, 45
   orig: 215, 45
   offset: 0, 0
   index: -1
 quickStartPressed
   rotate: false
-  xy: 691, 609
+  xy: 595, 256
   size: 215, 45
   orig: 215, 45
   offset: 0, 0
   index: -1
+addBot
+  rotate: false
+  xy: 595, 205
+  size: 204, 49
+  orig: 204, 49
+  offset: 0, 0
+  index: -1
+name
+  rotate: false
+  xy: 595, 154
+  size: 204, 49
+  orig: 204, 49
+  offset: 0, 0
+  index: -1
+textBarShorterLight
+  rotate: false
+  xy: 595, 121
+  size: 155, 31
+  orig: 155, 31
+  offset: 0, 0
+  index: -1
 homeButton
   rotate: false
-  xy: 927, 873
+  xy: 529, 5
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
   index: -1
 homeButtonPressed
   rotate: false
-  xy: 267, 332
+  xy: 900, 789
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
   index: -1
 leftArrow
   rotate: false
-  xy: 691, 560
+  xy: 589, 72
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 leftArrowPressed
   rotate: false
-  xy: 740, 560
+  xy: 283, 75
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 rightArrow
   rotate: false
-  xy: 789, 560
+  xy: 638, 72
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 rightArrowPressed
   rotate: false
-  xy: 838, 560
+  xy: 596, 23
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 exButton
   rotate: false
-  xy: 927, 848
+  xy: 989, 1000
   size: 27, 23
   orig: 27, 23
   offset: 0, 0
   index: -1
 exButtonHover
   rotate: false
-  xy: 956, 848
+  xy: 850, 615
   size: 27, 23
   orig: 27, 23
   offset: 0, 0

@@ -298,7 +298,7 @@ public class MainMenu implements Screen {
 		shorterTextBarStyle.font = font;			
 		shorterTextBarStyle.messageFont = font;
 		shorterTextBarStyle.fontColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-		shorterTextBarStyle.focusedBackground = tempSkin.getDrawable("purple");
+		shorterTextBarStyle.focusedBackground = skin.getDrawable("textBarShorterLight");
 		
 		// --
 		/*
@@ -440,7 +440,7 @@ public class MainMenu implements Screen {
 		
 		// adding these to one table
 		tempTable = new Table();
-		tempTable.setBackground(skin.getDrawable("creationBox"));
+		tempTable.setBackground(skin.getDrawable("creationBoxWithLine"));
 		tempTable.add(playersBox).size(gameStartY / 28.0f * 18.0f, gameStartY / 14.0f * 6.0f).padLeft(gameStartY / 14)
 				.padRight(gameStartY / 56);
 	//	tempTable.add(line).width(5.0f).expand().fill();
