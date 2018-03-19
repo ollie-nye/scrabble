@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 1.2 - Add toString method
  */
 
-public class Coordinate extends Tuple<Integer, Integer>{
+public class Coordinate extends Tuple<Integer, Integer> implements Serializable{
 
 	public Coordinate(int x, int y) {
 		super(x, y);

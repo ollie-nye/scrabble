@@ -5,7 +5,10 @@ import data.Letter;
 import data.Tile;
 import scrabble.Board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+
 
 /**
  * @author Ollie Nye
@@ -17,7 +20,7 @@ import java.util.ArrayList;
  * 1.0 - Create class and constructor
  * 1.1 - 
  */
-public class WordOperations {
+public class WordOperations implements Serializable {
 	
 	private enum Direction {UP, DOWN, LEFT, RIGHT};
 	

@@ -6,6 +6,8 @@ import player.HumanPlayer;
 import player.Player;
 import validation.NewValidator;
 import javax.swing.JOptionPane;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -16,7 +18,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Tom Geraghty
  * @version 1.0
  */
-public class Game {
+public class Game implements Serializable{
 
     private static final LetterBag LETTER_BAG = new LetterBag();
     private static final int MAX_PLAYERS = 4;
@@ -203,11 +205,10 @@ public class Game {
     public static LetterBag getLetterBag() {
         return LETTER_BAG;
     }
-
+    
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
-    }
-      
+    }      
     public static ArrayBlockingQueue<Player> getPlayersOrder(){
     	return PLAYER_ORDER;
     }
@@ -219,6 +220,9 @@ public class Game {
     }
     public static void addPlayerOrderCheatForSaves(Player player){
     	PLAYER_ORDER.add(player);        
+    } 
+    public static void addMove(Move move){
+    	MOVE_LIST.add(move);
     }
 	
 

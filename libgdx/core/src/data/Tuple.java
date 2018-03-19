@@ -1,11 +1,13 @@
 package data;
 
+import java.io.Serializable;
+
 /**
  * Superclass representing a Tuple that contains 2 related objects.
  * @author Thomas Geraghty
  * @version 1.0
  */
-public class Tuple<L, R> {
+public class Tuple<L, R> implements Serializable{
 
     private final L left;
     private final R right;

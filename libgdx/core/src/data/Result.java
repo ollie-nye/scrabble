@@ -1,12 +1,14 @@
 package data;
 
+import java.io.Serializable;
+
 /**
  * Return object for MoveValidation
  * @author Ollie Nye
  * @version 1.0
  */
 
-public class Result {
+public class Result implements Serializable {
 	private boolean legalMove;
 	private int possibleWords;
 	private boolean isCompleteWord;

@@ -2,6 +2,7 @@ package screens.screens;
 
 import assetmanager.assetManager;
 import data.Coordinate;
+import data.Move;
 import data.Tile;
 import player.Player;
 
@@ -253,11 +254,38 @@ public class MainMenu implements Screen {
 		leftArrowStyle.over = skin.getDrawable("leftArrowPressed");
 		leftArrowStyle.font = font;
 
+		// sub menu button styles (until // --)
+		TextButtonStyle exitMenuStyle = new TextButtonStyle();
+		exitMenuStyle.font = font;
+		exitMenuStyle.over = skin.getDrawable("homeButtonPressed");
+		exitMenuStyle.up = skin.getDrawable("homeButton");
+		
+		TextButtonStyle startButtonStyle= new TextButtonStyle();
+		startButtonStyle.up = skin.getDrawable("quickStart");
+		startButtonStyle.over = skin.getDrawable("quickStartPressed");
+		startButtonStyle.font = font;
+		
+		LabelStyle createPlayerStyle = new LabelStyle();
+		createPlayerStyle.background = skin.getDrawable("createPlayer");
+		createPlayerStyle.font = font;
+		
+		TextButtonStyle namingButtonStyle = new TextButtonStyle();
+		namingButtonStyle.up = skin.getDrawable("editNames");
+		namingButtonStyle.over = skin.getDrawable("editNamesPressed");
+		namingButtonStyle.font = font;
+		
+		/*
+		TextButtonStyle  = new TextButtonStyle();
+		.up = skin.getDrawable("");
+		.over = skin.getDrawable("");
+		.font = font;
+		*/
 		TextButtonStyle rightArrowStyle = new TextButtonStyle();
 		rightArrowStyle.up = skin.getDrawable("rightArrow");
 		rightArrowStyle.over = skin.getDrawable("rightArrowPressed");
 		rightArrowStyle.font = font;
-
+		
+	
 		TextButtonStyle altButtonStyle = new TextButtonStyle();
 		altButtonStyle.up = tempSkin.getDrawable("lightblue");
 		altButtonStyle.over = tempSkin.getDrawable("blue");
@@ -291,7 +319,7 @@ public class MainMenu implements Screen {
 		playOptions.setSize(gameStartY * (10.0f / 7.0f), gameStartY);
 
 		// creating main header and also headers above ai and player
-		Label header = new Label("Create Players", labelStyle);
+		Label header = new Label("Create Players", createPlayerStyle);
 		header.setAlignment(Align.center);
 
 		// playersBox is a table to store the number of players selection button
@@ -441,7 +469,7 @@ public class MainMenu implements Screen {
 		stack.add(noPlayers);
 
 		// start button, at bottom of box, starts the game
-		TextButton start = new TextButton("Quickstart", altButtonStyle);
+		TextButton start = new TextButton("Quickstart", startButtonStyle);
 		start.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -465,16 +493,18 @@ public class MainMenu implements Screen {
 		});
 
 		// naming button, at bottom of box, changes screen to name player screen
-		final TextButton naming = new TextButton("Name Players", altButtonStyle);
+		final TextButton naming = new TextButton("Name Players", namingButtonStyle);
 		naming.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
 				if (screen == 0) {
-					naming.setText("Edit Players");
+					namingButtonStyle.up = skin.getDrawable("editNames");
+					namingButtonStyle.over = skin.getDrawable("editNamesPresed");
 					screen = 1;
 				} else if (screen == 1) {
-					naming.setText("Name Players");
+					namingButtonStyle.up = skin.getDrawable("editPlayers");
+					namingButtonStyle.over = skin.getDrawable("editPlayersPressed");
 					screen = 0;
 				}
 			}
@@ -494,7 +524,7 @@ public class MainMenu implements Screen {
 
 		stage.addActor(playOptions);
 
-		exitMenu = new TextButton("", rightArrowStyle);
+		exitMenu = new TextButton("", exitMenuStyle);
 		exitMenu.setPosition(817.0f, 335.0f);
 
 		exitMenu.addListener(new ClickListener() {
@@ -879,7 +909,8 @@ public class MainMenu implements Screen {
 		Player currentPlayer = null;
 		Tile[][] letters;
 		LetterBag letterBag = null;
-		
+		ArrayList<Move> moveList = null;
+		Game gamsu = new Game();
 		try {
 			FileInputStream fileIn = new FileInputStream("save.ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -888,6 +919,9 @@ public class MainMenu implements Screen {
 			currentPlayer = (Player) in.readObject();
 			letters = (Tile[][]) in.readObject();
 			letterBag = (LetterBag) in.readObject();
+			moveList = (ArrayList) in.readObject();
+			
+			//gamsu = (Game) in.readObject();
 			in.close();
 			fileIn.close();
 			
@@ -896,13 +930,19 @@ public class MainMenu implements Screen {
 			}
 			Board.getInstance().setBoard(letters);
 			Game.getLetterBag().setList(letterBag.getList());
+			System.out.println(letterBag.pick().getContent() + letterBag.pick().getContent()+ letterBag.pick().getContent()+ letterBag.pick().getContent());
 			for (int i=0; i<players.size(); i++){
 				Game.addPlayerCheatForSaves(players.get(i));
 			}
 			for (int i=0; i<players.size(); i++){
 				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
 			}
+			for (int i=0; i<moveList.size(); i++){
+				Game.addMove(moveList.get(i));
+			}
 			Game.setCurrentPlayer(currentPlayer);
+			
+			
 			game.setScreen(new GameScreen(game, setPlayerArray()));
 			
 			
@@ -918,22 +958,29 @@ public class MainMenu implements Screen {
 	}
 	private void save(){
 		try {
-
+			//Game gamsu = new Game();
+			
 			FileOutputStream fileOut =
 
 					new FileOutputStream(new File("save.ser"));
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
+			
 			out.writeObject(Game.getPlayers());
 			out.writeObject(Game.getPlayersOrder());
 			out.writeObject(Game.getCurrentPlayer());
 			out.writeObject(Board.getInstance().returnBoard());
 			out.writeObject(Game.getLetterBag());
+			out.writeObject(Game.getMoveList());
+			
+			
+			//out.writeObject(gamsu);
 			out.close();
 			fileOut.close();
 			System.out.printf("Serialized data is saved in save.ser");
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
+		
 	}
 }

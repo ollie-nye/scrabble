@@ -2,6 +2,8 @@ package data;
 
 import player.Player;
 import scrabble.Score;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -10,7 +12,7 @@ import java.util.HashMap;
  * @author Tom Geraghty
  * @version 1.2
  */
-public abstract class Move {
+public abstract class Move implements Serializable{
     final static Score SCORE_CALCULATOR = new Score();
     final static HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
     final Player player;
