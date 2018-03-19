@@ -120,7 +120,7 @@ public class NewValidator implements Serializable {
 				}
 				if (connected) {break;}
 			}
-			System.out.println(connected?"YAS":"NAH, fucked it");
+			//System.out.println(connected?"YAS":"NAH, fucked it");
 			return connected;
 		}		
 	}
