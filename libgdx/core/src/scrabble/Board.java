@@ -1,5 +1,7 @@
 package scrabble;
 
+import java.io.Serializable;
+
 import data.Coordinate;
 import data.Letter;
 import data.Result;
@@ -20,7 +22,7 @@ import validation.NewValidator;
  * 1.3 - Add firstWordPlayed class variable
  */
 
-public class Board {
+public class Board implements Serializable {
 	
 	/**
 	 * Singleton pattern instance variable
@@ -69,7 +71,15 @@ public class Board {
 	public Tile getTile(Coordinate location) {
 		return letters[location.getX()][location.getY()];
 	}
+	
+	public Tile[][] returnBoard(){
+		return letters;
+	}
 
+	public void setBoard(Tile[][] newBoard){
+		letters = newBoard;
+	}
+	
     /**
      * Removes tile at passed coordinate.
      * @param location  location of tile to remove

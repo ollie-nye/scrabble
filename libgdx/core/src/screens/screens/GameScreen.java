@@ -76,6 +76,7 @@ public class GameScreen implements Screen {
 		BoardBatch = new SpriteBatch();
 		random = new Random();
 		tempSkin = new Skin();
+	
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.texturesTemp);
 		tempSkin.addRegions(buttonAtlas);
 		this.create(players);

@@ -2,6 +2,7 @@ package scrabble;
 
 import data.Tile;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -10,7 +11,7 @@ import java.util.*;
  * @author Ollie Nye
  * @version 1.0
  */
-public class LetterBag {
+public class LetterBag implements Serializable{
 
 	private HashMap<Tile, Integer> tiles = new HashMap<>();
 	private ArrayList<Tile> tileList = new ArrayList<>();
@@ -39,6 +40,13 @@ public class LetterBag {
 			tileList.remove(tileToPush);
 			tileStack.push(tileToPush);
 		}
+	}
+	
+	public void setList(ArrayList<Tile> tiles){
+		tileList = tiles;
+	}
+	public ArrayList<Tile> getList(){
+		return tileList;
 	}
 
 	public void fill() {

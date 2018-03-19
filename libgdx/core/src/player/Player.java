@@ -1,5 +1,7 @@
 package player;
 
+import java.io.Serializable;
+
 import data.Tile;
 import scrabble.Game;
 import scrabble.LetterBag;
@@ -9,7 +11,7 @@ import scrabble.LetterBag;
  * @author Thomas Geraghty
  * @version 1.2
  */
-public abstract class Player {
+public abstract class Player implements Serializable{
 
 	private final Tile[] letterList = new Tile[7];
     private String playerName;

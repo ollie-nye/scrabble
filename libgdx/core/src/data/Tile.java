@@ -1,12 +1,14 @@
 package data;
 
+import java.io.Serializable;
+
 /**
  * Communication object between classes carrying tile data
  * @author Ollie
  * @version 1
  */
 
-public class Tile {
+public class Tile implements Serializable {
 	private char letter;
 	private int score;
 	

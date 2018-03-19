@@ -1,5 +1,7 @@
 package data;
 
+import java.io.Serializable;
+
 /**
  * @author Ollie Nye
  * @version 1.2
@@ -11,7 +13,7 @@ package data;
  * 1.2 - Add toString method
  */
 
-public class Coordinate extends Tuple<Integer, Integer> {
+public class Coordinate extends Tuple<Integer, Integer>{
 
 	public Coordinate(int x, int y) {
 		super(x, y);

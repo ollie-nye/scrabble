@@ -1,5 +1,7 @@
 package data;
 
+import java.io.Serializable;
+
 /**
  * @author Ollie Nye
  * @version 1.1
@@ -9,7 +11,7 @@ package data;
  * 1.0 - Create class and constructor
  * 1.1 - 
  */
-public class Letter {
+public class Letter implements Serializable{
 	private Coordinate location;
 	private Tile tile;
 	

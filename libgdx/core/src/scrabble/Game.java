@@ -55,6 +55,8 @@ public class Game {
             PLAYER_ORDER.add(player);
         }
     }
+    
+   
     /**
      * Removes Player from game.
      *
@@ -85,7 +87,7 @@ public class Game {
     public static int getNumberOfPlayers() {
         return PLAYER_LIST.size();
     }
-
+  
 
     /* GAME FUNCTIONS */
     /**
@@ -101,6 +103,7 @@ public class Game {
     /**
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
+   
     public static void startTurn() {
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
@@ -182,4 +185,17 @@ public class Game {
     public static ArrayList<Move> getMoveList() {
     	return MOVE_LIST;
     }
+    public static ArrayBlockingQueue<Player> getPlayersOrder(){
+    	return PLAYER_ORDER;
+    }
+    public static void setCurrentPlayer(Player player){
+    	currentPlayer = player;
+    }
+    public static void addPlayerCheatForSaves(Player player){
+    	PLAYER_LIST.add(player);
+    }
+    public static void addPlayerOrderCheatForSaves(Player player){
+    	PLAYER_ORDER.add(player);        
+    }
+	
 }

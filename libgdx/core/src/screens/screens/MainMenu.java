@@ -1,6 +1,10 @@
 package screens.screens;
 
 import assetmanager.assetManager;
+import data.Coordinate;
+import data.Tile;
+import player.Player;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -21,10 +25,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import scrabble.Board;
 import scrabble.Game;
+import scrabble.LetterBag;
 import screens.ScrabbleLauncher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class MainMenu implements Screen {
 
@@ -44,8 +58,7 @@ public class MainMenu implements Screen {
 	private Texture background;
 	private BitmapFont font;
 	private TextButtonStyle exitButtonStyle;
-    private Table resetGame, noCurrentGame;
-
+	private Table resetGame, noCurrentGame;
 
 	public MainMenu(ScrabbleLauncher game) {
 		this.game = game;
@@ -68,7 +81,7 @@ public class MainMenu implements Screen {
 		skin.addRegions(buttonAtlas);
 		altButtonAtlas = game.getAssetManager().manager.get(assetManager.gameButtonPack);
 		altSkin.addRegions(altButtonAtlas);
-		
+
 	}
 
 	@Override
@@ -88,22 +101,29 @@ public class MainMenu implements Screen {
 		playButtonStyle.up = skin.getDrawable("play");
 		playButtonStyle.over = skin.getDrawable("playPressed");
 		playButtonStyle.font = font;
-		continues = new TextButton("Continue", playButtonStyle);
-		continues.setPosition(515, 400f);
-		continues.setSize(254.0f, 65.0f);
-		continues.addListener(new ClickListener() {
+		TextButton continues1 = new TextButton("Save", playButtonStyle);
+		continues1.setPosition(115, 400f);
+		continues1.setSize(65.0f, 65.0f);
+		continues1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (Game.getPlayers().size() == 0){
-					noCurrentGame.setVisible(true);
-				}
-				else {
-					game.setScreen(new GameScreen(game, null));
-				}
-
+				save();
 			}
 		});
-		//stage.addActor(continues);
+		stage.addActor(continues1);
+
+		TextButton continues2 = new TextButton("Load", playButtonStyle);
+		continues2.setPosition(115, 300f);
+		continues2.setSize(65.0f, 65.0f);
+		continues2.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+
+			load();
+				
+			}
+		});
+		stage.addActor(continues2);
 
 		play = new TextButton("", playButtonStyle);
 		play.setPosition(515, 320f);
@@ -111,11 +131,10 @@ public class MainMenu implements Screen {
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (Game.getPlayers().size() == 0){
+				if (Game.getPlayers().size() == 0) {
 					hover.play(game.getSoundVol());
 					menuType = 1;
-				}
-				else{
+				} else {
 					resetGame.setVisible(true);
 				}
 
@@ -135,13 +154,12 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				
-						hover.play(game.getSoundVol());
-						game.setScreen(new SettingsMenu(game));
+				hover.play(game.getSoundVol());
+				game.setScreen(new SettingsMenu(game));
 
-					}
-				});
-		
+			}
+		});
+
 		stage.addActor(settings);
 
 		TextButtonStyle rulesButtonStyle = new TextButtonStyle();
@@ -156,12 +174,12 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-						hover.play(game.getSoundVol());
-						game.setScreen(new HelpMenu(game));
+				hover.play(game.getSoundVol());
+				game.setScreen(new HelpMenu(game));
 
-					}
-				});
-		
+			}
+		});
+
 		stage.addActor(rules);
 
 		exitButtonStyle = new TextButtonStyle();
@@ -498,19 +516,21 @@ public class MainMenu implements Screen {
 		});
 		exitMenu.setVisible(false);
 		stage.addActor(exitMenu);
-		
+
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = altSkin.getDrawable("plainButton");
 		textButtonStyle.over = altSkin.getDrawable("plainButtonPressed");
-		textButtonStyle.font =  font;
+		textButtonStyle.font = font;
 		LabelStyle llabelStyle = new LabelStyle();
 		llabelStyle.font = font;
-		resetGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("creationBox"), "Are you sure you want to start a new game instead of continuing?");
+		resetGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("creationBox"),
+				"Are you sure you want to start a new game instead of continuing?");
 		resetGame.setVisible(false);
 		stage.addActor(resetGame);
-		noCurrentGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("creationBox"), "You have no game in progress. Start a new one?");
+		noCurrentGame = continues(textButtonStyle, llabelStyle, skin.getDrawable("creationBox"),
+				"You have no game in progress. Start a new one?");
 		noCurrentGame.setVisible(false);
-		//stage.addActor(noCurrentGame);
+		// stage.addActor(noCurrentGame);
 
 	}
 
@@ -528,16 +548,12 @@ public class MainMenu implements Screen {
 			play.setPosition(515, 330f);
 			play.setSize(254.0f, 65.0f);
 		}
-		
-		
-		
-		if (continues.isOver()) {
-			continues.setSize(274f, 85f);
-			continues.setPosition(507f, 392f);
-		} else {
-			continues.setPosition(515, 400f);
-			continues.setSize(254.0f, 65.0f);
-		}
+
+		/*
+		 * if (continues.isOver()) { continues.setSize(274f, 85f);
+		 * continues.setPosition(507f, 392f); } else {
+		 * continues.setPosition(515, 400f); continues.setSize(254.0f, 65.0f); }
+		 */
 
 		// for animation of the settings button
 		if (settings.isOver()) {
@@ -760,18 +776,15 @@ public class MainMenu implements Screen {
 		}
 		return names;
 	};
-	public Table resetGame(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
-			String labelText) {
+
+	public Table resetGame(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable, String labelText) {
 
 		Table table = new Table();
 		table.setWidth(450.0f);
 
 		Label label = new Label(labelText, labelStyle);
 		label.setWrap(true);
-		label.setAlignment(Align.center);		
-		
-		
-		
+		label.setAlignment(Align.center);
 
 		TextButton yes = new TextButton("yes", tempStyle);
 		yes.addListener(new ClickListener() {
@@ -780,7 +793,7 @@ public class MainMenu implements Screen {
 				Game.reset();
 				resetGame.setVisible(false);
 				menuType = 1;
-				
+
 			};
 		});
 		TextButton no = new TextButton("no", tempStyle);
@@ -795,30 +808,23 @@ public class MainMenu implements Screen {
 		table.row();
 		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
 		table.add(no).pad(10.0f).size(130.0f, 40.0f);
-	
 
 		table.setBackground(drawable);
 		table.pack();
 		table.setHeight(table.getHeight() - 60.0f);
-		table.setPosition((1280.0f-table.getWidth())*0.5f, (720.0f-table.getHeight())*0.5f);
-		
+		table.setPosition((1280.0f - table.getWidth()) * 0.5f, (720.0f - table.getHeight()) * 0.5f);
+
 		return table;
 	}
-	
-	
-	
-	public Table continues(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
-			String labelText) {
+
+	public Table continues(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable, String labelText) {
 
 		Table table = new Table();
 		table.setWidth(450.0f);
 
 		Label label = new Label(labelText, labelStyle);
 		label.setWrap(true);
-		label.setAlignment(Align.center);		
-		
-		
-		
+		label.setAlignment(Align.center);
 
 		TextButton yes = new TextButton("Continue", tempStyle);
 		yes.getLabel().setColor(Color.BLACK);
@@ -827,7 +833,7 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new GameScreen(game, null));
 				noCurrentGame.setVisible(false);
-				
+
 			};
 		});
 		TextButton no = new TextButton("New Game", tempStyle);
@@ -841,9 +847,9 @@ public class MainMenu implements Screen {
 				noCurrentGame.setVisible(false);
 			};
 		});
-		
+
 		// little x button for do you want to continue or start new game pop up
-		TextButton cancel = new TextButton("Cancel", tempStyle );
+		TextButton cancel = new TextButton("Cancel", tempStyle);
 		cancel.getLabel().setColor(Color.BLACK);
 		cancel.addListener(new ClickListener() {
 			@Override
@@ -858,13 +864,76 @@ public class MainMenu implements Screen {
 		table.add(yes).pad(10.0f).size(180.0f, 40.0f);
 		table.add(no).pad(10.0f).size(180.0f, 40.0f);
 		table.add(cancel).pad(10.0f).size(180.0f, 40.0f);
-	
 
 		table.setBackground(drawable);
 		table.pack();
 		table.setHeight(table.getHeight() - 60.0f);
-		table.setPosition((1280.0f-table.getWidth())*0.5f, (720.0f-table.getHeight())*0.5f);
-		
+		table.setPosition((1280.0f - table.getWidth()) * 0.5f, (720.0f - table.getHeight()) * 0.5f);
+
 		return table;
+	}
+	
+	private void load(){
+		ArrayList<Player> players = null;
+		ArrayBlockingQueue<Player> playersOrder = null;
+		Player currentPlayer = null;
+		Tile[][] letters;
+		LetterBag letterBag = null;
+		
+		try {
+			FileInputStream fileIn = new FileInputStream("save.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			players = (ArrayList) in.readObject();
+			playersOrder = (ArrayBlockingQueue) in.readObject();
+			currentPlayer = (Player) in.readObject();
+			letters = (Tile[][]) in.readObject();
+			letterBag = (LetterBag) in.readObject();
+			in.close();
+			fileIn.close();
+			
+			for (int i = 0; i<players.size(); i++){
+				
+			}
+			Board.getInstance().setBoard(letters);
+			Game.getLetterBag().setList(letterBag.getList());
+			for (int i=0; i<players.size(); i++){
+				Game.addPlayerCheatForSaves(players.get(i));
+			}
+			for (int i=0; i<players.size(); i++){
+				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
+			}
+			Game.setCurrentPlayer(currentPlayer);
+			game.setScreen(new GameScreen(game, setPlayerArray()));
+			
+			
+			
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Employee class not found");
+			c.printStackTrace();
+			return;
+		}
+	}
+	private void save(){
+		try {
+
+			FileOutputStream fileOut =
+
+					new FileOutputStream(new File("save.ser"));
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+			out.writeObject(Game.getPlayers());
+			out.writeObject(Game.getPlayersOrder());
+			out.writeObject(Game.getCurrentPlayer());
+			out.writeObject(Board.getInstance().returnBoard());
+			out.writeObject(Game.getLetterBag());
+			out.close();
+			fileOut.close();
+			System.out.printf("Serialized data is saved in save.ser");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
 	}
 }

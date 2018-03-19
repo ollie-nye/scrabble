@@ -2,13 +2,15 @@ package scrabble;
 
 import data.Coordinate;
 import data.Tile;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * @author Tom Geraghty
  * @version 1.2
  */
-public class Score {
+public class Score implements Serializable {
 
     /**
      * Types of multiplier tiles on the board

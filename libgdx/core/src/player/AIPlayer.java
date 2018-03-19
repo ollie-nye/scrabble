@@ -8,6 +8,7 @@ import scrabble.Game;
 import scrabble.Score;
 import validation.Dictionary;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -16,7 +17,7 @@ import java.util.*;
  * @author Thomas Geraghty
  * @version 1.1
  */
-public class AIPlayer extends Player {
+public class AIPlayer extends Player implements Serializable {
     private Dictionary dictionary = new Dictionary();
     HashMap<Character, HashSet<String>> cache = new HashMap<>();
     Board board = Board.getInstance();
