@@ -253,8 +253,9 @@ public class GameScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Board.getInstance().toggleShuffle();
 				shuffleButton.setVisible(false);
+				endTurn.setVisible(false);
 				shuffleCancelButton.setVisible(true);
-				
+				shuffleAcceptButton.setVisible(true);
 			};
 		});
 		stage.addActor(shuffleButton);
@@ -268,7 +269,9 @@ public class GameScreen implements Screen {
 				Board.getInstance().toggleShuffle();
 				Game.resetShuffles();
 				shuffleButton.setVisible(true);
+				shuffleAcceptButton.setVisible(false);
 				shuffleCancelButton.setVisible(false);
+				endTurn.setVisible(true);
 			};
 		});
 		shuffleCancelButton.setVisible(false);
@@ -282,14 +285,16 @@ public class GameScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Board.getInstance().toggleShuffle();
 				for (Coordinate coor: Game.getShuffles()){
+					System.out.println("boom" + Game.getShuffle(coor).getContent());
 					Game.getLetterBag().shuffleTile(Game.getShuffle(coor));
 					Game.getCurrentPlayer().removeTile(Game.getShuffle(coor));
-				}
-				
-				
+				}				
 				Game.resetShuffles();
 				shuffleButton.setVisible(true);
+				endTurn.setVisible(true);
+				shuffleAcceptButton.setVisible(false);
 				shuffleCancelButton.setVisible(false);
+				Game.endTurn();
 			};
 		});
 		shuffleAcceptButton.setVisible(false);
@@ -465,8 +470,8 @@ public class GameScreen implements Screen {
 		shuffleAcceptButtonStyle.font = font;
 		
 		shuffleCancelButtonStyle = new TextButtonStyle();
-		shuffleCancelButtonStyle.up = skin.getDrawable("confirm");		
-		shuffleCancelButtonStyle.over = skin.getDrawable("confirmPressed");
+		shuffleCancelButtonStyle.up = skin.getDrawable("cancel");		
+		shuffleCancelButtonStyle.over = skin.getDrawable("cancelPressed");
 		shuffleCancelButtonStyle.font = font;
 				
 		plainButtonStyle = new TextButtonStyle();
