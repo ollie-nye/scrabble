@@ -62,6 +62,7 @@ public class PlayerButton extends ScrabbleButton {
 		}
 		fontColour();
 		super.draw(batch, parentAlpha);
+		
 	}
 
 	private void placeTile() {

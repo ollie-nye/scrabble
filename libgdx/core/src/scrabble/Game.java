@@ -36,6 +36,7 @@ public class Game implements Serializable{
     private static int turmTime = 60000;
     private static NewValidator validator = new NewValidator(Board.getInstance());
     private static final HashMap<Coordinate, Tile> SHUFFLE_TILES = new HashMap<>();
+    private static Tile lastTile;
 
 
     /* PLAYER FUNCTIONS */
@@ -105,9 +106,14 @@ public class Game implements Serializable{
     }
     public static void addShuffles(Coordinate c, Tile e) {
         SHUFFLE_TILES.put(c, e);
+        lastTile = e;
     }
     public static void resetShuffles() {
         SHUFFLE_TILES.clear();
+        lastTile = null;
+    }
+    public static Tile lastShuffled() {
+        return lastTile;
     }
     
 

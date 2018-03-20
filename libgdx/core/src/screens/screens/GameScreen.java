@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
 	private Texture BoardBackground;
 	private SpriteBatch BoardBatch;
 	private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle, plainButtonStyle,
-			shuffleButtonStyle, shuffleAcceptButtonStyle, shuffleCancelButtonStyle;
+			shuffleButtonStyle, shuffleAcceptButtonStyle, shuffleCancelButtonStyle,scrabbleyButtonStyle;
 	private LabelStyle labelStyle;
 	private BitmapFont font;
 	private Skin skin;
@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 	private Sound turnChange, hover, timeCountdown, timeUp;
 	private Random random;
 	private ScrabbleLauncher game;
-	private Table endLabel, endPlayerTurn;
+	private Table endLabel, endPlayerTurn, shuffleTable;
 	private Label timer;
 	private ScrabbleButtonStyle redButtonStyle, blueButtonStyle, orangeButtonStyle, greenButtonStyle, brownButtonStyle;
 	// for test purposes only
@@ -79,6 +79,7 @@ public class GameScreen implements Screen {
 	private int store;
 	private boolean isUsed[][];
 	private int otherStore;
+	private int shuffleCounter;
 
 	private HashMap<Player, ScrabbleButton[]> playerScrabbleButtons;
 	private ArrayList<Tile> tilesToShuffle;
@@ -255,6 +256,7 @@ public class GameScreen implements Screen {
 					endTurn.setVisible(false);
 					shuffleCancelButton.setVisible(true);
 					shuffleAcceptButton.setVisible(true);
+					shuffleTable.setVisible(true);;
 				}
 			};
 		});
@@ -271,7 +273,10 @@ public class GameScreen implements Screen {
 				shuffleButton.setVisible(true);
 				shuffleAcceptButton.setVisible(false);
 				shuffleCancelButton.setVisible(false);
+				shuffleTable.clear();
 				endTurn.setVisible(true);
+				shuffleCounter = 0;
+				
 			};
 		});
 		shuffleCancelButton.setVisible(false);
@@ -292,14 +297,24 @@ public class GameScreen implements Screen {
 				Game.resetShuffles();
 				shuffleButton.setVisible(true);
 				endTurn.setVisible(true);
+				shuffleButton.setVisible(false);
 				shuffleAcceptButton.setVisible(false);
 				shuffleCancelButton.setVisible(false);
+				shuffleTable.clear();
+				shuffleCounter = 0;
 				Game.endTurn();
 			};
 		});
 		shuffleAcceptButton.setVisible(false);
 		stage.addActor(shuffleAcceptButton);
-
+		
+		shuffleTable = new Table();
+		stage.addActor(shuffleTable);
+		shuffleTable.setPosition(103, 630/2 - (shuffleTable.getHeight()/2));
+		shuffleTable.setSize(100.0f, 100.0f);		
+		shuffleTable.setVisible(false);		
+		
+		
 		endGame = new TextButton("endGame", plainButtonStyle);
 		endGame.setPosition(1070.0f, 275.0f);
 		endGame.setSize(155.0f, 65.0f);
@@ -377,6 +392,11 @@ public class GameScreen implements Screen {
 			endLabel.setVisible(true);
 		} else {
 			endLabel.setVisible(false);
+		}
+		if (Game.getNumberOfShuffles() != shuffleCounter && Board.getInstance().isShuffle()){
+			shuffleTable.add(new TextButton(Game.lastShuffled().getContent(), scrabbleyButtonStyle)).pad(10.0f);
+			shuffleCounter = Game.getNumberOfShuffles();
+			shuffleTable.row();
 		}
 		stage.draw();
 		stage.act();
@@ -464,6 +484,10 @@ public class GameScreen implements Screen {
 		shuffleButtonStyle.over = skin.getDrawable("shuffleButtonPressed");
 		shuffleButtonStyle.font = font;
 
+		scrabbleyButtonStyle = new TextButtonStyle();
+		scrabbleyButtonStyle.up = skin.getDrawable("orangeButton");
+		scrabbleyButtonStyle.font = font;
+		
 		shuffleAcceptButtonStyle = new TextButtonStyle();
 		shuffleAcceptButtonStyle.up = skin.getDrawable("confirm");
 		shuffleAcceptButtonStyle.over = skin.getDrawable("confirmPressed");
@@ -686,7 +710,10 @@ public class GameScreen implements Screen {
 		table.setPosition((1280.0f - table.getWidth()) * 0.5f, (720.0f - table.getHeight()) * 0.5f);
 
 		return table;
+		
+		
 	}
+	
 	/*
 	 * public void shuffle() { if (Board.getInstance().isShuffle()) {
 	 * 

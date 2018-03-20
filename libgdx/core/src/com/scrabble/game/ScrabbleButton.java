@@ -96,7 +96,6 @@ public class ScrabbleButton extends ButtonBase {
 	public CharSequence getText () {
 		return label.getText();
 	}
-
 	
 	static public class ScrabbleButtonStyle extends ButtonBaseStyle {
 		public BitmapFont font;
