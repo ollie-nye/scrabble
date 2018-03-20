@@ -1085,6 +1085,7 @@ public class MainMenu implements Screen {
 			c.printStackTrace();
 			return;
 		}
+		
 	}
 
 	private void save() {
@@ -1098,7 +1099,7 @@ public class MainMenu implements Screen {
 
 			out.writeObject(Game.getPlayers());
 			out.writeObject(Game.getPlayersOrder());
-			out.writeObject(Game.getCurrentPlayer());
+		out.writeObject(Game.getCurrentPlayer());
 			out.writeObject(Board.getInstance().returnBoard());
 			out.writeObject(Game.getLetterBag());
 			out.writeObject(Game.getMoveList());

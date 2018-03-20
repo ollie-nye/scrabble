@@ -22,7 +22,7 @@ public abstract class Player implements Serializable {
     private String playerName;
     private int score = 0;
     Board board = Board.getInstance();
-    Dictionary dictionary = new Dictionary();
+   transient Dictionary dictionary = new Dictionary();
     private boolean finishedAllTurns = false;
 
     /* PLAYED NAME */
