@@ -1,6 +1,9 @@
-package data;
+package data.Move;
 
+import data.Coordinate;
+import data.Tile;
 import player.Player;
+import scrabble.Game;
 import scrabble.Score;
 
 import java.io.Serializable;
@@ -14,7 +17,7 @@ import java.util.HashMap;
  */
 public abstract class Move implements Serializable{
     final static Score SCORE_CALCULATOR = new Score();
-    final static HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
+    final HashMap<Tile, Coordinate> playedTiles = new HashMap<>();
     final Player player;
     String playedWord = "";
     int wordMultiplier = 1;
@@ -24,7 +27,6 @@ public abstract class Move implements Serializable{
 
     public Move(Player player) {
         this.player = player;
-        new Thread(new Timer()).start();
     }
 
     /* PLAYED TILES */
@@ -84,7 +86,7 @@ public abstract class Move implements Serializable{
 
     /* MOVE FUNCTIONS */
     public void endMove() {
-        moveTime = Timer.getTime();
+        moveTime = Game.getTimer().getTime();
         this.playedWord = playedWord;
         player.setScore(player.getScore() + getMoveScore());
         player.addTiles();
@@ -92,7 +94,7 @@ public abstract class Move implements Serializable{
     public void invalidateMove() {
         moveScore = 0;
         playedWord = "";
-        moveTime = Timer.getTime();
+        moveTime = Game.getTimer().getTime();
 
         HashMap<Tile, Coordinate> tempMap = new HashMap<>(playedTiles);
         for(Tile tile : tempMap.keySet()) {

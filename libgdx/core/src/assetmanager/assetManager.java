@@ -7,7 +7,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-
+/**
+ * @author Asid Khan
+ * @version 1.0
+ */
 public class assetManager {
 
     public AssetManager manager = new AssetManager();
@@ -58,6 +61,19 @@ public class assetManager {
     
     public static final AssetDescriptor<Texture> img4 =
             new AssetDescriptor<Texture>("graphics/HelpMenu/img4.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img5 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img5.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img6 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img6.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img7 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img7.png", Texture.class);
+    
+    public static final AssetDescriptor<Texture> img8 =
+            new AssetDescriptor<Texture>("graphics/HelpMenu/img8.png", Texture.class);
+
     
     public static final AssetDescriptor<Texture> circle =
             new AssetDescriptor<Texture>("graphics/HelpMenu/circle.png", Texture.class);
@@ -149,6 +165,10 @@ public class assetManager {
         manager.load(img2);
         manager.load(img3);
         manager.load(img4);
+        manager.load(img5);
+        manager.load(img6);
+        manager.load(img7);
+        manager.load(img8);
         manager.load(circle);
         manager.load(circle1);
         manager.load(icon);

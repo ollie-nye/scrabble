@@ -2,7 +2,7 @@ package validation;
 
 import data.Coordinate;
 import data.Letter;
-import data.Move;
+import data.Move.Move;
 import data.Result;
 import data.Tile;
 import scrabble.Board;
@@ -11,7 +11,6 @@ import scrabble.Game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 public class NewValidator implements Serializable {

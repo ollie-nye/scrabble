@@ -3,6 +3,7 @@ package com.scrabble.game.desktop;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import scrabble.Game;
 import screens.ScrabbleLauncher;
 
 public class DesktopLauncher {

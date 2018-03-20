@@ -1,8 +1,7 @@
 package screens.screens;
 
 import assetmanager.assetManager;
-import data.Coordinate;
-import data.Move;
+import data.Move.Move;
 import data.Tile;
 import player.Player;
 
@@ -314,7 +313,8 @@ public class MainMenu implements Screen {
 		rightArrowStyle.up = skin.getDrawable("rightArrow");
 		rightArrowStyle.over = skin.getDrawable("rightArrowPressed");
 		rightArrowStyle.font = font;
-
+		
+	
 		TextButtonStyle altButtonStyle = new TextButtonStyle();
 		altButtonStyle.up = tempSkin.getDrawable("lightblue");
 		altButtonStyle.over = tempSkin.getDrawable("blue");
@@ -464,7 +464,7 @@ public class MainMenu implements Screen {
 						System.out.println(playerLabel[0].getText() + aiDifficulties[i]);
 						if (playerLabel[0].getText().toString().equals(aiDifficulties[i])) {
 							if (i < aiDifficulties.length - 1) {
-								playerText[0] = (aiDifficulties[i + 1]);								
+								playerText[0] = (aiDifficulties[i + 1]);
 								break;
 							} else {
 								playerText[0] = (aiDifficulties[0]);
@@ -591,9 +591,6 @@ public class MainMenu implements Screen {
 					}
 					Game.start();
 
-					// fiddy
-					gunit.play(game.getSoundVol());
-
 					System.out.println(setPlayerArray().toString());
 					game.setScreen(new GameScreen(game, setPlayerArray()));
 				}
@@ -630,12 +627,11 @@ public class MainMenu implements Screen {
 		stage.addActor(playOptions);
 
 		exitMenu = new TextButton("", exitMenuStyle);
-		exitMenu.setPosition(857.0f, 317.0f);
+		exitMenu.setPosition(437.0f, 317.0f);
 
 		exitMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-
 				for (TextField textField : playerNameEntry)
 					textField.setText("");
 				setMainMenuVisible();
@@ -991,6 +987,7 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 
 				game.setScreen(new GameScreen(game, null));
+                Game.getTimer().startTimer();
 				noCurrentGame.setVisible(false);
 
 			};
@@ -1088,6 +1085,7 @@ public class MainMenu implements Screen {
 			c.printStackTrace();
 			return;
 		}
+		
 	}
 
 	private void save() {
@@ -1101,7 +1099,7 @@ public class MainMenu implements Screen {
 
 			out.writeObject(Game.getPlayers());
 			out.writeObject(Game.getPlayersOrder());
-			out.writeObject(Game.getCurrentPlayer());
+		out.writeObject(Game.getCurrentPlayer());
 			out.writeObject(Board.getInstance().returnBoard());
 			out.writeObject(Game.getLetterBag());
 			out.writeObject(Game.getMoveList());

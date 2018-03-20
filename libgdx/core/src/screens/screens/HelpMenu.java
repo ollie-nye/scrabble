@@ -32,6 +32,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import assetmanager.assetManager;
 import screens.ScrabbleLauncher;
 
+/**
+ * @author Asid Khan, Mo Gulaid
+ * @version 1.1
+ */
+
 public class HelpMenu implements Screen {
 
 	private ScrabbleLauncher game;
@@ -45,7 +50,7 @@ public class HelpMenu implements Screen {
 	private Skin tempSkin;
 	private TextureAtlas tempTextures;
 	private int helpCounter;
-	private Texture img1 , img2 , img3 , img4;
+	private Texture img1 , img2 , img3 , img4, img5 , img6 , img7, img8;
 	private Texture circle , circle1;
 
 	SpriteBatch batch;
@@ -65,6 +70,10 @@ public class HelpMenu implements Screen {
 		img2 = game.getAssetManager().manager.get(assetManager.img2);
 		img3 = game.getAssetManager().manager.get(assetManager.img3);
 		img4 = game.getAssetManager().manager.get(assetManager.img4);
+		img5 = game.getAssetManager().manager.get(assetManager.img5);
+		img6 = game.getAssetManager().manager.get(assetManager.img6);
+		img7 = game.getAssetManager().manager.get(assetManager.img7);
+		img8 = game.getAssetManager().manager.get(assetManager.img8);
 		
 		circle = game.getAssetManager().manager.get(assetManager.circle);
 		circle1 = game.getAssetManager().manager.get(assetManager.circle1);
@@ -142,7 +151,7 @@ public class HelpMenu implements Screen {
 		next.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (helpCounter < 3) {
+				if (helpCounter < 7) {
 					helpCounter += 1;
 
 					hover.play(game.getSoundVol());
@@ -194,17 +203,21 @@ public class HelpMenu implements Screen {
 		
 		
 		batch.begin();
-		batch.draw(circle,530,160, 45 ,40);
-		batch.draw(circle,600,160, 45 ,40);
-		batch.draw(circle,670,160, 45 ,40);
-		batch.draw(circle,740,160, 45 ,40);
+		batch.draw(circle,400,160, 45 ,40);
+		batch.draw(circle,470,160, 45 ,40);
+		batch.draw(circle,540,160, 45 ,40);
+		batch.draw(circle,610,160, 45 ,40);
+		batch.draw(circle,680,160, 45 ,40);
+		batch.draw(circle,750,160, 45 ,40);
+		batch.draw(circle,820,160, 45 ,40);
+		batch.draw(circle,890,160, 45 ,40);
 		batch.end();
 
 		if (helpCounter == 0) {
 
 			batch.begin();
 			batch.draw(img1, 342, 230, 631, 298);
-			batch.draw(circle1,520,155, 59 ,55);
+			batch.draw(circle1,390,155, 59 ,55);
 			batch.end();
 
 		}
@@ -212,26 +225,59 @@ public class HelpMenu implements Screen {
 
 			batch.begin();
 			batch.draw(img2, 342, 230, 631, 298);
-			batch.draw(circle1,590,155, 59 ,55);
+			batch.draw(circle1,460,155, 59 ,55);
 			batch.end();
 
 		}
 		if (helpCounter == 2) {
 
 			batch.begin();
-			batch.draw(img3, 300, 180, 700, 390);
-			batch.draw(circle1,660,155, 59 ,55);
+			batch.draw(img3, 342, 230, 631, 298);
+			batch.draw(circle1,530,155, 59 ,55);
 			batch.end();
 
 		}
 		if (helpCounter == 3) {
 
 			batch.begin();
-			batch.draw(img4, 300, 180, 700, 390);
-			batch.draw(circle1,730,155, 59 ,55);
+			batch.draw(img4, 342, 230, 631, 298);
+			batch.draw(circle1,600,155, 59 ,55);
 			batch.end();
 
 		}
+		if (helpCounter == 4) {
+
+			batch.begin();
+			batch.draw(img5, 342, 230, 631, 298);
+			batch.draw(circle1,670,155, 59 ,55);
+			batch.end();
+
+		}
+		if (helpCounter == 5) {
+
+			batch.begin();
+			batch.draw(img6,342, 230, 631, 298);
+			batch.draw(circle1,740,155, 59 ,55);
+			batch.end();
+
+		}
+		if (helpCounter == 6) {
+
+			batch.begin();
+			batch.draw(img7, 342, 230, 631, 298);
+			batch.draw(circle1,810,155, 59 ,55);
+			batch.end();
+
+		}
+		if (helpCounter == 7) {
+
+			batch.begin();
+			batch.draw(img8, 342, 230, 631, 298);
+			batch.draw(circle1,880,155, 59 ,55);
+			batch.end();
+
+		}
+		
 		
 	
 		stage.draw();
