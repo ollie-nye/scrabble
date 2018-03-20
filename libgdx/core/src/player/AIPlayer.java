@@ -68,7 +68,6 @@ public class AIPlayer extends Player implements Serializable {
                 }
             }
             for(Tile tile : super.getTiles()) {
-                System.out.print(tile + ", ");
             }
 
             Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> moveToPlay = calculateBestMove(allMoves);
@@ -79,7 +78,6 @@ public class AIPlayer extends Player implements Serializable {
                 unableToPlayCount = 0;
             } else {
                 if(unableToPlayCount < 3) {
-                    System.out.println("shuffle please!");
                     unableToPlayCount++;
                     shuffle();
                 } else {
@@ -346,7 +344,6 @@ public class AIPlayer extends Player implements Serializable {
         // fills characters array with the tile chars from players hand.
         for (int i = 0; i < super.getTiles().length; i++) {
             if(super.getTiles()[i] != null) {
-                System.out.println("FUCK");
                 characters[i] = super.getTiles()[i].getChar();
             }
         }

@@ -138,7 +138,6 @@ public class ResultsScreen implements Screen {
 		}
 		for (int i = 0; i < Game.getNumberOfPlayers(); i++) {
 			finalScores[i] = currentScores[i] - penalties[i];
-			System.out.println(currentScores[i] + " " + penalties[i] + finalScores[i]);
 		}
 		timer = 0;
 		for (int i = 0; i < addingPenalties.length; i++) {

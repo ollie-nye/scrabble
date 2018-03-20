@@ -152,7 +152,6 @@ public class LetterBag implements Serializable{
 		while(tileStack.size() > 3){
 			tileStack.pop();
 		}
-		System.out.println("letterBadDepleted");
 	}
 	
 	public boolean isEmpty(){

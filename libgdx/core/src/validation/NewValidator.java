@@ -126,7 +126,6 @@ public class NewValidator implements Serializable {
 			//this.board.removeTile(letter.getLocation());
 			Game.getCurrentMove().removeTile(letter.getTile());
 		}
-		System.out.println("Is " + (allowedMove?"":"not") + " an allowed move.");
 		this.result = new Result(allowedMove, possibleWords, testEndTurnMove(letter));
 		this.words = null;
 		return this.result;
@@ -138,26 +137,20 @@ public class NewValidator implements Serializable {
 		ArrayList<Coordinate> coordinates = new ArrayList<>();
 
         if(Game.getMoveList().size() == 1) {
-            System.out.println("LOL");
             return true;
         } else {
         	boolean allowed = false;
             for (Entry<Tile, Coordinate> letter : word.entrySet()) {
-            	System.out.println("Testing " + letter.toString());
             	Tile nextTile = board.getTile(letter.getValue().getNear('U'));
-            	System.out.println("Tile above is " + (nextTile==null?"empty":nextTile.toString()));
             	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
             		if (nextTile != null) {
-            			System.out.println("XD");
                         allowed = true;
                         break;
             		}
             	}
             	nextTile = board.getTile(letter.getValue().getNear('D'));
-            	System.out.println("Tile below is " + (nextTile==null?"empty":nextTile.toString()));
             	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
             		if (nextTile != null) {
-            			System.out.println("KEK");
                         allowed = true;
                         break;
             		}
@@ -166,21 +159,17 @@ public class NewValidator implements Serializable {
             	System.out.println("Tile left is " + (nextTile==null?"empty":nextTile.toString()));
             	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
             		if (nextTile != null) {
-            			System.out.println("FUCK");
                         allowed = true;
                         break;
             		}
             	}
             	nextTile = board.getTile(letter.getValue().getNear('R'));
-            	System.out.println("Tile right is " + (nextTile==null?"empty":nextTile.toString()));
             	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
             		if (nextTile != null) {
-            			System.out.println("SHIT");
                         allowed = true;
                         break;
             		}
             	}
-            	System.out.println("OPOPO");
                 continue;
             }
             if (allowed) {
@@ -316,10 +305,8 @@ public class NewValidator implements Serializable {
 	
 	private boolean testEndTurnMove(Letter letter) {
 		if (words == null) { getWords(letter); }
-		System.out.println("testEndTurnMove - Letter is " + letter.toString());
 		int completeWords = 0;
 		for (String word : words) {
-			System.out.println("Found " + word);
 			completeWords += NewValidator.dictionary.getCompleteWords(word);
 		}
 		return (completeWords > 0);

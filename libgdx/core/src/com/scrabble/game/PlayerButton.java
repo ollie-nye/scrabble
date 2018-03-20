@@ -50,7 +50,6 @@ public class PlayerButton extends ScrabbleButton {
 			} 
 			if (isPressed() && Board.getInstance().isShuffle() == true){
 				Game.addShuffles(coordinate, Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
-				System.out.println(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
 			}
 		} else {
 			setText("");

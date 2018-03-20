@@ -217,7 +217,6 @@ public class Game implements Serializable {
             currentPlayer = null;
             timer = new Timer();
         }
-        System.out.println(timer.getTime());
     }
 
     public static void reset() {
@@ -298,7 +297,6 @@ public class Game implements Serializable {
 
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved in save.ser");
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -350,7 +348,6 @@ public class Game implements Serializable {
             i.printStackTrace();
             return;
         } catch (ClassNotFoundException c) {
-            System.out.println("Employee class not found");
             c.printStackTrace();
             return;
         }

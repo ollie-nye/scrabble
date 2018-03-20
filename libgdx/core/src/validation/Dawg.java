@@ -78,7 +78,6 @@ public class Dawg { // Directed Acyclic Word Graph
 			wordScanner.close();
 		}
 		catch (FileNotFoundException fnfex) {
-			System.out.println("Error with dictionary setup - File Not Found.");
 			System.exit(1);
 		}
 		
@@ -130,19 +129,12 @@ public class Dawg { // Directed Acyclic Word Graph
 	 */
 	public static void main(String[] args) {
 		Dawg dawg = new Dawg();
-		System.out.println("All words added");
-		
+
 		Scanner in = new Scanner(System.in);
 		
 		while (true) {
 			String input = in.nextLine().trim();
 			long startTime = System.currentTimeMillis();
-			if (input.substring(0, 1).equals("c")) {
-				System.out.println("Complete words matching your string : " + dawg.getCompleteWords(input.substring(2)));
-			} else if (input.substring(0, 1).equals("p")) {
-				System.out.println("Possible words matching your string : " + dawg.getPossibleWords(input.substring(2)));
-			}
-			System.out.println("Operation took " + (System.currentTimeMillis() - startTime) + " milliseconds");
 		}
 	}
 	
@@ -175,7 +167,6 @@ public class Dawg { // Directed Acyclic Word Graph
 					}
 					int newWords = search(this.parent, newSearchString, SearchType.COMPLETE);
 					if (newWords > 0) {
-						System.out.println(newSearchString + " found " + newWords + " possible words");
 					}
 					words += newWords;
 				}

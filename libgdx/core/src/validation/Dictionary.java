@@ -44,7 +44,6 @@ public class Dictionary {
 			}
 		}
 		catch (FileNotFoundException fnfex) {
-			System.out.println("Error with dictionary setup - File Not Found.");
 			System.exit(1);
 		}
 	}

@@ -296,7 +296,6 @@ private ButtonStyle cancelButtonStyle;
 			public void clicked(InputEvent event, float x, float y) {
 				Board.getInstance().toggleShuffle();
 				for (Coordinate coor : Game.getShuffles()) {
-					System.out.println("boom" + Game.getShuffle(coor).getContent());
 					Game.getLetterBag().shuffleTile(Game.getShuffle(coor));
 					Game.getCurrentPlayer().removeTile(Game.getShuffle(coor));
 				}
@@ -584,7 +583,6 @@ private ButtonStyle cancelButtonStyle;
 				if (deplete != true) {
 					Game.getLetterBag().pickABunch();
 				}
-				System.out.println("bitch word");
 				deplete = true;
 			};
 		});
@@ -694,7 +692,6 @@ private ButtonStyle cancelButtonStyle;
 				tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 				Game.getCurrentPlayer().finishedAllTurns();
 				playersEnded -= 1;
-				System.out.println("hello" + playersEnded);
 				if (playersEnded != 0) {
 					Game.endTurn();
 					endPlayerTurn.setVisible(false);

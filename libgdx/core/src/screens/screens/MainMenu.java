@@ -357,7 +357,6 @@ public class MainMenu implements Screen {
 				if (playerCounter < 4) {
 					playersBoxText.setText(Integer.toString(Integer.parseInt(playersBoxText.getText().toString()) + 1));
 					playerCounter += 1;
-					System.out.println(playerCounter);
 					playerNumber += 1;
 				}
 			}
@@ -449,7 +448,6 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if (playerLabel[0].getText().charAt(0) != 'P') {
 					for (int i = 0; i < aiDifficulties.length; i++) {
-						System.out.println(playerLabel[0].getText() + aiDifficulties[i]);
 						if (playerLabel[0].getText().toString().equals(aiDifficulties[i])) {
 							if (i < aiDifficulties.length - 1) {
 								playerText[0] = (aiDifficulties[i + 1]);
@@ -579,7 +577,6 @@ public class MainMenu implements Screen {
 					}
 					Game.start();
 
-					System.out.println(setPlayerArray().toString());
 					game.setScreen(new GameScreen(game, setPlayerArray()));
 				}
 			}
