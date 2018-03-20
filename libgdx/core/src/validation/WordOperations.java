@@ -36,7 +36,6 @@ public class WordOperations implements Serializable {
 		this.board = board;
 	}
 	
-	
 	public static void main(String args[]) {
 		WordOperations ops = new WordOperations(new Board());
 		/**
@@ -93,7 +92,6 @@ public class WordOperations implements Serializable {
 		}
 		 **/
 	}
-	
 	
 	public ArrayList<String> identifyWords(Letter letter) {
 		ArrayList<String> words = new ArrayList<>();
@@ -189,7 +187,6 @@ public class WordOperations implements Serializable {
 					traceWords(nextLetter, (orientation == Orient.H)?Orient.V:Orient.H, words, 0);
 				}
 			}
-			//System.out.println(nextLetter.toString());
 			if (initialDirection) {
 				currentWord.add(nextLetter);
 			} else {

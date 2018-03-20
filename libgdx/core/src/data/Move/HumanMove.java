@@ -1,10 +1,12 @@
-package data;
+package data.Move;
 
+import data.Coordinate;
+import data.Letter;
+import data.Result;
+import data.Tile;
 import player.Player;
 import scrabble.Board;
 import validation.NewValidator;
-
-import java.util.HashMap;
 
 public class HumanMove extends Move {
     private NewValidator validator = new NewValidator(Board.getInstance());

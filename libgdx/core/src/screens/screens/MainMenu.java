@@ -1,10 +1,8 @@
 package screens.screens;
 
 import assetmanager.assetManager;
-import data.Coordinate;
-import data.Move;
+import data.Move.Move;
 import data.Tile;
-import data.Timer;
 import player.Player;
 
 import com.badlogic.gdx.Gdx;
