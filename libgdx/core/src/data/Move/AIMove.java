@@ -45,7 +45,7 @@ public class AIMove extends Move {
     public void endMove() {
         moveTime = Game.getTimer().getTime();
         this.playedWord = playedWord;
-        player.setScore(moveScore);
+        player.setScore(player.getScore() + moveScore);
         player.addTiles();
     }
 

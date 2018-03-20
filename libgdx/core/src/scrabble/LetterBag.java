@@ -163,7 +163,8 @@ public class LetterBag implements Serializable{
 	}
 	public void shuffleTile(Tile tile){
 		Random random = new Random();
-		
-		tileStack.add(random.nextInt(tileStack.size()), tile);
+
+		tileList.add(tile);
+		shake();
 	}
 }

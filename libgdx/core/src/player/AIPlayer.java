@@ -72,12 +72,26 @@ public class AIPlayer extends Player implements Serializable {
 
             Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> moveToPlay = calculateBestMove(allMoves);
 
-            playMove(moveToPlay.getLeft());
-            ((AIMove) Game.getCurrentMove()).setScore(moveToPlay.getRight());
+            if(moveToPlay.getLeft() != null) {
+                playMove(moveToPlay.getLeft());
+                ((AIMove) Game.getCurrentMove()).setScore(moveToPlay.getRight());
+            } else {
+                System.out.println("shuffle please!");
+                shuffle();
+            }
         }
 
         cache.clear();
         Game.endTurn();
+    }
+
+    public void shuffle() {
+        for(int i = 0; i < super.getTiles().length; i++) {
+            if(super.getTiles()[i] != null) {
+                Game.getLetterBag().shuffleTile(super.getTiles()[i]);
+                Game.getCurrentPlayer().removeTile(super.getTiles()[i]);
+            }
+        }
     }
 
     private void playMove(ArrayList<Tuple<Character, Coordinate>> move) {
@@ -86,7 +100,7 @@ public class AIPlayer extends Player implements Serializable {
         Tile[] temp = super.getTiles().clone();
         for (Tuple<Character, Coordinate> letter : move) {
             for (Tile tile : temp) {
-                if (tile.getChar() == letter.getLeft()) {
+                if (tile != null && tile.getChar() == letter.getLeft()) {
                     Game.getCurrentMove().addTile(tile, letter.getRight());
                     break;
                 }
@@ -324,7 +338,10 @@ public class AIPlayer extends Player implements Serializable {
         }
         // fills characters array with the tile chars from players hand.
         for (int i = 0; i < super.getTiles().length; i++) {
-            characters[i] = super.getTiles()[i].getChar();
+            if(super.getTiles()[i] != null) {
+                System.out.println("FUCK");
+                characters[i] = super.getTiles()[i].getChar();
+            }
         }
         // Loop over each word in the dictionary.
         for (String string : dictionary.getWords()) {

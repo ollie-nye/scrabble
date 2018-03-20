@@ -178,6 +178,12 @@ public class Game implements Serializable{
                     } else {
                         JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }
+                } else {
+                    Board.getInstance().resetPartial();
+                    currentMove.endMove();
+                    currentMove = null;
+                    currentPlayer = null;
+                    timer = new Timer();
                 }
             } else if (currentMove.getPlayedTiles().isEmpty() && timer.getTimeLeft() > 0) {
                 Board.getInstance().resetPartial();
