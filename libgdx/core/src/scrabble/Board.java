@@ -62,6 +62,9 @@ private static boolean isShuffle = false;
 			}
 		}
 	}
+    public Tile[][] getLetters(){
+    	return letters;
+    }
 
 	/**
 	 * Gets the tile at the given coordinate

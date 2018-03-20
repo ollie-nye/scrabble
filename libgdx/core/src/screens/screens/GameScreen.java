@@ -250,13 +250,13 @@ public class GameScreen implements Screen {
 		shuffleButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (Game.getCurrentPlayer() != null) {
+				if (Game.getCurrentPlayer() != null && tilesPlayed()) {
 					Board.getInstance().toggleShuffle();
 					shuffleButton.setVisible(false);
 					endTurn.setVisible(false);
 					shuffleCancelButton.setVisible(true);
 					shuffleAcceptButton.setVisible(true);
-					shuffleTable.setVisible(true);;
+					shuffleTable.setVisible(true);
 				}
 			};
 		});
@@ -712,6 +712,19 @@ public class GameScreen implements Screen {
 		return table;
 		
 		
+	}
+	
+	public boolean tilesPlayed(){
+		for (Tile tile: Game.getCurrentMove().getPlayedTiles().keySet()){
+			for (int i = 0; i < 15; i++){
+				for (int j = 0; j < 15; j++){
+					if (tile == Board.getInstance().getLetters()[i][j]){
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 	
 	/*
