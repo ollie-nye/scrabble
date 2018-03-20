@@ -19,15 +19,6 @@ public class LetterBag implements Serializable{
 	private Score score = new Score();
 
 	private void shake() {
-		for (Map.Entry<Tile, Integer> entry : this.tiles.entrySet()) {
-			Tile tile = entry.getKey();
-			Integer quantity = entry.getValue();
-			
-			for (int i = 0; i < quantity; i++) {
-				tileList.add(tile);
-			}
-		}
-		
 		Random random = new Random();
 		while (tileList.size() > 0) {
 			Integer nextTile;
@@ -51,32 +42,89 @@ public class LetterBag implements Serializable{
 
 	public void fill() {
         //put ( <letter>, (new Integer[]( <quantity in bag>, <score>))
-        tiles.put(new Tile('a', Score.getLetterScore('a')), 9);
-        tiles.put(new Tile('b', Score.getLetterScore('b')), 2);
-        tiles.put(new Tile('c', Score.getLetterScore('c')), 2);
-        tiles.put(new Tile('d', Score.getLetterScore('d')), 4);
-        tiles.put(new Tile('e', Score.getLetterScore('e')), 12);
-        tiles.put(new Tile('f', Score.getLetterScore('f')), 2);
-        tiles.put(new Tile('g', Score.getLetterScore('g')), 3);
-        tiles.put(new Tile('h', Score.getLetterScore('h')), 2);
-        tiles.put(new Tile('i', Score.getLetterScore('i')), 9);
-        tiles.put(new Tile('j', Score.getLetterScore('j')), 1);
-        tiles.put(new Tile('k', Score.getLetterScore('k')), 1);
-        tiles.put(new Tile('l', Score.getLetterScore('l')), 4);
-        tiles.put(new Tile('m', Score.getLetterScore('m')), 2);
-        tiles.put(new Tile('n', Score.getLetterScore('n')), 6);
-        tiles.put(new Tile('o', Score.getLetterScore('o')), 8);
-        tiles.put(new Tile('p', Score.getLetterScore('p')), 2);
-        tiles.put(new Tile('q', Score.getLetterScore('q')), 1);
-        tiles.put(new Tile('r', Score.getLetterScore('r')), 6);
-        tiles.put(new Tile('s', Score.getLetterScore('s')), 4);
-        tiles.put(new Tile('t', Score.getLetterScore('t')), 6);
-        tiles.put(new Tile('u', Score.getLetterScore('u')), 4);
-        tiles.put(new Tile('v', Score.getLetterScore('v')), 2);
-        tiles.put(new Tile('w', Score.getLetterScore('w')), 2);
-        tiles.put(new Tile('x', Score.getLetterScore('x')), 1);
-        tiles.put(new Tile('y', Score.getLetterScore('y')), 2);
-        tiles.put(new Tile('z', Score.getLetterScore('z')), 1);
+
+		for(int i = 0; i < 9; i++) {
+			tileList.add(new Tile('a', Score.getLetterScore('a')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('b', Score.getLetterScore('b')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('c', Score.getLetterScore('c')));
+		}
+		for(int i = 0; i < 4; i++) {
+			tileList.add(new Tile('d', Score.getLetterScore('d')));
+		}
+		for(int i = 0; i < 12; i++) {
+			tileList.add(new Tile('e', Score.getLetterScore('e')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('f', Score.getLetterScore('f')));
+		}
+		for(int i = 0; i < 3; i++) {
+			tileList.add(new Tile('g', Score.getLetterScore('g')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('h', Score.getLetterScore('h')));
+		}
+		for(int i = 0; i < 9; i++) {
+			tileList.add(new Tile('h', Score.getLetterScore('i')));
+		}
+		for(int i = 0; i < 1; i++) {
+			tileList.add(new Tile('i', Score.getLetterScore('j')));
+		}
+		for(int i = 0; i < 1; i++) {
+			tileList.add(new Tile('j', Score.getLetterScore('k')));
+		}
+		for(int i = 0; i < 4; i++) {
+			tileList.add(new Tile('k', Score.getLetterScore('l')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('l', Score.getLetterScore('m')));
+		}
+		for(int i = 0; i < 6; i++) {
+			tileList.add(new Tile('m', Score.getLetterScore('n')));
+		}
+		for(int i = 0; i < 8; i++) {
+			tileList.add(new Tile('n', Score.getLetterScore('o')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('o', Score.getLetterScore('p')));
+		}
+		for(int i = 0; i < 1; i++) {
+			tileList.add(new Tile('q', Score.getLetterScore('q')));
+		}
+		for(int i = 0; i < 6; i++) {
+			tileList.add(new Tile('r', Score.getLetterScore('r')));
+		}
+		for(int i = 0; i < 4; i++) {
+			tileList.add(new Tile('s', Score.getLetterScore('s')));
+		}
+		for(int i = 0; i < 6; i++) {
+			tileList.add(new Tile('t', Score.getLetterScore('t')));
+		}
+		for(int i = 0; i < 4; i++) {
+			tileList.add(new Tile('u', Score.getLetterScore('u')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('v', Score.getLetterScore('v')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('w', Score.getLetterScore('w')));
+		}
+		for(int i = 0; i < 1; i++) {
+			tileList.add(new Tile('x', Score.getLetterScore('x')));
+		}
+		for(int i = 0; i < 2; i++) {
+			tileList.add(new Tile('y', Score.getLetterScore('y')));
+		}
+		for(int i = 0; i < 1; i++) {
+			tileList.add(new Tile('z', Score.getLetterScore('z')));
+		}
+
+
+        //tiles.put(new Tile('a', Score.getLetterScore('a')), 9);
+
         shake();
     }
 
