@@ -40,16 +40,20 @@ public class AIPlayer extends Player implements Serializable {
             char[] characters = calculateBestWord(findPossibleWords(new Coordinate(7, 7))).toCharArray();
             // for each character in the word
             int i = 0;
+            int score = 0;
+            ArrayList<Tuple<Character, Coordinate>> playedLetters = new ArrayList<>();
             for (char character : characters) {
                 // play the tile from hand.
                 for (Tile tile : super.getTiles()) {
                     if (tile != null && tile.getChar() == character) {
                         Game.getCurrentMove().addTile(tile, new Coordinate(7 + i, 7));
+                        playedLetters.add(new Tuple<>(character,new Coordinate(7 + i, 7)));
                         break;
                     }
                 }
                 i++;
             }
+            ((AIMove) Game.getCurrentMove()).setScore( calculateMoveScore(playedLetters));
         } else {
             // For each square in board, find the moves
             ArrayList<ArrayList<Tuple<Character, Coordinate>>> allMoves = new ArrayList<>();
