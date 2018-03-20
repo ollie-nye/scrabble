@@ -38,7 +38,7 @@ public class Board implements Serializable {
 	private Tile[][] letters = new Tile[boardSizeX][boardSizeY];
 	private static int boardSizeX = 15;
     private static int boardSizeY = 15;
-
+private static boolean isShuffle = false;
     /**
 	 * Singleton pattern getter method
 	 * @return		Instance of the Board, creating a new one if required
@@ -114,6 +114,18 @@ public class Board implements Serializable {
 		if (coordinate != null) { //both required elements are provided
             Game.getCurrentMove().addTile(partialTile, coordinate);
         }
+	}
+	public void toggleShuffle(){
+		if (isShuffle){
+			isShuffle = false;
+		
+		}
+		else{
+			isShuffle = true;
+		}
+	}
+	public boolean isShuffle(){
+		return isShuffle;
 	}
 
 	public Tile getPartialTile() {

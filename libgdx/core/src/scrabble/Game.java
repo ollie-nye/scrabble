@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -30,6 +32,7 @@ public class Game implements Serializable{
     private static Player currentPlayer;
     private static int turmTime = 60000;
     private static NewValidator validator = new NewValidator(Board.getInstance());
+    private static final HashMap<Coordinate, Tile> SHUFFLE_TILES = new HashMap<>();
 
 
     /* PLAYER FUNCTIONS */
@@ -87,6 +90,23 @@ public class Game implements Serializable{
         return PLAYER_LIST.size();
     }
 
+    
+    public static Set<Coordinate> getShuffles() {
+       return SHUFFLE_TILES.keySet();
+    }
+    public static Tile getShuffle(Coordinate c) {
+        return SHUFFLE_TILES.get(c);
+     }
+    public static int getNumberOfShuffles() {
+        return SHUFFLE_TILES.size();
+    }
+    public static void addShuffles(Coordinate c, Tile e) {
+        SHUFFLE_TILES.put(c, e);
+    }
+    public static void resetShuffles() {
+        SHUFFLE_TILES.clear();
+    }
+    
 
     /* GAME FUNCTIONS */
     /**
@@ -102,6 +122,7 @@ public class Game implements Serializable{
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
     public static void startTurn() {
+    	
         new Thread(timer).start();
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
@@ -123,6 +144,7 @@ public class Game implements Serializable{
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
+    	SHUFFLE_TILES.clear();
         if(currentMove instanceof AIMove) {
             Board.getInstance().resetPartial();
             currentMove.endMove();
