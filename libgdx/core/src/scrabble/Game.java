@@ -151,6 +151,10 @@ public class Game implements Serializable {
         new Thread(timer).start();
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
+        while (currentPlayer.finishedAllTurn()){
+        	 currentPlayer = PLAYER_ORDER.poll();
+             PLAYER_ORDER.add(currentPlayer);
+        }
 
         if (currentPlayer instanceof HumanPlayer) {
             currentMove = new HumanMove(currentPlayer);

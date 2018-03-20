@@ -404,6 +404,17 @@ private ButtonStyle cancelButtonStyle;
 			shuffleCounter = Game.getNumberOfShuffles();
 			shuffleTable.row();
 		}
+		boolean gameOver = true;
+		for (Player player: Game.getPlayers()){
+			if (player.finishedAllTurn() == false){
+				gameOver = false;
+			};
+		}
+		if (gameOver){
+			game.setScreen(new ResultsScreen(game));
+		}
+		
+			
 		stage.draw();
 		stage.act();
 	}
@@ -691,14 +702,9 @@ private ButtonStyle cancelButtonStyle;
 			public void clicked(InputEvent event, float x, float y) {
 				tilePress2[random.nextInt(tilePress1.length)].play(game.getSoundVol());
 				Game.getCurrentPlayer().finishedAllTurns();
-				playersEnded -= 1;
-				if (playersEnded != 0) {
-					Game.endTurn();
-					endPlayerTurn.setVisible(false);
-				}
-				if (playersEnded == 0) {
-					game.setScreen(new ResultsScreen(game));
-				}
+				Game.endTurn();
+				endPlayerTurn.setVisible(false);
+				
 
 			};
 		});

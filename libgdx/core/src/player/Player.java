@@ -39,6 +39,10 @@ public abstract class Player implements Serializable {
             playerName = "Player " + Game.getNumberOfPlayers();
         }
     }
+    
+    public boolean finishedAllTurn(){
+    	return finishedAllTurns;
+    }
 
     /**
      * Returns player username upon call
