@@ -45,11 +45,14 @@ public class NewValidator implements Serializable {
 			this.board.testPlace(letter); //Happens every turn
 			if (playedTiles == 0) {
 				//test row/column if not first move
-				if(Game.getMoveList().size() != 0) { //not first move of the game
+				if(Game.getMoveList().size() > 1) { //not first move of the game
 					int x = letter.getLocation().getX();
 					int y = letter.getLocation().getY();
 					boolean commonDirection = false;
 					for (int i = 0; i < 15; i++) {
+						if (i == letter.getLocation().getX()) {
+							continue;
+						}
 						if (Board.getInstance().getTile(new Coordinate(i, y)) != null) {
 							commonDirection = true;
 							break;
@@ -57,6 +60,9 @@ public class NewValidator implements Serializable {
 					}
 					if (!commonDirection) {
 						for (int i = 0; i < 15; i++) {
+							if (i == letter.getLocation().getY()) {
+								continue;
+							}
 							if (Board.getInstance().getTile(new Coordinate(x, i)) != null) {
 								commonDirection = true;
 								break;
@@ -69,7 +75,10 @@ public class NewValidator implements Serializable {
 					} else {
 						allowedMove = false;
 					}
-				}				
+				} else {
+					firstMove = letter.getLocation();
+					firstMoveContent = letter.getTile().getContent();
+				}		
 			} else if (playedTiles == 1) { // Second move
 				// Check that at least one of the coordinates is common between this and the last move, therefore determining direction
 				if (letter.getLocation().getX() == firstMove.getX()) { // X is common, therefore vertical word direction
@@ -132,23 +141,50 @@ public class NewValidator implements Serializable {
             System.out.println("LOL");
             return true;
         } else {
+        	boolean allowed = false;
             for (Entry<Tile, Coordinate> letter : word.entrySet()) {
-                if (word.containsKey(board.getTile(letter.getValue().getNear('U')))) {
-                    System.out.println("XD");
-                    return true;
-                } else if (word.containsKey(board.getTile(letter.getValue().getNear('D')))) {
-                    System.out.println("KEK");
-                    return true;
-                } else if (word.containsKey(board.getTile(letter.getValue().getNear('L')))) {
-                    System.out.println("FUCK");
-                    return true;
-                } else if (word.containsKey(board.getTile(letter.getValue().getNear('R')))) {
-                    System.out.println("SHIT");
-                    return true;
-                } else {
-                    System.out.println("OPOPO");
-                    return false;
-                }
+            	System.out.println("Testing " + letter.toString());
+            	Tile nextTile = board.getTile(letter.getValue().getNear('U'));
+            	System.out.println("Tile above is " + (nextTile==null?"empty":nextTile.toString()));
+            	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
+            		if (nextTile != null) {
+            			System.out.println("XD");
+                        allowed = true;
+                        break;
+            		}
+            	}
+            	nextTile = board.getTile(letter.getValue().getNear('D'));
+            	System.out.println("Tile below is " + (nextTile==null?"empty":nextTile.toString()));
+            	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
+            		if (nextTile != null) {
+            			System.out.println("KEK");
+                        allowed = true;
+                        break;
+            		}
+            	}
+            	nextTile = board.getTile(letter.getValue().getNear('L'));
+            	System.out.println("Tile left is " + (nextTile==null?"empty":nextTile.toString()));
+            	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
+            		if (nextTile != null) {
+            			System.out.println("FUCK");
+                        allowed = true;
+                        break;
+            		}
+            	}
+            	nextTile = board.getTile(letter.getValue().getNear('R'));
+            	System.out.println("Tile right is " + (nextTile==null?"empty":nextTile.toString()));
+            	if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
+            		if (nextTile != null) {
+            			System.out.println("SHIT");
+                        allowed = true;
+                        break;
+            		}
+            	}
+            	System.out.println("OPOPO");
+                continue;
+            }
+            if (allowed) {
+            	return true;
             }
         }
         return false;
