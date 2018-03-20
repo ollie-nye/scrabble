@@ -117,6 +117,7 @@ public class NewValidator implements Serializable {
 			//this.board.removeTile(letter.getLocation());
 			Game.getCurrentMove().removeTile(letter.getTile());
 		}
+		System.out.println("Is " + (allowedMove?"":"not") + " an allowed move.");
 		this.result = new Result(allowedMove, possibleWords, testEndTurnMove(letter));
 		this.words = null;
 		return this.result;
@@ -279,8 +280,10 @@ public class NewValidator implements Serializable {
 	
 	private boolean testEndTurnMove(Letter letter) {
 		if (words == null) { getWords(letter); }
+		System.out.println("testEndTurnMove - Letter is " + letter.toString());
 		int completeWords = 0;
 		for (String word : words) {
+			System.out.println("Found " + word);
 			completeWords += NewValidator.dictionary.getCompleteWords(word);
 		}
 		return (completeWords > 0);

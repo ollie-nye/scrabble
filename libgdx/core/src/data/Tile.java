@@ -36,6 +36,10 @@ public class Tile implements Serializable {
 	public int getScore() {
 		return score;
 	}
+	
+	public String toString() {
+		return "" + this.letter;
+	}
 
 	
 }
