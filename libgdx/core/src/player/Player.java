@@ -126,6 +126,7 @@ public abstract class Player implements Serializable {
      */
     public Tile[] getTiles() {
         //test
+
         /*
         Tile[] test = new Tile[] {
                 new Tile('i', 1),
@@ -138,7 +139,7 @@ public abstract class Player implements Serializable {
         };
 
        return test;
-       */
+*/
 
 
        return letterList;
@@ -157,7 +158,8 @@ public abstract class Player implements Serializable {
 
 
             // prefix
-            if ((coordinate.getY() > 0 && board.getTile(coordinate.getNear('U')) != null)) {
+            if (coordinate.getY() > 0) {
+
                 tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - (prefix.size() + 1));
                 if (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) != null) {
                     while (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) != null) {
@@ -171,7 +173,7 @@ public abstract class Player implements Serializable {
             tempWord += word;
 
             // suffix
-            if ((coordinate.getY() < 14 && board.getTile(coordinate.getNear('D')) != null)) {
+            if (coordinate.getY() < 14) {
                 tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + (suffix.size() + 1));
                 if (tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) != null) {
                     while (tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) != null) {
@@ -189,7 +191,7 @@ public abstract class Player implements Serializable {
             }
 
             // prefix
-            if ((coordinate.getX() > 0 && board.getTile(coordinate.getNear('L')) != null)) {
+            if (coordinate.getX() > 0) {
                 tempCoordinate = new Coordinate(coordinate.getX() - (prefix.size() + 1), coordinate.getY());
                 if (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) != null) {
                     while (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) != null) {
@@ -203,7 +205,7 @@ public abstract class Player implements Serializable {
             tempWord += word;
 
             // suffix
-            if ((coordinate.getX() < 14 && board.getTile(coordinate.getNear('R')) != null)) {
+            if (coordinate.getX() < 14) {
                 tempCoordinate = new Coordinate(coordinate.getX() + (suffix.size() + 1), coordinate.getY());
                 if (tempCoordinate.getX() < 14 && board.getTile(tempCoordinate) != null) {
                     while (tempCoordinate.getX() < 14 && board.getTile(tempCoordinate) != null) {
