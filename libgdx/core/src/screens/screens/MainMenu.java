@@ -589,12 +589,12 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 
 				if (screen == 0) {
-					namingButtonStyle.up = skin.getDrawable("editNames");
-					namingButtonStyle.over = skin.getDrawable("editNamesPressed");
-					screen = 1;
-				} else if (screen == 1) {
 					namingButtonStyle.up = skin.getDrawable("editPlayers");
 					namingButtonStyle.over = skin.getDrawable("editPlayersPressed");
+					screen = 1;
+				} else if (screen == 1) {
+					namingButtonStyle.up = skin.getDrawable("editNames");
+					namingButtonStyle.over = skin.getDrawable("editNamesPressed");
 					screen = 0;
 				}
 			}

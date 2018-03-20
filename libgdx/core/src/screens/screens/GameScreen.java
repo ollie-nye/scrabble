@@ -85,6 +85,8 @@ public class GameScreen implements Screen {
 private ButtonStyle cancelButtonStyle;
 	private HashMap<Player, ScrabbleButton[]> playerScrabbleButtons;
 	private ArrayList<Tile> tilesToShuffle;
+	private Table popup;
+	private Label popupText;
 
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
@@ -263,6 +265,7 @@ private ButtonStyle cancelButtonStyle;
 					shuffleCancelButton.setVisible(true);
 					shuffleAcceptButton.setVisible(true);
 					shuffleTable.setVisible(true);
+					
 				}
 			};
 		});
@@ -282,6 +285,7 @@ private ButtonStyle cancelButtonStyle;
 				shuffleTable.clear();
 				endTurn.setVisible(true);
 				shuffleCounter = 0;
+				
 				
 			};
 		});
@@ -343,6 +347,33 @@ private ButtonStyle cancelButtonStyle;
 		// this is for testing only
 		createTestButton();
 		// collectPlayerTiles();
+		
+		
+		popup = new Table();
+		
+		popupText = new Label("", noLabelStyle);
+		
+		popupText.setWrap(true);
+		popupText.setAlignment(Align.center);
+		TextButton cancel = new TextButton("ok", plainButtonStyle);
+		cancel.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				popup.setVisible(false);
+				
+				
+			};
+		});
+		
+		popup.row().width(300.0f);
+		popup.add(popupText).align(Align.center).padTop(20.0f).expand();
+		popup.row();
+		popup.add(cancel).align(Align.bottom).padTop(10.0f).padBottom(5.0f).expand();
+		popup.setBackground(altSkin.getDrawable("creationBox"));
+		popup.setPosition(1280/2 - popup.getWidth()/2, 720/2 - popup.getHeight()/2);
+		popup.pack();
+		popup.setVisible(false);
+		stage.addActor(popup);
 
 	}
 
@@ -550,11 +581,11 @@ private ButtonStyle cancelButtonStyle;
 		noLabelStyle = new LabelStyle();
 		noLabelStyle.font = font;
 		
-		/*
+		
 		cancelButtonStyle = new ButtonStyle();
 		cancelButtonStyle.up = altSkin.getDrawable("exButton");
-		cancelButtonStyle.over = altSkin.getDrawable("exButtonPressed");
-*/	
+		cancelButtonStyle.over = altSkin.getDrawable("exButtonHover");
+
 	}
 
 	private void setupPlayerLetters(int player, boolean vertical) {
@@ -744,20 +775,11 @@ private ButtonStyle cancelButtonStyle;
 		}
 		return true;
 	}
-/*
-	public void Table(Table table, String text){
-		Table myTable = table;
-		myTable = new Table();
-		Label label = new Label(text, noLabelStyle);
-	
-		Button cancel = new Button(cancelButtonStyle);
-		cancel.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				myTable.setVisible(false);
-			};
-		});
-	}
+
+	public void tablePopup(String text){
+		popup.setVisible(true);
+		popupText.setText(text);;
+		}
 	
 	/*
 	 * public void shuffle() { if (Board.getInstance().isShuffle()) {
