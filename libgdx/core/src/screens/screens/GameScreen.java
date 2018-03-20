@@ -232,14 +232,12 @@ public class GameScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				
 				Game.endTurn();
 				turnChange.play(game.getSoundVol());
 				if (Game.getCurrentMove() == null) {
-					
+
 				}
-				
-				
+
 				;
 			};
 		});
@@ -251,15 +249,17 @@ public class GameScreen implements Screen {
 		shuffleButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Board.getInstance().toggleShuffle();
-				shuffleButton.setVisible(false);
-				endTurn.setVisible(false);
-				shuffleCancelButton.setVisible(true);
-				shuffleAcceptButton.setVisible(true);
+				if (Game.getCurrentPlayer() != null) {
+					Board.getInstance().toggleShuffle();
+					shuffleButton.setVisible(false);
+					endTurn.setVisible(false);
+					shuffleCancelButton.setVisible(true);
+					shuffleAcceptButton.setVisible(true);
+				}
 			};
 		});
 		stage.addActor(shuffleButton);
-		
+
 		shuffleCancelButton = new TextButton("", shuffleCancelButtonStyle);
 		shuffleCancelButton.setPosition(1070.0f, 275.0f);
 		shuffleCancelButton.setSize(155.0f, 55.0f);
@@ -276,7 +276,7 @@ public class GameScreen implements Screen {
 		});
 		shuffleCancelButton.setVisible(false);
 		stage.addActor(shuffleCancelButton);
-		
+
 		shuffleAcceptButton = new TextButton("", shuffleAcceptButtonStyle);
 		shuffleAcceptButton.setPosition(1070.0f, 350.0f);
 		shuffleAcceptButton.setSize(155.0f, 55.0f);
@@ -284,11 +284,11 @@ public class GameScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Board.getInstance().toggleShuffle();
-				for (Coordinate coor: Game.getShuffles()){
+				for (Coordinate coor : Game.getShuffles()) {
 					System.out.println("boom" + Game.getShuffle(coor).getContent());
 					Game.getLetterBag().shuffleTile(Game.getShuffle(coor));
 					Game.getCurrentPlayer().removeTile(Game.getShuffle(coor));
-				}				
+				}
 				Game.resetShuffles();
 				shuffleButton.setVisible(true);
 				endTurn.setVisible(true);
@@ -321,7 +321,7 @@ public class GameScreen implements Screen {
 
 		// this is for testing only
 		createTestButton();
-		//collectPlayerTiles();
+		// collectPlayerTiles();
 
 	}
 
@@ -465,15 +465,15 @@ public class GameScreen implements Screen {
 		shuffleButtonStyle.font = font;
 
 		shuffleAcceptButtonStyle = new TextButtonStyle();
-		shuffleAcceptButtonStyle.up = skin.getDrawable("confirm");		
+		shuffleAcceptButtonStyle.up = skin.getDrawable("confirm");
 		shuffleAcceptButtonStyle.over = skin.getDrawable("confirmPressed");
 		shuffleAcceptButtonStyle.font = font;
-		
+
 		shuffleCancelButtonStyle = new TextButtonStyle();
-		shuffleCancelButtonStyle.up = skin.getDrawable("cancel");		
+		shuffleCancelButtonStyle.up = skin.getDrawable("cancel");
 		shuffleCancelButtonStyle.over = skin.getDrawable("cancelPressed");
 		shuffleCancelButtonStyle.font = font;
-				
+
 		plainButtonStyle = new TextButtonStyle();
 		plainButtonStyle.up = skin.getDrawable("plainButton");
 		plainButtonStyle.down = skin.getDrawable("plainButtonPressed");
@@ -687,42 +687,28 @@ public class GameScreen implements Screen {
 
 		return table;
 	}
-/*
-	public void shuffle() {
-		if (Board.getInstance().isShuffle()) {
-			
-
-			shuffleButtonStyle.up = skin.getDrawable("confirm");
-			shuffleButtonStyle.over = skin.getDrawable("confirm");
-	
-			
-
-		} else {
-			
-			shuffleButtonStyle.up = skin.getDrawable("shuffleButton");
-			shuffleButtonStyle.over = skin.getDrawable("shuffleButtonPressed");
-		}
-	}
-/*
-	public void collectPlayerTiles() {
-		for (int j = 0; j < Game.getNumberOfPlayers(); j++) {
-			for (int i = 0; i < 7; i++) {
-				ScrabbleButton myButton = playerScrabbleButtons.get(Game.getPlayers().get(j))[i];
-				store = j;
-				otherStore = i;
-				myButton.addListener(new ClickListener() {
-				
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						if(isShuffle == true && isUsed[store][otherStore] != true){
-							tilesToShuffle.add(Game.getPlayers().get(store).getTiles()[otherStore]);
-							isUsed[store][otherStore] = true;
-						}
-						;
-					};
-				});
-			}
-		}
-	}
-	*/
+	/*
+	 * public void shuffle() { if (Board.getInstance().isShuffle()) {
+	 * 
+	 * 
+	 * shuffleButtonStyle.up = skin.getDrawable("confirm");
+	 * shuffleButtonStyle.over = skin.getDrawable("confirm");
+	 * 
+	 * 
+	 * 
+	 * } else {
+	 * 
+	 * shuffleButtonStyle.up = skin.getDrawable("shuffleButton");
+	 * shuffleButtonStyle.over = skin.getDrawable("shuffleButtonPressed"); } }
+	 * /* public void collectPlayerTiles() { for (int j = 0; j <
+	 * Game.getNumberOfPlayers(); j++) { for (int i = 0; i < 7; i++) {
+	 * ScrabbleButton myButton =
+	 * playerScrabbleButtons.get(Game.getPlayers().get(j))[i]; store = j;
+	 * otherStore = i; myButton.addListener(new ClickListener() {
+	 * 
+	 * @Override public void clicked(InputEvent event, float x, float y) {
+	 * if(isShuffle == true && isUsed[store][otherStore] != true){
+	 * tilesToShuffle.add(Game.getPlayers().get(store).getTiles()[otherStore]);
+	 * isUsed[store][otherStore] = true; } ; }; }); } } }
+	 */
 }
