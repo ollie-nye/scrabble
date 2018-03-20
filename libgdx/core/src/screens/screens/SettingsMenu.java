@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import screens.ScrabbleLauncher;
 
 /**
- * @author Ben Miller, Asid Khan
+ * @author Asid Khan
  * @version 1.0
  */
 public class SettingsMenu implements Screen {

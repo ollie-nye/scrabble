@@ -11,10 +11,11 @@ import java.io.Serializable;
 public class Tile implements Serializable {
 	private char letter;
 	private int score;
-	
+	private final long ID;
 	public Tile(char letter, int score) {
 		this.letter = letter;
 		this.score = score;
+		ID = System.nanoTime();
 	}
 	
 	public String getContent() {

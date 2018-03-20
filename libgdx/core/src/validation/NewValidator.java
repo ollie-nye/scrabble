@@ -44,8 +44,32 @@ public class NewValidator implements Serializable {
 			
 			this.board.testPlace(letter); //Happens every turn
 			if (playedTiles == 0) {
-				firstMove = letter.getLocation();
-				firstMoveContent = letter.getTile().getContent();
+				//test row/column if not first move
+				if(Game.getMoveList().size() != 0) { //not first move of the game
+					int x = letter.getLocation().getX();
+					int y = letter.getLocation().getY();
+					boolean commonDirection = false;
+					for (int i = 0; i < 15; i++) {
+						if (Board.getInstance().getTile(new Coordinate(i, y)) != null) {
+							commonDirection = true;
+							break;
+						}
+					}
+					if (!commonDirection) {
+						for (int i = 0; i < 15; i++) {
+							if (Board.getInstance().getTile(new Coordinate(x, i)) != null) {
+								commonDirection = true;
+								break;
+							}
+						}
+					}
+					if (commonDirection) {
+						firstMove = letter.getLocation();
+						firstMoveContent = letter.getTile().getContent();
+					} else {
+						allowedMove = false;
+					}
+				}				
 			} else if (playedTiles == 1) { // Second move
 				// Check that at least one of the coordinates is common between this and the last move, therefore determining direction
 				if (letter.getLocation().getX() == firstMove.getX()) { // X is common, therefore vertical word direction
@@ -145,7 +169,6 @@ public class NewValidator implements Serializable {
 				}
 				if (connected) {break;}
 			}
-			//System.out.println(connected?"YAS":"NAH, fucked it");
 			return connected;
 
 		}
