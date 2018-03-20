@@ -149,7 +149,7 @@ public abstract class Player implements Serializable {
         finishedAllTurns = true;
     }
 
-    public String workCheck(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate, char direction) {
+    String workCheck(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate, char direction) {
         Coordinate tempCoordinate;
         String tempWord = "";
 
@@ -222,7 +222,6 @@ public abstract class Player implements Serializable {
             return null;
         }
     }
-
 
     public abstract void play();
 }

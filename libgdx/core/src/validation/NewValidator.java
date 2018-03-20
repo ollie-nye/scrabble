@@ -102,7 +102,33 @@ public class NewValidator implements Serializable {
 		HashMap<Tile, Coordinate> word = currentMove.getPlayedTiles();
 		boolean connected = false;
 		ArrayList<Coordinate> coordinates = new ArrayList<>();
-		
+
+        if(Game.getMoveList().size() == 1) {
+            System.out.println("LOL");
+            return true;
+        } else {
+            for (Entry<Tile, Coordinate> letter : word.entrySet()) {
+                if (word.containsKey(board.getTile(letter.getValue().getNear('U')))) {
+                    System.out.println("XD");
+                    return true;
+                } else if (word.containsKey(board.getTile(letter.getValue().getNear('D')))) {
+                    System.out.println("KEK");
+                    return true;
+                } else if (word.containsKey(board.getTile(letter.getValue().getNear('L')))) {
+                    System.out.println("FUCK");
+                    return true;
+                } else if (word.containsKey(board.getTile(letter.getValue().getNear('R')))) {
+                    System.out.println("SHIT");
+                    return true;
+                } else {
+                    System.out.println("OPOPO");
+                    return false;
+                }
+            }
+        }
+        return false;
+
+		/*
 		if(Game.getMoveList().size() == 1) {
 			return true;
 		} else {
@@ -121,7 +147,9 @@ public class NewValidator implements Serializable {
 			}
 			//System.out.println(connected?"YAS":"NAH, fucked it");
 			return connected;
-		}		
+
+		}
+		*/
 	}
 	
 	private ArrayList<Coordinate> getSurroundingCoordinates(Coordinate coordinate) {

@@ -49,6 +49,5 @@ public class AIMove extends Move {
     }
 
     public void calculateScore() {
-
     }
 }

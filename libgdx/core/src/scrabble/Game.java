@@ -184,6 +184,7 @@ public class Game implements Serializable{
         } else {
             Board.getInstance().resetPartial();
             currentMove.invalidateMove();
+            MOVE_LIST.remove(currentMove);
             currentMove = null;
             currentPlayer = null;
             timer = new Timer();
