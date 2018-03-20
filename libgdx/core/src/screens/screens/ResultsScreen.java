@@ -166,9 +166,8 @@ public class ResultsScreen implements Screen {
 		resultsTable.add(player1Scorecard(1));
 		resultsTable.row();
 		Move highestWordz = highestWord();
-		Label highestWord = new Label("Highest word: " + highestWordz.getPlayedWord() + " with "
-				+ Integer.toString(highestWordz.getMoveScore()) + "\nFound by "
-				+ highestWordz.getPlayer().getPlayerName(), longLabelStyle);
+		Label highestWord = new Label("Highest Word Score: " + Integer.toString(highestWordz.getMoveScore()) + 
+				"\nFound by " + highestWordz.getPlayer().getPlayerName(), longLabelStyle);
 		highestWord.setWrap(false);
 		highestWord.setAlignment(Align.center);
 		resultsTable.add(highestWord).width(450.0f).colspan(2).align(Align.center).expand().fill();
