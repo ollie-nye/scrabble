@@ -97,8 +97,7 @@ public class ScrabbleButton extends ButtonBase {
 		return label.getText();
 	}
 
-	/** The style for a text button, see {@link ScrabbleButton}.
-	 * @author Nathan Sweet */
+	
 	static public class ScrabbleButtonStyle extends ButtonBaseStyle {
 		public BitmapFont font;
 		/** Optional. */

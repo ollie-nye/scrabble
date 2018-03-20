@@ -10,70 +10,80 @@ import scrabble.Game;
 
 /**
  * Subclass of ScrabbleButton, is used for buttons / tiles in Players hand.
+ * 
  * @author Tom Geraghty
  * @version 1.0
  */
 public class PlayerButton extends ScrabbleButton {
-    private final Coordinate coordinate;
-    private boolean isPressed = false;
-    private final Player player;
+	private final Coordinate coordinate;
+	private boolean isPressed = false;
+	private final Player player;
 
-    /**
-     * Calls super (ScrabbleButton), passing the Style to it.
-     * Sets Button Coordinate to passed Coordinate
-     *
-     * @param style             Style of button
-     * @param coordinate        Coordinate of button
-     */
-    public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, Player player) {
-        super(style);
-        this.coordinate = coordinate;
-        this.player = player;
-    }
+	/**
+	 * Calls super (ScrabbleButton), passing the Style to it. Sets Button
+	 * Coordinate to passed Coordinate
+	 *
+	 * @param style
+	 *            Style of button
+	 * @param coordinate
+	 *            Coordinate of button
+	 */
+	public PlayerButton(ScrabbleButtonStyle style, Coordinate coordinate, Player player) {
+		super(style);
+		this.coordinate = coordinate;
+		this.player = player;
+	
+	}
 
-    /**
-     * Draws button. Deals with clicks/presses and calls corresponding logic.
-     *
-     * @param batch
-     * @param parentAlpha
-     */
-    @Override
+	/**
+	 * Draws button. Deals with clicks/presses and calls corresponding logic.
+	 *
+	 * @param batch
+	 * @param parentAlpha
+	 */
+	@Override
 	public void draw(Batch batch, float parentAlpha) {
-        if(Game.getCurrentMove() != null) {
-            drawTileContent();
-            if (isPressed() && !isPressed) {
-                placeTile();
-            }
-        } else {
-            setText("");
-            score.setText("");
-        }
-        if (!isPressed()) {
-            isPressed = false;
-        }
-        fontColour();
-        super.draw(batch, parentAlpha);
-    }
+		if (Game.getCurrentMove() != null) {
+			drawTileContent();
+			if (isPressed() && !isPressed && Board.getInstance().isShuffle() == false) {
+				placeTile();
+			} 
+			if (isPressed() && Board.getInstance().isShuffle() == true){
+				Game.addShuffles(coordinate, Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
+				System.out.println(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
+			}
+		} else {
+			setText("");
+			score.setText("");
+		}
 
-    private void placeTile() {
-        // Placing the tile
-        if (player == Game.getCurrentPlayer() && player instanceof HumanPlayer) {
-            Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
-            isPressed = true;
-        } else {
-            Board.getInstance().resetPartial();
-        }
-    }
+		if (!isPressed()) {
+			isPressed = false;
+		}
+		fontColour();
+		super.draw(batch, parentAlpha);
+	}
 
-    private void drawTileContent() {
-        if(player == Game.getCurrentPlayer()) {
-            if (player.getTiles()[coordinate.getX()] == null) {
-                setText("");
-                score.setText("");
-            } else {
-                setText(player.getTiles()[coordinate.getX()].getContent());
-                score.setText(Integer.toString(player.getTiles()[coordinate.getX()].getScore()));
-            }
-        }
-    }
+	private void placeTile() {
+		// Placing the tile
+		if (player == Game.getCurrentPlayer() && player instanceof HumanPlayer) {
+			Board.getInstance().partialPlace(Game.getCurrentPlayer().getTiles()[coordinate.getX()]);
+			isPressed = true;
+		} else {
+			Board.getInstance().resetPartial();
+		}
+	}
+
+	private void drawTileContent() {
+		if (player == Game.getCurrentPlayer()) {
+			if (player.getTiles()[coordinate.getX()] == null) {
+				setText("");
+				score.setText("");
+			} else {
+				setText(player.getTiles()[coordinate.getX()].getContent());
+				score.setText(Integer.toString(player.getTiles()[coordinate.getX()].getScore()));
+			}
+		}
+	}
+
 }
