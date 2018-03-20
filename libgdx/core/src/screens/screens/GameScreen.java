@@ -370,10 +370,11 @@ private ButtonStyle cancelButtonStyle;
 		popup.row();
 		popup.add(cancel).align(Align.bottom).padTop(10.0f).padBottom(5.0f).expand();
 		popup.setBackground(altSkin.getDrawable("creationBox"));
-		popup.setPosition(1280/2 - popup.getWidth()/2, 720/2 - popup.getHeight()/2);
 		popup.pack();
+		popup.setPosition((1280/2 - (popup.getWidth()/2.0f)), 720/2 - (popup.getHeight()/2.0f));
 		popup.setVisible(false);
 		stage.addActor(popup);
+
 
 	}
 
