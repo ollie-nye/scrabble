@@ -1,6 +1,6 @@
 package player;
 
-import data.AIMove;
+import data.Move.AIMove;
 import data.Coordinate;
 import data.Tile;
 import data.Tuple;
@@ -19,9 +19,8 @@ import java.util.*;
  * @version 1.1
  */
 public class AIPlayer extends Player implements Serializable {
-    private Dictionary dictionary = new Dictionary();
     HashMap<Character, HashSet<String>> cache = new HashMap<>();
-    Board board = Board.getInstance();
+
 
     /**
      * Constructor for AIPlayer, sets player username based on passed parameter 'name'.
@@ -137,9 +136,7 @@ public class AIPlayer extends Player implements Serializable {
         Coordinate tempCoordinate;
         boolean possible = true;
 
-        if(word.equals("gist")) {
-            System.out.println("");
-        }
+
 
         if ((prefix.size() > 0 && board.getTile(coordinate.getNear('U')) != null) ||
                 (suffix.size() > 0 && board.getTile(coordinate.getNear('D')) != null)) {
@@ -151,35 +148,12 @@ public class AIPlayer extends Player implements Serializable {
             return null;
         }
 
+        String wordCheck = super.workCheck(word, prefix, suffix, coordinate, 'V');
+        if(wordCheck == null) {
+            return null;
+        }
+
         if (prefix.size() > 0) {
-
-            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - (prefix.size() + 1));
-            String tempWord = "";
-            if(tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) != null) {
-                while (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) != null) {
-                    tempWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('U');
-                }
-                tempWord = new StringBuffer(tempWord).reverse().toString() + word;
-                if (!dictionary.getWords().contains(tempWord)) {
-                    return null;
-                }
-            }
-
-            tempWord = "";
-
-            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + 1);
-            if(tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) != null) {
-                while (tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) != null) {
-                    tempWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('D');
-                }
-                tempWord = word + tempWord;
-                if (!dictionary.getWords().contains(tempWord)) {
-                    return null;
-                }
-            }
-
             // check prefix
             tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - prefix.size());
             if ((tempCoordinate.getY() == 0 && board.getTile(tempCoordinate) == null)
@@ -211,33 +185,6 @@ public class AIPlayer extends Player implements Serializable {
         }
 
         if (suffix.size() > 0) {
-            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + (suffix.size() + 1));
-            String tempWord = "";
-            if(tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) != null) {
-                while (tempCoordinate.getY() < 14 && board.getTile(tempCoordinate) != null) {
-                    tempWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('D');
-                }
-                tempWord = new StringBuffer(tempWord).reverse().toString() + word;
-                if (!dictionary.getWords().contains(tempWord)) {
-                    return null;
-                }
-            }
-
-            tempWord = "";
-
-            tempCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - 1);
-            if(board.getTile(tempCoordinate) != null) {
-                while (tempCoordinate.getY() > 0 && board.getTile(tempCoordinate) != null) {
-                    tempWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('U');
-                }
-                tempWord = word + tempWord;
-                if (!dictionary.getWords().contains(tempWord)) {
-                    return null;
-                }
-            }
-
             // check suffix
             tempCoordinate = coordinate.getNear('D');
             if ((tempCoordinate.getY() == 14 && board.getTile(tempCoordinate) == null)
@@ -265,7 +212,6 @@ public class AIPlayer extends Player implements Serializable {
                 return null;
             }
         }
-        System.out.println("GOOD WORD! : " + word + " " + prefix + " " + suffix);
         return charCoordinates;
     }
 
@@ -273,10 +219,6 @@ public class AIPlayer extends Player implements Serializable {
         Coordinate tempCoordinate;
         boolean possible = true;
         ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
-
-        if(word.equals("gist")) {
-            System.out.println();
-        }
 
         if ((prefix.size() > 0 && coordinate.getX() > 0 && board.getTile(coordinate.getNear('L')) != null) ||
                 (suffix.size() > 0 && coordinate.getX() < 14 && board.getTile(coordinate.getNear('R')) != null)) {
@@ -288,37 +230,14 @@ public class AIPlayer extends Player implements Serializable {
             return null;
         }
 
+        String wordCheck = super.workCheck(word, prefix, suffix, coordinate, 'H');
+        if(wordCheck == null) {
+            return null;
+        }
+
 
         // Horizontal fit
         if (prefix.size() > 0) {
-
-            tempCoordinate = new Coordinate(coordinate.getX() - (prefix.size() + 1), coordinate.getY());
-            String tempWord = "";
-            if(tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) != null) {
-                while (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) != null) {
-                    tempWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('L');
-                }
-                tempWord = new StringBuffer(tempWord).reverse().toString() + word;
-                if (!dictionary.getWords().contains(tempWord)) {
-                    return null;
-                }
-            }
-
-            tempWord = "";
-
-            tempCoordinate = new Coordinate(coordinate.getX() + 1, coordinate.getY());
-            if(board.getTile(tempCoordinate) != null) {
-                while (tempCoordinate.getX() < 14 && board.getTile(tempCoordinate) != null) {
-                    tempWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('R');
-                }
-                tempWord = word + tempWord;
-                if (!dictionary.getWords().contains(tempWord)) {
-                    return null;
-                }
-            }
-
             // check prefix
             tempCoordinate = new Coordinate(coordinate.getX() - prefix.size(), coordinate.getY());
             if ((tempCoordinate.getX() == 0 && board.getTile(tempCoordinate) == null) ||
@@ -346,27 +265,11 @@ public class AIPlayer extends Player implements Serializable {
             }
         }
         if (!possible) {
-            charCoordinates.clear();
-            return charCoordinates;
+            return null;
         }
 
-        if (suffix.size() > 0) {
-            if ((coordinate.getX() < 14 && board.getTile(coordinate.getNear('L')) != null) && prefix.size() == 0) {
-                String connectedWord = "";
-                String combinedWord;
-                tempCoordinate = coordinate.getNear('L');
-                while (tempCoordinate.getX() > 0 && board.getTile(tempCoordinate) != null) {
-                    connectedWord += board.getTile(tempCoordinate).getContent();
-                    tempCoordinate = tempCoordinate.getNear('L');
-                }
-                connectedWord = new StringBuffer(connectedWord).reverse().toString();
-                combinedWord = connectedWord + word;
-                if (!dictionary.getWords().contains(combinedWord)) {
-                    charCoordinates.clear();
-                    return charCoordinates;
-                }
-            }
 
+        if (suffix.size() > 0) {
             // check suffix
             tempCoordinate = coordinate.getNear('R');
             if ((tempCoordinate.getX() == 14 && board.getTile(tempCoordinate) == null)
@@ -393,10 +296,8 @@ public class AIPlayer extends Player implements Serializable {
             }
         }
         if (!possible) {
-            charCoordinates.clear();
-            return charCoordinates;
+            return null;
         }
-        System.out.println("GOOD WORD! : " + word + " " + prefix + " " + suffix);
         return charCoordinates;
     }
 

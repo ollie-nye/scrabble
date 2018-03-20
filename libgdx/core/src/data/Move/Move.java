@@ -1,5 +1,7 @@
-package data;
+package data.Move;
 
+import data.Coordinate;
+import data.Tile;
 import player.Player;
 import scrabble.Game;
 import scrabble.Score;

@@ -1,11 +1,13 @@
-package data;
+package data.Move;
 
+import data.Coordinate;
+import data.Tile;
 import player.Player;
 import scrabble.Board;
-
-import java.util.HashMap;
+import scrabble.Game;
 
 public class AIMove extends Move {
+
     public AIMove(Player player) {
         super(player);
     }
@@ -38,5 +40,15 @@ public class AIMove extends Move {
 
     public void setScore(int score) {
         moveScore = score;
+    }
+
+    public void endMove() {
+        moveTime = Game.getTimer().getTime();
+        this.playedWord = playedWord;
+        player.addTiles();
+    }
+
+    public void calculateScore() {
+
     }
 }

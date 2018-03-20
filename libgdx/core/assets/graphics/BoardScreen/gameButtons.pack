@@ -52,21 +52,21 @@ plainButtonPressed
   orig: 155, 65
   offset: 0, 0
   index: -1
-confirm
+cancel
   rotate: false
   xy: 435, 440
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-confirmPressed
+cancelPressed
   rotate: false
   xy: 592, 440
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-endButton
+confirm
   rotate: false
   xy: 749, 440
   size: 155, 55
@@ -87,42 +87,42 @@ musicButtonHover
   orig: 85, 85
   offset: 0, 0
   index: -1
-endButtonDark
+confirmPressed
   rotate: false
   xy: 410, 383
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-endButtonPressed
+endButton
   rotate: false
   xy: 567, 383
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-shuffleButton
+endButtonDark
   rotate: false
   xy: 724, 383
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-shuffleButtonPressed
+endButtonPressed
   rotate: false
   xy: 410, 326
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-startButton
+shuffleButton
   rotate: false
   xy: 567, 326
   size: 155, 55
   orig: 155, 55
   offset: 0, 0
   index: -1
-startButtonPressed
+shuffleButtonPressed
   rotate: false
   xy: 724, 326
   size: 155, 55
@@ -143,6 +143,20 @@ soundButton
   orig: 85, 85
   offset: 0, 0
   index: -1
+startButton
+  rotate: false
+  xy: 410, 269
+  size: 155, 55
+  orig: 155, 55
+  offset: 0, 0
+  index: -1
+startButtonPressed
+  rotate: false
+  xy: 567, 269
+  size: 155, 55
+  orig: 155, 55
+  offset: 0, 0
+  index: -1
 soundButtonHover
   rotate: false
   xy: 906, 410
@@ -159,14 +173,14 @@ soundButtonPressed
   index: -1
 homeButton
   rotate: false
-  xy: 410, 259
+  xy: 724, 259
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
   index: -1
 homeButtonPressed
   rotate: false
-  xy: 477, 259
+  xy: 791, 259
   size: 65, 65
   orig: 65, 65
   offset: 0, 0
@@ -180,120 +194,120 @@ brownButtonPressed
   index: -1
 greenButtonPressed
   rotate: false
-  xy: 544, 283
+  xy: 270, 225
   size: 41, 41
   orig: 41, 41
   offset: 0, 0
   index: -1
 greyButtonPressed
   rotate: false
-  xy: 270, 225
+  xy: 270, 182
   size: 41, 41
   orig: 41, 41
   offset: 0, 0
   index: -1
 orangeButtonPressed
   rotate: false
-  xy: 587, 283
+  xy: 313, 226
   size: 41, 41
   orig: 41, 41
   offset: 0, 0
   index: -1
 redButtonPressed
   rotate: false
-  xy: 270, 182
+  xy: 356, 226
   size: 41, 41
   orig: 41, 41
   offset: 0, 0
   index: -1
 boardButtonPressed
   rotate: false
-  xy: 630, 284
+  xy: 313, 184
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 brownButton
   rotate: false
-  xy: 672, 287
+  xy: 399, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 brownButtonHover
   rotate: false
-  xy: 712, 287
+  xy: 355, 187
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greenButton
   rotate: false
-  xy: 752, 287
+  xy: 439, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greenButtonHover
   rotate: false
-  xy: 792, 287
+  xy: 479, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greyButton
   rotate: false
-  xy: 832, 287
+  xy: 519, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 greyButtonHover
   rotate: false
-  xy: 313, 230
+  xy: 559, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 orangeButton
   rotate: false
-  xy: 353, 230
+  xy: 599, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 orangeButtonHover
   rotate: false
-  xy: 313, 191
+  xy: 639, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 redButton
   rotate: false
-  xy: 353, 191
-  size: 38, 37
-  orig: 38, 37
-  offset: 0, 0
-  index: -1
-redButtonHover
-  rotate: false
-  xy: 872, 284
+  xy: 679, 230
   size: 38, 37
   orig: 38, 37
   offset: 0, 0
   index: -1
 boardButton
   rotate: false
-  xy: 912, 284
+  xy: 88, 136
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 boardButtonHover
   rotate: false
-  xy: 88, 136
+  xy: 88, 97
   size: 37, 37
   orig: 37, 37
+  offset: 0, 0
+  index: -1
+redButtonHover
+  rotate: false
+  xy: 88, 58
+  size: 38, 37
+  orig: 38, 37
   offset: 0, 0
   index: -1

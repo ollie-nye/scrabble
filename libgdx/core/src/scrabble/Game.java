@@ -1,6 +1,9 @@
 package scrabble;
 
 import data.*;
+import data.Move.AIMove;
+import data.Move.HumanMove;
+import data.Move.Move;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
@@ -117,6 +120,7 @@ public class Game implements Serializable{
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
+        aiTest();
     }
     /**
      * Gets next Player and sets it to the current Player. Creates a new Move.
@@ -153,8 +157,7 @@ public class Game implements Serializable{
             timer = new Timer();
         } else if (timer.getTimeLeft() > 0) {
             if (currentMove instanceof HumanMove) {
-                Result lastResult = ((HumanMove) currentMove).getResult();
-                if (currentMove.getPlayedTiles().size() > 0 && lastResult.isCompleteWord()) {
+                if (currentMove.getPlayedTiles().size() > 0 && ((HumanMove) currentMove).getResult().isCompleteWord()) {
                     if (validator.testConnectedWords(currentMove)) {
                         Board.getInstance().resetPartial();
                         currentMove.endMove();
@@ -165,7 +168,11 @@ public class Game implements Serializable{
                         JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    Board.getInstance().resetPartial();
+                    currentMove.endMove();
+                    currentMove = null;
+                    currentPlayer = null;
+                    timer = new Timer();
                 }
             } else if (currentMove.getPlayedTiles().isEmpty() && timer.getTimeLeft() > 0) {
                 Board.getInstance().resetPartial();
@@ -179,6 +186,7 @@ public class Game implements Serializable{
             currentMove.invalidateMove();
             currentMove = null;
             currentPlayer = null;
+            timer = new Timer();
         }
         System.out.println(timer.getTime());
     }
@@ -245,11 +253,12 @@ public class Game implements Serializable{
         //Board.getInstance().place(new Tile('l', 1), new Coordinate(4,7));
         //Board.getInstance().place(new Tile('o', 1), new Coordinate(5,7));
         //Board.getInstance().place(new Tile('c', 1), new Coordinate(6,7));
-        /*
+
         Board.getInstance().place(new Tile('k', 5), new Coordinate(7,7));
         Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
         Board.getInstance().place(new Tile('y', 4), new Coordinate(7,9));
 
+        /*
         Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
         Board.getInstance().place(new Tile('x', 8), new Coordinate(7,9));
 
