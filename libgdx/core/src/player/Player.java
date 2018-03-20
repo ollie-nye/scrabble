@@ -126,6 +126,7 @@ public abstract class Player implements Serializable {
      */
     public Tile[] getTiles() {
         //test
+        /*
         Tile[] test = new Tile[] {
                 new Tile('i', 1),
                 new Tile('t', 1),
@@ -137,9 +138,10 @@ public abstract class Player implements Serializable {
         };
 
        return test;
+       */
 
 
-       // return letterList;
+       return letterList;
     }
 
     public void finishedAllTurns() {
