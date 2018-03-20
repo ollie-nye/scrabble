@@ -9,7 +9,6 @@ import player.HumanPlayer;
 import player.Player;
 import validation.NewValidator;
 import javax.swing.JOptionPane;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,13 +93,13 @@ public class Game implements Serializable{
         return PLAYER_LIST.size();
     }
 
-    
+
     public static Set<Coordinate> getShuffles() {
-       return SHUFFLE_TILES.keySet();
+        return SHUFFLE_TILES.keySet();
     }
     public static Tile getShuffle(Coordinate c) {
         return SHUFFLE_TILES.get(c);
-     }
+    }
     public static int getNumberOfShuffles() {
         return SHUFFLE_TILES.size();
     }
@@ -115,7 +114,7 @@ public class Game implements Serializable{
     public static Tile lastShuffled() {
         return lastTile;
     }
-    
+
 
     /* GAME FUNCTIONS */
     /**
@@ -132,7 +131,7 @@ public class Game implements Serializable{
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
     public static void startTurn() {
-    	
+
         new Thread(timer).start();
         currentPlayer = PLAYER_ORDER.poll();
         PLAYER_ORDER.add(currentPlayer);
@@ -154,7 +153,7 @@ public class Game implements Serializable{
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
-    	SHUFFLE_TILES.clear();
+        SHUFFLE_TILES.clear();
         if(currentMove instanceof AIMove) {
             Board.getInstance().resetPartial();
             currentMove.endMove();
@@ -163,22 +162,22 @@ public class Game implements Serializable{
             timer = new Timer();
         } else if (timer.getTimeLeft() > 0) {
             if (currentMove instanceof HumanMove) {
-                if (currentMove.getPlayedTiles().size() > 0 && ((HumanMove) currentMove).getResult().isCompleteWord()) {
-                    if (validator.testConnectedWords(currentMove)) {
-                        Board.getInstance().resetPartial();
-                        currentMove.endMove();
-                        currentMove = null;
-                        currentPlayer = null;
-                        timer = new Timer();
+
+                if (currentMove.getPlayedTiles().size() > 0) {
+                    Result lastResult = ((HumanMove) currentMove).getResult();
+                    if (lastResult.isCompleteWord()) {
+                        if (validator.testConnectedWords(currentMove)) {
+                            Board.getInstance().resetPartial();
+                            currentMove.endMove();
+                            currentMove = null;
+                            currentPlayer = null;
+                            timer = new Timer();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Words must be connected!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "This is not a valid word!", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }
-                } else {
-                    Board.getInstance().resetPartial();
-                    currentMove.endMove();
-                    currentMove = null;
-                    currentPlayer = null;
-                    timer = new Timer();
                 }
             } else if (currentMove.getPlayedTiles().isEmpty() && timer.getTimeLeft() > 0) {
                 Board.getInstance().resetPartial();
@@ -234,26 +233,26 @@ public class Game implements Serializable{
         return timer;
     }
     public static ArrayList<Move> getMoveList() {
-    	return MOVE_LIST;
-    }      
+        return MOVE_LIST;
+    }
     public static ArrayBlockingQueue<Player> getPlayersOrder(){
-    	return PLAYER_ORDER;
+        return PLAYER_ORDER;
     }
     public static void setCurrentPlayer(Player player){
-    	currentPlayer = player;
+        currentPlayer = player;
     }
     public static void addPlayerCheatForSaves(Player player){
-    	PLAYER_LIST.add(player);
+        PLAYER_LIST.add(player);
     }
     public static void addPlayerOrderCheatForSaves(Player player){
-    	PLAYER_ORDER.add(player);        
-    } 
+        PLAYER_ORDER.add(player);
+    }
     public static void addMove(Move move){
-    	MOVE_LIST.add(move);
+        MOVE_LIST.add(move);
     }
 
 
-	
+
 
     //TEST
     private static void aiTest() {
