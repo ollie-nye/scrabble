@@ -125,23 +125,6 @@ public abstract class Player implements Serializable {
      * @return
      */
     public Tile[] getTiles() {
-        //test
-
-        /*
-        Tile[] test = new Tile[] {
-                new Tile('i', 1),
-                new Tile('t', 1),
-                new Tile('h', 4),
-                new Tile('l', 1),
-                new Tile('l', 1),
-                new Tile('o', 1),
-                new Tile('e', 1),
-        };
-
-       return test;
-*/
-
-
        return letterList;
     }
 
@@ -155,7 +138,6 @@ public abstract class Player implements Serializable {
 
 
         if (direction == 'V') {
-
 
             // prefix
             if (coordinate.getY() > 0) {
@@ -185,10 +167,6 @@ public abstract class Player implements Serializable {
         }
 
         if (direction == 'H') {
-
-            if(word.equals("eolith") && coordinate.getX() == 3 && coordinate.getY() == 7) {
-                System.out.println("lol");
-            }
 
             // prefix
             if (coordinate.getX() > 0) {

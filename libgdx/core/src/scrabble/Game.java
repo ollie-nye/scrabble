@@ -8,8 +8,9 @@ import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 import validation.NewValidator;
+
 import javax.swing.JOptionPane;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Tom Geraghty
  * @version 1.0
  */
-public class Game implements Serializable{
+public class Game implements Serializable {
 
     private static final LetterBag LETTER_BAG = new LetterBag();
     private static final int MAX_PLAYERS = 4;
@@ -39,6 +40,7 @@ public class Game implements Serializable{
 
 
     /* PLAYER FUNCTIONS */
+
     /**
      * Add Players to the Game, using the Player name and Player type.
      *
@@ -62,6 +64,7 @@ public class Game implements Serializable{
             PLAYER_ORDER.add(player);
         }
     }
+
     /**
      * Removes Player from game.
      *
@@ -71,23 +74,29 @@ public class Game implements Serializable{
         PLAYER_LIST.remove(player);
         PLAYER_ORDER.remove(player);
     }
+
     /**
      * Gets the current Player (Player making move currently) in this game.
-     * @return  player      Player making current Move.
+     *
+     * @return player      Player making current Move.
      */
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
+
     /**
      * Returns all Players in Game.
-     * @return  players     All current Players
+     *
+     * @return players     All current Players
      */
     public static ArrayList<Player> getPlayers() {
         return PLAYER_LIST;
     }
+
     /**
      * Returns the amount of Players in the Game.
-     * @return  amount      Number of players in Game.
+     *
+     * @return amount      Number of players in Game.
      */
     public static int getNumberOfPlayers() {
         return PLAYER_LIST.size();
@@ -97,26 +106,32 @@ public class Game implements Serializable{
     public static Set<Coordinate> getShuffles() {
         return SHUFFLE_TILES.keySet();
     }
+
     public static Tile getShuffle(Coordinate c) {
         return SHUFFLE_TILES.get(c);
     }
+
     public static int getNumberOfShuffles() {
         return SHUFFLE_TILES.size();
     }
+
     public static void addShuffles(Coordinate c, Tile e) {
         SHUFFLE_TILES.put(c, e);
         lastTile = e;
     }
+
     public static void resetShuffles() {
         SHUFFLE_TILES.clear();
         lastTile = null;
     }
+
     public static Tile lastShuffled() {
         return lastTile;
     }
 
 
     /* GAME FUNCTIONS */
+
     /**
      * Starts game. Adds Tiles to all Players hands. Calls startTurn
      */
@@ -127,6 +142,7 @@ public class Game implements Serializable{
         }
         //aiTest();
     }
+
     /**
      * Gets next Player and sets it to the current Player. Creates a new Move.
      */
@@ -145,16 +161,17 @@ public class Game implements Serializable{
         MOVE_LIST.add(currentMove);
         timer.startTimer();
 
-        if(currentPlayer instanceof AIPlayer) {
+        if (currentPlayer instanceof AIPlayer) {
             currentPlayer.play();
         }
     }
+
     /**
      * Ends current turn, increments Player score by the score of the Move.
      */
     public static void endTurn() {
         SHUFFLE_TILES.clear();
-        if(currentMove instanceof AIMove) {
+        if (currentMove instanceof AIMove) {
             Board.getInstance().resetPartial();
             currentMove.endMove();
             currentMove = null;
@@ -216,7 +233,8 @@ public class Game implements Serializable{
 
     /**
      * Returns the in progress Move.
-     * @return  move    In progress Move.
+     *
+     * @return move    In progress Move.
      */
     public static Move getCurrentMove() {
         return currentMove;
@@ -228,63 +246,113 @@ public class Game implements Serializable{
 
 
     /* GAME PIECES */
+
     /**
      * Returns this Game's LetterBag.
-     * @return  letterbag       This Game's LetterBag.
+     *
+     * @return letterbag       This Game's LetterBag.
      */
     public static LetterBag getLetterBag() {
         return LETTER_BAG;
     }
+
     public static Timer getTimer() {
         return timer;
     }
+
     public static ArrayList<Move> getMoveList() {
         return MOVE_LIST;
     }
-    public static ArrayBlockingQueue<Player> getPlayersOrder(){
+
+    public static ArrayBlockingQueue<Player> getPlayersOrder() {
         return PLAYER_ORDER;
     }
-    public static void setCurrentPlayer(Player player){
+
+    public static void setCurrentPlayer(Player player) {
         currentPlayer = player;
     }
-    public static void addPlayerCheatForSaves(Player player){
+
+    public static void addPlayerCheatForSaves(Player player) {
         PLAYER_LIST.add(player);
     }
-    public static void addPlayerOrderCheatForSaves(Player player){
+
+    public static void addPlayerOrderCheatForSaves(Player player) {
         PLAYER_ORDER.add(player);
     }
-    public static void addMove(Move move){
+
+    public static void addMove(Move move) {
         MOVE_LIST.add(move);
     }
 
+    public static void save() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(new File("save.ser"));
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
+            out.writeObject(PLAYER_LIST);
+            out.writeObject(PLAYER_ORDER);
+            out.writeObject(currentPlayer);
+            out.writeObject(Board.getInstance().returnBoard());
+            out.writeObject(LETTER_BAG);
+            out.writeObject(MOVE_LIST);
 
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in save.ser");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 
-    //TEST
-    private static void aiTest() {
-        //Board.getInstance().place(new Tile('l', 1), new Coordinate(4,7));
-        //Board.getInstance().place(new Tile('o', 1), new Coordinate(5,7));
-        //Board.getInstance().place(new Tile('c', 1), new Coordinate(6,7));
+    public static void load() {
+        ArrayList<Player> players = null;
+        ArrayBlockingQueue<Player> playersOrder = null;
+        Player currentPlayerSaved = null;
+        Tile[][] letters;
+        LetterBag letterBag = null;
+        ArrayList<Move> moveList = null;
+        Game gamsu = new Game();
 
-        Board.getInstance().place(new Tile('k', 5), new Coordinate(7,7));
-        Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
-        Board.getInstance().place(new Tile('y', 4), new Coordinate(7,9));
+        try {
+            FileInputStream fileIn = new FileInputStream("save.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
 
-        /*
-        Board.getInstance().place(new Tile('e', 1), new Coordinate(7,8));
-        Board.getInstance().place(new Tile('x', 8), new Coordinate(7,9));
+            players = (ArrayList) in.readObject();
+            playersOrder = (ArrayBlockingQueue) in.readObject();
+            currentPlayerSaved = (Player) in.readObject();
+            letters = (Tile[][]) in.readObject();
+            letterBag = (LetterBag) in.readObject();
+            moveList = (ArrayList) in.readObject();
 
-        Board.getInstance().place(new Tile('d', 2), new Coordinate(7,4));
-        Board.getInstance().place(new Tile('h', 4), new Coordinate(7,5));
-        Board.getInstance().place(new Tile('a', 1), new Coordinate(7,6));
+            in.close();
+            fileIn.close();
 
-        Board.getInstance().place(new Tile('e', 1), new Coordinate(8,4));
-        Board.getInstance().place(new Tile('l', 1), new Coordinate(9,4));
-        Board.getInstance().place(new Tile('f', 4), new Coordinate(10,4));
-        Board.getInstance().place(new Tile('t', 1), new Coordinate(11,4));
-        Board.getInstance().place(new Tile('s', 1), new Coordinate(12,4));
-        */
-        //Board.getInstance().place(new Tile('j', 1), new Coordinate(5,9));
-        //Board.getInstance().place(new Tile('a', 1), new Coordinate(6,9));
+            Board.getInstance().setBoard(letters);
+            Game.getLetterBag().setList(letterBag.getList());
+            System.out.println(letterBag.pick().getContent() + letterBag.pick().getContent()
+                    + letterBag.pick().getContent() + letterBag.pick().getContent());
+
+            PLAYER_LIST.addAll(players);
+            MOVE_LIST.addAll(moveList);
+
+            for (int i = 0; i < (players.size() - 1); i++) {
+                Player playerOrder = playersOrder.poll();
+                playersOrder.add(playerOrder);
+            }
+
+            currentPlayer = playersOrder.peek();
+
+            for (int i = 0; i < playersOrder.size(); i++) {
+                PLAYER_ORDER.add(playersOrder.poll());
+            }
+
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Employee class not found");
+            c.printStackTrace();
+            return;
+        }
     }
 }

@@ -20,6 +20,7 @@ import java.util.*;
  */
 public class AIPlayer extends Player implements Serializable {
     HashMap<Character, HashSet<String>> cache = new HashMap<>();
+    int unableToPlayCount  = 0;
 
 
     /**
@@ -75,9 +76,15 @@ public class AIPlayer extends Player implements Serializable {
             if(moveToPlay.getLeft() != null) {
                 playMove(moveToPlay.getLeft());
                 ((AIMove) Game.getCurrentMove()).setScore(moveToPlay.getRight());
+                unableToPlayCount = 0;
             } else {
-                System.out.println("shuffle please!");
-                shuffle();
+                if(unableToPlayCount < 3) {
+                    System.out.println("shuffle please!");
+                    unableToPlayCount++;
+                    shuffle();
+                } else {
+                    super.finishedAllTurns();
+                }
             }
         }
 

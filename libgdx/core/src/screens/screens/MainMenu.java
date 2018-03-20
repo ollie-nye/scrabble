@@ -200,7 +200,7 @@ public class MainMenu implements Screen {
 
 						hover.play(game.getSoundVol());
 						if (Game.getNumberOfPlayers() > 0) {
-							save();
+							Game.save();
 						}
 						Gdx.app.exit();
 
@@ -656,7 +656,7 @@ public class MainMenu implements Screen {
 			br = new BufferedReader(new FileReader("save.ser"));
 			try {
 				if (br.readLine() != null) {
-					load();
+					Game.load();
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -1015,90 +1015,5 @@ public class MainMenu implements Screen {
 		table.setPosition((1280.0f - table.getWidth()) * 0.5f, (720.0f - table.getHeight()) * 0.5f);
 
 		return table;
-	}
-
-	private void load() {
-		ArrayList<Player> players = null;
-		ArrayBlockingQueue<Player> playersOrder = null;
-		Player currentPlayer = null;
-		Tile[][] letters;
-		LetterBag letterBag = null;
-		ArrayList<Move> moveList = null;
-		Game gamsu = new Game();
-		try {
-			FileInputStream fileIn = new FileInputStream("save.ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			players = (ArrayList) in.readObject();
-			playersOrder = (ArrayBlockingQueue) in.readObject();
-			currentPlayer = (Player) in.readObject();
-			letters = (Tile[][]) in.readObject();
-			letterBag = (LetterBag) in.readObject();
-			moveList = (ArrayList) in.readObject();
-
-			// gamsu = (Game) in.readObject();
-			in.close();
-			fileIn.close();
-
-			for (int i = 0; i < players.size(); i++) {
-
-			}
-			Board.getInstance().setBoard(letters);
-			Game.getLetterBag().setList(letterBag.getList());
-			System.out.println(letterBag.pick().getContent() + letterBag.pick().getContent()
-					+ letterBag.pick().getContent() + letterBag.pick().getContent());
-			for (int i = 0; i < players.size(); i++) {
-				Game.addPlayerCheatForSaves(players.get(i));
-			}
-
-			for (int i = 0; i < moveList.size(); i++) {
-
-				Game.addMove(moveList.get(i));
-			}
-			for (int i = 0; i < (players.size() - 1); i++) {
-
-				Player playersss = playersOrder.poll();
-				playersOrder.add(playersss);
-
-			}
-			Game.setCurrentPlayer(playersOrder.peek());
-			for (int i = 0; i < players.size(); i++) {
-				Game.addPlayerOrderCheatForSaves(playersOrder.poll());
-			}
-
-		} catch (IOException i) {
-			i.printStackTrace();
-			return;
-		} catch (ClassNotFoundException c) {
-			System.out.println("Employee class not found");
-			c.printStackTrace();
-			return;
-		}
-		
-	}
-
-	private void save() {
-		try {
-			// Game gamsu = new Game();
-
-			FileOutputStream fileOut =
-
-					new FileOutputStream(new File("save.ser"));
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
-			out.writeObject(Game.getPlayers());
-			out.writeObject(Game.getPlayersOrder());
-		out.writeObject(Game.getCurrentPlayer());
-			out.writeObject(Board.getInstance().returnBoard());
-			out.writeObject(Game.getLetterBag());
-			out.writeObject(Game.getMoveList());
-
-			// out.writeObject(gamsu);
-			out.close();
-			fileOut.close();
-			System.out.printf("Serialized data is saved in save.ser");
-		} catch (IOException i) {
-			i.printStackTrace();
-		}
-
 	}
 }
