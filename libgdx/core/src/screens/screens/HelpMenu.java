@@ -32,6 +32,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import assetmanager.assetManager;
 import screens.ScrabbleLauncher;
 
+/**
+ * @author Asid Khan, Mo Gulaid
+ * @version 1.1
+ */
+
 public class HelpMenu implements Screen {
 
 	private ScrabbleLauncher game;
