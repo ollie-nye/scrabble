@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -51,12 +53,12 @@ public class GameScreen implements Screen {
 	private Texture BoardBackground;
 	private SpriteBatch BoardBatch;
 	private TextButtonStyle textButtonStyle, textButtonStyle2, textButtonStyle3, tempButtonStyle, plainButtonStyle,
-			shuffleButtonStyle, shuffleAcceptButtonStyle, shuffleCancelButtonStyle,scrabbleyButtonStyle;
-	private LabelStyle labelStyle;
+			shuffleButtonStyle, shuffleAcceptButtonStyle, shuffleCancelButtonStyle, scrabbleyButtonStyle;
+	private LabelStyle confirmLabelStyle, noLabelStyle;
 	private BitmapFont font;
-	private Skin skin;
+	private Skin skin, altSkin;
 	private Skin tempSkin;
-	private TextureAtlas buttonAtlas;
+	private TextureAtlas buttonAtlas, menuAtlas;
 	private ScrabbleButtonStyle scrabbleButtonStyle;
 	private TextButton startTurn, endTurn, shuffleButton, shuffleCancelButton, shuffleAcceptButton, endGame, testButton;
 	private Sound[] tilePress1, tilePress2;
@@ -80,13 +82,16 @@ public class GameScreen implements Screen {
 	private boolean isUsed[][];
 	private int otherStore;
 	private int shuffleCounter;
-
+private ButtonStyle cancelButtonStyle;
 	private HashMap<Player, ScrabbleButton[]> playerScrabbleButtons;
 	private ArrayList<Tile> tilesToShuffle;
 
 	public GameScreen(ScrabbleLauncher game, Queue<String> players) {
 		this.game = game;
 		hover = game.getAssetManager().manager.get(assetManager.mainClick);
+		altSkin = new Skin();
+		menuAtlas = game.getAssetManager().manager.get(assetManager.mainMenuButtonPack);
+		altSkin.addRegions(menuAtlas);
 		BoardBackground = game.getAssetManager().manager.get(assetManager.boardBackground);
 		BoardBatch = new SpriteBatch();
 		random = new Random();
@@ -95,6 +100,7 @@ public class GameScreen implements Screen {
 		buttonAtlas = game.getAssetManager().manager.get(assetManager.texturesTemp);
 		tempSkin.addRegions(buttonAtlas);
 		this.create(players);
+
 	}
 
 	public void create(Queue<String> players) {
@@ -230,7 +236,7 @@ public class GameScreen implements Screen {
 
 		endTurn.addListener(new ClickListener() {
 
-			@Override
+	@Override
 			public void clicked(InputEvent event, float x, float y) {
 
 				Game.endTurn();
@@ -322,14 +328,15 @@ public class GameScreen implements Screen {
 		endGame.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				endPlayerTurn.setVisible(true);
+				if (Game.getCurrentPlayer() != null && tilesPlayed()){
+					endPlayerTurn.setVisible(true);
+				}
 
 			};
 		});
 		endGame.setVisible(false);
 		stage.addActor(endGame);
-		endPlayerTurn = playerFinishedConfirmationBox(plainButtonStyle, labelStyle, tempSkin.getDrawable("purple"),
-				"Are you sure you have can't play another move?");
+		endPlayerTurn = playerFinishedConfirmationBox("Are you sure you have can't play another move?\n(Cannot be undone)");
 
 		stage.addActor(endPlayerTurn);
 		endPlayerTurn.setVisible(false);
@@ -393,7 +400,7 @@ public class GameScreen implements Screen {
 		} else {
 			endLabel.setVisible(false);
 		}
-		if (Game.getNumberOfShuffles() != shuffleCounter && Board.getInstance().isShuffle()){
+		if (Game.getNumberOfShuffles() != shuffleCounter && Board.getInstance().isShuffle()) {
 			shuffleTable.add(new TextButton(Game.lastShuffled().getContent(), scrabbleyButtonStyle)).pad(10.0f);
 			shuffleCounter = Game.getNumberOfShuffles();
 			shuffleTable.row();
@@ -487,7 +494,7 @@ public class GameScreen implements Screen {
 		scrabbleyButtonStyle = new TextButtonStyle();
 		scrabbleyButtonStyle.up = skin.getDrawable("orangeButton");
 		scrabbleyButtonStyle.font = font;
-		
+
 		shuffleAcceptButtonStyle = new TextButtonStyle();
 		shuffleAcceptButtonStyle.up = skin.getDrawable("confirm");
 		shuffleAcceptButtonStyle.over = skin.getDrawable("confirmPressed");
@@ -526,9 +533,18 @@ public class GameScreen implements Screen {
 		tempButtonStyle.over = tempSkin.getDrawable("purple");
 		tempButtonStyle.font = font;
 
-		labelStyle = new LabelStyle();
-		labelStyle.font = font;
-		labelStyle.background = tempSkin.getDrawable("purple");
+		confirmLabelStyle = new LabelStyle();
+		confirmLabelStyle.font = font;
+		confirmLabelStyle.background = tempSkin.getDrawable("purple");
+
+		noLabelStyle = new LabelStyle();
+		noLabelStyle.font = font;
+		
+		/*
+		cancelButtonStyle = new ButtonStyle();
+		cancelButtonStyle.up = altSkin.getDrawable("exButton");
+		cancelButtonStyle.over = altSkin.getDrawable("exButtonPressed");
+*/	
 	}
 
 	private void setupPlayerLetters(int player, boolean vertical) {
@@ -614,7 +630,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		endLabel = new Table();
-		Label endGameLabel = new Label("Game has finished", labelStyle);
+		Label endGameLabel = new Label("Game has finished", noLabelStyle);
 		endGameLabel.setAlignment(Align.center);
 		TextButton resultsScreen = new TextButton("View Results", plainButtonStyle);
 		resultsScreen.addListener(new ClickListener() {
@@ -630,7 +646,7 @@ public class GameScreen implements Screen {
 		endLabel.add(resultsScreen).height(70.0f);
 		endLabel.pack();
 		endLabel.setPosition((1280.0f - endLabel.getWidth()) * 0.5f, (720.0f - endLabel.getHeight()) * 0.5f);
-		endLabel.setBackground(tempSkin.getDrawable("lightblue"));
+		endLabel.setBackground(altSkin.getDrawable("creationBox"));
 		stage.addActor(endLabel);
 	}
 
@@ -659,20 +675,19 @@ public class GameScreen implements Screen {
 		return table;
 	}
 
-	public Table playerFinishedConfirmationBox(TextButtonStyle tempStyle, LabelStyle labelStyle, Drawable drawable,
-			String labelText) {
+	public Table playerFinishedConfirmationBox(String labelText) {
 
 		Table table = new Table();
 		table.setWidth(360.0f);
 
-		Label label = new Label(labelText, labelStyle);
+		Label label = new Label(labelText, noLabelStyle);
 		label.setWrap(true);
 		label.setAlignment(Align.center);
 		if (this.playersEnded == 0) {
 			label.setText("Are you sure you want to end your turn and finish the game?");
 		}
 
-		TextButton yes = new TextButton("yes", tempStyle);
+		TextButton yes = new TextButton("yes", plainButtonStyle);
 		yes.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -690,7 +705,7 @@ public class GameScreen implements Screen {
 
 			};
 		});
-		TextButton no = new TextButton("no", tempStyle);
+		TextButton no = new TextButton("no", plainButtonStyle);
 		no.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -699,32 +714,46 @@ public class GameScreen implements Screen {
 			};
 		});
 
-		table.add(label).pad(10.0f).colspan(2).fill().width(280.0f);
+		table.add(label).pad(10.0f).colspan(2).fill().expand();
 		table.row();
 		table.add(yes).pad(10.0f).size(130.0f, 40.0f);
 		table.add(no).pad(10.0f).size(130.0f, 40.0f);
 
-		table.setBackground(drawable);
+		table.setBackground(altSkin.getDrawable("creationBox"));
+		table.setWidth(200.0f);
 		table.pack();
-		table.setHeight(table.getHeight() - 60.0f);
+
 		table.setPosition((1280.0f - table.getWidth()) * 0.5f, (720.0f - table.getHeight()) * 0.5f);
 
 		return table;
-		
-		
+
 	}
-	
-	public boolean tilesPlayed(){
-		for (Tile tile: Game.getCurrentMove().getPlayedTiles().keySet()){
-			for (int i = 0; i < 15; i++){
-				for (int j = 0; j < 15; j++){
-					if (tile == Board.getInstance().getLetters()[i][j]){
+
+	public boolean tilesPlayed() {
+		for (Tile tile : Game.getCurrentMove().getPlayedTiles().keySet()) {
+			for (int i = 0; i < 15; i++) {
+				for (int j = 0; j < 15; j++) {
+					if (tile == Board.getInstance().getLetters()[i][j]) {
 						return false;
 					}
 				}
 			}
 		}
 		return true;
+	}
+/*
+	public void Table(Table table, String text){
+		Table myTable = table;
+		myTable = new Table();
+		Label label = new Label(text, noLabelStyle);
+	
+		Button cancel = new Button(cancelButtonStyle);
+		cancel.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				myTable.setVisible(false);
+			};
+		});
 	}
 	
 	/*
