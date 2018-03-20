@@ -100,7 +100,7 @@ public class Game implements Serializable{
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
-        aiTest();
+        //aiTest();
     }
     /**
      * Gets next Player and sets it to the current Player. Creates a new Move.
