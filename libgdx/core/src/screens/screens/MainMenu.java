@@ -227,19 +227,7 @@ public class MainMenu implements Screen {
 		});
 		stage.addActor(website);
 
-		skipToEndScreen = new TextButton("SKIP", websiteButtonStyle);
-		skipToEndScreen.setPosition(90f, 0f);
-		skipToEndScreen.setSize(90.0f, 90.0f);
-		skipToEndScreen.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-
-				hover.play(game.getSoundVol());
-				game.setScreen(new ResultsScreen(game));
-
-			}
-		});
-		stage.addActor(skipToEndScreen);
+		
 
 		/*
 		 * creating the menu that comes up after clicking play
@@ -343,7 +331,7 @@ public class MainMenu implements Screen {
 		// creating the main table
 		playOptions = new Table();
 		float gameStartY = 350;
-		playOptions.setPosition(640.0f - (gameStartY * (5.0f / 7.0f)), 360.0f - 300.0f);
+		playOptions.setPosition(590.0f - (gameStartY * (5.0f / 7.0f)), 360.0f - 300.0f);
 
 		playOptions.setSize(gameStartY * (12.0f / 7.0f), gameStartY);
 
@@ -627,7 +615,7 @@ public class MainMenu implements Screen {
 		stage.addActor(playOptions);
 
 		exitMenu = new TextButton("", exitMenuStyle);
-		exitMenu.setPosition(437.0f, 317.0f);
+		exitMenu.setPosition(407.0f, 317.0f);
 
 		exitMenu.addListener(new ClickListener() {
 			@Override
