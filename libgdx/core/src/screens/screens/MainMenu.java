@@ -556,13 +556,13 @@ public class MainMenu implements Screen {
 				if (playerCounter > 1) {
 					setPlayerArray();
 					for (int i = 0; i < playerNumber; i++) {
-						Game.addPlayer(playerNameEntry[i].getText(), 1);
+						Game.addPlayer(playerNameEntry[i].getText());
 						counter += 1;
 					}
 					for (int i = 0; i < aiNumber; i++) {
 
 						getPlayerDifficulty(counter);//return Normal if normal and Hard if hard
-						Game.addPlayer(playerNameEntry[counter].getText(), 2);
+						Game.addPlayer(playerNameEntry[counter].getText(), getPlayerDifficulty(counter));
 						counter += 1;
 					}
 					Game.start();
@@ -1004,13 +1004,13 @@ public class MainMenu implements Screen {
 		return table;
 	}
 
-	private String getPlayerDifficulty(int player) {
+	private int getPlayerDifficulty(int player) {
 		if (playerText[player].contains("Normal")) {			
-			return "Normal";
+			return 1;
 		} else if (playerText[player].contains("Hard")) {
-			return "Hard";			
+			return 2;
 		} else {
-			return null;
+			return 1;
 		}
 	}
 }

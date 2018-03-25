@@ -47,23 +47,23 @@ public class Game implements Serializable {
      * @param playerName Player chosen name
      * @param playerType Player type (1 - Human, 2 - CPU)
      */
-    public static void addPlayer(String playerName, int playerType) {
+    public static void addPlayer(String playerName) {
         if (PLAYER_LIST.size() < MAX_PLAYERS) {
-            Player player;
-            switch (playerType) {
-                case 1:
-                default:
-                    player = new HumanPlayer(playerName);
-                    PLAYER_LIST.add(player);
-                    break;
-                case 2:
-                    player = new AIPlayer(playerName);
-                    PLAYER_LIST.add(player);
-                    break;
-            }
+            Player player = new HumanPlayer(playerName);
+            PLAYER_LIST.add(player);
             PLAYER_ORDER.add(player);
         }
     }
+
+    public static void addPlayer(String playerName, int difficulty) {
+        if (PLAYER_LIST.size() < MAX_PLAYERS) {
+            Player player = new AIPlayer(playerName);
+            ((AIPlayer) player).setDifficulty(difficulty);
+            PLAYER_LIST.add(player);
+            PLAYER_ORDER.add(player);
+        }
+    }
+
 
     /**
      * Removes Player from game.
@@ -140,7 +140,6 @@ public class Game implements Serializable {
         for (Player player : PLAYER_LIST) {
             player.addTiles();
         }
-        //aiTest();
     }
 
     /**
