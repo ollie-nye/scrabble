@@ -68,28 +68,28 @@ public class LetterBag implements Serializable{
 			tileList.add(new Tile('h', Score.getLetterScore('h')));
 		}
 		for(int i = 0; i < 9; i++) {
-			tileList.add(new Tile('h', Score.getLetterScore('i')));
+			tileList.add(new Tile('i', Score.getLetterScore('i')));
 		}
 		for(int i = 0; i < 1; i++) {
-			tileList.add(new Tile('i', Score.getLetterScore('j')));
+			tileList.add(new Tile('j', Score.getLetterScore('j')));
 		}
 		for(int i = 0; i < 1; i++) {
-			tileList.add(new Tile('j', Score.getLetterScore('k')));
+			tileList.add(new Tile('k', Score.getLetterScore('k')));
 		}
 		for(int i = 0; i < 4; i++) {
-			tileList.add(new Tile('k', Score.getLetterScore('l')));
+			tileList.add(new Tile('l', Score.getLetterScore('l')));
 		}
 		for(int i = 0; i < 2; i++) {
-			tileList.add(new Tile('l', Score.getLetterScore('m')));
+			tileList.add(new Tile('m', Score.getLetterScore('m')));
 		}
 		for(int i = 0; i < 6; i++) {
-			tileList.add(new Tile('m', Score.getLetterScore('n')));
+			tileList.add(new Tile('n', Score.getLetterScore('n')));
 		}
 		for(int i = 0; i < 8; i++) {
-			tileList.add(new Tile('n', Score.getLetterScore('o')));
+			tileList.add(new Tile('o', Score.getLetterScore('o')));
 		}
 		for(int i = 0; i < 2; i++) {
-			tileList.add(new Tile('o', Score.getLetterScore('p')));
+			tileList.add(new Tile('p', Score.getLetterScore('p')));
 		}
 		for(int i = 0; i < 1; i++) {
 			tileList.add(new Tile('q', Score.getLetterScore('q')));
