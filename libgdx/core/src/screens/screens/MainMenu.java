@@ -215,8 +215,6 @@ public class MainMenu implements Screen {
 		});
 		stage.addActor(website);
 
-		
-
 		/*
 		 * creating the menu that comes up after clicking play
 		 */
@@ -289,8 +287,7 @@ public class MainMenu implements Screen {
 		rightArrowStyle.up = skin.getDrawable("rightArrow");
 		rightArrowStyle.over = skin.getDrawable("rightArrowPressed");
 		rightArrowStyle.font = font;
-		
-	
+
 		TextButtonStyle altButtonStyle = new TextButtonStyle();
 		altButtonStyle.up = tempSkin.getDrawable("lightblue");
 		altButtonStyle.over = tempSkin.getDrawable("blue");
@@ -555,13 +552,18 @@ public class MainMenu implements Screen {
 		start.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				int counter = 0;
 				if (playerCounter > 1) {
 					setPlayerArray();
 					for (int i = 0; i < playerNumber; i++) {
 						Game.addPlayer(playerNameEntry[i].getText(), 1);
+						counter += 1;
 					}
 					for (int i = 0; i < aiNumber; i++) {
-						Game.addPlayer(playerNameEntry[i].getText(), 2);
+
+						getPlayerDifficulty(counter);//return Normal if normal and Hard if hard
+						Game.addPlayer(playerNameEntry[counter].getText(), 2);
+						counter += 1;
 					}
 					Game.start();
 
@@ -960,7 +962,7 @@ public class MainMenu implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 
 				game.setScreen(new GameScreen(game, null));
-                Game.getTimer().startTimer();
+				Game.getTimer().startTimer();
 				noCurrentGame.setVisible(false);
 
 			};
@@ -1000,5 +1002,15 @@ public class MainMenu implements Screen {
 		table.setPosition((1280.0f - table.getWidth()) * 0.5f, (720.0f - table.getHeight()) * 0.5f);
 
 		return table;
+	}
+
+	private String getPlayerDifficulty(int player) {
+		if (playerText[player].contains("Normal")) {			
+			return "Normal";
+		} else if (playerText[player].contains("Hard")) {
+			return "Hard";			
+		} else {
+			return null;
+		}
 	}
 }
