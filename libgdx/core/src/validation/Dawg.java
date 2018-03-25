@@ -49,39 +49,46 @@ public class Dawg { // Directed Acyclic Word Graph
 	/**
 	 * Current percentage state of the loader (0-100)
 	 */
-	private int state = 0;
+	private static int state = 0;
 	
 	/**
 	 * Lines / 100, multiplied to set state each iteration
 	 */
 	private long divisor = 0;
+	private boolean dawgGenerated = false;
 	
 	/**
 	 * Creates a new dictionary from the given file path
 	 */
 	public Dawg() {
-		try {
-			File file = new File(filePath); 			// Create a reference to the dictionary file
-			Scanner wordScanner = new Scanner(file); 	// Scanner to iterate over the file
-			while (wordScanner.hasNext()) { 			// Standard file reader loop
-				fileLength++; 							// Increment line counter
-				wordScanner.next();
-			}
-			wordScanner.close();						// Destroy the scanner
-			wordScanner = new Scanner(file);			// Recreate the scanner for a second iteration over the file
-			divisor = fileLength / 100;					// Set divisor
-			while (wordScanner.hasNext()) {
-				String nextWord = wordScanner.next();
-				getChild(parent, nextWord);				// Add word to graph, following existing path if it exists
-				incrementProgress();					// Output percentage progress
-			}
-			wordScanner.close();
-		}
-		catch (FileNotFoundException fnfex) {
-			System.exit(1);
-		}
-		
+	    if(!dawgGenerated) {
+	        generateDawg();
+        }
 	}
+
+	public void generateDawg() {
+        try {
+            File file = new File(filePath); 			// Create a reference to the dictionary file
+            Scanner wordScanner = new Scanner(file); 	// Scanner to iterate over the file
+            while (wordScanner.hasNext()) { 			// Standard file reader loop
+                fileLength++; 							// Increment line counter
+                wordScanner.next();
+            }
+            wordScanner.close();						// Destroy the scanner
+            wordScanner = new Scanner(file);			// Recreate the scanner for a second iteration over the file
+            divisor = fileLength / 100;					// Set divisor
+            while (wordScanner.hasNext()) {
+                String nextWord = wordScanner.next();
+                getChild(parent, nextWord);				// Add word to graph, following existing path if it exists
+                incrementProgress();					// Output percentage progress
+            }
+            wordScanner.close();
+            dawgGenerated = true;
+        }
+        catch (FileNotFoundException fnfex) {
+            System.exit(1);
+        }
+    }
 	
 	/**
 	 * Method to keep track of the state of the loading section of the program
@@ -90,9 +97,13 @@ public class Dawg { // Directed Acyclic Word Graph
 		this.count++;
 		if (this.count >= ((this.state + 1) * this.divisor)) {
 			this.state++;
-			//System.out.println(this.state + "%");
+			System.out.println(this.state + "%");
 		}
 	}
+
+	public static int getLoadProgress() {
+	    return state;
+    }
 	
 	/**
 	 * Adds a word to the dictionary through a recursive function
@@ -120,21 +131,6 @@ public class Dawg { // Directed Acyclic Word Graph
 			if (remainingWord.length() > 1) { // Final check for final word, continue down the tree if required
 				getChild(newVertex, remainingWord.substring(1));
 			}
-		}
-	}
-	
-	/**
-	 * Main function containing a simple console for testing
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Dawg dawg = new Dawg();
-
-		Scanner in = new Scanner(System.in);
-		
-		while (true) {
-			String input = in.nextLine().trim();
-			long startTime = System.currentTimeMillis();
 		}
 	}
 	

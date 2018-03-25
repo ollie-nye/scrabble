@@ -1,9 +1,9 @@
 package scrabble;
 
 import data.*;
-import data.Move.AIMove;
-import data.Move.HumanMove;
-import data.Move.Move;
+import data.move.AIMove;
+import data.move.HumanMove;
+import data.move.Move;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
@@ -18,10 +18,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Game object contains information related to current game session. Created
- * whenever a new game is started.
+ * whenever a new game is started. Can be loaded and saved.
  *
- * @author Tom Geraghty
- * @version 1.0
+ * @author Tom Geraghty, Ben Miller
+ * @version 1.1
  */
 public class Game implements Serializable {
 
@@ -30,13 +30,13 @@ public class Game implements Serializable {
     private static final ArrayBlockingQueue<Player> PLAYER_ORDER = new ArrayBlockingQueue<>(MAX_PLAYERS);
     private static final ArrayList<Player> PLAYER_LIST = new ArrayList<>();
     private static final ArrayList<Move> MOVE_LIST = new ArrayList<>();
+    private static final HashMap<Coordinate, Tile> SHUFFLE_TILES = new HashMap<>();
     private static Timer timer = new Timer();
     private static Move currentMove;
     private static Player currentPlayer;
-    private static int turmTime = 60000;
     private static NewValidator validator = new NewValidator(Board.getInstance());
-    private static final HashMap<Coordinate, Tile> SHUFFLE_TILES = new HashMap<>();
     private static Tile lastTile;
+    private static int turmTime = 60;
 
 
     /* PLAYER FUNCTIONS */
@@ -78,7 +78,7 @@ public class Game implements Serializable {
     /**
      * Gets the current Player (Player making move currently) in this game.
      *
-     * @return player      Player making current Move.
+     * @return player      Player making current move.
      */
     public static Player getCurrentPlayer() {
         return currentPlayer;
@@ -144,7 +144,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Gets next Player and sets it to the current Player. Creates a new Move.
+     * Gets next Player and sets it to the current Player. Creates a new move.
      */
     public static void startTurn() {
 
@@ -171,7 +171,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Ends current turn, increments Player score by the score of the Move.
+     * Ends current turn, increments Player score by the score of the move.
      */
     public static void endTurn() {
         SHUFFLE_TILES.clear();
@@ -223,6 +223,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Resets Game state nack to default, resetting Board too.
+     */
     public static void reset() {
         currentPlayer = null;
         currentMove = null;
@@ -235,16 +238,20 @@ public class Game implements Serializable {
     }
 
     /**
-     * Returns the in progress Move.
+     * Returns the in progress move.
      *
-     * @return move    In progress Move.
+     * @return move    In progress move.
      */
     public static Move getCurrentMove() {
         return currentMove;
     }
 
+    /**
+     * Returns how long each turn in the game should take in milliseconds.
+     * @return
+     */
     public static int getTurmTime() {
-        return turmTime;
+        return turmTime * 1000;
     }
 
 
@@ -267,26 +274,10 @@ public class Game implements Serializable {
         return MOVE_LIST;
     }
 
-    public static ArrayBlockingQueue<Player> getPlayersOrder() {
-        return PLAYER_ORDER;
-    }
 
-    public static void setCurrentPlayer(Player player) {
-        currentPlayer = player;
-    }
-
-    public static void addPlayerCheatForSaves(Player player) {
-        PLAYER_LIST.add(player);
-    }
-
-    public static void addPlayerOrderCheatForSaves(Player player) {
-        PLAYER_ORDER.add(player);
-    }
-
-    public static void addMove(Move move) {
-        MOVE_LIST.add(move);
-    }
-
+    /**
+     * Saves the current game state to save.ser file
+     */
     public static void save() {
         try {
             FileOutputStream fileOut = new FileOutputStream(new File("save.ser"));
@@ -306,25 +297,20 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Loads a Game state from a save.ser file.
+     */
     public static void load() {
-        ArrayList<Player> players = null;
-        ArrayBlockingQueue<Player> playersOrder = null;
-        Player currentPlayerSaved = null;
-        Tile[][] letters;
-        LetterBag letterBag = null;
-        ArrayList<Move> moveList = null;
-        Game gamsu = new Game();
-
         try {
             FileInputStream fileIn = new FileInputStream("save.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
-            players = (ArrayList) in.readObject();
-            playersOrder = (ArrayBlockingQueue) in.readObject();
-            currentPlayerSaved = (Player) in.readObject();
-            letters = (Tile[][]) in.readObject();
-            letterBag = (LetterBag) in.readObject();
-            moveList = (ArrayList) in.readObject();
+            ArrayList<Player> players = (ArrayList<Player>) in.readObject();
+            ArrayBlockingQueue<Player> playersOrder = (ArrayBlockingQueue) in.readObject();
+            Player currentPlayerSaved = (Player) in.readObject();
+            Tile[][] letters = (Tile[][]) in.readObject();
+            LetterBag letterBag = (LetterBag) in.readObject();
+            ArrayList<Move> moveList = (ArrayList<Move>) in.readObject();
 
             in.close();
             fileIn.close();

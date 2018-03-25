@@ -1,16 +1,16 @@
 package player;
 
-import data.Move.AIMove;
+import data.move.AIMove;
 import data.Coordinate;
 import data.Tile;
 import data.Tuple;
-import scrabble.Board;
 import scrabble.Game;
 import scrabble.Score;
-import validation.Dictionary;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Contains methods specific to AIPlayer player type. Extends 'Player ' abstract class.
@@ -19,8 +19,9 @@ import java.util.*;
  * @version 1.1
  */
 public class AIPlayer extends Player implements Serializable {
-    HashMap<Character, HashSet<String>> cache = new HashMap<>();
-    int unableToPlayCount  = 0;
+    private HashMap<Character, HashSet<String>> cache = new HashMap<>();
+    private int difficulty = 1;
+    private int unableToPlayCount  = 0;
 
 
     /**
@@ -35,7 +36,21 @@ public class AIPlayer extends Player implements Serializable {
         setPlayerName(name);
     }
 
+    /* PLAYER RELATED */
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+    public void setPlayerName(String name) {
+        if (!(name.equals(""))) {
+            playerName = name;
+        } else {
+            playerName = "Bot " + (Game.getNumberOfPlayers() + 1);
+        }
+    }
+
+    /* PLAY RELATED */
     public void play() {
+        System.out.println("I AM :" + difficulty);
         // first play of game logic
         if (board.isEmpty()) {
             char[] characters = calculateBestWord(findPossibleWords(new Coordinate(7, 7))).toCharArray();
@@ -54,7 +69,7 @@ public class AIPlayer extends Player implements Serializable {
                 }
                 i++;
             }
-            ((AIMove) Game.getCurrentMove()).setScore( calculateMoveScore(playedLetters));
+            ((AIMove) Game.getCurrentMove()).setScore(calculateMoveScore(playedLetters));
         } else {
             // For each square in board, find the moves
             ArrayList<ArrayList<Tuple<Character, Coordinate>>> allMoves = new ArrayList<>();
@@ -67,10 +82,14 @@ public class AIPlayer extends Player implements Serializable {
                     }
                 }
             }
-            for(Tile tile : super.getTiles()) {
-            }
+            Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> moveToPlay;
 
-            Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> moveToPlay = calculateBestMove(allMoves);
+
+            if(difficulty == 1) {
+                moveToPlay = calculateStandardMove(allMoves);
+            } else {
+                moveToPlay = calculateBestMove(allMoves);
+            }
 
             if(moveToPlay.getLeft() != null) {
                 playMove(moveToPlay.getLeft());
@@ -89,7 +108,6 @@ public class AIPlayer extends Player implements Serializable {
         cache.clear();
         Game.endTurn();
     }
-
     public void shuffle() {
         for(int i = 0; i < super.getTiles().length; i++) {
             if(super.getTiles()[i] != null) {
@@ -98,7 +116,6 @@ public class AIPlayer extends Player implements Serializable {
             }
         }
     }
-
     private void playMove(ArrayList<Tuple<Character, Coordinate>> move) {
         Tuple<Character, Coordinate> placedLetter = move.get(move.size() - 1);
         move.remove(placedLetter);
@@ -112,7 +129,6 @@ public class AIPlayer extends Player implements Serializable {
             }
         }
     }
-
     private ArrayList<ArrayList<Tuple<Character, Coordinate>>> findMoves(Coordinate coordinate, HashSet<String> words) {
         char letterOnBoard = board.getTile(coordinate).getChar();
         ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves = new ArrayList<>();
@@ -153,12 +169,10 @@ public class AIPlayer extends Player implements Serializable {
         }
         return moves;
     }
-
     private ArrayList<Tuple<Character, Coordinate>> calculateVerticalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
         ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
         Coordinate tempCoordinate;
         boolean possible = true;
-
 
 
         if ((prefix.size() > 0 && board.getTile(coordinate.getNear('U')) != null) ||
@@ -237,7 +251,6 @@ public class AIPlayer extends Player implements Serializable {
         }
         return charCoordinates;
     }
-
     private ArrayList<Tuple<Character, Coordinate>> calculateHorizontalMove(String word, ArrayList<Character> prefix, ArrayList<Character> suffix, Coordinate coordinate) {
         Coordinate tempCoordinate;
         boolean possible = true;
@@ -253,7 +266,7 @@ public class AIPlayer extends Player implements Serializable {
             return null;
         }
 
-        String wordCheck = super.workCheck(word, prefix, suffix, coordinate, 'H');
+        String wordCheck = workCheck(word, prefix, suffix, coordinate, 'H');
         if(wordCheck == null) {
             return null;
         }
@@ -323,7 +336,6 @@ public class AIPlayer extends Player implements Serializable {
         }
         return charCoordinates;
     }
-
     private HashSet<String> findPossibleWords(Coordinate coordinate) {
         Tile tile = board.getTile(coordinate);
         HashSet<String> possibleWords = new HashSet<>();
@@ -379,6 +391,18 @@ public class AIPlayer extends Player implements Serializable {
         return possibleWords;
     }
 
+    /* SCORE RELATED */
+    private int calculateMoveScore(ArrayList<Tuple<Character, Coordinate>> move) {
+        int wordMultiplier = 1;
+        int score = 0;
+        for (Tuple<Character, Coordinate> letter : move) {
+            int letterScore = Score.getLetterScore(letter.getLeft());
+            int letterMultiplier = Score.getWordMultiplier(letter.getRight());
+            wordMultiplier *= Score.getWordMultiplier(letter.getRight());
+            score += letterScore * letterMultiplier;
+        }
+        return score * wordMultiplier;
+    }
     private Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> calculateBestMove(ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves) {
         ArrayList<Tuple<Character, Coordinate>> bestMove = null;
         int wordScore = 0;
@@ -394,21 +418,27 @@ public class AIPlayer extends Player implements Serializable {
 
         return bestMovePossible;
     }
+    private Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> calculateStandardMove(ArrayList<ArrayList<Tuple<Character, Coordinate>>> moves) {
+        ArrayList<Tuple<Character, Coordinate>> move;
+        Tuple<ArrayList<Tuple<Character, Coordinate>>, Integer> selectedMove;
 
 
-    private int calculateMoveScore(ArrayList<Tuple<Character, Coordinate>> move) {
-        int wordMultiplier = 1;
-        int score = 0;
-        for (Tuple<Character, Coordinate> letter : move) {
-            int letterScore = Score.getLetterScore(letter.getLeft());
-            int letterMultiplier = Score.getWordMultiplier(letter.getRight());
-            wordMultiplier *= Score.getWordMultiplier(letter.getRight());
-            score += letterScore * letterMultiplier;
+        Random random = new Random();
+        if(moves.size() > 0) {
+            move = moves.get(random.nextInt(moves.size()));
+            if(move != null) {
+                selectedMove = new Tuple(move, calculateMoveScore(move));
+            } else {
+                selectedMove = new Tuple<>(null, 0);
+            }
+        } else {
+            selectedMove = new Tuple<>(null, 0);
         }
-        return score * wordMultiplier;
+
+        return selectedMove;
     }
 
-
+    /* MISC */
     private int contains(char[] word, char letter) {
         for (int i = 0; i < word.length; i++) {
             if (letter == word[i]) {
@@ -417,7 +447,6 @@ public class AIPlayer extends Player implements Serializable {
         }
         return -1;
     }
-
     private HashSet<String> cacheCheck(Coordinate coordinate) {
         char letter = board.getTile(coordinate).getChar();
         if (!cache.containsKey(letter)) {
@@ -425,8 +454,6 @@ public class AIPlayer extends Player implements Serializable {
         }
         return cache.get(letter);
     }
-
-
 
     private int calculateScore(String word) {
         // TODO: This needs to take into account the extra multiplier stuff.
@@ -440,6 +467,7 @@ public class AIPlayer extends Player implements Serializable {
     private String calculateBestWord(HashSet<String> words) {
         String bestWord = "";
         int wordScore = 0;
+
         for (String word : words) {
             int tempScore = calculateScore(word);
             if (tempScore > wordScore) {

@@ -1,9 +1,6 @@
 package screens.screens;
 
 import assetmanager.assetManager;
-import data.Move.Move;
-import data.Tile;
-import player.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -26,23 +23,15 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import scrabble.Board;
+import player.AIPlayer;
 import scrabble.Game;
-import scrabble.LetterBag;
 import screens.ScrabbleLauncher;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.concurrent.ArrayBlockingQueue;
 
 public class MainMenu implements Screen {
 
@@ -92,15 +81,14 @@ public class MainMenu implements Screen {
 	}
 
 	private void setDifficultyArray() {
-		aiDifficulties = new String[3];
-		aiDifficulties[0] = "Easy Bot";
-		aiDifficulties[1] = "Normal Bot";
-		aiDifficulties[2] = "Hard Bot";
+		aiDifficulties = new String[2];
+		aiDifficulties[0] = "Normal Bot";
+		aiDifficulties[1] = "Hard Bot";
 		playerText = new String[4];
-		playerText[0] = "Easy Bot";
-		playerText[1] = "Easy Bot";
-		playerText[2] = "Easy Bot";
-		playerText[3] = "Easy Bot";
+		playerText[0] = "Normal Bot";
+		playerText[1] = "Normal Bot";
+		playerText[2] = "Normal Bot";
+		playerText[3] = "Normal Bot";
 
 	}
 
@@ -193,7 +181,7 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
+				stage.addAction(Actions.sequence(Actions.fadeOut(0.15f), Actions.run(new Runnable() {
 
 					@Override
 					public void run() {
@@ -573,7 +561,7 @@ public class MainMenu implements Screen {
 						Game.addPlayer(playerNameEntry[i].getText(), 1);
 					}
 					for (int i = 0; i < aiNumber; i++) {
-						Game.addPlayer("Bot " + i, 2);
+						Game.addPlayer(playerNameEntry[i].getText(), 2);
 					}
 					Game.start();
 

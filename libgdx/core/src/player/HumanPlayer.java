@@ -1,5 +1,7 @@
 package player;
 
+import scrabble.Game;
+
 /**
  * Contains methods specific to HumanPlayer player type. Extends 'Player ' abstract class.
  * @author Thomas Geraghty
@@ -17,6 +19,15 @@ public class HumanPlayer extends Player {
 	public HumanPlayer(String name) {
         super();
 		setPlayerName(name);
+    }
+
+
+    public void setPlayerName(String name) {
+        if (!(name.equals(""))) {
+            playerName = name;
+        } else {
+            playerName =  "Player " + (Game.getNumberOfPlayers() + 1);
+        }
     }
 
     public void play() {

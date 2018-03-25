@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import assetmanager.assetManager;
-import data.Move.Move;
+import data.move.Move;
 import data.Tile;
 import player.Player;
 import scrabble.Game;

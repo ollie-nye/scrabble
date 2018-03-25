@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import screens.ScrabbleLauncher;
+import validation.Dawg;
 
 /**
  * @author Asid Khan
@@ -30,6 +31,11 @@ public class LoadingScreen implements Screen {
         logoLoaded = game.getAssetManager().manager.get(assetManager.logoLoaded);
         font = game.getAssetManager().manager.get(assetManager.PlayTime);
         stage = new Stage();
+        (new Thread() {
+            public void run() {
+                Dawg dawg = new Dawg();
+            }
+        }).start();
     }
 
     @Override
@@ -42,13 +48,22 @@ public class LoadingScreen implements Screen {
         stage.getBatch().begin();
         stage.getBatch().draw(logoWhite,0,0);
         stage.getBatch().draw(logoLoaded,initalX,0);
-        if (initalX<=0){
-            initalX = (initalX + 28);
-            stage.getBatch().draw(logoLoaded, logoLoaded.getWidth() * progress   , 0);
+
+
+        if(Dawg.getLoadProgress() < 100) {
+                initalX = -1105 / (Dawg.getLoadProgress() + 1);
+                stage.getBatch().draw(logoLoaded, logoLoaded.getWidth() * progress, 0);
         } else {
             this.dispose();
             game.setScreen(new MainMenu(game));
         }
+
+        /*
+        if (initalX<=0){
+            initalX = (initalX + 35);
+            stage.getBatch().draw(logoLoaded, logoLoaded.getWidth() * progress   , 0);
+        }
+        */
         stage.getBatch().draw(logo, 0, 0);
         stage.getBatch().end();
     }

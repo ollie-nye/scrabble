@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 
 
-public class Coordinate extends Tuple<Integer, Integer> implements Serializable{
+public class Coordinate extends Tuple<Integer, Integer> implements Serializable, Comparable<Coordinate> {
 
 	public Coordinate(int x, int y) {
 		super(x, y);
@@ -41,4 +41,19 @@ public class Coordinate extends Tuple<Integer, Integer> implements Serializable{
 				return this;
 		}
 	}
+
+	@Override
+	public int compareTo(Coordinate o) {
+        if (o == null) {
+            throw new NullPointerException("A Coordinate object expected.");
+        }
+
+        if (((Coordinate) o).getX() < left || ((Coordinate) o).getY() < right) {
+            return -1;
+        } else if (((Coordinate) o).getX() > left || ((Coordinate) o).getY() > right) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

@@ -2,7 +2,7 @@ package validation;
 
 import data.Coordinate;
 import data.Letter;
-import data.Move.Move;
+import data.move.Move;
 import data.Result;
 import data.Tile;
 import scrabble.Board;
@@ -18,7 +18,7 @@ public class NewValidator implements Serializable {
 	private enum Direction { HORIZONTAL, VERTICAL }
 	private Direction direction;
 	private int location = 0;
-	private static Dawg dictionary = new Dawg();
+	private Dawg dictionary = new Dawg();
 	private Board board = null;
 	private int playedTiles = 0;
 	private Coordinate firstMove = null;
@@ -307,7 +307,7 @@ public class NewValidator implements Serializable {
 		if (words == null) { getWords(letter); }
 		int completeWords = 0;
 		for (String word : words) {
-			completeWords += NewValidator.dictionary.getCompleteWords(word);
+			completeWords += dictionary.getCompleteWords(word);
 		}
 		return (completeWords > 0);
 	}

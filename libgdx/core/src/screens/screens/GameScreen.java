@@ -584,21 +584,6 @@ private ButtonStyle cancelButtonStyle;
 	}
 
 	private void createTestButton() {
-		testButton = new TextButton("Deplete Bag", plainButtonStyle);
-		testButton.setPosition(1070.0f, 205.0f);
-		testButton.setSize(206.0f, 61.0f);
-
-		testButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				if (deplete != true) {
-					Game.getLetterBag().pickABunch();
-				}
-				deplete = true;
-			};
-		});
-		stage.addActor(testButton);
-
 		// start turn, selected to pass turns over
 		startTurn = new TextButton("", textButtonStyle3);
 		startTurn.setPosition(1070.0f, 350.0f);

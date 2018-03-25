@@ -1,4 +1,4 @@
-package data.Move;
+package data.move;
 
 import data.Coordinate;
 import data.Tile;
@@ -13,7 +13,7 @@ public class AIMove extends Move {
     }
 
     /**
-     * Add a Tile to Move (as in Tile has been played in this Move).
+     * Add a Tile to move (as in Tile has been played in this move).
      *
      * @param   tile          Tile that's been played
      * @param   coordinate    Coordinate of played Tile
@@ -25,7 +25,7 @@ public class AIMove extends Move {
     }
 
     /**
-     * Removes Tile from Move (Tile has been returned to Player hand and has not been played)
+     * Removes Tile from move (Tile has been returned to Player hand and has not been played)
      *
      * @param   tile          Tile to remove
      */
@@ -47,8 +47,5 @@ public class AIMove extends Move {
         this.playedWord = playedWord;
         player.setScore(player.getScore() + moveScore);
         player.addTiles();
-    }
-
-    public void calculateScore() {
     }
 }
