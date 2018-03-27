@@ -36,6 +36,7 @@ public class LetterBag implements Serializable{
 	public void setList(Stack<Tile> tiles){
 		tileStack = tiles;
 	}
+
 	public Stack<Tile> getList(){
 		return tileStack;
 	}
@@ -142,27 +143,11 @@ public class LetterBag implements Serializable{
 		}
 	}
 
-	public void returnToBag(ArrayList<Tile> tiles) {
-		this.tileStack.addAll(tiles);
-		shake();
-	}
-	
-	//this is only for test purposes
-	public void pickABunch(){
-		while(tileStack.size() > 3){
-			tileStack.pop();
-		}
-	}
-	
 	public boolean isEmpty(){
-		if(!tileStack.isEmpty()){
-			return false;
-		}
-		else return true;
+        return tileStack.isEmpty();
 	}
 
 	public void shuffleTile(Tile tile){
-
 		tileList.add(tile);
 		shake();
 	}
