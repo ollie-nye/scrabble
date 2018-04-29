@@ -176,21 +176,22 @@ public class AIPlayer extends Player implements Serializable {
         Coordinate tempCoordinate;
         boolean possible = true;
 
-
-        if ((prefix.size() > 0 && board.getTile(coordinate.getNear('U')) != null) ||
-                (suffix.size() > 0 && board.getTile(coordinate.getNear('D')) != null)) {
-            return null;
-        }
-
         if((prefix.size() > 0 && (coordinate.getY() - prefix.size()) >= 0 && board.getTile(new Coordinate(coordinate.getX(), coordinate.getY() - prefix.size())) != null) ||
                 (suffix.size() > 0 && (coordinate.getY() + suffix.size()) <= 14 && board.getTile(new Coordinate(coordinate.getX(), coordinate.getY() + suffix.size())) != null)) {
             return null;
         }
 
-        String wordCheck = super.workCheck(word, prefix, suffix, coordinate, 'V');
+        if (board.getTile(coordinate.getNear('U')) != null || board.getTile(coordinate.getNear('D')) != null) {
+            return null;
+        }
+
+
+        String wordCheck = workCheck(word, prefix, suffix, coordinate, 'V');
         if(wordCheck == null) {
             return null;
         }
+
+
 
         if (prefix.size() > 0) {
             // check prefix
@@ -258,21 +259,19 @@ public class AIPlayer extends Player implements Serializable {
         boolean possible = true;
         ArrayList<Tuple<Character, Coordinate>> charCoordinates = new ArrayList<>();
 
-        if ((prefix.size() > 0 && coordinate.getX() > 0 && board.getTile(coordinate.getNear('L')) != null) ||
-                (suffix.size() > 0 && coordinate.getX() < 14 && board.getTile(coordinate.getNear('R')) != null)) {
-            return null;
-        }
-
         if((prefix.size() > 0 && (coordinate.getX() - prefix.size()) >= 0 && board.getTile(new Coordinate(coordinate.getX() - prefix.size(), coordinate.getY())) != null) ||
                 (suffix.size() > 0 && (coordinate.getX() + suffix.size()) <= 14 && board.getTile(new Coordinate(coordinate.getX() + suffix.size(), coordinate.getY())) != null)) {
             return null;
         }
 
-        String wordCheck = workCheck(word, prefix, suffix, coordinate, 'H');
-        if(wordCheck == null) {
+        if (board.getTile(coordinate.getNear('L')) != null || board.getTile(coordinate.getNear('R')) != null) {
             return null;
         }
 
+        String wordCheck = workCheck(word, prefix, suffix, coordinate, 'V');
+        if(wordCheck == null) {
+            return null;
+        }
 
         // Horizontal fit
         if (prefix.size() > 0) {
