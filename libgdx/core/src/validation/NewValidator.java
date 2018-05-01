@@ -79,7 +79,6 @@ public class NewValidator implements Serializable {
 						allowedMove = false;
 					}
 				} else {
-					System.out.println("tell my nigga fuck feds");
 					if(!(letter.getLocation().getX() == 7 && letter.getLocation().getY() == 7)) {
 						allowedMove = false;
 					}
@@ -177,7 +176,6 @@ public class NewValidator implements Serializable {
 					}
 				}
 				nextTile = board.getTile(letter.getValue().getNear('L'));
-				System.out.println("Tile left is " + (nextTile == null ? "empty" : nextTile.toString()));
 				if (!Game.getCurrentMove().getPlayedTiles().containsKey(nextTile)) {
 					if (nextTile != null) {
 						allowed = true;

@@ -52,7 +52,6 @@ public class AIPlayer extends Player implements Serializable {
 
     /* PLAY RELATED */
     public void play() {
-        System.out.println("I AM :" + difficulty);
         // first play of game logic
         if (board.isEmpty()) {
             char[] characters = calculateBestWord(findPossibleWords(new Coordinate(7, 7))).toCharArray();

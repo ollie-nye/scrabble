@@ -182,7 +182,6 @@ public class Game implements Serializable {
             timer = new Timer();
         } else if (timer.getTimeLeft() > 0) {
             if (currentMove instanceof HumanMove) {
-
                 if (currentMove.getPlayedTiles().size() > 0) {
                     Result lastResult = ((HumanMove) currentMove).getResult();
                     if (lastResult.isCompleteWord()) {
@@ -316,8 +315,6 @@ public class Game implements Serializable {
 
             Board.getInstance().setBoard(letters);
             Game.getLetterBag().setList(letterBag.getList());
-            System.out.println(letterBag.pick().getContent() + letterBag.pick().getContent()
-                    + letterBag.pick().getContent() + letterBag.pick().getContent());
 
             PLAYER_LIST.addAll(players);
             MOVE_LIST.addAll(moveList);

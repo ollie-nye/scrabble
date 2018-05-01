@@ -97,7 +97,6 @@ public class Dawg { // Directed Acyclic Word Graph
 		this.count++;
 		if (this.count >= ((this.state + 1) * this.divisor)) {
 			this.state++;
-			System.out.println(this.state + "%");
 		}
 	}
 
