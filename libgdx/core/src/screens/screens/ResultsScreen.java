@@ -40,7 +40,7 @@ public class ResultsScreen implements Screen {
 	private TextureAtlas buttonAtlas, buttonAtlas2;
 	private Table resultsTable, endTable, tableThing;
 	private Stage stage;
-	private Texture background,victory;
+	private Texture background, victory;
 	private LabelStyle tileLabelStyle, longLabelStyle, noLabelStyle, shortLabelStyle, boxLabelStyle, resultStyle;
 	private String[] names;
 	private int[] currentScores, finalScores, penalties;
@@ -54,14 +54,11 @@ public class ResultsScreen implements Screen {
 	private Label[][] p1LettersLeft;
 	private ButtonStyle returnButtonStyle, menuButtonStyle;;
 	private Button returnButton, placeHolderButton;
-	
+
 	private Sound scoreIncrement, finalScoreSound, winfanfare;
-	
+
 	private boolean hasWon, isFinal = false;
 	private TextureAtlas buttonAtlass;
-	
-
-	
 
 	public ResultsScreen(ScrabbleLauncher game) {
 		this.game = game;
@@ -86,7 +83,7 @@ public class ResultsScreen implements Screen {
 		buttonAtlas2 = game.getAssetManager().manager.get(assetManager.gameButtonPack);
 		altSkin.addRegions(buttonAtlas2);
 		background = game.getAssetManager().manager.get(assetManager.resultsBackground);
-		
+
 		font = game.getAssetManager().manager.get(assetManager.PlayTime);
 		styleSetups();
 
@@ -150,7 +147,6 @@ public class ResultsScreen implements Screen {
 		makeSureTileTimerOnlyCalledOnce = false;
 		justFinished = true;
 		returnButton = new Button(returnButtonStyle);
-	
 
 	}
 
@@ -158,15 +154,15 @@ public class ResultsScreen implements Screen {
 	public void show() {
 
 		Gdx.input.setInputProcessor(stage);
-		
+
 		// ++CREATING PLAYER SCORECARD
 		resultsTable = new Table();
 		resultsTable.add(player1Scorecard(0));
 		resultsTable.add(player1Scorecard(1));
 		resultsTable.row();
 		Move highestWordz = highestWord();
-		Label highestWord = new Label("Highest Word Score: " + Integer.toString(highestWordz.getMoveScore()) + 
-				"\nFound by " + highestWordz.getPlayer().getPlayerName(), longLabelStyle);
+		Label highestWord = new Label("Highest Word Score: " + Integer.toString(highestWordz.getMoveScore())
+				+ "\nFound by " + highestWordz.getPlayer().getPlayerName(), longLabelStyle);
 		highestWord.setWrap(false);
 		highestWord.setAlignment(Align.center);
 		resultsTable.add(highestWord).width(450.0f).colspan(2).align(Align.center).expand().fill();
@@ -197,16 +193,17 @@ public class ResultsScreen implements Screen {
 		}
 
 		winnerLabel = new Label(winner + " wins!", resultStyle);
-		winnerLabel.setAlignment(Align.center);		
-	//	winnerLabel.setSize(500.0f, 300.0f);	
-	//	winnerLabel.setPosition((1280.0f - winnerLabel.getWidth()) * 0.5f, (720.0f - winnerLabel.getHeight()) * 0.5f);
-		
+		winnerLabel.setAlignment(Align.center);
+		// winnerLabel.setSize(500.0f, 300.0f);
+		// winnerLabel.setPosition((1280.0f - winnerLabel.getWidth()) * 0.5f,
+		// (720.0f - winnerLabel.getHeight()) * 0.5f);
+
 		returnButton = new Button(returnButtonStyle);
 		returnButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				 disposey();
-				 
+				disposey();
+
 			}
 		});
 		placeHolderButton = new Button(menuButtonStyle);
@@ -224,8 +221,8 @@ public class ResultsScreen implements Screen {
 		placeHolderButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				 disposey();
-				 
+				disposey();
+
 			}
 		});
 		stage.addActor(tableThing);
@@ -270,20 +267,21 @@ public class ResultsScreen implements Screen {
 			tileTimer(timer, 1.5f);
 		}
 		// checks when all tiles are shown
-		if (tilesFinished() == true && justFinished == true) {
+		if (tilesFinished() == true && justFinished == true && currentScoreDone() == true) {
 			endTimer = 0.0f;
 			justFinished = false;
+
 		}
 		// shows the winner
-		if (tilesFinished() == true) {
-			
+		if (tilesFinished() == true && currentScoreDone() == true) {
+
 			if (endTimer > 3) {
 				for (int i = 0; i < p1FinalScore.length; i++) {
 					p1FinalScore[i].setVisible(true);
 					finalScore[i].setVisible(true);
 				}
-				//Condition to One Shot Audio Play
-				if(isFinal == false) {
+				// Condition to One Shot Audio Play
+				if (isFinal == false) {
 					finalScoreSound.play(game.getSoundVol());
 					isFinal = true;
 				}
@@ -292,8 +290,8 @@ public class ResultsScreen implements Screen {
 			if (endTimer > 7) {
 				tableThing.setVisible(true);
 				placeHolderButton.setVisible(true);
-				//Condition to one shot play
-				if(hasWon == false) {
+				// Condition to one shot play
+				if (hasWon == false) {
 					winfanfare.play(game.getSoundVol());
 					hasWon = true;
 				}
@@ -376,8 +374,11 @@ public class ResultsScreen implements Screen {
 
 	/**
 	 * sequentially shows tiles on scorecards
-	 * @param timer once timer is 1 animation starts
-	 * @param x effect speed they appear
+	 * 
+	 * @param timer
+	 *            once timer is 1 animation starts
+	 * @param x
+	 *            effect speed they appear
 	 */
 	public void tileTimer(float timer, float x) {
 
@@ -498,14 +499,15 @@ public class ResultsScreen implements Screen {
 	public void hide() {
 	}
 
-	public void disposey(){
+	public void disposey() {
 		Game.reset();
 		this.dispose();
 		game.setScreen(new MainMenu(game));
 	}
+
 	@Override
 	public void dispose() {
-		
+
 	}
 
 	/**
@@ -528,18 +530,18 @@ public class ResultsScreen implements Screen {
 		boxLabelStyle = new LabelStyle();
 		boxLabelStyle.font = font;
 		boxLabelStyle.background = skin.getDrawable("creationBox");
-		
+
 		resultStyle = new LabelStyle();
 		resultStyle.font = font;
 		resultStyle.background = skin.getDrawable("victory");
-		
+
 		noLabelStyle = new LabelStyle();
 		noLabelStyle.font = font;
-		
+
 		returnButtonStyle = new ButtonStyle();
 		returnButtonStyle.up = altSkin.getDrawable("homeButton");
 		returnButtonStyle.over = altSkin.getDrawable("homeButtonPressed");
-		
+
 		menuButtonStyle = new ButtonStyle();
 		menuButtonStyle.up = altSkin.getDrawable("mainMenuButton");
 		menuButtonStyle.over = altSkin.getDrawable("mainMenuButtonPressed");
@@ -548,7 +550,9 @@ public class ResultsScreen implements Screen {
 
 	/**
 	 * Create the Score Card
-	 * @param playerNum player number (game must have sufficient number of players)
+	 * 
+	 * @param playerNum
+	 *            player number (game must have sufficient number of players)
 	 * @return Game ScoreCard
 	 */
 	private Table player1Scorecard(int playerNum) {
@@ -600,25 +604,27 @@ public class ResultsScreen implements Screen {
 
 		// this shows current and score to be taken away
 		// ++SCORES TO CALCULATE TITLES
-		Table headers = new Table(); // storing currentScore and scoreLoss in one
+		Table headers = new Table(); // storing currentScore and scoreLoss in
+										// one
 		Label currentScoreTitle = new Label("Current Score", shortLabelStyle);
 		Label scoreLossTitle = new Label("Penalties", shortLabelStyle);
 		currentScoreTitle.setAlignment(Align.center);
 		scoreLossTitle.setAlignment(Align.center);
 
 		headers.add(currentScoreTitle).uniform().fill().expand();
-		headers.add(scoreLossTitle).uniform().fill().expand();		
+		headers.add(scoreLossTitle).uniform().fill().expand();
 		// --SCORES TO CALCULATE TITLES
 
 		// ++FINAL SCORES TITLES
 		p1FinalScore[playerNum] = new Label("Final Score", longLabelStyle);
-		p1FinalScore[playerNum].setAlignment(Align.center);	
+		p1FinalScore[playerNum].setAlignment(Align.center);
 		p1FinalScore[playerNum].setVisible(false);
 		// --FINAL SCORES TITLES
-		
+
 		// ++SCORES HEADERS STACK
-		Stack stack = new Stack(); //stack will store header for current, then final
-		stack.add(headers);		
+		Stack stack = new Stack(); // stack will store header for current, then
+									// final
+		stack.add(headers);
 		stack.add(p1FinalScore[playerNum]);
 		playerScoreCard.add(stack).expand().fill().colspan(2);
 		playerScoreCard.row();
@@ -634,20 +640,20 @@ public class ResultsScreen implements Screen {
 		oldScores.add(p1CurrentScore[playerNum]).expand().fill().uniform();
 		oldScores.add(p1ScoreLoss[playerNum]).expand().fill().uniform();
 		// ++SCORES TO CALCULATE
-	
+
 		// ++FINAL SCORES
 		finalScore[playerNum] = new Label(Integer.toString(finalScores[playerNum]), longLabelStyle);
 		finalScore[playerNum].setAlignment(Align.center);
-		finalScore[playerNum].setVisible(false);		
+		finalScore[playerNum].setVisible(false);
 		// --FINAL SCORES
-		
+
 		// ++SCORES
 		Stack scoresStack = new Stack();
 		scoresStack.add(oldScores);
 		scoresStack.add(finalScore[playerNum]);
 		playerScoreCard.add(scoresStack).expand().fill();
-		playerScoreCard.row();		
-		// --SCORES 
+		playerScoreCard.row();
+		// --SCORES
 
 		playerScoreCard.pack();
 		return playerScoreCard;
