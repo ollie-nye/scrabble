@@ -79,6 +79,10 @@ public class NewValidator implements Serializable {
 						allowedMove = false;
 					}
 				} else {
+					System.out.println("tell my nigga fuck feds");
+					if(!(letter.getLocation().getX() == 7 && letter.getLocation().getY() == 7)) {
+						allowedMove = false;
+					}
 					firstMove = letter.getLocation();
 					firstMoveContent = letter.getTile().getContent();
 				}
